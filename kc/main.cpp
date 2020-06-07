@@ -2,6 +2,7 @@
 
 #include "SPI.h"
 #include "ILI9341_t3n.h"
+#include "ili9341_t3n_font_OpenSans.h"
 
 #define TFT_DC  9  
 #define TFT_CS  10
@@ -382,14 +383,13 @@ void PPink()  // fast4  pink
 //....................................................................................
 void Plasma()
 {
-  // sint in ram 0 37fps 30 flash, >2 20fps
-  plasma = (cc / 250) % num_plasma;
+  plasma = (cc / 500) % num_plasma;
   
-       if (plasma == 0)  PSlowClrRings();  // 12 fps Clr1 blur
-  else if (plasma == 1)  PClrLines();  // 16 fps Clr2 lines
+       if (plasma == 0)  PSlowClrRings();
+  else if (plasma == 1)  PClrLines();
 
   else if (plasma == 2)  POrnPinkCy();
-  else if (plasma == 3)  POrnViolBlue();  // 16 orng small
+  else if (plasma == 3)  POrnViolBlue();
 
   else if (plasma == 4)  PSmallWhiteCyVi();
   else if (plasma == 5)  POldBlue();
@@ -405,11 +405,12 @@ void Plasma()
 extern "C" int main(void)
 {
   tft.setFrameBuffer(data);
+  tft.useFrameBuffer(true);
+
   tft.begin();
   tft.setRotation(1);
   tft.fillScreen(ILI9341_BLACK);
   tft.setTextColor(ILI9341_WHITE);
-  tft.setTextSize(2);
 
   //  pin 19, PWM brightness to display LED
   pinMode(19, OUTPUT);
@@ -418,22 +419,48 @@ extern "C" int main(void)
   plasma = 2;  t = 13210;  // plasma
   tadd[0]=8; tadd[1]=12; tadd[2]=10; tadd[3]=15; tadd[4]=12; tadd[5]=12;
   tadd[6]=5; tadd[7]=5; tadd[8]=3; tadd[9]=8;
+  
   for (int i=0; i < num_plasma; ++i)
-    tadd[i] = tadd[i] * 7 / 10;
+    tadd[i] = 1 + tadd[i] / 8;
+    //tadd[i] = tadd[i] * 7 / 10;
+
+  unsigned long tt = 0, start;
 
   while (1)
   {
-    tft.setFrameBuffer(data);
+    start = micros();
+
     Plasma();
-    
-    tft.writeRect(0,0, tft.width(), tft.height(), data);
 
     tft.setCursor(0, 0);
-    tft.setTextColor(0xFFF0);
-    tft.println(plasma);
-    tft.println(cc);/**/
+    /*tft.setFont( OpenSans28 );
+    tft.setTextColor(RGB(22,11,31), ILI9341_BLACK);
+    tft.println("Crystal Hammer");
+
+    tft.setFont( OpenSans20 );
+    tft.setTextColor(RGB(12,21,31), ILI9341_BLACK);
+    tft.println("Keyboard Controller");/**/
+  
+    tft.setFont( OpenSans12 );
+    tft.setTextColor(RGB(26,25,31), ILI9341_BLACK);
+
+    tft.print("p ");  tft.println(plasma);
+    tft.print("c ");  tft.println(cc);
+
+    tft.setFont( OpenSans16 );
+    tft.setTextColor(RGB(26,25,31), ILI9341_BLACK);
+    //tft.print("us ");  tft.println(tt);
+    tft.print("Fps ");  
+    if (tt > 0)
+      tft.println(1000000.f / tt);
+    /**/
+
     ++cc;
 
+    //tft.updateScreen();
     tft.updateScreenAsync();
+    //tft.waitUpdateAsyncComplete();
+    
+    tt = micros() - start;
   }
 }

@@ -13,7 +13,7 @@ void Gui::NextDemo()
 
 void Gui::Draw()
 {
-	yy = D_Fire;
+	//yy = D_CK_Logo;  // test
 
 	//  Clear
 	bool no = (yy == D_Rain || yy == D_Plasma || yy == D_Wave || yy == D_Fire);

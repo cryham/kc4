@@ -145,6 +145,7 @@ void Demos::Wave()
 
 //  CrystaL KeyboarD  logo lines
 //....................................................................................
+
 //  x,y points, 0 break
 const static int word1[] = {
 /*C*/194,43, 120,133, 8,193, 112,233, 224,299, 0,
@@ -157,6 +158,7 @@ const static int word1[] = {
 /*A*/623,216, 660,154, 673,82, 702,152, 746,206, 679,144, 623,216, 0,
 /*L*/766,28, 793,147, 781,233, 738,300, 818,256,
 	935,220, 815,229, 800,133, 766,28, 0, -100};
+
 const static int word2[] = {
 /*K*/217,345, 152,396, 62,440, 176,468, 288,507, 248,481, 117,438, 173,397, 217,345, 0,
 	76,367, 118,471, 130,541, 145,516, 76,367, 0,
@@ -174,42 +176,59 @@ const static int word2[] = {
 /*D*/717,363, 796,400, 861,432, 805,479, 761,504, 726,543,
 	749,501, 795,445, 776,411, 717,363, 0, -100};
 
-const static int  cw[3/*set*/][8] = {  /* centers, amplitudes
-  cx w1,w2   cy w1,w2   ax w1,w2   ay w1,w2  */
-{ 496, 402,  130, 180,  222, 262,  362, 282 },
-{ 396, 302,  250, 320,  222, 312,  482, 342 },
-{ 756, 472,   10, 620,  322, 402,  402, 542 }};
+const static struct CK_par
+{	//  centers,  amplitudes  x  words[2]
+	int cx[2],cy[2], ax[2],ay[2],  // wave params
+		count, far, fade;  // shadow params
+}
+ck_par[Demos::ckMax] = {
+	{ 496, 402,  130, 180,  222, 262,  362, 282,  32, 2, 3 },
+	{ 396, 302,  250, 320,  222, 312,  482, 342,  16, 4, 3 },
+	{ 396, 302,  250, 320,  222, 312,  482, 342,  62, 2, 2 },
+	{ 756, 472,   10, 620,  322, 402,  402, 542,  24, 1, 5 },
+	{ 756, 472,   50, 520,  322, 402,  402, 442,  42, 3, 5 }};
 
 void Demos::CK_logo()
 {
+	ckCur = (t / 2000) % ckMax;  // auto-
+
 	#define K 1024  // wave																		// scale ofs
 	#define CX(x) {  x= w-cx;  x=( (x*(K +ax*Cos(8*w      +tt[0])/SY*Sin(7*w      +tt[1])/SY) /K) +cx)*2/7 +24;  }
 	#define CY(y) {  y= w-cy;  y=( (y*(K +ay*Cos(9*w+ x*73+tt[2])/SY*Sin(6*w+ x*52+tt[3])/SY) /K) +cy)*2/6 +(w2 ? 16 :7);  }
 
-	const uint tt[4] = {t*7,t*5,t*8,t*5};
-	for (int w2=0; w2<2; ++w2)
-	{
-		const int cx = cw[ckCur][w2], cy = cw[ckCur][2+w2],
-				ax = cw[ckCur][4+w2], ay = cw[ckCur][6+w2];
-		int a=0,w, i=0,rst=1, n=0,
-			x1=0,y1=0,x=0,y=0;
-		do
-		{	w = w2 ? word2[a++] : word1[a++];
-			if (w<=0) {  rst=1;  i=0;  ++n;  }
-			else
-			if (rst)  switch(i)
-			{	case 0:  CX(x)  ++i;  break;
-				case 1:  CY(y)  rst=0; i=0;  break;  }
-			else  switch(i)
-			{	case 0:  x1=x;  CX(x)  ++i;  break;
-				case 1:  y1=y;  CY(y)  i=2;  break;  }
+	const auto& p = ck_par[ckCur];
 
-			if (i==2)
-			{	i=0;  d->drawLine(x1,y1, x,y,
-				w2 ? RGB(max(8, 31-n*1-a%6), max(4, 31-n*2-a%8), 31)
-				   : RGB(max(4, 31-n*2-a%9), max(8, 31-n*1-a%7), 31));  }
+	const int jj = p.count;  // old shadows
+	for (int j = jj; j >= 0; --j)
+	{
+		const uint tj = t - j * ckSpeed * p.far / 2;
+		const uint tt[4] = {tj*7, tj*5, tj*8, tj*5};
+		
+		for (int w2=0; w2<2; ++w2)  // words
+		{
+			const int cx = p.cx[w2], cy = p.cy[w2],
+					ax = p.ax[w2]*3/2, ay = p.ax[w2]*3/2;
+			int a=0,w, i=0,rst=1, n=0,
+				x1=0,y1=0, x=0,y=0;
+			do
+			{	w = w2 ? word2[a++] : word1[a++];
+				if (w<=0) {  rst=1;  i=0;  ++n;  }
+				else
+				if (rst)  switch(i)
+				{	case 0:  CX(x)  ++i;  break;
+					case 1:  CY(y)  rst=0; i=0;  break;  }
+				else  switch(i)
+				{	case 0:  x1=x;  CX(x)  ++i;  break;
+					case 1:  y1=y;  CY(y)  i=2;  break;  }
+
+				if (i==2)
+				{	i=0;  const int cm = 31 - j * p.fade / 4;
+					d->drawLine( x1,y1, x,y,
+					w2 ? RGB(max(8, cm -n   -a%6), max(4, cm -n*2 -a%8), cm)
+					   : RGB(max(4, cm -n*2 -a%9), max(8, cm -n   -a%7), cm));  }
+			}
+			while (w >= 0);
 		}
-		while (w >= 0);
 	}
 
 	if (iInfo > 0)

@@ -37,14 +37,14 @@ void Demos::Init(ILI9341_t3n* tft)
 	hdSpd = 1;  hdDiag = 1;
 #endif
 
-	ckCur = 0;  ckSpeed = 6;  // logo
+	ckCur = 1;  ckSpeed = 8;  // logo
 #ifdef DEMOS_PLASMA
 	plasma = 2;  t = 13210;  // plasma
 	tadd[0]=8; tadd[1]=12; tadd[2]=10; tadd[3]=15; tadd[4]=12; tadd[5]=12;
 	tadd[6]=5; tadd[7]=5; tadd[8]=3; tadd[9]=8;
 	
 	for (int i=0; i < num_plasma; ++i)
-		tadd[i] = 1 + tadd[i] / 8;
+		tadd[i] = 1 + tadd[i] / 2;
 #endif
 
 	waveSpd = 8;  // wave

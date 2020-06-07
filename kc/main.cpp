@@ -12,10 +12,9 @@
 ILI9341_t3n tft = ILI9341_t3n(TFT_CS, TFT_DC, TFT_RST);
 
 uint16_t data[1][320 * 240];  // screen buffers
+uint8_t buf = 0;
 
-uint t = 0; // frame counter
-
-uint16_t cc = 1990;  uint8_t buf = 0;
+uint16_t cc = 190;
 
 Gui gui;
 
@@ -62,8 +61,7 @@ extern "C" int main(void)
 			tft.println(1000000.f / tim);
 
 		++cc;
-		
-		if (cc % 300 == 0)
+		if (cc % 600 == 0)
 			gui.NextDemo();
 
 		//tft.updateScreen();

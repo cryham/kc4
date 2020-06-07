@@ -62,32 +62,21 @@ MCU_LD = $(SRCDIR)/$(LOWER_MCU).ld
 #  FLAGS
 #************************************************************************
 
-#CPUOPTIONS = -mcpu=$(CPUARCH) -mthumb -MMD
-WARN = -Wall -g
-OPT = -O3 -Wno-misleading-indentation
+WARN = -Wall -g -Wcomment 
+OPT = -O3 -ffunction-sections -fdata-sections
 
-# for Cortex M7 with single & double precision FPU
+# Cortex M7 with single & double precision FPU
 ARCH = -mcpu=$(CPUARCH) -mfloat-abi=hard -mfpu=fpv5-d16 -mthumb
 
 # compiler options for C only
 CFLAGS = $(WARN) $(OPT) $(ARCH) $(OPTIONS)
 
-# compiler options for C++ only
+# compiler options for C++ only  -Wno-error=narrowing
 CXXFLAGS = $(WARN) $(OPT) $(ARCH) -MMD -std=gnu++14 -felide-constructors -fno-exceptions -fpermissive -fno-rtti $(OPTIONS)
 
 # linker options  --defsym=__rtc_localtime=0 --specs=nano.specs
 LDFLAGS = -Os -Wl,--gc-sections,--relax $(ARCH) -T$(MCU_LD)
 LIBS = -larm_cortexM7lfsp_math -lm -lstdc++
-
-
-# CPPFLAGS = compiler options for C and C++
-#CPPFLAGS = -Wall -g -O2  $(ARCH) -MMD $(OPTIONS) -I. -ffunction-sections -fdata-sections
-
-# compiler options for C only
-#CFLAGS = 
-
-# compiler options for C++ only
-#CXXFLAGS = -std=gnu++14 -felide-constructors -fno-exceptions -fpermissive -fno-rtti -Wno-error=narrowing
 
 
 #  compiler programs
@@ -106,7 +95,6 @@ OBJ_FILES := $(addprefix $(OBJDIR)/,$(notdir $(CPP_FILES:.cpp=.o))) $(addprefix 
 
 #  util, color errors and warnings
 #************************************************************************
-
 #  "\e[38;5;27m   21 57v  63bv  27 33 39 45 bl  212 pink
 #		yl 226 220  or 166  196 red  40 grn  51 cy   90 154 ylgrn
 #	@mkdir -p $(dir $@) ?
@@ -140,13 +128,13 @@ endif
 
 #  BUILD
 #************************************************************************
-# test
+#  test
 #phony:
 #	echo $(COMPILERPATH)
 
 kc: $(BINDIR)/$(PROJECT).hex
 
-# C compilation
+#  C compilation
 $(OBJDIR)/%.o : $(SRCKC)/%.c
 	@echo $(E) "$(CC_CLR)  CC\e[m" $<
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@ $(COLOR_OUTPUT)
@@ -157,7 +145,7 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	@echo $(E) "$(CC_CLR)  CC\e[m" $<
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@ $(COLOR_OUTPUT)
 
-# C++ compilation
+#  C++ compilation
 $(OBJDIR)/%.o : $(SRCKC)/%.cpp
 	@echo $(E) "$(CXX_CLR) CXX\e[m" $<
 	$(CXX) $(CXXFLAGS) $(INC) -c $< -o $@ $(COLOR_OUTPUT)
@@ -169,24 +157,32 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 	$(CXX) $(CXXFLAGS) $(INC) -c $< -o $@ $(COLOR_OUTPUT)
 
 
-# Linker invocation
+#  Linker invocation
 $(BINDIR)/$(PROJECT).elf: $(OBJ_FILES) $(MCU_LD)
 	@echo $(E) "\e[38;5;154m Linking \e[m"
 	$(CC) $(LDFLAGS) -o $@ $(OBJ_FILES) $(LIBS)
 
 
-# Hex, last
+#  Hex, last
 $(BINDIR)/$(PROJECT).hex : $(BINDIR)/$(PROJECT).elf
 #	$(SIZE) $<
 	@./sizeCalc $(SIZE) ram $< 524288 " SRAM"
 	@./sizeCalc $(SIZE) flash $< 2031616 Flash
 	$(OBJCOPY) -O ihex -R .eeprom $< $@
 
+#  Upload
+	@echo $(E) "$(ST_CLR)Upload$(NO_CLR)"
+ifneq (,$(wildcard $(TOOLSPATH)))
+	@$(TOOLSPATH)/teensy_post_compile -file=$(basename $@) -path=$(shell pwd) -tools=$(TOOLSPATH)
+	-$(TOOLSPATH)/teensy_reboot
+endif
+	@echo $(E) "$(ST_CLR) $(NO_CLR)"
+
 
 #  SHORTCUTS
 #************************************************************************
 
-clean:
+#clean:
 c:
 	@echo $(E) "$(ST_CLR)Clean$(NO_CLR)"
 	rm -f $(OBJDIR)/*.o $(OBJDIR)/*.d $(BINDIR)/$(PROJECT).elf $(BINDIR)/$(PROJECT).hex

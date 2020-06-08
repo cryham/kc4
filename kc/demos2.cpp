@@ -14,7 +14,8 @@ const int16_t sint[SX] =
 //....................................................................................
 void Demos::Fire()
 {
-	fire = (t / 6000) % 2;  // auto-
+	if (bAuto)
+		fire = (t / 6000) % 2;
 
 	switch (fire)
 	{
@@ -190,7 +191,8 @@ ck_par[Demos::ckMax] = {
 
 void Demos::CK_logo()
 {
-	ckCur = (t / 2000) % ckMax;  // auto-
+	if (bAuto)
+		ckCur = (t / 2000) % ckMax;
 
 	#define K 1024  // wave																		// scale ofs
 	#define CX(x) {  x= w-cx;  x=( (x*(K +ax*Cos(8*w      +tt[0])/SY*Sin(7*w      +tt[1])/SY) /K) +cx)*2/7 +24;  }

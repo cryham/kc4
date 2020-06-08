@@ -7,7 +7,7 @@
 struct Gui
 {
 	Demos demos;
-	ILI9341_t3n* d=0;
+	ILI9341_t3n* d = nullptr;
 
 	//  main  ----
 	Gui();

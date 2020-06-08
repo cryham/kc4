@@ -1,11 +1,11 @@
 #pragma once
 #include <stdint.h>
+typedef unsigned long ulong;
+
 
 //----  Setup  ----	  use:  ram B      flash
 //  optional features, comment out to disable
 #define DEMOS			//  28        9%
-#define DEMOS_PLASMA	//  36        11%
-#define DEMOS_3D		//  44        15%
 //#define DEMOS_OLD_PAR	//  280 <1%   16%  min
 					// all  6680 10%  17%  max 41k
 
@@ -25,19 +25,15 @@ class ILI9341_t3n;
 #ifdef DEMOS
 enum EDemo  //  Demos, level1
 {
-	#ifdef DEMOS_PLASMA
-		D_Plasma,
-	#endif
-		D_Wave, D_Fire,
-	#ifdef DEMOS_3D
-		D_Hedrons,
-	#endif
-		D_CK_Logo,
-	#ifdef DEMOS_OLD_PAR
-		D_Fonts,
-		D_Ngons,
-		D_Space, D_Balls, D_Fountain,
-	#endif
+	D_Plasma,
+	D_Wave, D_Fire,
+	D_Hedrons,
+	D_CK_Logo,
+#ifdef DEMOS_OLD_PAR
+	D_Fonts,
+	D_Ngons,
+	D_Space, D_Balls, D_Fountain,
+#endif
 	D_Rain,
 	D_All,  D_Next = D_CK_Logo
 };

@@ -21,51 +21,52 @@ struct Demos
 	Demos();
 	void Init(class ILI9341_t3n* tft);
 
-	ILI9341_t3n* d;
-	uint16_t* data = 0;  // scren buffer
+	ILI9341_t3n* d = nullptr;
+	uint16_t* data = nullptr;  // scren buffer
 
-	int8_t iFps;  // show frames per second, 1 on, 0 off
-	uint32_t ti, oti;  // fps: time ms, old
+	int8_t iFps = 0;  // show frames per second, 1 on, 0 off
+	uint32_t ti = 0, oti = 0;  // fps: time ms, old
 
+	bool bAuto = true;  // auto next demo
+
+	
 	//  Fonts
-	int8_t fntCur;
+	int8_t fntCur = 0;
 	const static int8_t fntMax = 3;  // all pages
 	void Fonts();  // chars
 	void Version();  // ver, date
 
 
 #ifdef DEMOS
-	int8_t iInfo;  // show demo params
+	int8_t iInfo = 0;  // show demo params
 	void KeyPress(EDemo demo, struct Gui* gui);
 
-	uint t;  // frame counter
+	uint t = 0;  // frame counter
 
 
-#ifdef DEMOS_PLASMA
 	//  Plasma  ~~~~
 	const static int8_t num_plasma = 10;  // all sets
-	int8_t plasma, tadd[num_plasma];  // cur mode, speeds
+	int8_t plasma = 0, tadd[num_plasma];  // cur mode, speeds
 
 	void Plasma(), PlasmaT(int8_t dt);
 	void PSlowClrRings(), PClrLines(),
 		POrnPinkCy(), POrnViolBlue(), PSmallWhiteCyVi(),  POldBlue(),
 		PFastOrnCy(), PFastBlueYellow(), PFastDiamCyBlR(), PPink();
-#endif
 
 	//  Wave  ~
-	int8_t waveSpd;
+	int8_t waveSpd = 8;
 	void Wave();
 
 	//  Fire  ~~
 	const static int8_t num_fire = 2;
-	int8_t fire, fireSpd[num_fire];
+	int8_t fire = 0, fireSpd[num_fire];
 	void Fire(), Fire1(),Fire2();
 	//Spiral, Water..
 
 
 	//  CK logo, 2D lines
 	const static int8_t ckMax = 5;
-	int8_t ckCur, ckSpeed;
+	int8_t ckCur = 0, ckSpeed = 8;
 	void CK_logo();
 
 
@@ -104,28 +105,24 @@ struct Demos
 	int fInt, fWave;
 	void FountainInit();
 	void Fountain();
-#endif
 
+	//  Ngons 2D
+	int16_t ngt;  int8_t ngCur,  ngtOn, ngRot;
+	const static int8_t ngMin = 7, ngMax = 33, ngRotMax = 4;  // all n
+	void Ngons();
+#endif
 
 	//  Rain  ----
 	int8_t rCur, r1Int,r1Size, r2Int,r2Size;
 	void Rain();
 	
 
-	//  Ngons 2D
-	int16_t ngt;  int8_t ngCur,  ngtOn, ngRot;
-	const static int8_t ngMin = 7, ngMax = 33, ngRotMax = 4;  // all n
-	void Ngons();
-
-
-#ifdef DEMOS_3D
 	//  Polyhedrons 3D  ----
 	const static int8_t hdA = 11, hdRotMax = 4, hdDiagMax = 5;  // all presets
 	const static int16_t hdtMax = 400;  // cycle time
 
 	int16_t hdt;  int8_t hdCur,  hdtOn, hdRot,  hdSpd, hdDiag;
 	void Hedrons();
-#endif
 
 #endif  //DEMOS
 };

@@ -344,7 +344,9 @@ void Demos::Hedrons()
 	}
 
 	//  inside diagonals to all  clr xX
-	hdDiag = (t / 500) % 3 + 4;  // auto-  // + (hdCur <= 2 /*|| hdCur == hdA-1*/ ? 0 : 4);
+	if (bAuto)
+		hdDiag = (t / 500) % 3 + 4;
+
 	const int a0 = (t / 6) % NP, i0 = (t / 8) % NP;
 	switch (hdDiag) {
 	case 4:

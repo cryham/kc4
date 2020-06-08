@@ -6,7 +6,7 @@
 //  Main
 Demos::Demos()
 {
-	Init(0);
+	Init(nullptr);
 }
 //....................................................................................
 void Demos::Init(ILI9341_t3n* tft)
@@ -23,26 +23,23 @@ void Demos::Init(ILI9341_t3n* tft)
 	sCnt = 3*sMax/4;  sVel = 17;  // stars
 	bCnt = min(200,bMax);  bSpd = 120;  bSpRnd = 1;  bRad = 3;  // balls
 	fInt = 3;  fWave = 1;  // fountain
+
+	ngtOn = 1;  // ngons
+	ngt = 0;  ngCur = 12;  ngRot = 0;
 #endif
 
 	r1Int = 2;  r1Size = 2;  // rain
 	r2Int = 4;  r2Size = 3;  rCur = 1;
 	
-	ngtOn = 1;  // ngons
-	ngt = 0;  ngCur = 12;  ngRot = 0;
-
-#ifdef DEMOS_3D
 	hdtOn = 1;  // hedrons
 	hdt = 0;  hdCur = 9;  hdRot = 0;
 	hdSpd = 1;  hdDiag = 1;
-#endif
 
 	ckCur = 1;  ckSpeed = 8;  // logo
-#ifdef DEMOS_PLASMA
+
 	plasma = 2;  t = 13210;  // plasma
 	tadd[0]=5; tadd[1]=7; tadd[2]=6; tadd[3]=8; tadd[4]=7; tadd[5]=7;
 	tadd[6]=3; tadd[7]=3; tadd[8]=2; tadd[9]=5;
-#endif
 
 	waveSpd = 8;  // wave
 	fire = 1;
@@ -50,7 +47,8 @@ void Demos::Init(ILI9341_t3n* tft)
 #endif
 }
 
-#if 0  //def DEMOS
+
+#if 0  // todo: def DEMOS
 
 //  Key Press  demo params
 //....................................................................................

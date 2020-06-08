@@ -13,14 +13,16 @@ ILI9341_t3n tft = ILI9341_t3n(TFT_CS, TFT_DC, TFT_RST);
 
 uint16_t data[320 * 240];  // screen buffer
 
-uint16_t cc = 0;
-
 Gui gui;
 
 
 //....................................................................................
 extern "C" int main(void)
 {
+	//Keyboard.press(KEY_A);
+	//Keyboard.send_now();
+	//Keyboard.releaseAll();
+
 	//  pin 19, PWM brightness to display LED
 	pinMode(19, OUTPUT);
 	analogWrite(19, 15); // 0-255
@@ -58,16 +60,6 @@ extern "C" int main(void)
 		if (draw > 0)
 			tft.println(int(1000000.f / draw));
 		#endif
-
-		++cc;
-		if (gui.demos.bAuto)
-		if (cc % 1000 == 0)
-		{
-			gui.NextDemo();
-			//Keyboard.press(KEY_A);
-			//Keyboard.send_now();
-			//Keyboard.releaseAll();
-		}
 
 
 		tft.updateScreenAsync(true);

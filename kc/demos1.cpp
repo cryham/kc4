@@ -38,6 +38,8 @@ void Demos::Version()
 
 #ifdef DEMOS
 
+#ifdef DEMOS_OLD_PAR
+
 //  regular polygons with diagonals
 //....................................................................................
 void Demos::Ngons()
@@ -82,6 +84,7 @@ void Demos::Ngons()
 		d->println(ngCur);  // n sides
 	}
 }
+#endif
 
 
 //  Rain circles

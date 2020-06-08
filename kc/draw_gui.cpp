@@ -4,23 +4,15 @@
 
 //  Draw  main
 //....................................................................................
-void Gui::NextDemo()
-{
-	++yy;
-	if (yy >= D_All)
-		yy = 0;
-}
-
 void Gui::Draw()
 {
-	//yy = D_Hedrons;  //D_CK_Logo;  // test
+	yy = D_Hedrons;  //D_CK_Logo;  // test
 
-	//  Clear
+	//  Clear  if not full screen demo
 	bool no = (yy == D_Rain || yy == D_Plasma || yy == D_Wave || yy == D_Fire);
-	if (!no)  //  if not full screen demo
+	if (!no)
 		d->fillScreen(ILI9341_BLACK);
-		//memset(d->getFrameBuffer(), 0, sizeof());
-		//d->fillScreenHGradient(RGB(0,0,0), RGB(2,5,8));
+		//memset(demos.data, 0, 2*W*H);
 
 	//  Demos
 	//------------------------------------------------------
@@ -46,4 +38,15 @@ void Gui::Draw()
 		case D_Rain:     demos.Rain();  break;
 	}
 
+	//  Auto next
+	if (demos.bAuto)
+	if (demos.t % 1000 == 0)
+		NextDemo();
+}
+
+void Gui::NextDemo()
+{
+	++yy;
+	if (yy >= D_All)
+		yy = 0;
 }

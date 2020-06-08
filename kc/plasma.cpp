@@ -1,14 +1,13 @@
-#include "WProgram.h"
 #include "demos.h"
 #include "ILI9341_t3n.h"
 
 #ifdef DEMOS
-#ifdef DEMOS_PLASMA
 
 
 void Demos::Plasma()
 {
-	plasma = (t / 1000) % num_plasma;  // auto-
+	if (bAuto)
+		plasma = (t / 1000) % num_plasma;
 
 	// sint in ram 0 37fps 30 flash, >2 20fps
 		 if (plasma == 0)  PSlowClrRings();  // 12 fps Clr1 blur
@@ -371,6 +370,4 @@ void Demos::PPink()  // fast4  pink
 	}	t += tadd[9];
 }
 
-
-#endif
 #endif

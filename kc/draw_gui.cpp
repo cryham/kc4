@@ -13,7 +13,7 @@ void Gui::NextDemo()
 
 void Gui::Draw()
 {
-	//yy = D_CK_Logo;  // test
+	//yy = D_Hedrons;  //D_CK_Logo;  // test
 
 	//  Clear
 	bool no = (yy == D_Rain || yy == D_Plasma || yy == D_Wave || yy == D_Fire);
@@ -27,18 +27,18 @@ void Gui::Draw()
 	switch (yy)
 	{
 	#ifdef DEMOS_PLASMA
-		case D_Plasma:   demos.Plasma();  break;  // clr 55, 40 ms
+		case D_Plasma:   demos.Plasma();  break;
 	#endif
 		case D_Wave:     demos.Wave();  break;
 		case D_Fire:     demos.Fire();  break;
-		case D_CK_Logo:  demos.CK_logo();  break;  // 7
+		case D_CK_Logo:  demos.CK_logo();  break;
 	#ifdef DEMOS_3D
-		case D_Hedrons:  demos.Hedrons();  break;  // 5-9ms
+		case D_Hedrons:  demos.Hedrons();  break;
 	#endif
-		case D_Ngons:    demos.Ngons();  break;  // 12 8ms 14 10ms
-		case D_Fonts:	 demos.Fonts();  break;
-
 	#ifdef DEMOS_OLD_PAR
+		case D_Fonts:	 demos.Fonts();  break;
+		case D_Ngons:    demos.Ngons();  break;
+
 		case D_Fountain: demos.Fountain();  break;
 		case D_Balls:    demos.Balls();  break;
 		case D_Space:    demos.Space();  break;

@@ -7,8 +7,8 @@ CPUARCH = cortex-m7
 TARGET = main
 
 
-# configurable options
-OPTIONS = -DF_CPU=600000000 -DUSB_SERIAL -DLAYOUT_US_ENGLISH -DUSING_MAKEFILE
+# configurable options  -DUSB_SERIAL
+OPTIONS = -DF_CPU=600000000 -DUSB_HID -DLAYOUT_US_ENGLISH -DUSING_MAKEFILE
 
 # options needed by many Arduino libraries to configure for Teensy 4.0
 OPTIONS += -D__$(MCU)__ -DARDUINO=10810 -DTEENSYDUINO=149 -DARDUINO_TEENSY40
@@ -174,7 +174,7 @@ $(BINDIR)/$(PROJECT).hex : $(BINDIR)/$(PROJECT).elf
 	@echo $(E) "$(ST_CLR)Upload$(NO_CLR)"
 ifneq (,$(wildcard $(TOOLSPATH)))
 	@$(TOOLSPATH)/teensy_post_compile -file=$(basename $@) -path=$(shell pwd) -tools=$(TOOLSPATH)
-	-$(TOOLSPATH)/teensy_reboot
+	@$(TOOLSPATH)/teensy_reboot
 endif
 	@echo $(E) "$(ST_CLR) $(NO_CLR)"
 

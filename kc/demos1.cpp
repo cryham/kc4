@@ -102,10 +102,10 @@ void Demos::Rain()
 	{
 		for (i=0; i < 12 + r2Int; ++i)
 		{
-			if (random(400) < 10) {  x=random(W); y=random(H);  r= random(28)+20;  d->drawCircle(x,y,r,0);  }
-			if (random(200) < 10) {  x=random(W); y=random(H);  r= random(20)+16;  d->drawCircle(x,y,r,0);  }
-			if (random(100) < 20) {  x=random(W); y=random(H);  r= random(14)+14;  d->drawCircle(x,y,r,0);  }
-			if (random(10)  < 3)  {  x=random(W); y=random(H);  r= random(10)+1;   d->drawCircle(x,y,r,0);  }
+			if (random(400) < 10) {  x=random(W); y=random(H);  r= random(38)+20;  d->drawCircle(x,y,r,0);  }
+			if (random(200) < 10) {  x=random(W); y=random(H);  r= random(30)+16;  d->drawCircle(x,y,r,0);  }
+			if (random(100) < 20) {  x=random(W); y=random(H);  r= random(20)+14;  d->drawCircle(x,y,r,0);  }
+			if (random(10)  < 3)  {  x=random(W); y=random(H);  r= random(16)+1;   d->drawCircle(x,y,r,0);  }
 		}
 		for (i=0; i < 2 + r2Int; ++i)  //if (random(10) < 8)
 		{

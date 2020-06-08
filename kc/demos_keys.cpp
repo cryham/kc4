@@ -26,7 +26,7 @@ void Demos::Init(ILI9341_t3n* tft)
 #endif
 
 	r1Int = 2;  r1Size = 2;  // rain
-	r2Int = -1;  r2Size = 2;  rCur = 1;
+	r2Int = 4;  r2Size = 3;  rCur = 1;
 	
 	ngtOn = 1;  // ngons
 	ngt = 0;  ngCur = 12;  ngRot = 0;
@@ -40,11 +40,8 @@ void Demos::Init(ILI9341_t3n* tft)
 	ckCur = 1;  ckSpeed = 8;  // logo
 #ifdef DEMOS_PLASMA
 	plasma = 2;  t = 13210;  // plasma
-	tadd[0]=8; tadd[1]=12; tadd[2]=10; tadd[3]=15; tadd[4]=12; tadd[5]=12;
-	tadd[6]=5; tadd[7]=5; tadd[8]=3; tadd[9]=8;
-	
-	for (int i=0; i < num_plasma; ++i)
-		tadd[i] = 1 + tadd[i] / 2;
+	tadd[0]=5; tadd[1]=7; tadd[2]=6; tadd[3]=8; tadd[4]=7; tadd[5]=7;
+	tadd[6]=3; tadd[7]=3; tadd[8]=2; tadd[9]=5;
 #endif
 
 	waveSpd = 8;  // wave
@@ -111,6 +108,8 @@ void Demos::KeyPress(EDemo demo, Gui* gui)
 			if (u)  ckSpeed += u;
 			break;
 
+		//  old  --------
+	#ifdef DEMOS_OLD_PAR
 		case D_Ngons:
 			if (k)
 			{	ngtOn = 0;  // manual
@@ -122,8 +121,6 @@ void Demos::KeyPress(EDemo demo, Gui* gui)
 				if (ngRot >= ngRotMax)  ngRot = 0;  }
 			break;
 
-		//  old  --------
-	#ifdef DEMOS_OLD_PAR
 		case D_Space:
 			if (k){  sCnt += k*sp;  sCnt = max(0, min(sMax, sCnt));  einit = INone;  }
 			if (u){  sVel += u;     sVel = max(0, min(60, sVel));  einit = INone;  }
@@ -142,6 +139,10 @@ void Demos::KeyPress(EDemo demo, Gui* gui)
 			if (k)  fInt = (fInt + k + 12) % 12;
 			if (u)  fWave += u;
 			break;
+
+		case D_Fonts:
+			if (k)  fntCur = (fntCur + k + fntMax) % fntMax;
+			break;
 	#endif
 		case D_Rain:
 			if (!ct){  if (!rCur)
@@ -152,10 +153,6 @@ void Demos::KeyPress(EDemo demo, Gui* gui)
 				if (u)   r2Size += u;  r2Size = max(0, min(4, r2Size));
 			}	}
 			if (ct && k)  rCur = 1-rCur;
-			break;
-
-		case D_Fonts:
-			if (k)  fntCur = (fntCur + k + fntMax) % fntMax;
 			break;
 
 		default:

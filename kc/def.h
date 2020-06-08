@@ -6,7 +6,7 @@
 #define DEMOS			//  28        9%
 #define DEMOS_PLASMA	//  36        11%
 #define DEMOS_3D		//  44        15%
-#define DEMOS_OLD_PAR	//  280 <1%   16%  min
+//#define DEMOS_OLD_PAR	//  280 <1%   16%  min
 					// all  6680 10%  17%  max 41k
 
 
@@ -34,10 +34,12 @@ enum EDemo  //  Demos, level1
 	#endif
 		D_CK_Logo,
 	#ifdef DEMOS_OLD_PAR
+		D_Fonts,
+		D_Ngons,
 		D_Space, D_Balls, D_Fountain,
 	#endif
-	D_Rain, D_Ngons, D_Fonts,
+	D_Rain,
 	D_All,  D_Next = D_CK_Logo
 };
-extern const char *strDemo[D_All];
+//extern const char *strDemo[D_All];
 #endif

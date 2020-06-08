@@ -313,15 +313,9 @@ void Demos::Hedrons()
 		px[i] = H/2 * se * (fv * x / -z) +W/2;  // pos 3d to 2d
 		py[i] = H/2 * se * (fv * y / -z) +H/2;
 
-//		float u = max(0.f, (fabs(z)-1.f) / 5.f);
-//		uint16_t rr = min(31, u*1.2f), gg = min(31, u*2.6f);
-//		cl[i] = (rr<<11) + (gg<<6)  + 31;
-	//	cl[i] = ((i/32%32)<<11) + ((i%32)<<6) + 31;
-//		float u = max(0.f, min(31.f, z / zz ));
 		float u = max(0.f, min(31.f, -v[2] + 1.f ));
 		uint16_t rr = min(31.f, u*13.f), gg = min(31.f, u*21.f);
 		cl[i] = (rr<<11) + (gg<<6) + 31;
-		//cl[i] = z;  //v[2] * 2.f + 2.f
 
 		c[i] = z < 0.9f ? -1 : (z < zz ? 1 : 0);
 		if (px[i]<0 || px[i]>=W || py[i]<0 || py[i]>=H)
@@ -349,23 +343,32 @@ void Demos::Hedrons()
 			d->fillTriangle( px[f0],py[f0], px[f1],py[f1], px[f2],py[f2], cl[f0]);
 	}
 
-	//  big clr mess inside, diagonal to all  xX
-	hdDiag =  4;
+	//  inside diagonals to all  clr xX
+	hdDiag = (t / 500) % 3 + 4;  // auto-  // + (hdCur <= 2 /*|| hdCur == hdA-1*/ ? 0 : 4);
+	const int a0 = (t / 6) % NP, i0 = (t / 8) % NP;
 	switch (hdDiag) {
 	case 4:
-		for (a=0; a < NP; ++a)
-		for (i=0; i < a && i < NP; ++i)
-			d->drawLine( px[a],py[a], px[i],py[i], RGB((a+i)/3, a/2, i+5));  break;  //RGB(5+i, 5+a, 5+(a+i)/4));  break;
+		for (a=a0; a < NP; ++a)  // Mid+ ylw cyan viol   Last- pink red
+		for (i=0; i < a0 && i < NP; ++i)
+			d->drawLine( px[a],py[a], px[i],py[i], RGB(a/3+i/3, a/2, i+5));  break;  //RGB(5+i, 5+a, 5+(a+i)/4));  break;
+	case 5:
+		for (a=a0; a < NP; ++a)  // Low+ sky blue   Mid+ dark viol pink grn   Last` orn pnk blue grn
+		for (i=abs(a0-i0); i < a && i < NP; ++i)
+			d->drawLine( px[a],py[a], px[i],py[i], RGB(a/6+i/4, i%14+5, a%24+i/4+5));  break;
+	case 6:
+		for (a=0; a < NP; ++a)  // Low` grn   Mid~ red ylw grn   Last- red orn blu `viol cyan
+		for (i=i0; i < a && i < NP; ++i)
+			d->drawLine( px[a],py[a], px[i],py[i], RGB(a/4+i/3, a/4+i%16+5, i/3));  break;
 	case 1:
-		for (a=0; a < NP/2; ++a)
+		for (a=0; a < NP/2; ++a)  // half1 1st  OLD
 		for (i=0; i < a && i < NP; ++i)
 			d->drawLine( px[a],py[a], px[i],py[i], RGB(10+(i+a)/4, 5+a/2, 10+i));  break;
 	case 2:
-		for (a=0; a < NP; ++a)
+		for (a=0; a < NP; ++a)  // half 2
 		for (i=0; i < a && i < NP; i+=2)
 			d->drawLine( px[a],py[a], px[i],py[i], RGB(5+i, 5+a, 5+(a+i)/4));  break;
 	case 3:
-		for (a=0; a < NP; a+=2)
+		for (a=0; a < NP; a+=2)  // half1 2nd
 		for (i=0; i < a && i < NP; ++i)
 			d->drawLine( px[a],py[a], px[i],py[i], RGB((a+i)/3, a/2, i+5));  break;
 	}

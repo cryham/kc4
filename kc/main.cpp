@@ -11,8 +11,7 @@
 #define TFT_RST 8
 ILI9341_t3n tft = ILI9341_t3n(TFT_CS, TFT_DC, TFT_RST);
 
-uint16_t data[1][320 * 240];  // screen buffers
-uint8_t buf = 0;
+uint16_t data[320 * 240];  // screen buffer
 
 uint16_t cc = 0;
 
@@ -24,10 +23,11 @@ extern "C" int main(void)
 {
 	//  pin 19, PWM brightness to display LED
 	pinMode(19, OUTPUT);
-	analogWrite(19, 10); // 0-255
+	analogWrite(19, 15); // 0-255
+
 
 	//  Init display
-	tft.setFrameBuffer(data[0]);
+	tft.setFrameBuffer(data);
 	tft.useFrameBuffer(true);
 
 	tft.begin();
@@ -37,8 +37,7 @@ extern "C" int main(void)
 	tft.setFont(OpenSans12);
 
 
-	typedef unsigned long ulong;
-	ulong all = 0, send = 0;
+	ulong all = 0;
 
 	gui.Init(&tft);
 
@@ -48,27 +47,20 @@ extern "C" int main(void)
 
 		gui.Draw();
 
-		//tft.setFont(OpenSans10);
 		tft.setCursor(0, 0);
-		//tft.setCursor(W/2, H-80);
-
-		/*tft.setFont( OpenSans12 );
-		tft.setTextColor(RGB(26,25,31), ILI9341_BLACK);*/
-		//tft.print("c ");  tft.println(cc);
-
-		//tft.setFont( OpenSans16 );
 		tft.setTextColor(RGB(26, 25, 31), ILI9341_BLACK);
+		//tft.print("c ");  tft.println(cc);
 		
-		//tft.print("Fps ");
 		if (all > 0)
 			tft.println(int(1000000.f / all));
-		//tft.println(send);
-		
-		ulong draw = all - send;
+		#if 0
+		ulong draw =  micros() - start;
 		if (draw > 0)
-			tft.println(int(1000000.f / draw));/**/
+			tft.println(int(1000000.f / draw));
+		#endif
 
 		++cc;
+		if (gui.demos.bAuto)
 		if (cc % 1000 == 0)
 		{
 			gui.NextDemo();
@@ -78,17 +70,9 @@ extern "C" int main(void)
 		}
 
 
-		//tft.updateScreen();
-		ulong st_send = micros();
-		tft.updateScreenAsync();
+		tft.updateScreenAsync(true);
 		tft.waitUpdateAsyncComplete();
 
-		//++buf;  if (buf >= 2)  buf = 0;
-		//tft.setFrameBuffer(data[buf]);  // switch to 2nd buf
-		//tft.useFrameBuffer(true);
-
-		ulong us = micros();
-		send = us - st_send;
-		all = us - start;
+		all =  micros() - start;
 	}
 }

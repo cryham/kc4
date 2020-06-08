@@ -1,8 +1,8 @@
 #include <Arduino.h>
-
 #include "SPI.h"
 #include "ILI9341_t3n.h"
 #include "ili9341_t3n_font_OpenSans.h"
+#include "usb_keyboard.h"
 #include "gui.h"
 
 
@@ -14,7 +14,7 @@ ILI9341_t3n tft = ILI9341_t3n(TFT_CS, TFT_DC, TFT_RST);
 uint16_t data[1][320 * 240];  // screen buffers
 uint8_t buf = 0;
 
-uint16_t cc = 190;
+uint16_t cc = 0;
 
 Gui gui;
 
@@ -24,7 +24,7 @@ extern "C" int main(void)
 {
 	//  pin 19, PWM brightness to display LED
 	pinMode(19, OUTPUT);
-	analogWrite(19, 50); // 0-255
+	analogWrite(19, 10); // 0-255
 
 	//  Init display
 	tft.setFrameBuffer(data[0]);
@@ -37,34 +37,49 @@ extern "C" int main(void)
 	tft.setFont(OpenSans12);
 
 
-	unsigned long tim = 0, start;
+	typedef unsigned long ulong;
+	ulong all = 0, send = 0;
 
 	gui.Init(&tft);
 
 	while (1)
 	{
-		start = micros();
+		ulong start = micros();
+
 		gui.Draw();
 
-		tft.setFont(OpenSans12);
+		//tft.setFont(OpenSans10);
 		tft.setCursor(0, 0);
 		//tft.setCursor(W/2, H-80);
 
 		/*tft.setFont( OpenSans12 );
 		tft.setTextColor(RGB(26,25,31), ILI9341_BLACK);*/
-		tft.print("c ");  tft.println(cc);
+		//tft.print("c ");  tft.println(cc);
 
 		//tft.setFont( OpenSans16 );
 		tft.setTextColor(RGB(26, 25, 31), ILI9341_BLACK);
+		
 		//tft.print("Fps ");
-		if (tim > 0)
-			tft.println(1000000.f / tim);
+		if (all > 0)
+			tft.println(int(1000000.f / all));
+		//tft.println(send);
+		
+		ulong draw = all - send;
+		if (draw > 0)
+			tft.println(int(1000000.f / draw));/**/
 
 		++cc;
-		if (cc % 600 == 0)
+		if (cc % 1000 == 0)
+		{
 			gui.NextDemo();
+			//Keyboard.press(KEY_A);
+			//Keyboard.send_now();
+			//Keyboard.releaseAll();
+		}
+
 
 		//tft.updateScreen();
+		ulong st_send = micros();
 		tft.updateScreenAsync();
 		tft.waitUpdateAsyncComplete();
 
@@ -72,6 +87,8 @@ extern "C" int main(void)
 		//tft.setFrameBuffer(data[buf]);  // switch to 2nd buf
 		//tft.useFrameBuffer(true);
 
-		tim = micros() - start;
+		ulong us = micros();
+		send = us - st_send;
+		all = us - start;
 	}
 }

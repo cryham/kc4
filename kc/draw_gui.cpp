@@ -18,15 +18,11 @@ void Gui::Draw()
 	//------------------------------------------------------
 	switch (yy)
 	{
-	#ifdef DEMOS_PLASMA
 		case D_Plasma:   demos.Plasma();  break;
-	#endif
 		case D_Wave:     demos.Wave();  break;
 		case D_Fire:     demos.Fire();  break;
 		case D_CK_Logo:  demos.CK_logo();  break;
-	#ifdef DEMOS_3D
 		case D_Hedrons:  demos.Hedrons();  break;
-	#endif
 	#ifdef DEMOS_OLD_PAR
 		case D_Fonts:	 demos.Fonts();  break;
 		case D_Ngons:    demos.Ngons();  break;

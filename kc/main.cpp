@@ -27,7 +27,6 @@ extern "C" int main(void)
 	pinMode(19, OUTPUT);
 	analogWrite(19, 15); // 0-255
 
-
 	//  Init display
 	tft.setFrameBuffer(data);
 	tft.useFrameBuffer(true);
@@ -56,15 +55,14 @@ extern "C" int main(void)
 		if (all > 0)
 			tft.println(int(1000000.f / all));
 		#if 0
-		ulong draw =  micros() - start;
+		ulong draw = micros() - start;
 		if (draw > 0)
 			tft.println(int(1000000.f / draw));
 		#endif
 
-
-		tft.updateScreenAsync(true);
+		tft.updateScreenAsync();
 		tft.waitUpdateAsyncComplete();
 
-		all =  micros() - start;
+		all = micros() - start;
 	}
 }

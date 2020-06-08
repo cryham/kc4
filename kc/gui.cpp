@@ -5,7 +5,7 @@
 //  Main  ----
 Gui::Gui() : d(0)
 {
-	Init(0);
+	Init(nullptr);
 }
 
 void Gui::Init(ILI9341_t3n* tft)

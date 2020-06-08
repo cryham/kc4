@@ -19,7 +19,7 @@ struct Demos
 {
 	//  main  ----
 	Demos();
-	void Init(class ILI9341_t3n* tft);
+	void Init(ILI9341_t3n* tft);
 
 	ILI9341_t3n* d = nullptr;
 	uint16_t* data = nullptr;  // scren buffer

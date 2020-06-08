@@ -23,6 +23,7 @@ extern "C" int main(void)
 	//Keyboard.send_now();
 	//Keyboard.releaseAll();
 
+
 	//  pin 19, PWM brightness to display LED
 	pinMode(19, OUTPUT);
 	analogWrite(19, 15); // 0-255
@@ -50,7 +51,7 @@ extern "C" int main(void)
 
 		tft.setCursor(0, 0);
 		tft.setTextColor(RGB(26, 25, 31), ILI9341_BLACK);
-		//tft.print("c ");  tft.println(cc);
+		//tft.print("t ");  tft.println(gui.demos.t);
 		
 		if (all > 0)
 			tft.println(int(1000000.f / all));

@@ -10,26 +10,26 @@ void Demos::Draw(int& yy)
 	uint len = 1000;
 	switch (yy)
 	{
-		case D_Plasma:   Plasma();   len = 300;  break;
-		case D_Wave:     Wave();     len = 100;  break;
-		case D_Fire:     Fire();     len = 100;  break;
-		case D_CK_Logo:  CK_logo();  len = 200;  break;
-		case D_Hedrons:  Hedrons();  len = 300;  break;
+		case D_Plasma:   Plasma();   len = 1000;  break;
+		case D_Wave:     Wave();     len = 200;  break;
+		case D_Fire:     Fire();     len = 200;  break;
+		case D_CK_Logo:  CK_logo();  len = 600;  break;
+		case D_Hedrons:  Hedrons();  len = 1000;  break;
 	#ifdef DEMOS_OLD_PAR
-		case D_Fonts:	 Fonts();    len = 100;  break;
-		case D_Ngons:    Ngons();    len = 100;  break;
+		case D_Fonts:	 Fonts();    len = 200;  break;
+		case D_Ngons:    Ngons();    len = 200;  break;
 
-		case D_Fountain: Fountain(); len = 150;  break;
-		case D_Balls:    Balls();    len = 100;  break;
-		case D_Space:    Space();    len = 100;  break;
+		case D_Fountain: Fountain(); len = 300;  break;
+		case D_Balls:    Balls();    len = 200;  break;
+		case D_Space:    Space();    len = 200;  break;
 	#endif
-		case D_Rain:     Rain();  len = 150;  break;
+		case D_Rain:     Rain();  len = 200;  break;
 	}
 
 	//  Auto next
 	++cnt;  ++next;
 	if (bAuto)
-	if (next >= 2 * len)
+	if (next >= len)
 	{	next = 0;
 		// NextDemo()
 		++yy;

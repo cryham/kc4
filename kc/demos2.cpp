@@ -192,7 +192,7 @@ ck_par[Demos::ckMax] = {
 void Demos::CK_logo()
 {
 	if (bAuto)
-		ckCur = (cnt / 100) % ckMax;
+		ckCur = (cnt / 200) % ckMax;
 
 	#define K 1024  // wave																		// scale ofs
 	#define CX(x) {  x= w-cx;  x=( (x*(K +ax*Cos(8*w      +tt[0])/SY*Sin(7*w      +tt[1])/SY) /K) +cx)*2/7 +24;  }

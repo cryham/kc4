@@ -8,7 +8,7 @@
 void Demos::Plasma()
 {
 	if (bAuto)
-		plasma = (cnt / 100) % num_plasma;
+		plasma = (cnt / 200) % num_plasma;
 
 	// sint in ram 0 37fps 30 flash, >2 20fps
 		 if (plasma == 0)  PSlowClrRings();  // 12 fps Clr1 blur

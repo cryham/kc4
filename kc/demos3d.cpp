@@ -342,9 +342,9 @@ void Demos::Hedrons()
 			d->fillTriangle( px[f0],py[f0], px[f1],py[f1], px[f2],py[f2], cl[f0]);
 	}
 
-	//  inside diagonals to all  clr xX
+	//  inside diagonals to all  clr \|/ xX
 	if (bAuto)
-		hdDiag = (cnt / 100) % 4 + 3;
+		hdDiag = (cnt / 200) % 4 + 3;
 
 	const int a0 = (t / 6) % NP, i0 = (t / 8) % NP;
 	switch (hdDiag) {

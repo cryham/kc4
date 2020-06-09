@@ -1,3 +1,4 @@
+
 #include "demos.h"
 #include "ILI9341_t3n.h"
 
@@ -7,7 +8,7 @@
 void Demos::Plasma()
 {
 	if (bAuto)
-		plasma = (t / 1000) % num_plasma;
+		plasma = (cnt / 100) % num_plasma;
 
 	// sint in ram 0 37fps 30 flash, >2 20fps
 		 if (plasma == 0)  PSlowClrRings();  // 12 fps Clr1 blur

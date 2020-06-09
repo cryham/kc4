@@ -3,6 +3,42 @@
 #include "ili9341_t3n_font_OpenSans.h"
 
 
+//  Draw
+//....................................................................................
+void Demos::Draw(int& yy)
+{
+	uint len = 1000;
+	switch (yy)
+	{
+		case D_Plasma:   Plasma();   len = 300;  break;
+		case D_Wave:     Wave();     len = 100;  break;
+		case D_Fire:     Fire();     len = 100;  break;
+		case D_CK_Logo:  CK_logo();  len = 200;  break;
+		case D_Hedrons:  Hedrons();  len = 300;  break;
+	#ifdef DEMOS_OLD_PAR
+		case D_Fonts:	 Fonts();    len = 100;  break;
+		case D_Ngons:    Ngons();    len = 100;  break;
+
+		case D_Fountain: Fountain(); len = 150;  break;
+		case D_Balls:    Balls();    len = 100;  break;
+		case D_Space:    Space();    len = 100;  break;
+	#endif
+		case D_Rain:     Rain();  len = 150;  break;
+	}
+
+	//  Auto next
+	++cnt;  ++next;
+	if (bAuto)
+	if (next >= 2 * len)
+	{	next = 0;
+		// NextDemo()
+		++yy;
+		if (yy >= D_All)
+			yy = 0;
+	}
+}
+
+
 //  Version
 //....................................................................................
 void Demos::Version()

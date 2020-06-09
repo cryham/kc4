@@ -27,7 +27,8 @@ struct Demos
 	int8_t iFps = 0;  // show frames per second, 1 on, 0 off
 	uint32_t ti = 0, oti = 0;  // fps: time ms, old
 
-	bool bAuto = true;  // auto next demo
+	int8_t bAuto = 1;  // auto next demo
+	void Draw(int& num);
 
 	
 	//  Fonts
@@ -41,7 +42,7 @@ struct Demos
 	int8_t iInfo = 0;  // show demo params
 	void KeyPress(EDemo demo, struct Gui* gui);
 
-	uint t = 0;  // frame counter
+	uint t = 0, cnt = 0, next = 0;  // frame counter
 
 
 	//  Plasma  ~~~~
@@ -119,7 +120,7 @@ struct Demos
 
 	//  Polyhedrons 3D  ----
 	const static int8_t hdA = 11, hdRotMax = 4, hdDiagMax = 5;  // all presets
-	const static int16_t hdtMax = 400;  // cycle time
+	const static int16_t hdtMax = 200;  // cycle time
 
 	int16_t hdt;  int8_t hdCur,  hdtOn, hdRot,  hdSpd, hdDiag;
 	void Hedrons();

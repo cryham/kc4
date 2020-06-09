@@ -344,7 +344,7 @@ void Demos::Hedrons()
 
 	//  inside diagonals to all  clr xX
 	if (bAuto)
-		hdDiag = (cnt / 100) % 3 + 4;
+		hdDiag = (cnt / 100) % 4 + 3;
 
 	const int a0 = (t / 6) % NP, i0 = (t / 8) % NP;
 	switch (hdDiag) {
@@ -357,21 +357,21 @@ void Demos::Hedrons()
 		for (i=abs(a0-i0); i < a && i < NP; ++i)
 			d->drawLine( px[a],py[a], px[i],py[i], RGB(a/6+i/4, i%14+5, a%24+i/4+5));  break;
 	case 6:
-		for (a=0; a < NP; ++a)  // Low` grn   Mid~ red ylw grn   Last- red orn blu `viol cyan
+		for (a=0; a < NP; ++a)   // Low` grn   Mid~ red ylw grn   Last- red orn blu `viol cyan
 		for (i=i0; i < a && i < NP; ++i)
 			d->drawLine( px[a],py[a], px[i],py[i], RGB(a/4+i/3, a/4+i%16+5, i/3));  break;
 	case 1:
-		for (a=0; a < NP/2; ++a)  // half1 1st  OLD
+		for (a=0; a < NP/2; ++a) //- half1 1st  OLD
 		for (i=0; i < a && i < NP; ++i)
 			d->drawLine( px[a],py[a], px[i],py[i], RGB(10+(i+a)/4, 5+a/2, 10+i));  break;
 	case 2:
-		for (a=0; a < NP; ++a)  // half 2
-		for (i=0; i < a && i < NP; i+=2)
-			d->drawLine( px[a],py[a], px[i],py[i], RGB(5+i, 5+a, 5+(a+i)/4));  break;
-	case 3:
-		for (a=0; a < NP; a+=2)  // half1 2nd
+		for (a=0; a < NP; a+=2)  //- half1 2nd
 		for (i=0; i < a && i < NP; ++i)
 			d->drawLine( px[a],py[a], px[i],py[i], RGB((a+i)/3, a/2, i+5));  break;
+	case 3:
+		for (a=a0; a < NP; ++a)  // Low- grn rnd   Mid+ cyan rnd   Last` grn ylw cyan
+		for (i=0; i < a0 && i < NP; ++i)
+			d->drawLine( px[a],py[a], px[i],py[i], RGB(5+i, 5+a, 5+(a+i)/4));  break;
 	}
 
 	//  draw near/visible edges  --

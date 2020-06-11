@@ -8,8 +8,9 @@
 
 #define TFT_DC 9
 #define TFT_CS 10
-#define TFT_RST 8
-ILI9341_t3n tft = ILI9341_t3n(TFT_CS, TFT_DC, TFT_RST);
+ILI9341_t3n tft = ILI9341_t3n(TFT_CS, TFT_DC);
+//#define TFT_RST 8
+//ILI9341_t3n tft = ILI9341_t3n(TFT_CS, TFT_DC, TFT_RST);
 
 uint16_t data[320 * 240];  // screen buffer
 
@@ -45,25 +46,28 @@ extern "C" int main(void)
 
 	while (1)
 	{
-		ulong start = micros();
+		ulong stAll = micros();
+		gui.Clear();
 
+		ulong stDraw = micros();
 		gui.Draw();
 
-		tft.setCursor(0, 0);
+		tft.setCursor(0, H-28);
 		tft.setTextColor(RGB(26, 25, 31), ILI9341_BLACK);
 		//tft.print("t ");  tft.println(gui.demos.t);
 		
 		if (all > 0)
 			tft.println(int(1000000.f / all));
-		#if 0
-		ulong draw = micros() - start;
+		#if 1
+		ulong draw = micros() - stDraw;
 		if (draw > 0)
 			tft.println(int(1000000.f / draw));
 		#endif
 
+		tft.waitUpdateAsyncComplete();  // all 45 Fps 60 MHz, some tearing
 		tft.updateScreenAsync();
-		tft.waitUpdateAsyncComplete();
+		//tft.waitUpdateAsyncComplete();  // all 28-45 Fps 60 MHz
 
-		all = micros() - start;
+		all = micros() - stAll;
 	}
 }

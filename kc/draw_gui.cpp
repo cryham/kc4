@@ -4,15 +4,21 @@
 
 //  Draw  main
 //....................................................................................
-void Gui::Draw()
+void Gui::Clear()
 {
-	//yy = D_Hedrons;  //D_CK_Logo;  // test
+	//yy = D_CK_Logo;  // test
 
 	//  Clear  if not full screen demo
 	bool no = (yy == D_Rain || yy == D_Plasma || yy == D_Wave || yy == D_Fire);
 	if (!no)
+	{
+		d->waitUpdateAsyncComplete();
 		//d->fillScreen(ILI9341_BLACK);
 		memset(demos.data, 0, 2*W*H);
+	}
+}
 
+void Gui::Draw()
+{
 	demos.Draw(yy);
 }

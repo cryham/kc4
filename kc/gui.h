@@ -12,7 +12,7 @@ struct Gui
 	//  main  ----
 	Gui();
 	void Init(ILI9341_t3n* tft);
-	void Draw();
+	void Clear(), Draw();
 
 	int yy = 0;
 	void NextDemo();

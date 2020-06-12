@@ -45,7 +45,7 @@ void Demos::Version()
 {
 	//  logo, ver
 	d->setCursor(0,18);
-	d->setFont( OpenSans28 );
+	d->setFont( OpenSans24 );
 	d->setTextColor(RGB(1,28,28));
 	d->println("CrystaL");
 

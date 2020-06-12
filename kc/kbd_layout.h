@@ -18,7 +18,7 @@ struct DrawKey
 
 
 const static int8_t Omax = 10;
-extern const int8_t kW, kH, kF, X;
+extern const int8_t kW, kH, fH, X;
 
 extern const uint16_t clrRect[Omax], clrText[Omax];  // colors types
 

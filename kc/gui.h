@@ -93,7 +93,7 @@ struct Gui
 
 
 	//  Mapping  - - - -
-	const int8_t yPosLay = 62;
+	const int8_t yPosLay = 90;
 	int16_t keyCode=0, scId=0, scIdCpy=0, drawId=-1, drawX=0,drawY=0;
 	int8_t nLay=0, nLayCpy=0,
 		pressKey=0, pickCode=K_Seq0, // edit operations

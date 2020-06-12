@@ -4148,22 +4148,23 @@ bool ILI9341_t3n::gfxFontLastCharPosFG(int16_t x, int16_t y) {
     return ((gfxFont->bitmap[glyph->bitmapOffset + (pixel_bit_offset >> 3)]) & (0x80 >> (pixel_bit_offset & 0x7)));
 }
 
+
 //  cryham
 
 void ILI9341_t3n::setClr(uint8_t r, uint8_t g, uint8_t b)
 {
-	textcolor = ((r)<<11)+ ((g)<<6) +(b);
+	setColor( ((r)<<11)+ ((g)<<6) +(b) );
 }
 
 void ILI9341_t3n::setClr(uint16_t c)
 {
-	textcolor = c;
+	setColor(c);
 }
 
 void ILI9341_t3n::moveCursor(int16_t x, int16_t y)
 {
-  cursor_x += x;
-  cursor_y += y;
+	cursor_x += x;
+	cursor_y += y;
 }
 
 

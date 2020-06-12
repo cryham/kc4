@@ -1,5 +1,6 @@
 #include "gui.h"
 #include "ILI9341_t3n.h"
+#include "ili9341_t3n_font_OpenSans.h"
 
 #include "matrix.h"
 #include "kbd_layout.h"
@@ -22,9 +23,10 @@ void Gui::DrawLayout(bool edit)
 	for (int i=0; i < nDrawKeys; ++i)
 	{
 		const DrawKey& k = drawKeys[i], pk = drawKeys[max(0,i-1)];
+		bool no = k.sc == NO;
 
 		//  find if pressed
-		int f = !edit && k.sc != NO &&
+		int f = !edit && !no &&
 			Matrix_scanArray[k.sc].state == KeyState_Hold ? 1 : 0;
 
 		//  mapping cursor
@@ -35,14 +37,14 @@ void Gui::DrawLayout(bool edit)
 		uint8_t dtL0 = kc.set.key[0][k.sc];
 		bool layKey = dtL0 >= K_Layer1 && dtL0 < K_Layer1+KC_MaxLayers;
 		bool layUse = nLay == KC_MaxLayers;  // vis mode
-		bool tiny = k.w < 6;
+		bool tiny = false; //k.w < 12;
 		bool lk = layKey && nLay == dtL0 -K_Layer1 +1;  // cur layer key
 
 
 		//  set coords or advance
 		if (k.x >=0)  x = k.x;  else  x -= k.x;
 		if (k.y > 0)  y = k.y + yPosLay;  else
-		{	if (pk.w < 6)  y += k.y;  else  y -= k.y;  }  // tiny up
+		{	if (pk.w < 12)  y += k.y;  else  y -= k.y;  }  // tiny up
 
 		if (i == drawId)  // save center for move
 		{	drawX = x + k.w/2;
@@ -57,7 +59,7 @@ void Gui::DrawLayout(bool edit)
 				 lk ? RGB(31,26,28) : clrRect[k.o];
 
 		//  darken  if draw has NO scId
-		if (edit && k.sc == NO)  cR = RGB(9,9,9);
+		if (edit && no)  cR = RGB(9,9,9);
 
 		d->drawRect(x, y-2, k.w+1, k.h+1, cR);  // frame []
 
@@ -68,18 +70,18 @@ void Gui::DrawLayout(bool edit)
 
 		//  text  ----
 		d->setCursor(
-			k.o==5 || k.o==7 ? x + k.w - 6 :  // right align
+			k.o==5 || k.o==7 ? x + k.w - 12 :  // right align
 			(k.o==3 ? x+1 : x+2),  // symb 3
-			k.h == kF ? y-2 : y-1);  // short
+			k.h == fH ? y-2 : y-1);  // short
 
-		if (k.sc != NO && k.sc < kc.set.nkeys())
+		if (!no && k.sc < kc.set.nkeys())
 		{
 			uint8_t dt = layKey ? dtL0 :
 				kc.set.key[edit ? nLay : kc.nLayer][k.sc];
 
 			const char* ch = cKeySh[dt];
 			//  font size
-			bool m = tiny || strlen(ch) == 2;
+			bool m = tiny || strlen(ch) == 2 || ch[0] < 32;
 
 			if (edit && layUse && !layKey)
 			{
@@ -89,8 +91,8 @@ void Gui::DrawLayout(bool edit)
 					if (kc.set.key[l][k.sc] != KEY_NONE)  ++u;
 
 				if (u > 0)
-				{	d->moveCursor(tiny ? -1 : 0, tiny ? 0 : 2);
-					//d->setFont(&TomThumb);
+				{	d->moveCursor(tiny ? 0 : 0, m ? 2 : 2);
+					d->setFont(0);  // small 5x7
 
 					d->setColor(clu[ min(cluM-1, u-1) ]);
 					d->print(u+'0');
@@ -98,8 +100,9 @@ void Gui::DrawLayout(bool edit)
 			}else	//  normal
 			if (dt != KEY_NONE)
 			{
-				if (m)  d->moveCursor(-1, tiny ? 0 : 2);
-				//d->setFont(m ? &TomThumb : 0);  // 3x5
+				if (m)	d->setFont();  // small
+				else	d->setFont(OpenSans12);
+				if (m)  d->moveCursor(0, m ? 2 : 4);
 
 				const uint8_t* c = &cGrpRgb[cKeyGrp[dt]][0][0];
 				if (tiny)  // tiny rect for color, no text

@@ -15,7 +15,7 @@ void Demos::Draw(int/*&*/ yy)
 		case D_Fire:     Fire();     len = 200;  break;
 		case D_CK_Logo:  CK_logo();  len = 600;  break;
 		case D_Hedrons:  Hedrons();  len = 1000;  break;
-	#ifdef DEMOS_OLD_PAR
+	#ifdef DEMOS_OLD
 		case D_Fonts:	 Fonts();    len = 200;  break;
 		case D_Ngons:    Ngons();    len = 200;  break;
 
@@ -74,7 +74,7 @@ void Demos::Version()
 
 #ifdef DEMOS
 
-#ifdef DEMOS_OLD_PAR
+#ifdef DEMOS_OLD
 
 //  regular polygons with diagonals
 //....................................................................................
@@ -168,5 +168,44 @@ void Demos::Rain()
 //....................................................................................
 void Demos::Fonts()
 {
-	Version();  // todo ..
+	int y = 4;
+	d->setFont(OpenSans24);
+	d->setCursor(0, y);  y += 33;
+	d->println("24-acdtegiMkloprSt.");
+
+	d->setFont(OpenSans20);
+	d->setCursor(0, y);  y += 29;
+	d->println("20-acdtegiMkloprSty.");
+
+	d->setFont(OpenSans18);
+	d->setCursor(0, y);  y += 26;
+	d->println("18-ICDacdtegiMkloprSty.");
+
+	d->setFont(OpenSans16);
+	d->setCursor(0, y);  y += 24;
+	d->println("16-ICDacdrVwxyzQoprStuyz.");
+
+	d->setFont(OpenSans14);
+	d->setCursor(0, y);  y += 21;
+	d->println("14-AbcDefGhijklMnopqrStuVwxyz.");
+
+	d->setFont(OpenSans12);
+	d->setCursor(0, y);  y += 18;
+	d->println("12-GhijklMnopqRstuVwxyz-1234567890.");
+
+	d->setFont(OpenSans10);
+	d->setCursor(0, y);  y += 14;
+	d->println("10-abCdefGhijklMnopqRstuVwxyz-1234567890.");
+
+	d->setFont(OpenSans9);
+	d->setCursor(0, y);  y += 13;
+	d->println("9-QUIOP.ASDHJKL;ZXCVBNM+acdeprst=1234567890.");
+
+	d->setFont(OpenSans8);
+	d->setCursor(0, y);  y += 13;
+	d->println("8-QWERTY.ASDFGHJ;ZXCVBN+acdeprst=1234567890.");
+
+	d->setFont();
+	d->setCursor(0, y);
+	d->println("abCdefGhijklMnopqRstuVwxyz-1234567890.");
 }

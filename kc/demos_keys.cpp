@@ -18,7 +18,7 @@ void Demos::Init(ILI9341_t3n* tft)
 	iFps = 0;  iInfo = 0;
 	fntCur = 0;
 
-#ifdef DEMOS_OLD_PAR
+#ifdef DEMOS_OLD
 	einit = INone;
 	sCnt = 3*sMax/4;  sVel = 17;  // stars
 	bCnt = min(200,bMax);  bSpd = 120;  bSpRnd = 1;  bRad = 3;  // balls
@@ -48,7 +48,7 @@ void Demos::Init(ILI9341_t3n* tft)
 }
 
 
-#if 0  // todo .. def DEMOS
+#ifdef DEMOS
 
 //  Key Press  demo params
 //....................................................................................
@@ -60,7 +60,7 @@ void Demos::KeyPress(EDemo demo, Gui* gui)
 
 	int8_t k = gui->kRight, u = -gui->kUp,
 		pgup = gui->kPgUp, end = gui->kEnd, ct = gui->kCtrl;
-	#ifdef DEMOS_OLD_PAR
+	#ifdef DEMOS_OLD
 	int sp = gui->kSh ? 2 : 10;
 	#endif
 
@@ -107,7 +107,7 @@ void Demos::KeyPress(EDemo demo, Gui* gui)
 			break;
 
 		//  old  --------
-	#ifdef DEMOS_OLD_PAR
+	#ifdef DEMOS_OLD
 		case D_Ngons:
 			if (k)
 			{	ngtOn = 0;  // manual

@@ -4,7 +4,6 @@
 #include "keys_usb.h"
 #include "kc_params.h"
 #include "kc_data.h"
-//#include "periodic.h"
 
 
 //  Key press

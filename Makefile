@@ -193,4 +193,4 @@ r:
 	@make m --no-print-directory
 #make -j
 m:
-	@make -j --no-print-directory
+	@make -j6 --no-print-directory

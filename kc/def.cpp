@@ -83,7 +83,7 @@ const char* strDemo[D_All] =
 	"Hedrons",
 #endif
 	"CK Logo",
-#ifdef DEMOS_OLD_PAR
+#ifdef DEMOS_OLD
 	"Space", "Balls", "Fountain",
 #endif
 	"Rain",

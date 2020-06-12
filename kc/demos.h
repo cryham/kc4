@@ -71,7 +71,7 @@ struct Demos
 	void CK_logo();
 
 
-#ifdef DEMOS_OLD_PAR
+#ifdef DEMOS_OLD
 	//  Balls  --------
 	const static int  // _param_  none 49472
 	//bMax = 100,  // 1356 B  ram size

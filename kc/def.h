@@ -23,12 +23,12 @@ typedef unsigned long ulong;
 //  extra keyboard features, pins
 #ifdef CK6
     //  led light
-	#define LED  12
+	//#define LED  12
 	//  temperature 'C sensor DS18B20
-	#define TEMP1  31	//  44   9%  24k
+	//#define TEMP1  31	//  44   9%  24k
 #endif
 #ifdef CK7
-	#define TEMP1  14
+	//#define TEMP1  14
 #endif
 
 
@@ -65,7 +65,7 @@ enum EDemo  //  Demos, level1
 	D_Wave, D_Fire,
 	D_Hedrons,
 	D_CK_Logo,
-#ifdef DEMOS_OLD_PAR
+#ifdef DEMOS_OLD
 	D_Fonts,
 	D_Ngons,
 	D_Space, D_Balls, D_Fountain,

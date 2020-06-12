@@ -3,7 +3,6 @@
 #include "kc_data.h"
 
 #include "ILI9341_t3n.h"
-//#include "FreeSans9pt7b.h"
 
 
 //  Draw End

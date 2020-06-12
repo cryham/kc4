@@ -6,8 +6,7 @@
 
 #include "gui.h"
 #include "matrix.h"
-//#include "periodic.h"
-#include "IntervalTimer.h"  // todo ..
+#include "IntervalTimer.h"
 #include "kc_data.h"
 
 
@@ -18,6 +17,7 @@ uint8_t scan_n = 0;
 
 Gui gui;
 KC_Main kc;
+IntervalTimer ti;
 extern void ParInit();
 
 
@@ -85,9 +85,7 @@ int main()
 	//  kbd
 	Matrix_setup();
 
-	//  48 MHz/50 000 = 960 Hz   d: 52 fps
-	//Periodic_init( par.scanFreq * 1000 );  // todo ..
-	//Periodic_function( &main_periodic );
+	ti.begin(main_periodic, 1000);  // par.scanFreq * 1000);  // todo ..
 
 	#ifdef LED
 	pinMode(LED, OUTPUT);
@@ -112,18 +110,19 @@ int main()
 
 
 	//  load set from ee
-	kc.Load();
+	//kc.Load();
 	gui.SetScreen(par.startScreen);
-	gui.kbdSend = 0;  //1;  // release
+	gui.kbdSend = 0;  //1;  // 1 release
 
 #ifdef CK8
 	gui.kbdSend = 0;  // release
 	gui.SetScreen(ST_Test2+T_Matrix);
 	par.brightness = 100;
 	par.brightOff = 90;
+	gui.SetScreen(ST_Demos);  // test +
 #endif
 
-#ifdef CK1aa
+#ifdef CK1
 	gui.kbdSend = 0;  // release
 	par.brightness = 65;
 	par.brightOff = 85;
@@ -141,9 +140,8 @@ int main()
 	par.dtSeqDef = 20;
 	par.defLayer = 0;  par.editLayer = 2;
 	gui.SetScreen(ST_Test2+T_Pressed);
-	kc.Save();
+	//kc.Save();
 #endif
-	gui.SetScreen(ST_Demos);  //+
 
 
 	ulong all = 0;
@@ -157,6 +155,8 @@ int main()
 
 		ulong stDraw = micros();
 		gui.Draw();
+		//gui.DrawEnd();
+
 		tft.setFont(OpenSans12);
 
 		tft.setCursor(0, H-28);
@@ -168,57 +168,18 @@ int main()
 		#if 1
 		ulong draw = micros() - stDraw;
 		if (draw > 0)
-			tft.println(int(1000000.f / draw));
+			tft.print(int(1000000.f / draw));
 		#endif
-#if 0		
-		int y = 4;
-		tft.setFont(OpenSans24);
-		tft.setCursor(0, y);  y += 33;
-		tft.println("24-acdtegiMkloprSt.");
 
-		tft.setFont(OpenSans20);
-		tft.setCursor(0, y);  y += 29;
-		tft.println("20-acdtegiMkloprSty.");
+		//  test
+		tft.print("  sc fq ");  tft.print(scan_freq);
+		tft.print(" c ");  tft.print(scan_cnt);
 
-		tft.setFont(OpenSans18);
-		tft.setCursor(0, y);  y += 26;
-		tft.println("18-ICDacdtegiMkloprSty.");
-
-		tft.setFont(OpenSans16);
-		tft.setCursor(0, y);  y += 24;
-		tft.println("16-ICDacdrVwxyzQoprStuyz.");
-
-		tft.setFont(OpenSans14);
-		tft.setCursor(0, y);  y += 21;
-		tft.println("14-AbcDefGhijklMnopqrStuVwxyz.");
-
-		tft.setFont(OpenSans12);
-		tft.setCursor(0, y);  y += 18;
-		tft.println("12-GhijklMnopqRstuVwxyz-1234567890.");
-
-		tft.setFont(OpenSans10);
-		tft.setCursor(0, y);  y += 14;
-		tft.println("10-abCdefGhijklMnopqRstuVwxyz-1234567890.");
-
-		tft.setFont(OpenSans9);
-		tft.setCursor(0, y);  y += 13;
-		tft.println("9-QUIOP.ASDHJKL;ZXCVBNM+acdeprst=1234567890.");
-
-		tft.setFont(OpenSans8);
-		tft.setCursor(0, y);  y += 13;
-		tft.println("8-QWERTY.ASDFGHJ;ZXCVBN+acdeprst=1234567890.");
-
-		tft.setFont();
-		tft.setCursor(0, y);
-		tft.println("abCdefGhijklMnopqRstuVwxyz-1234567890.");
-#endif
 		tft.waitUpdateAsyncComplete();  // all 45 Fps 60 MHz, some tearing
 		tft.updateScreenAsync();
 		//tft.waitUpdateAsyncComplete();  // all 28-45 Fps 60 MHz
 
 		all = micros() - stAll;
-
-		//gui.DrawEnd();
 
 		//  temp get  --------
 		#ifdef TEMP1  // 18B20  Temp'C

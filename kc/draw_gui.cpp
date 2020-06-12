@@ -7,18 +7,82 @@
 void Gui::Clear()
 {
 	//yy = D_CK_Logo;  // test
+	yy = ym1[ym];
+	mlevel = 1;  // todo ..
 
 	//  Clear  if not full screen demo
-	bool no = (yy == D_Rain || yy == D_Plasma || yy == D_Wave || yy == D_Fire);
+#ifdef DEMOS
+	bool demo = ym == M_Demos && mlevel == 2;
+	bool no = demo && (yy == D_Rain || yy == D_Plasma || yy == D_Wave || yy == D_Fire);
 	if (!no)
+#endif
 	{
 		d->waitUpdateAsyncComplete();
 		//d->fillScreen(ILI9341_BLACK);
 		memset(demos.data, 0, 2*W*H);
 	}
+	
+	if (!demo)
+	{
+		//d->setFont(&FreeSans9pt7b);
+		d->setCursor(0,0);
+	}
 }
 
+
+//  Draw  main
+//....................................................................................
 void Gui::Draw()
 {
-	demos.Draw(yy);
+
+	//  Main menu
+	//------------------------------------------------------
+	if (mlevel==0)
+	{
+		d->setClr(6,19,31);
+		d->print("Main Menu");  d->setFont(0);
+
+		DrawMenu(M_All,strMain, C_Main,RGB(20,25,29),RGB(5,7,9), 10, M_Next);
+		return;
+	}
+	d->setClr(12,22,31);
+
+
+	switch (ym)
+	{
+	//  Demos
+	//------------------------------------------------------
+	#ifdef DEMOS
+	case M_Demos:
+		if (mlevel == 2)
+		{
+			d->setFont(0);
+			demos.Draw(yy);
+		}else
+		{	//  menu
+			d->setClr(25,16,28);
+			d->print(strMain[ym]);  d->setFont(0);
+
+			DrawMenu(D_All,strDemo, C_Demos,RGB(27,27,30),RGB(6,6,9), 10, D_Next);
+		}
+		return;
+	#endif
+
+	#ifdef GAME   // game
+	case M_Game:  game.Draw();  return;
+	#endif
+
+	//  Mappings,Seq  kbd
+	case M_Mapping:   DrawMapping();  return;
+	case M_Sequences: DrawSequences();  return;
+	//  Testing,Setup  kbd
+	case M_Testing:   DrawTesting();  return;
+	case M_Setup:     DrawSetup();  return;
+	case M_Info:      DrawInfo();  return;
+
+	//  Display, Help
+	case M_Display: DrawDisplay();  return;
+	case M_Clock:   DrawClock();  return;
+	case M_Help:    DrawHelp();  return;
+	}
 }

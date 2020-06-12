@@ -63,7 +63,7 @@ MCU_LD = $(SRCDIR)/$(LOWER_MCU).ld
 #************************************************************************
 
 WARN = -Wall -g -Wcomment 
-OPT = -O3 -ffunction-sections -fdata-sections
+OPT = -O3 -ffunction-sections -fdata-sections -fno-exceptions
 
 # Cortex M7 with single & double precision FPU
 ARCH = -mcpu=$(CPUARCH) -mfloat-abi=hard -mfpu=fpv5-d16 -mthumb
@@ -72,10 +72,10 @@ ARCH = -mcpu=$(CPUARCH) -mfloat-abi=hard -mfpu=fpv5-d16 -mthumb
 CFLAGS = $(WARN) $(OPT) $(ARCH) $(OPTIONS)
 
 # compiler options for C++ only  -Wno-error=narrowing
-CXXFLAGS = $(WARN) $(OPT) $(ARCH) -MMD -std=gnu++14 -felide-constructors -fno-exceptions -fpermissive -fno-rtti $(OPTIONS)
+CXXFLAGS = $(WARN) $(OPT) $(ARCH) -MMD -std=gnu++14 -felide-constructors -fno-rtti $(OPTIONS)
 
 # linker options  --defsym=__rtc_localtime=0 --specs=nano.specs
-LDFLAGS = -Os -Wl,--gc-sections,--relax $(ARCH) -T$(MCU_LD)
+LDFLAGS = -Os -Wl,--gc-sections,--relax --specs=nano.specs $(ARCH) -T$(MCU_LD)
 LIBS = -larm_cortexM7lfsp_math -lm -lstdc++
 
 

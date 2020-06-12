@@ -258,6 +258,16 @@ class ILI9341_t3n : public Print
 	void setScroll(uint16_t offset);
 	void invertDisplay(boolean i);
 	void setAddrWindow(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
+
+	//  cryham
+	uint8_t getClr()
+	{
+		return textcolor;
+	}
+	void setClr(uint8_t r, uint8_t g, uint8_t b);
+	void setClr(uint16_t c);
+	void moveCursor(int16_t x, int16_t y);
+
 	// Pass 8-bit (each) R,G,B, get back 16-bit packed color
 	static uint16_t color565(uint8_t r, uint8_t g, uint8_t b) {
 		return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3);
@@ -339,8 +349,8 @@ class ILI9341_t3n : public Print
 	static const int16_t CENTER = 9998;
 	void setCursor(int16_t x, int16_t y, bool autoCenter=false);
     void getCursor(int16_t *x, int16_t *y);
-	void setTextColor(uint16_t c);
-	void setTextColor(uint16_t c, uint16_t bg);
+	void setColor(uint16_t c);
+	void setColor(uint16_t c, uint16_t bg);
     void setTextSize(uint8_t sx, uint8_t sy);
 	void inline setTextSize(uint8_t s) { setTextSize(s,s); }
 	uint8_t getTextSizeX();
@@ -1036,7 +1046,7 @@ public:
 		_gfx->fillRoundRect(_x - (_w/2), _y - (_h/2), _w, _h, min(_w,_h)/4, fill);
 		_gfx->drawRoundRect(_x - (_w/2), _y - (_h/2), _w, _h, min(_w,_h)/4, outline);
 		_gfx->setCursor(_x - strlen(_label)*3*_textsize_x, _y-4*_textsize_y);
-		_gfx->setTextColor(text);
+		_gfx->setColor(text);
 		_gfx->setTextSize(_textsize_x, _textsize_y);
 		_gfx->print(_label);
 	}

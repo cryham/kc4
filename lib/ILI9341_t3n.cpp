@@ -4148,6 +4148,23 @@ bool ILI9341_t3n::gfxFontLastCharPosFG(int16_t x, int16_t y) {
     return ((gfxFont->bitmap[glyph->bitmapOffset + (pixel_bit_offset >> 3)]) & (0x80 >> (pixel_bit_offset & 0x7)));
 }
 
+//  cryham
+
+void ILI9341_t3n::setClr(uint8_t r, uint8_t g, uint8_t b)
+{
+	textcolor = ((r)<<11)+ ((g)<<6) +(b);
+}
+
+void ILI9341_t3n::setClr(uint16_t c)
+{
+	textcolor = c;
+}
+
+void ILI9341_t3n::moveCursor(int16_t x, int16_t y)
+{
+  cursor_x += x;
+  cursor_y += y;
+}
 
 
 void ILI9341_t3n::setCursor(int16_t x, int16_t y, bool autoCenter) {
@@ -4192,13 +4209,13 @@ uint8_t ILI9341_t3n::getTextSize() {
 	return textsize_x;  // BUGBUG:: two values now...
 }
 
-void ILI9341_t3n::setTextColor(uint16_t c) {
+void ILI9341_t3n::setColor(uint16_t c) {
   // For 'transparent' background, we'll set the bg
   // to the same as fg instead of using a flag
   textcolor = textbgcolor = c;
 }
 
-void ILI9341_t3n::setTextColor(uint16_t c, uint16_t b) {
+void ILI9341_t3n::setColor(uint16_t c, uint16_t b) {
   textcolor   = c;
   textbgcolor = b;
   // pre-expand colors for fast alpha-blending later

@@ -28,7 +28,7 @@ struct Demos
 	uint32_t ti = 0, oti = 0;  // fps: time ms, old
 
 	int8_t bAuto = 1;  // auto next demo
-	void Draw(int& num);
+	void Draw(int/*&*/ num);
 
 	
 	//  Fonts

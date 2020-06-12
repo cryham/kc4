@@ -5,7 +5,7 @@
 
 //  Draw
 //....................................................................................
-void Demos::Draw(int& yy)
+void Demos::Draw(int/*&*/ yy)
 {
 	uint len = 1000;
 	switch (yy)
@@ -46,24 +46,24 @@ void Demos::Version()
 	//  logo, ver
 	d->setCursor(0,18);
 	d->setFont( OpenSans24 );
-	d->setTextColor(RGB(1,28,28));
+	d->setColor(RGB(1,28,28));
 	d->println("CrystaL");
 
 	d->setCursor(36,60);
-	d->setTextColor(RGB(22,16,31));
+	d->setColor(RGB(22,16,31));
 	d->print("Keyboard");
 	d->setFont( OpenSans20 );
 
 	d->setCursor(0,120);
-	d->setTextColor(RGB(12,21,31));
+	d->setColor(RGB(12,21,31));
 	d->print("K.C. \"Kacey\" Controller");
 
 	d->setCursor(0,160);
-	d->setTextColor(RGB(18,20,31));
+	d->setColor(RGB(18,20,31));
 	d->print("ver 4.01");
 	//  version text  ^
 
-	d->setTextColor(RGB(21,26,31));
+	d->setColor(RGB(21,26,31));
 	d->setCursor(0, H-30);
 	const char* a={__DATE__}, *m={__TIME__};
 	const char dt[] = {  //  build date, time   format yyyy-mmm-dd hh:mm
@@ -168,5 +168,5 @@ void Demos::Rain()
 //....................................................................................
 void Demos::Fonts()
 {
-	Version();  // todo -
+	Version();  // todo ..
 }

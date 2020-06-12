@@ -48,7 +48,7 @@ void Demos::Init(ILI9341_t3n* tft)
 }
 
 
-#if 0  // todo: def DEMOS
+#if 0  // todo .. def DEMOS
 
 //  Key Press  demo params
 //....................................................................................

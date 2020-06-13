@@ -5,7 +5,7 @@
 #include "kc_params.h"
 #include "kc_data.h"
 
-const uint8_t Gui::DispPages[Di_All] = {2,2,1,3,2};
+const uint8_t Gui::DispPages[Di_All] = {2,2,1,3,1};
 const uint8_t Gui::ScanPages[S_All] = {3,1,4,2};
 
 
@@ -174,11 +174,9 @@ void Gui::KeysParDisplay(int sp)
 	case Di_Debug:
 		switch (ym2Disp)
 		{
-		case 0:  // ram info
-			iRam = RangeAdd(iRam, kRight, 0, 2);  break;
-		case 1:  // fps
+		case 0:  // fps
 			demos.iFps = RangeAdd(demos.iFps, kRight, 0, 2);  break;
-		case 2:
+		case 1:
 			par.tempOfs = RangeAdd(par.tempOfs, kRight * sp, -128, 127, 1);  break;
 		}	break;
 	}

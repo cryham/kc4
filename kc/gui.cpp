@@ -32,7 +32,7 @@ void Gui::Init(ILI9341_t3n* tft)
 
 	
 	oldti=0;  oldti_kr=0;
-	iRam = 0;  hpage = 0;
+	hpage = 0;
 
 #ifdef DEMOS
 	demos.Init(d);

@@ -87,6 +87,7 @@ int main()
 
 	ti.begin(main_periodic, 1000);  // par.scanFreq * 1000);  // todo ..
 
+
 	#ifdef LED
 	pinMode(LED, OUTPUT);
 	digitalWrite(LED, gui.led ? LOW : HIGH);
@@ -97,6 +98,7 @@ int main()
 	analogWrite(19, 15); // 0-255
 
 	//  Init display
+	memset(data, 0, sizeof(data));
 	tft.setFrameBuffer(data);
 	tft.useFrameBuffer(true);
 
@@ -114,15 +116,16 @@ int main()
 	gui.SetScreen(par.startScreen);
 	gui.kbdSend = 0;  //1;  // 1 release
 
-#ifdef CK8
+#ifdef CK1
+//#ifdef CK8
 	gui.kbdSend = 0;  // release
-	gui.SetScreen(ST_Test2+T_Matrix);
+	//gui.SetScreen(ST_Test2+T_Matrix);  // test +
+	//gui.SetScreen(ST_Test2+T_Pressed);  // test +
 	par.brightness = 100;
 	par.brightOff = 90;
-	gui.SetScreen(ST_Demos);  // test +
 #endif
 
-#ifdef CK1
+#ifdef CK1aa
 	gui.kbdSend = 0;  // release
 	par.brightness = 65;
 	par.brightOff = 85;
@@ -143,10 +146,7 @@ int main()
 	//kc.Save();
 #endif
 
-
 	ulong all = 0;
-
-	gui.Init(&tft);
 
 	while (1)
 	{
@@ -155,29 +155,32 @@ int main()
 
 		ulong stDraw = micros();
 		gui.Draw();
-		//gui.DrawEnd();
+		gui.DrawEnd();
 
-		tft.setFont(OpenSans12);
+		#if 0
+		// tft.setFont(OpenSans12);
+		// tft.setCursor(0, H-28);
+		tft.setFont(0);
+		tft.setCursor(0, H-8);
 
-		tft.setCursor(0, H-28);
 		tft.setColor(RGB(26, 25, 31), ILI9341_BLACK);
 		//tft.print("t ");  tft.println(gui.demos.t);
 		
 		if (all > 0)
-			tft.println(int(1000000.f / all));
+			tft.print(int(1000000.f / all));
 		#if 1
+		tft.print("  ");
 		ulong draw = micros() - stDraw;
 		if (draw > 0)
 			tft.print(int(1000000.f / draw));
 		#endif
 
-		//  test
-		tft.print("  sc fq ");  tft.print(scan_freq);
-		tft.print(" c ");  tft.print(scan_cnt);
+		// tft.print("  sc fq ");  tft.print(scan_freq);
+		// tft.print(" c ");  tft.print(scan_cnt);
+		#endif
 
 		tft.waitUpdateAsyncComplete();  // all 45 Fps 60 MHz, some tearing
 		tft.updateScreenAsync();
-		//tft.waitUpdateAsyncComplete();  // all 28-45 Fps 60 MHz
 
 		all = micros() - stAll;
 

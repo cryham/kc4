@@ -61,7 +61,7 @@ struct Gui
 	void FadeClr(EFadeClr ec, const uint8_t minRGB, const uint8_t mul, const uint8_t div);
 	void FadeGrp(uint8_t g, const uint8_t minRGB, const uint8_t mul, const uint8_t div);
 	void DrawMenu(int cnt, const char** str, EFadeClr ec, uint16_t curClr,
-		uint16_t bckClr, int16_t yadd=10, int16_t nextCol=-1, int16_t numGap=-1);
+		uint16_t bckClr, int16_t nextCol=-1, int16_t numGap=-1);
 
 
 	//  vars  ---
@@ -75,7 +75,6 @@ struct Gui
 	//  time, key repeat
 	uint32_t oldti=0, oldti_kr=0;
 	int8_t kr(uint8_t sc, uint16_t dt);
-	int8_t iRam = 0;  // ram info
 
 	//  help
 	int8_t hpage = 0;
@@ -93,7 +92,8 @@ struct Gui
 
 
 	//  Mapping  - - - -
-	const int8_t yPosLay = 90;
+	const uint8_t yTitle = 48;  // y after title
+	const uint8_t yPosLay = 110;
 	int16_t keyCode=0, scId=0, scIdCpy=0, drawId=-1, drawX=0,drawY=0;
 	int8_t nLay=0, nLayCpy=0,
 		pressKey=0, pickCode=K_Seq0, // edit operations

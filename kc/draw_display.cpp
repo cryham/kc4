@@ -107,14 +107,12 @@ void Gui::DrawDisplay()
 		switch(i)
 		{
 		case 0:
-			sprintf(a,"Ram info: %d", iRam);  h = 2;  break;
-		case 1:
 			sprintf(a,"Frames per sec: %d", demos.iFps);  break;
-		case 2:
+		case 1:
 			sprintf(a,"Temp offset: ");  break;
 		}
 		d->print(a);  y += h+8;
-		if (i==2)
+		if (i==1)
 		{
 			dtostrf(0.03f * par.tempOfs, 4,2, a);
 			d->print(a);  d->print(" ""\x01""C");

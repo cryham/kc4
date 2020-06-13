@@ -75,19 +75,16 @@ const char* strClock[Cl_All] =
 #ifdef DEMOS
 const char* strDemo[D_All] =
 {
-#ifdef DEMOS_PLASMA
 	"Plasma",
-#endif
 	"Wave", "Fire",
-#ifdef DEMOS_3D
 	"Hedrons",
-#endif
 	"CK Logo",
 #ifdef DEMOS_OLD
+	"Fonts",
+	"N-gons",
 	"Space", "Balls", "Fountain",
 #endif
 	"Rain",
-	"N-gons", "Fonts",
 };
 #endif
 

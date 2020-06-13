@@ -60,7 +60,7 @@ void Demos::Version()
 
 	d->setCursor(0,160);
 	d->setColor(RGB(18,20,31));
-	d->print("ver 4.01");
+	d->print("ver 4.03");
 	//  version text  ^
 
 	d->setColor(RGB(21,26,31));

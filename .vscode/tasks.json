@@ -1,9 +1,18 @@
 {
     "version": "2.0.0",
-    "tasks": [{
-        "label": "build",
-        "command": "make", // any shell command
-        "args": ["m"],
-        "type": "shell"
-    }]
+    "tasks": [
+        {
+            "label": "build",
+            "command": "make",
+            "args": [
+                "m"
+            ],
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
 }

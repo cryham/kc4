@@ -31,9 +31,7 @@ typedef unsigned long ulong;
 	//#define TEMP1  14
 #endif
 
-
-#define W 320  //  display dim
-#define H 240
+const int W = 320, H = 240;  //  display dim
 
 //  R F800  G 07E0  B 001F  R 32 G 64 B 32  565
 #define RGB(r,g,b)  ( ((r)<<11)+ ((g)<<6) +(b))   // 31 31 31

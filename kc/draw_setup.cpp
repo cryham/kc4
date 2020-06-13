@@ -1,5 +1,6 @@
 #include "gui.h"
 #include "ILI9341_t3n.h"
+#include "ili9341_t3n_font_OpenSans.h"
 
 #include "usb_keyboard.h"
 #include "matrix.h"
@@ -21,20 +22,21 @@ void Gui::DrawSetup()
 	if (mlevel == 1)
 	{
 		d->setClr(21,23,23);
-		d->print(strMain[ym]);  d->setFont(0);
+		d->print(strMain[ym]);
 
-		DrawMenu(S_All,strSetup, C_Setup,RGB(18,24,22),RGB(4,6,6), 10);
+		DrawMenu(S_All,strSetup, C_Setup,RGB(18,24,22),RGB(4,6,6));
 		pressGui = 0;
 		return;
 	}
 	char a[64];
-	int16_t y = 32;
+	int16_t y = yTitle;
+	auto yadd = [&y](int16_t h){  y += h*2;  };
 
 
 	//  title
 	d->setClr(17,22,22);
 	d->print(strSetup[yy]);
-	d->setFont(0);
+	d->setFont(OpenSans12);
 	d->setClr(21,26,26);
 
 
@@ -50,8 +52,8 @@ void Gui::DrawSetup()
 			int c = abs(i - ym2Lay);
 			if (!c)
 			{	d->setClr(30,25,20);
-				d->fillRect(0, y-1, W-1, 10, RGB(3,6,6));
-				d->print("\x10 ");  // >
+				d->fillRect(0, y-1, W-1, 20, RGB(3,6,6));
+				d->print("> ");  // todo .. \x10 |>
 			}else
 				d->print("  ");
 
@@ -76,7 +78,7 @@ void Gui::DrawSetup()
 				y+=2;  break;
 			}
 			if (i < 2)
-				d->print(a);  y += 8+4;
+				d->print(a);  yadd(8+4);
 		}
 	}	break;
 
@@ -89,8 +91,8 @@ void Gui::DrawSetup()
 			int c = abs(i - ym2Keyb);
 			if (!c)
 			{	d->setClr(30,25,20);
-				d->fillRect(0, y-1, W-1, 10, RGB(3,6,6));
-				d->print("\x10 ");  // >
+				d->fillRect(0, y-1, W-1, 20, RGB(3,6,6));
+				d->print("> ");
 			}else
 				d->print("  ");
 
@@ -107,7 +109,7 @@ void Gui::DrawSetup()
 					sprintf(a,"Gui toggle Key: %d", par.keyGui);  break;
 			}
 			if (i < 4)
-				d->print(a);  y += 8+4;
+				d->print(a);  yadd(8+4);
 		}
 	}	break;
 
@@ -117,26 +119,26 @@ void Gui::DrawSetup()
 	{
 		for (int i=0; i <= ii; ++i)
 		{
-			d->setCursor(2,y);
 			int c = abs(i - ym2Scan);
 			if (!c)
 			{	d->setClr(10,30,30);
-				d->fillRect(0, y-1, W-1, 10, RGB(3,6,6));
-				d->print("\x10 ");  // >
-			}else
-				d->print("  ");
+				d->fillRect(0, y-1, W-1, 20, RGB(3,6,6));
+				d->setCursor(4,y);
+				d->print(">");
+			}
+			d->setCursor(20,y);
 
 			FadeClr(C_Setup2, 4, c, 1);
 			switch(i)
 			{
-			//case 0:  // todo ..
-				//sprintf(a,"Scan: %u Hz", F_BUS/par.scanFreq/1000);  break;
+			case 0:  // todo ..
+				sprintf(a,"Scan: "); //%u Hz", F_BUS/par.scanFreq/1000);  break;
 			case 1:
 				sprintf(a,"Strobe delay: %d us", par.strobe_delay);  break;
 			case 2:
 				sprintf(a,"Debounce: %d ms", par.debounce);  break;
 			}
-			d->print(a);  y += 8+4;
+			d->print(a);  yadd(8+4);
 		}
 
 		d->setClr(22,23,23);
@@ -169,8 +171,8 @@ void Gui::DrawSetup()
 			int c = abs(i - ym2Mouse);
 			if (!c)
 			{	d->setClr(15,23,30);
-				d->fillRect(x, y-1, W/2-1, 10, RGB(3,5,6));
-				d->print("\x10 ");  // >
+				d->fillRect(x, y-1, W/2-1, 20, RGB(3,5,6));
+				d->print("> ");
 			}else
 				d->print("  ");
 
@@ -186,14 +188,13 @@ void Gui::DrawSetup()
 					sprintf(a,"Slow key: Press ..");
 				else
 					sprintf(a,"Slow key: %d", par.keyMouseSlow);
-				//x = W/2-1;  y = 32-8;  // next column
 				break;
 			case 3:
 				sprintf(a,"Speed: %3d  Wheel", par.mkWhSpeed);  break;
 			case 4:
 				sprintf(a,"Accel: %3d", par.mkWhAccel);  break;
 			}
-			d->print(a);  y += 8+1;
+			d->print(a);  yadd(8+1);
 		}
 
 		///  dbg  mouse accel  --  // todo ..
@@ -206,11 +207,11 @@ void Gui::DrawSetup()
 
 		d->setCursor(x0,y);  dtostrf(mx_holdtime, 4,2, a);  d->print(a);
 		d->setCursor(x1,y);  sprintf(a,"%d", mx_delay);  d->print(a);
-		d->setCursor(x2,y);  sprintf(a,"%d", mx_speed);  d->print(a);  y += 8;
+		d->setCursor(x2,y);  sprintf(a,"%d", mx_speed);  d->print(a);  yadd(8);
 
 		d->setCursor(x0,y);  dtostrf(my_holdtime, 4,2, a);  d->print(a);
 		d->setCursor(x1,y);  sprintf(a,"%d", my_delay);  d->print(a);
-		d->setCursor(x2,y);  sprintf(a,"%d", my_speed);  d->print(a);  y += 8+2;
+		d->setCursor(x2,y);  sprintf(a,"%d", my_speed);  d->print(a);  yadd(8+2);
 
 		const static char ch[3]={'-',' ','+'};  // input status
 		#define Ch(v)  ch[max(0, min(2, v))]

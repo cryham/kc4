@@ -3,6 +3,7 @@
 #include "kc_data.h"
 
 #include "ILI9341_t3n.h"
+#include "ili9341_t3n_font_OpenSans.h"
 
 
 //  Draw End
@@ -10,8 +11,6 @@
 void Gui::DrawEnd()
 {
 	DrawOperInfo();
-
-	char a[64];
 
 	//  fps  ---------
 	bool sc = ym == M_Setup && yy == S_Scan;
@@ -25,40 +24,41 @@ void Gui::DrawEnd()
 
 		d->setClr(24,28,31);
 		d->setCursor(W-14,0);
-		sprintf(a,"%d", ff);
-		d->print(a);
+		d->setFont(0);
+	
+		d->print(ff);
 	}
-
-	//if (!offDisp)
-	//	d->display();  // 58 Fps, 15ms @144MHz
 }
 
 
 //  draw utils
 //....................................................................................
 void Gui::DrawMenu(int cnt, const char** str, EFadeClr ec, uint16_t curClr,
-	uint16_t bckClr, int16_t yadd, int16_t nextCol, int16_t numGap)
+	uint16_t bckClr, int16_t nextCol, int16_t numGap)
 {
+	const int16_t xw = W/2, y1 = 48, yadd = 20;  // par
 	const int16_t my = mlevel==0 ? ym : yy;
-	const int16_t xw = 70, y1 = 32;  // par
+	d->setFont(OpenSans14);
 
 	int16_t x=0, y=y1, c;
 	for (int i=0; i < cnt; ++i)
 	{
-		d->setCursor(x,y);
-		d->setColor(curClr);
+		d->setCursor(x+4,y);
+		d->setColor(curClr, curClr);
 		if (i == my)
-			d->fillRect(x, y-1, W/2-2, 10, bckClr);
-		d->print(i == my ? " \x10 ":"   ");  // >
+			d->fillRect(x, y-1, W/2-2, yadd, bckClr);
+		if (i == my)
+			d->print(">");
 
 		c = abs(i - my);  // dist dim
 		FadeClr(ec, 4, c, 1);
+		d->setCursor(x+20,y);
 		d->print(str[i]);
 
 		//  next, extras
 		y += yadd;
 
-		if (i == numGap)  y += 4;
+		if (i == numGap)  y += 8;
 
 		if (i+1 == nextCol)
 		{	x += xw;  y = y1;  }
@@ -67,14 +67,15 @@ void Gui::DrawMenu(int cnt, const char** str, EFadeClr ec, uint16_t curClr,
 
 void Gui::DrawDispCur(int i, int16_t y)
 {
-	d->setCursor(2, y);
 	int c = abs(i - ym2Disp);  // dist dim
 	if (!c)
-	{	d->fillRect(0, y-1, W-1, 10, RGB(8,8,4));
+	{	d->fillRect(0, y-1, W-1, 20, RGB(8,8,4));
 		d->setClr(31,22,6);
-		d->print("\x10 ");  // >
-	}else
-		d->print("  ");
+		
+		d->setCursor(4, y);
+		d->print(">");
+	}
+	d->setCursor(20, y);
 
 	FadeClr(C_Disp, 4, c, 1);
 }

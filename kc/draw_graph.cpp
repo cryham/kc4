@@ -55,7 +55,7 @@ void Gui::DrawGraph()
 	#define getTv(i)  ii =    grTpos + i - (W-1) + W;  v =    grTemp[ii % W];
 
 	char a[64];
-	d->setFont(0);
+	d->setFont(0);  // todo ..
 	int xc = par.xCur;
 	bool cursor = xc < W;
 	int i,ii, x,y0, v,y,h;  uint16_t c;

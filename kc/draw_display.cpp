@@ -1,7 +1,7 @@
 #include "gui.h"
 #include "kc_data.h"
 #include "ILI9341_t3n.h"
-
+#include "ili9341_t3n_font_OpenSans.h"
 
 
 const char* sPgDisplay[Di_All] = {
@@ -13,22 +13,24 @@ void Gui::DrawDisplay()
 {		
 	char a[64];
 	d->setClr(29,28,6);
-	d->print(strMain[ym]);  d->setFont(0);
+	d->print(strMain[ym]);  d->setFont(OpenSans12);
 
 	//  subtitle
 	d->setCursor(W/2 -6, 4);
 	d->setClr(30,22,12);
 	d->print(sPgDisplay[pgDisp]);
 
-	//  page
-	d->setCursor(W-1 -3*6, 4);
+	//  page / all
+	d->setCursor(W-1 -24, 4);
 	d->setClr(28,22,10);
 	sprintf(a,"%d/%d", pgDisp+1, Di_All);
 	d->print(a);
 
 	//  par values  ---
 	int pg = DispPages[pgDisp];
-	int16_t y = 32;
+	int16_t y = yTitle;
+	auto yadd = [&y](int16_t h){  y += h*2;  };
+
 	switch (pgDisp)
 	{
 	case Di_Bright:
@@ -45,7 +47,7 @@ void Gui::DrawDisplay()
 		case 2:
 			sprintf(a,"Start with: %s", StrScreen(par.startScreen));  break;
 		}
-		d->print(a);  y += h+8;
+		d->print(a);  yadd(h+8);
 	}	break;
 
 	case Di_Key:
@@ -62,7 +64,7 @@ void Gui::DrawDisplay()
 		case 2:
 			sprintf(a,"Quick keys F1-12: %s", par.quickKeys?"on":"off");  break;
 		}
-		d->print(a);  y += h+8;
+		d->print(a);  yadd(h+8);
 	}	break;
 
 	case Di_Stats:
@@ -77,7 +79,7 @@ void Gui::DrawDisplay()
 		case 1:
 			sprintf(a,"Inactive after: %d min", par.minInactive);  break;
 		}
-		d->print(a);  y += h+8;
+		d->print(a);  yadd(h+8);
 	}	break;
 
 	case Di_Graph:
@@ -96,7 +98,7 @@ void Gui::DrawDisplay()
 		case 3:
 			sprintf(a,"T max:  %d ""\x01""C", par.maxTemp);  d->print(a);  break;
 		}
-		y += h+8;
+		yadd(h+8);
 	}	break;
 
 	case Di_Debug:
@@ -111,7 +113,7 @@ void Gui::DrawDisplay()
 		case 1:
 			sprintf(a,"Temp offset: ");  break;
 		}
-		d->print(a);  y += h+8;
+		d->print(a);  yadd(h+8);
 		if (i==1)
 		{
 			dtostrf(0.03f * par.tempOfs, 4,2, a);

@@ -9,6 +9,16 @@
 		"system_error": "cpp",
 		"iostream": "cpp",
 		"chrono": "c",
-		"algorithm": "c"
+		"algorithm": "c",
+		"array": "cpp",
+		"string_view": "cpp",
+		"functional": "cpp",
+		"istream": "cpp",
+		"limits": "cpp",
+		"ostream": "cpp",
+		"ratio": "cpp",
+		"sstream": "cpp",
+		"streambuf": "cpp",
+		"cstring": "cpp"
 	}
 }

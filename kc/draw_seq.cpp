@@ -102,14 +102,14 @@ void Gui::DrawSequences()
 		d->setClr(20,25,28);
 
 		//  page, center   /
-		d->setCursor(W/2 -2*6, 4);
+		d->setCursor(W/2 -24, 4);
 		sprintf(a,"%d/%d", page+1, kc.set.seqSlots/iPage);  d->print(a);
 
 		//  list slots
 		int s = page * iPage, i, y, q;
 		for (i=0; i < iPage && s < kc.set.seqSlots; ++i,++s)
 		{
-			y = 28 + i*9;
+			y = yTitle + i*9;
 			d->setCursor(0, y);
 			d->setClr(20,30,25);
 			q = abs(i - slot);
@@ -119,7 +119,7 @@ void Gui::DrawSequences()
 
 			d->setClr(0,30,30);
 			d->moveCursor(2,0);
-			if (!q)  d->print("\x10");  // >
+			if (!q)  d->print(">");
 			d->setClr(20,31,31);
 
 			d->setCursor(2*6, y);  // copy mark
@@ -163,7 +163,7 @@ void Gui::DrawSequences()
 
 		//  write sequence  ------------------------------------
 		int n, l = kc.set.seqs[si].len();
-		int16_t x = 1, y = 32, xx=0;
+		int16_t x = 1, y = yTitle, xx=0;
 
 		bool inCmt = false;
 		const int qdiv = 1 + min(11, l/20);  // less fade
@@ -317,7 +317,7 @@ void Gui::DrawOperInfo()
 		int x = W-1 - 6*9, x1 = x+6, xe = 6*3,
 			y = 12, yy = h ? 42 : 10;
 
-		d->setFont(0);
+		d->setFont(0);  // todo ..
 		d->setCursor(x, 0);  //  bck
 		d->fillRect(x-3, 0, W-1-(x-3), yy, RGB(4,6,8));
 		d->drawFastVLine(W-1, 0, yy * tInfo / 70, RGB(10,13,16));  // time|

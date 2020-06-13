@@ -1,5 +1,6 @@
 #include "gui.h"
 #include "ILI9341_t3n.h"
+#include "ili9341_t3n_font_OpenSans.h"
 
 #include "matrix.h"
 #include "kbd_layout.h"
@@ -21,7 +22,7 @@ void Gui::DrawMapping()
 	//. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 	if (pickCode)
 	{
-		d->setFont(0);
+		d->setFont(0);  // todo ..
 		d->setCursor(x,0);
 		d->setClr(28,28,26);
 		d->print("Pick key..");
@@ -62,7 +63,7 @@ void Gui::DrawMapping()
 		d->setCursor(W/2-1,10);
 		d->setClr(31,15,21);
 
-		const int xw = 42, y0 = 31;
+		const int xw = 42, y0 = yTitle;
 		//  Filtered view by group, 3 cols
 		if (grpFilt)
 		{
@@ -121,13 +122,13 @@ void Gui::DrawMapping()
 	//. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 	d->setClr(13,20,9);  // mapping
 	d->print(strMain[ym]);
-	d->setFont(0);
+	d->setFont(OpenSans10);
 
 	int id = scId;
 	if (drawKeys[drawId].sc == NO)  id = -1;
 	else  id = drawKeys[drawId].sc;
 
-	x=2;  y=24;
+	x=2;  y=yTitle;
 	for (int i=0; i < 3; ++i)
 	{
 		d->setCursor(x,y);
@@ -184,7 +185,7 @@ void Gui::DrawMapping()
 			}	}
 			d->print(a);  break;
 		}
-		y += 10;
+		y += 16;
 	}
 
 	//  ids dbg -

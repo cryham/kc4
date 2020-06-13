@@ -227,7 +227,7 @@ void Games::Draw()
 	//  Next blocks :
 	if (!o.nx_cur)  return;
 	int by = dim_y * o.bsize;
-	int xe, ys = (H-12 - o.nx_cur * by) / (o.nx_cur-1);
+	int xe, ys = (H-21 - o.nx_cur * by) / (o.nx_cur-1);
 	ys = max(0, ys);
 	
 	for (y=0; y < o.nx_cur; ++y)
@@ -260,7 +260,7 @@ void Games::Draw()
 	#else
 
 	//  score  -
-	x = 0;  y = H-1-8;
+	x = 0;  y = H-1 -20;
 	d.setClr(25,25,10);
 	d.setCursor(x,y);  sprintf(a,"Score %d", score);  d.print(a);
 
@@ -277,7 +277,7 @@ void Games::Draw()
 
 	//  status  -
 	d.setClr(31,18,5);
-	d.setCursor(W-1-6*6, H-1-8);
+	d.setCursor(W-1-6*6, H-1 -20);
 	if (ended)  d.print("Ended"); else
 	if (paused) d.print("Pause");
 }
@@ -291,8 +291,9 @@ void Games::OptLine(int& x, int& y, int& l, const char* str, int par, int8_t yy)
 
 	int c = abs(l - oyg);
 	if (!c)
-	{	d.fillRect(0, y-1, W-1, 10, RGB(10,4,4));
-		d.setCursor(0,y);  d.print("\x10");  // >
+	{	d.fillRect(0, y-1, W-1, 20, RGB(10,4,4));
+		d.setCursor(4,y);
+		d.print(">");
 	}
 	g->FadeClr(Gui::C_GameOpt, 8, c, 2);
 	d.setCursor(x,y);

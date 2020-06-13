@@ -16,7 +16,7 @@
 void ParInit()
 {
 	par.debounce = 1;  // ms?
-	par.strobe_delay = 4;
+	par.strobe_delay = 8;
 	par.scanFreq = 50;  // mul by 1 kHz
 
 	par.brightness = 80;  par.brightOff = 60;

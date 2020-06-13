@@ -36,102 +36,62 @@ extern volatile uint32_t systick_millis_count;
 // ----- Functions -----
 
 // Pin action (Strobe, Sense, Strobe Setup, Sense Setup)
-// NOTE: This function is highly dependent upon the organization of the register map
-//       Only guaranteed to work with Freescale MK20 series uCs
-uint8_t Matrix_pin( GPIO_Pin gpio, Type type )
+uint8_t Matrix_pin( uint8_t pin, Type type )
 {
-/*	// todo .. !
-	// Register width is defined as size of a pointer
-	unsigned int gpio_offset = gpio.port * 0x40   / sizeof(unsigned int*);
-	unsigned int port_offset = gpio.port * 0x1000 / sizeof(unsigned int*) + gpio.pin;
-
-	// Assumes 0x40 between GPIO Port registers and 0x1000 between PORT pin registers
-	// See Lib/mk20dx.h
-	volatile unsigned int *GPIO_PDDR = (unsigned int*)(&GPIOA_PDDR) + gpio_offset;
-	#ifndef GHOSTING_MATRIX
-	volatile unsigned int *GPIO_PSOR = (unsigned int*)(&GPIOA_PSOR) + gpio_offset;
-	#endif
-	volatile unsigned int *GPIO_PCOR = (unsigned int*)(&GPIOA_PCOR) + gpio_offset;
-	volatile unsigned int *GPIO_PDIR = (unsigned int*)(&GPIOA_PDIR) + gpio_offset;
-	volatile unsigned int *PORT_PCR  = (unsigned int*)(&PORTA_PCR0) + port_offset;
-
-	// Operation depends on Type
-	switch ( type )
+	switch (type)
 	{
-	case Type_StrobeOn:
-		#ifdef GHOSTING_MATRIX
-		*GPIO_PCOR |= (1 << gpio.pin);
-		*GPIO_PDDR |= (1 << gpio.pin);  // output, low
+	case Type_Sense:  // Row read
+		#ifdef GHOSTING_MATRIX  // inverted
+		return 1 - digitalRead/*Fast*/(pin);
 		#else
-		*GPIO_PSOR |= (1 << gpio.pin);
+		return digitalRead/*Fast*/(pin);
+		#endif
+
+	case Type_StrobeOn:  // Col set
+		#ifdef GHOSTING_MATRIX
+		pinMode(pin, OUTPUT);
+		digitalWrite(pin, LOW);
+		#else
+		digitalWrite(pin, HIGH);
 		#endif
 		break;
 
-	case Type_StrobeOff:
+	case Type_StrobeOff:  // Col unset
 		#ifdef GHOSTING_MATRIX
 		// Ghosting martix needs to put not used (off) strobes in high impedance state
-		*GPIO_PDDR &= ~(1 << gpio.pin);  // input, high Z state
+		pinMode(pin, INPUT);  // input, high Z state
 		#endif
-		*GPIO_PCOR |= (1 << gpio.pin);
+		digitalWrite(pin, LOW);
 		break;
 
-	case Type_StrobeSetup:
-		#ifdef GHOSTING_MATRIX
-		*GPIO_PDDR &= ~(1 << gpio.pin);  // input, high Z state
-		*GPIO_PCOR |= (1 << gpio.pin);
-		#else
-		// Set as output pin
-		*GPIO_PDDR |= (1 << gpio.pin);
-		#endif
 
-		// Configure pin with slow slew, high drive strength and GPIO mux
-		*PORT_PCR = PORT_PCR_SRE | PORT_PCR_DSE | PORT_PCR_MUX(1);
-
-		// Enabling open-drain if specified
-		switch ( Matrix_type )
-		{
-		case Config_Opendrain:
-			*PORT_PCR |= PORT_PCR_ODE;
-			break;
-
-		// Do nothing otherwise
-		default:
-			break;
-		}
+	case Type_StrobeSetup:  // Column setup
+		/*if (Matrix_type == Config_Opendrain)
+			pinMode(pin, OUTPUT_OPENDRAIN);
+		else*/
+			pinMode(pin, OUTPUT);
 		break;
 
-	case Type_Sense:
-		#ifdef GHOSTING_MATRIX  // inverted
-		return *GPIO_PDIR & (1 << gpio.pin) ? 0 : 1;
-		#else
-		return *GPIO_PDIR & (1 << gpio.pin) ? 1 : 0;
-		#endif
-
-	case Type_SenseSetup:
+	case Type_SenseSetup:  // Row setup
 		// Set as input pin
-		*GPIO_PDDR &= ~(1 << gpio.pin);
-
-		// Configure pin with passive filter and GPIO mux
-		*PORT_PCR = PORT_PCR_PFE | PORT_PCR_MUX(1);
 
 		// Pull resistor config
-		switch ( Matrix_type )
+		switch (Matrix_type)
 		{
 		case Config_Pullup:
-			*PORT_PCR |= PORT_PCR_PE | PORT_PCR_PS;
+			pinMode(pin, INPUT_PULLUP);
 			break;
 
 		case Config_Pulldown:
-			*PORT_PCR |= PORT_PCR_PE;
+			pinMode(pin, INPUT_PULLDOWN);
 			break;
 
-		// Do nothing otherwise
 		default:
 			break;
 		}
 		break;
 	}
-*/
+
 	return 0;
 }
 
@@ -343,7 +303,6 @@ void Matrix_scan( uint16_t scanNum )
 				if (state->curState == KeyState_Release)
 					cnt_rel++;
 				#endif
-
 			}
 		}
 

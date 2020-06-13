@@ -13,7 +13,7 @@ RGB( 9,21,12), RGB( 9,21,12), RGB(1,20,20), RGB(17,18,18) };
 #define  wh  kW,kH
 const char* CKname = "CK1 8x8";  const int16_t XN = 254;  // pos
 const int8_t  kW = 16, kH = 18, fH = 12, /* size */  X = -kW;
-const uint8_t Y1=1,Y2=21,Y3=41,Y4=61,Y5=81,Y6=101;
+const uint8_t Y1=1,Y2=31,Y3=51,Y4=71,Y5=91,Y6=111;
 
 const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw
 { 0,Y1,wf, 'e',6,NO,K_ESC}, //Esc 13x

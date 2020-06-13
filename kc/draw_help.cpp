@@ -32,7 +32,7 @@ void Gui::DrawHelp()
 
 	const int x = W/3+6;
 	d->setClr(25,28,31);  d->setCursor(x, 2);  d->print(title[hpage]);
-	d->setClr(21,24,28);  d->setCursor(x,16);  d->print(title2[hpage]);
+	d->setClr(21,24,28);  d->setCursor(x,20);  d->print(title2[hpage]);
 	
 	auto yadd = [&](int16_t y){  d->moveCursor(0, y*2);  };
 

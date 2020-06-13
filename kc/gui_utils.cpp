@@ -44,14 +44,14 @@ void Gui::DrawMenu(int cnt, const char** str, EFadeClr ec, uint16_t curClr,
 	for (int i=0; i < cnt; ++i)
 	{
 		d->setCursor(x+4,y);
-		d->setColor(curClr, curClr);
+		d->setColor(curClr, bckClr);
 		if (i == my)
 			d->fillRect(x, y-1, W/2-2, yadd, bckClr);
 		if (i == my)
 			d->print(">");
 
 		c = abs(i - my);  // dist dim
-		FadeClr(ec, 4, c, 1);
+		FadeClr(ec, 4, c, 1, i == my ? bckClr : 0);
 		d->setCursor(x+20,y);
 		d->print(str[i]);
 
@@ -67,17 +67,18 @@ void Gui::DrawMenu(int cnt, const char** str, EFadeClr ec, uint16_t curClr,
 
 void Gui::DrawDispCur(int i, int16_t y)
 {
+	uint16_t bck = RGB(8,8,4);
 	int c = abs(i - ym2Disp);  // dist dim
 	if (!c)
-	{	d->fillRect(0, y-1, W-1, 20, RGB(8,8,4));
-		d->setClr(31,22,6);
+	{	d->fillRect(0, y-1, W-1, 20, bck);
+		d->setColor(RGB(31,22,6), bck);
 		
 		d->setCursor(4, y);
 		d->print(">");
 	}
 	d->setCursor(20, y);
 
-	FadeClr(C_Disp, 4, c, 1);
+	FadeClr(C_Disp, 4, c, 1, !c ? bck : 0);
 }
 
 //  time
@@ -97,25 +98,25 @@ void Gui::PrintInterval(uint32_t t)
 	d->print(a);
 }
 
-void Gui::FadeClr(EFadeClr ec, const uint8_t mi, const uint8_t mul, const uint8_t div)
+void Gui::FadeClr(EFadeClr ec, const uint8_t mi, const uint8_t mul, const uint8_t div, uint16_t bckClr)
 {
 	const uint8_t* clr = &Mclr[ec][0][0];
 	const uint8_t* cmu = &Mclr[ec][1][0];
 
-	d->setClr(
+	d->setColor( RGB(
 		max(mi, clr[0] - cmu[0] * mul / div),
 		max(mi, clr[1] - cmu[1] * mul / div),
-		max(mi, clr[2] - cmu[2] * mul / div) );
+		max(mi, clr[2] - cmu[2] * mul / div)), bckClr );
 }
-void Gui::FadeGrp(uint8_t g, const uint8_t mi, const uint8_t mul, const uint8_t div)
+void Gui::FadeGrp(uint8_t g, const uint8_t mi, const uint8_t mul, const uint8_t div, uint16_t bckClr)
 {
 	const uint8_t* clr = &cGrpRgb[g][0][0];
 	const uint8_t* cmu = &cGrpRgb[g][1][0];
 
-	d->setClr(
+	d->setClr( RGB(
 		max(mi, clr[0] - cmu[0] * mul / div),
 		max(mi, clr[1] - cmu[1] * mul / div),
-		max(mi, clr[2] - cmu[2] * mul / div) );
+		max(mi, clr[2] - cmu[2] * mul / div)) );
 }
 
 

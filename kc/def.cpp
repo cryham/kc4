@@ -79,8 +79,8 @@ const char* strDemo[D_All] =
 	"Wave", "Fire",
 	"Hedrons",
 	"CK Logo",
-#ifdef DEMOS_OLD
 	"Fonts",
+#ifdef DEMOS_OLD
 	"N-gons",
 	"Space", "Balls", "Fountain",
 #endif

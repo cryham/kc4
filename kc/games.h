@@ -9,7 +9,7 @@ struct Games
 	//  main
 	Games();
 	void Init(Gui* pGui);
-	Gui* g = 0;
+	Gui* g = nullptr;
 	
 	void Draw();
 	void Update();

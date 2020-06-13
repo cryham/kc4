@@ -23,7 +23,7 @@ void Gui::DrawSeq(int8_t seq, int8_t q)
 		//  clr
 		const char* st = cKeyStr[dt];
 		uint8_t gr = cKeyGrp[dt];
-		FadeGrp(gr, 9, q, 3);
+		FadeGrp(gr, 9, q, 3, 0);
 
 		//  pos
 		int16_t x = d->getCursorX(),
@@ -113,7 +113,7 @@ void Gui::DrawSequences()
 			d->setCursor(0, y);
 			d->setClr(20,30,25);
 			q = abs(i - slot);
-			FadeClr(C_Seq, 4, q, 2);
+			FadeClr(C_Seq, 4, q, 2, 0);
 			if (!q)  d->fillRect(0, y-1, W-1, 10, RGB(2,6,8));
 			sprintf(a,"%2d",s);  d->print(a);
 
@@ -143,7 +143,7 @@ void Gui::DrawSequences()
 
 				d->setCursor(x, y);
 				int8_t dt = kc.set.key[0][i];  // layer 0 key
-				FadeGrp(cKeyGrp[dt], 9, 0, 3);
+				FadeGrp(cKeyGrp[dt], 9, 0, 3, 0);
 				sprintf(a,"%s", cKeyStr[dt]);  d->print(a);
 				y += 8+1;
 			}
@@ -208,7 +208,7 @@ void Gui::DrawSequences()
 				//  clr
 				int gr = cKeyGrp[dt];
 				int q = abs(n - edpos)/qdiv;
-				FadeGrp(gr, 13, q, 4);
+				FadeGrp(gr, 13, q, 4, 0);
 
 				//  string length
 				xx = (isCmd ? cCmdStrLen[min(CMD_ALL-1, cmd)] :

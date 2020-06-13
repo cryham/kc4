@@ -63,8 +63,8 @@ enum EDemo  //  Demos, level1
 	D_Wave, D_Fire,
 	D_Hedrons,
 	D_CK_Logo,
-#ifdef DEMOS_OLD
 	D_Fonts,
+#ifdef DEMOS_OLD
 	D_Ngons,
 	D_Space, D_Balls, D_Fountain,
 #endif

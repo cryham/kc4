@@ -51,15 +51,16 @@ int DayOfWeek(int d, int m, int y)
 void Gui::DrawClockCur(int i, int16_t y)
 {
 	d->setCursor(2, y);
+	uint16_t bck = RGB(4,7,10);
 	int c = abs(i - ym2Clock);  // dist dim
 	if (!c)
-	{	d->fillRect(0, y-1, W/2, 10, RGB(4,7,10));
+	{	d->fillRect(0, y-1, W/2, 10, bck);
 		d->setClr(21,26,31);
 		d->print("> ");
 	}else
 		d->print("  ");
 
-	FadeClr(C_Clock, 4, c, 1);
+	FadeClr(C_Clock, 4, c, 1, !c ? bck : 0);
 }
 
 //  color from value

@@ -15,8 +15,7 @@ void Demos::Init(ILI9341_t3n* tft)
 	ti = 0;  oti = 0;
 	
 #ifdef DEMOS  // params
-	iFps = 0;  iInfo = 0;
-	fntCur = 0;
+	bAuto = 0;  iFps = 0;  iInfo = 0;
 
 #ifdef DEMOS_OLD
 	einit = INone;
@@ -68,15 +67,12 @@ void Demos::KeyPress(EDemo demo, Gui* gui)
 	{	//iInfo = -1;
 		switch (demo)
 		{
-	#ifdef DEMOS_PLASMA
 		//  full  --------
 		case D_Plasma:
 			if (k)  plasma = (plasma + k + num_plasma) % num_plasma;
 			if (u)  PlasmaT(u);
 			break;
-	#endif
 
-	#ifdef DEMOS_3D
 		case D_Hedrons:  // 3d
 			if (pgup)
 				hdDiag = (hdDiag + pgup + hdDiagMax) % hdDiagMax;
@@ -88,7 +84,6 @@ void Demos::KeyPress(EDemo demo, Gui* gui)
 			if (u)
 				hdRot = (hdRot + u + hdRotMax) % hdRotMax;
 			break;
-	#endif
 
 		case D_Fire:
 			if (k)  fire = (fire + k + num_fire) % num_fire;
@@ -137,11 +132,8 @@ void Demos::KeyPress(EDemo demo, Gui* gui)
 			if (k)  fInt = (fInt + k + 12) % 12;
 			if (u)  fWave += u;
 			break;
-
-		case D_Fonts:
-			if (k)  fntCur = (fntCur + k + fntMax) % fntMax;
-			break;
 	#endif
+
 		case D_Rain:
 			if (!ct){  if (!rCur)
 			{	if (k){  r1Int += k;  if (r1Int < -6)  r1Int = -6;  }

@@ -25,7 +25,7 @@ void Gui::DrawInfo()
 	}
 	char a[64];
 	int16_t y = yTitle;
-	auto yadd = [&y](int16_t h){  y += h*2;  };
+	auto yadd = [&y](int16_t h){  y += h*7/4;  };
 
 
 	if (yy == I_Version)

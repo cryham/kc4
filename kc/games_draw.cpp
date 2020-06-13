@@ -1,6 +1,7 @@
 #include "games.h"
 #include "gui.h"
 #include "ILI9341_t3n.h"
+#include "ili9341_t3n_font_OpenSans.h"
 
 using namespace std;
 
@@ -92,7 +93,7 @@ void Games::Draw()
 		y = random(1000);
 		for (x=0; x<y; ++x)
 			t += random();
-		d.print("Sixtis");  d.setFont(0);
+		d.print("Sixtis");  d.setFont(OpenSans12);
 	}
 
 	if (gui==1)  //  game menu
@@ -100,43 +101,46 @@ void Games::Draw()
 		d.setClr(31,24,12);
 		d.setCursor(W/2-6, 4);
 		d.println(sPresets[preset]);  // title
+		uint16_t bck = RGB(9,7,5);
 		
-		int yy = 32;
+		int yy = g->yTitle;
 		for (y=0; y < G_All; ++y)
 		{
 			int c = abs(y - yg);
-			d.setClr(30,20,20);
-
-			if (!c)  d.fillRect(0, yy-1, 2*W/3, 10, RGB(9,7,5));
-			d.setCursor(2, yy);
-			d.print(!c ? "\x10 ":"  ");  // >
-			g->FadeClr(Gui::C_Game, 6, c, 1);
+			if (!c)
+			{	d.fillRect(0, yy-1, 2*W/3, 20, bck);
+				d.setColor(RGB(30,20,20), bck);
+				d.setCursor(4, yy);
+				d.print(">");
+			}
+			d.setCursor(20, yy);
+			g->FadeClr(Gui::C_Game, 6, c, 1, !c ? bck : 0);
 
 			switch (y)
-			{	case G_Resume:   d.println("Resume");  yy+=2;  break;
-				case G_NewGame:  d.println("New Game");  break;
+			{	case G_Resume:   d.print("Resume");  yy+=2;  break;
+				case G_NewGame:  d.print("New Game");  break;
 				case G_Preset:   d.print("Preset: ");
 					sprintf(a,"%d / %d", preset+1, Presets);  d.print(a);
 					//d.print("   ");  d.println(ssPresets[preset]);  // title
 					break;
-				case G_Options: d.println("Options");  break;
-				case G_Help:    d.println("Help");  break;
+				case G_Options: d.print("Options");  break;
+				case G_Help:    d.print("Help");  break;
 			}
-			yy += 10;
+			yy += 20;
 		}
 		return;
 	}
 	else if (gui==2)  //  options
 	{
-		d.setClr(28,16,22);
-		d.setCursor(W-1 -3*6, 0);
+		d.setClr(28,16,22);  // page / all
+		d.setCursor(W-1 -24, 0);
 		sprintf(a,"%d/%d", opg+1, O_All);  d.print(a);
 		
 		d.setClr(28,20,23);
 		d.setCursor(W/2-6, 4);
 		d.print(sOptPages[opg]);  // title
 
-		x = 12;  y = 32;  int l = 0;
+		x = 12;  y = g->yTitle;  int l = 0;
 		switch (opg)
 		{
 		case O_Field:
@@ -172,7 +176,7 @@ void Games::Draw()
 		if (oyg >= l)  oyg = 0;
 		return;
 	}
-	d.setFont(0);
+	d.setFont(OpenSans12);
 
 
 	//  Grid  ::
@@ -288,15 +292,17 @@ void Games::OptLine(int& x, int& y, int& l, const char* str, int par, int8_t yy)
 {
 	char a[32];
 	ILI9341_t3n& d = *g->d;
+	uint16_t bck = RGB(10,4,4);
 
 	int c = abs(l - oyg);
 	if (!c)
-	{	d.fillRect(0, y-1, W-1, 20, RGB(10,4,4));
-		d.setCursor(4,y);
+	{	d.fillRect(0, y-1, W-1, 20, bck);
+		d.setColor(RGB(28,20,23), bck);
+		d.setCursor(x+4,y);
 		d.print(">");
 	}
-	g->FadeClr(Gui::C_GameOpt, 8, c, 2);
-	d.setCursor(x,y);
+	g->FadeClr(Gui::C_GameOpt, 8, c, 2, !c ? bck : 0);
+	d.setCursor(x+20,y);
 	sprintf(a,str, par);  d.print(a);
-	++l;  y += yy+2;
+	++l;  y += 2*(yy+2);
 }

@@ -117,7 +117,7 @@ void Gui::DrawTesting()
 		sprintf(a,"Layer: %d %s", kc.nLayer,
 				   kc.nLayerLock >= 0 ? "Lock" : "");
 		d->print(a);
-		d->moveCursor(0,20);
+		d->setCursor(0, d->getCursorY() + 20);
 
 		//  keys  - - - -
 		DrawPressed();

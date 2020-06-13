@@ -58,8 +58,8 @@ struct Gui
 	const static uint8_t
 		Mclr[C_ALL][2][3];
 
-	void FadeClr(EFadeClr ec, const uint8_t minRGB, const uint8_t mul, const uint8_t div);
-	void FadeGrp(uint8_t g, const uint8_t minRGB, const uint8_t mul, const uint8_t div);
+	void FadeClr(EFadeClr ec, const uint8_t minRGB, const uint8_t mul, const uint8_t div, uint16_t bckClr);
+	void FadeGrp(uint8_t g, const uint8_t minRGB, const uint8_t mul, const uint8_t div, uint16_t bckClr);
 	void DrawMenu(int cnt, const char** str, EFadeClr ec, uint16_t curClr,
 		uint16_t bckClr, int16_t nextCol=-1, int16_t numGap=-1);
 

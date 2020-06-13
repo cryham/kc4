@@ -40,6 +40,7 @@ void Gui::DrawSetup()
 	d->setClr(21,26,26);
 
 
+	uint16_t bck = RGB(3,6,6);
 	int ii = ScanPages[yy];
 	switch (yy)
 	{
@@ -48,16 +49,16 @@ void Gui::DrawSetup()
 	{
 		for (int i=0; i <= ii; ++i)
 		{
-			d->setCursor(2,y);
 			int c = abs(i - ym2Lay);
 			if (!c)
-			{	d->setClr(30,25,20);
-				d->fillRect(0, y-1, W-1, 20, RGB(3,6,6));
-				d->print("> ");  // todo .. \x10 |>
-			}else
-				d->print("  ");
+			{	d->setColor(RGB(30,25,20), bck);
+				d->fillRect(0, y-1, W-1, 20, bck);
+				d->setCursor(4,y);
+				d->print(">");
+			}
+			d->setCursor(20,y);
 
-			FadeClr(C_Setup2, 4, c, 1);
+			FadeClr(C_Setup2, 4, c, 1, !c ? bck : 0);
 			switch(i)
 			{
 			case 0:
@@ -87,16 +88,16 @@ void Gui::DrawSetup()
 	{
 		for (int i=0; i <= ii; ++i)
 		{
-			d->setCursor(2,y);
 			int c = abs(i - ym2Keyb);
 			if (!c)
-			{	d->setClr(30,25,20);
-				d->fillRect(0, y-1, W-1, 20, RGB(3,6,6));
+			{	d->setColor(RGB(30,25,20), bck);
+				d->fillRect(0, y-1, W-1, 20, bck);
+				d->setCursor(4,y);
 				d->print("> ");
-			}else
-				d->print("  ");
+			}
+			d->setCursor(20,y);
 
-			FadeClr(C_Setup2, 4, c, 1);
+			FadeClr(C_Setup2, 4, c, 1, !c ? bck : 0);
 			switch(i)
 			{
 			case 0:  // todo warning layer empty
@@ -121,14 +122,14 @@ void Gui::DrawSetup()
 		{
 			int c = abs(i - ym2Scan);
 			if (!c)
-			{	d->setClr(10,30,30);
-				d->fillRect(0, y-1, W-1, 20, RGB(3,6,6));
+			{	d->setColor(RGB(10,30,30), bck);
+				d->fillRect(0, y-1, W-1, 20, bck);
 				d->setCursor(4,y);
 				d->print(">");
 			}
 			d->setCursor(20,y);
 
-			FadeClr(C_Setup2, 4, c, 1);
+			FadeClr(C_Setup2, 4, c, 1, !c ? bck : 0);
 			switch(i)
 			{
 			case 0:  // todo ..
@@ -142,19 +143,19 @@ void Gui::DrawSetup()
 		}
 
 		d->setClr(22,23,23);
-		d->setCursor(W-1-6*6,0);
+		d->setCursor(W-1-44,0);
 		d->print("Fps");
 
-		d->setCursor(2,H-42);
+		d->setCursor(2,H-80);
 		sprintf(a,"  Time: %lu us  %u Hz", us_scan, scan_freq);
-		d->println(a);  d->moveCursor(0,8);
+		d->println(a);
 		d->setClr(20,23,26);
 
-		d->setCursor(0,H-20);
+		d->setCursor(0,H-40);
 		sprintf(a,"Matrix keys: %d = %d x %d", ScanKeys, NumCols, NumRows);
 		d->println(a);
 
-		d->setCursor(0,H-10);
+		d->setCursor(0,H-20);
 		sprintf(a,"Layout keys: %d  %s", nDrawKeys, CKname);
 		d->println(a);
 
@@ -165,18 +166,19 @@ void Gui::DrawSetup()
 	case S_Mouse:
 	{
 		int16_t x=2;
+		bck = RGB(3,5,6);
 		for (int i=0; i <= ii; ++i)
 		{
-			d->setCursor(x,y);
 			int c = abs(i - ym2Mouse);
 			if (!c)
-			{	d->setClr(15,23,30);
-				d->fillRect(x, y-1, W/2-1, 20, RGB(3,5,6));
-				d->print("> ");
-			}else
-				d->print("  ");
+			{	d->setColor(RGB(15,23,30), bck);
+				d->fillRect(x, y-1, W/2-1, 20, bck);
+				d->setCursor(x+4,y);
+				d->print(">");
+			}
+			d->setCursor(x+20,y);
 
-			FadeClr(C_Setup2, 4, c, 1);
+			FadeClr(C_Setup2, 4, c, 1, !c ? bck : 0);
 			switch(i)
 			{
 			case 0:

@@ -64,6 +64,8 @@ void Gui::DrawMapping()
 		d->setClr(31,15,21);
 
 		const int xw = 42, y0 = yTitle;
+		uint16_t bck = RGB(10,10,9);
+
 		//  Filtered view by group, 3 cols
 		if (grpFilt)
 		{
@@ -79,10 +81,10 @@ void Gui::DrawMapping()
 				int q = abs(gn - keyCode);  // diff clr
 
 				if (!q)  // cursor [ ]
-				{	d->fillRect(x-1,y, 41,8, RGB(10,10,9));
+				{	d->fillRect(x-1,y, 41,8, bck);
 					d->drawRect(x-2,y, 42,8, RGB(23,23,13));
 				}
-				FadeGrp(gr, 9, q, 3);
+				FadeGrp(gr, 9, q, 3, !q ? bck : 0);
 				d->print(cKeyStr[gn]);
 
 				++gn;
@@ -107,10 +109,10 @@ void Gui::DrawMapping()
 			uint8_t gr = cKeyGrp[k];
 			{
 				if (!q)  // cursor [ ]
-				{	d->fillRect(x-1,y, 41,8, RGB(10,10,9));
+				{	d->fillRect(x-1,y, 41,8, bck);
 					d->drawRect(x-2,y, 42,8, RGB(23,23,13));
 				}
-				FadeGrp(gr, 9, q, 3);
+				FadeGrp(gr, 9, q, 3, !q ? bck : 0);
 				d->print(cKeyStr[k]);
 			}
 		}
@@ -132,7 +134,7 @@ void Gui::DrawMapping()
 	for (int i=0; i < 3; ++i)
 	{
 		d->setCursor(x,y);
-		FadeClr(C_Map, 4, i+1, 1);
+		FadeClr(C_Map, 4, i+1, 1, 0);
 
 		switch (i)
 		{
@@ -165,7 +167,7 @@ void Gui::DrawMapping()
 				else if (u >= KEYS_ALL_EXT)  sprintf(a,"-  Key: OUT");
 				else
 				{
-					FadeGrp(cKeyGrp[u], 9, 0, 3);
+					FadeGrp(cKeyGrp[u], 9, 0, 3, 0);
 					sprintf(a,"-  Key: %s", cKeyStr[u]);
 					d->print(a);
 
@@ -196,7 +198,7 @@ void Gui::DrawMapping()
 
 	//  key binds, lay data
 	//. . . . . . . . . . . . . . . . . . . . . . . . .
-	x = W-8*6;  y=0;
+	x = W-60;  y=0;
 	d->setClr(25,24,12);
 	d->setCursor(x,y);
 	int si = kc.set.nkeys();
@@ -206,7 +208,7 @@ void Gui::DrawMapping()
 	if (id >= 0 && id < si)
 	{
 		sprintf(a,"L key");  // hdr
-		d->print(a);  y+=8+2;
+		d->print(a);  y += 16;
 
 		for (int i=0; i < KC_MaxLayers && y < H/2; ++i)
 		{
@@ -214,13 +216,13 @@ void Gui::DrawMapping()
 			if (kd != KEY_NONE)
 			{
 				FadeGrp(cKeyGrp[kd < KEYS_ALL_EXT ? kd : 0],
-					9, 1/*fade*/, 2);
+					9, 1/*fade*/, 2, 0);
 				d->setCursor(x,y);
 				if (i == nLay)
 					d->fillRect(x-2, y-1, W-1-x+2, 10, RGB(4,7,10));
 				sprintf(a,"%d %s",i,
 					kd < KEYS_ALL_EXT ? cKeyStr[kd] : "OUT");
-				d->print(a);  y+=9;
+				d->print(a);  y += 12;
 		}	}
 	}
 	else

@@ -5,6 +5,7 @@
 
 //  Draw
 //....................................................................................
+#ifdef DEMOS
 void Demos::Draw(int/*&*/ yy)
 {
 	uint len = 1000;
@@ -15,8 +16,8 @@ void Demos::Draw(int/*&*/ yy)
 		case D_Fire:     Fire();     len = 200;  break;
 		case D_CK_Logo:  CK_logo();  len = 600;  break;
 		case D_Hedrons:  Hedrons();  len = 1000;  break;
-	#ifdef DEMOS_OLD
 		case D_Fonts:	 Fonts();    len = 200;  break;
+	#ifdef DEMOS_OLD
 		case D_Ngons:    Ngons();    len = 200;  break;
 
 		case D_Fountain: Fountain(); len = 300;  break;
@@ -37,6 +38,7 @@ void Demos::Draw(int/*&*/ yy)
 			yy = 0;
 	}
 }
+#endif
 
 
 //  Version

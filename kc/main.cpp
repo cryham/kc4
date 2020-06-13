@@ -116,34 +116,12 @@ int main()
 	gui.SetScreen(par.startScreen);
 	gui.kbdSend = 0;  //1;  // 1 release
 
-#ifdef CK1
-//#ifdef CK8
+#ifdef CK8
 	gui.kbdSend = 0;  // release
 	//gui.SetScreen(ST_Test2+T_Matrix);  // test +
-	//gui.SetScreen(ST_Test2+T_Pressed);  // test +
+	gui.SetScreen(ST_Test2+T_Pressed);  // test +
 	par.brightness = 100;
 	par.brightOff = 90;
-#endif
-
-#ifdef CK1aa
-	gui.kbdSend = 0;  // release
-	par.brightness = 65;
-	par.brightOff = 85;
-	par.debounce = 8;  // ms?
-	par.strobe_delay = 8;
-	par.scanFreq = 50;  // mul by 1 kHz
-
-	par.krDelay = 250/5;  par.krRepeat = 80/5;  // ms
-	par.mkSpeed = 100;  par.mkAccel = 100;
-	par.mkWhSpeed = 100;  par.mkWhAccel = 100;
-	par.quickKeys = 1;
-	par.msLLTapMax = 0;  par.msLLHoldMin = 20;
-	par.rtcCompensate = 0;
-
-	par.dtSeqDef = 20;
-	par.defLayer = 0;  par.editLayer = 2;
-	gui.SetScreen(ST_Test2+T_Pressed);
-	//kc.Save();
 #endif
 
 	ulong all = 0;

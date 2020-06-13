@@ -27,19 +27,17 @@ struct Demos
 	int8_t iFps = 0;  // show frames per second, 1 on, 0 off
 	uint32_t ti = 0, oti = 0;  // fps: time ms, old
 
-	int8_t bAuto = 1;  // auto next demo
-	void Draw(int/*&*/ num);
-
 	
 	//  Fonts
-	int8_t fntCur = 0;
-	const static int8_t fntMax = 3;  // all pages
 	void Fonts();  // chars
 	void Version();  // ver, date
 
 
 #ifdef DEMOS
+	int8_t bAuto = 0;  // auto next demo
 	int8_t iInfo = 0;  // show demo params
+
+	void Draw(int/*&*/ num);
 	void KeyPress(EDemo demo, struct Gui* gui);
 
 	uint t = 0, cnt = 0, next = 0;  // frame counter

@@ -45,7 +45,7 @@ const char* cKeyStr[KEYS_ALL_EXT]={  "None",  // max [255]
 	"-", "=", "[","]", "\\", "N\\", ";", "\'", "`", ",",".", "/", "O\\",  // symbols
 
 	"F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12",  // func
-	"Ins","Home","PgUp","Del","End","PgDn", "\x1A","\x1B","\x19","\x18", //"Ri", "Le", "Dn", "Up"  arrows
+	"Ins","Home","PgUp","Del","End","PgDn",  ">", "<", "v", "^",  // arrows
 
 	"P/", "P*", "P-", "P+", "PEnt",  // numpad
 	"P1","P2","P3","P4","P5","P6","P7","P8","P9","P0", "P.",
@@ -60,8 +60,8 @@ const char* cKeyStr[KEYS_ALL_EXT]={  "None",  // max [255]
 	"Fun10", "Fun11", "Fun12", "Fun13", "Fun14", "Fun15", "Fun16", "Fun17",  // internal funct
 	"Fun0", "Fun1", "Fun2", "Fun3", "Fun4", "Fun5", "Fun6", "Fun7", "Fun8", "Fun9",
 
-	"M\x1B","M\x1A","M\x18","M\x19", "LMB","MMB","RMB",  // mouse
-	"Mwh\x18","Mwh\x19", "Mwh\x1B","Mwh\x1A", "Mbck","Mfrw",
+	"M<<", "M>>", "M^^", "Mvv", "LMB","MMB","RMB",  // mouse
+	"Wh^^","Whvv", "Wh<<","Wh>>", "Mbck","Mfwd",
 
 	"L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8",  // layers
 	"L9", "L10", "L11", "L12", "L13", "L14", "L15", "L16",
@@ -87,7 +87,7 @@ const char* cKeySh[KEYS_ALL_EXT]={  "no",
 	"-", "=", "[","]", "\\", "\\n", ";", "\'", "`", ",",".", "/", "\\o",
 
 	"1 ","2 ","3 ","4 ","5 ","6 ","7 ","8 ","9 ","10","11","12",  // func
-	"I_","Ho","Pu","D.","En","Pd", "\x1A","\x1B","\x19","\x18", //"Ri", "Le", "Dn", "Up"  arrows
+	"I_","Ho","Pu","D.","En","Pd",  ">", "<", "v", "^",  // arrows
 
 	"/", "x", "-", "+", "\x1C", //"E"  numpad
 	"1","2","3","4","5","6","7","8","9","0", ".",
@@ -102,8 +102,8 @@ const char* cKeySh[KEYS_ALL_EXT]={  "no",
 	"10", "11", "12", "13", "14", "15", "16", "17",  // internal funct
 	"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
 
-	"\x1B","\x1A","\x18","\x19", "L","M","R",  // mouse
-	"wU","wD", "wL","wR", "Mb","Mf",
+	"<<", ">>", "^^", "vv", "L","M","R",  // mouse
+	"W^","Wv", "W<","W>", "Mb","Mf",
 
 	"L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8",  // layers
 	"L9", "10", "11", "12", "13", "14", "15", "16",

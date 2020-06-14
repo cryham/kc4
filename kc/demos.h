@@ -34,7 +34,7 @@ struct Demos
 	int8_t bAuto = 0;  // auto next demo
 	int8_t iInfo = 0;  // show demo params
 
-	void Draw(int/*&*/ num);
+	bool Draw(int num);
 	void KeyPress(EDemo demo, struct Gui* gui);
 
 	uint t = 0, cnt = 0, next = 0;  // frame counter
@@ -114,7 +114,7 @@ struct Demos
 	
 
 	//  Polyhedrons 3D  ----
-	const static int8_t hdA = 11, hdRotMax = 4, hdDiagMax = 5;  // all presets
+	const static int8_t hdA = 11, hdRotMax = 4, hdDiagMax = 7;  // all presets
 	const static int16_t hdtMax = 200;  // cycle time
 
 	int16_t hdt;  int8_t hdCur,  hdtOn, hdRot,  hdSpd, hdDiag;

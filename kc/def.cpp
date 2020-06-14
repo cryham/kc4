@@ -1,6 +1,7 @@
 #include "def.h"
 #include "gui.h"
 
+
 //  time intervals *0.1s
 const uint16_t gIntervals[gIntvMask+1] =
 {
@@ -69,6 +70,7 @@ const char* strClock[Cl_All] =
 //  Demos
 const char* strDemo[D_All] =
 {
+	"All",
 	"Plasma",
 	"Wave", "Fire",
 	"Hedrons",

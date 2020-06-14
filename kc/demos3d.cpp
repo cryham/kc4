@@ -400,7 +400,7 @@ void Demos::Hedrons()
 		if (hdtOn)  d->println("On");
 		d->setCursor(0,H-1-2*8);
 		d->print("Spd ");  d->println(hdSpd);
-		d->print("Dia ");  d->println(hdDiag);
+		d->print("Diag ");  d->println(hdDiag);
 	}
 	t += hdSpd;
 }

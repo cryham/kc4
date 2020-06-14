@@ -5,17 +5,18 @@
 
 //  Draw
 //....................................................................................
-void Demos::Draw(int/*&*/ yy)
+bool Demos::Draw(int yy)
 {
 	uint len = 1000;
 	switch (yy)
 	{
+		case D_AutoAll:
 		case D_Plasma:   Plasma();   len = 1000;  break;
-		case D_Wave:     Wave();     len = 200;  break;
+		case D_Wave:     Wave();     len = 400;  break;
 		case D_Fire:     Fire();     len = 200;  break;
 		case D_CK_Logo:  CK_logo();  len = 600;  break;
 		case D_Hedrons:  Hedrons();  len = 1000;  break;
-		case D_Fonts:	 Fonts();    len = 200;  break;
+		case D_Fonts:	 Fonts();    len = 200;  break;  // skip
 	#ifdef DEMOS_OLD
 		case D_Ngons:    Ngons();    len = 200;  break;
 
@@ -27,15 +28,13 @@ void Demos::Draw(int/*&*/ yy)
 	}
 
 	//  Auto next
-	++cnt;  ++next;
+	++cnt;
 	if (bAuto)
-	if (next >= len)
-	{	next = 0;
-		// NextDemo()
-		++yy;
-		if (yy >= D_All)
-			yy = 0;
-	}
+		if (++next >= len)
+		{	next = 0;
+			return true;
+		}
+	return false;
 }
 
 
@@ -45,29 +44,30 @@ void Demos::Version()
 {
 	//  logo, ver
 	d->setCursor(0,18);
-	d->setFont( OpenSans24 );
+	d->setFont(OpenSans24);
 	d->setColor(RGB(1,28,28));
 	d->println("CrystaL");
 
-	d->setCursor(36,60);
+	d->setCursor(86,60);
 	d->setColor(RGB(22,16,31));
 	d->print("Keyboard");
-	d->setFont( OpenSans20 );
+	d->setFont(OpenSans20);
 
 	d->setCursor(0,120);
 	d->setColor(RGB(12,21,31));
 	d->print("K.C. \"Kacey\" Controller");
 
-	d->setCursor(0,160);
+	d->setCursor(0,170);
 	d->setColor(RGB(18,20,31));
-	d->print("ver 4.03");
+	d->print("ver 4.04");
 	//  version text  ^
 
 	d->setColor(RGB(21,26,31));
 	d->setCursor(0, H-30);
 	const char* a={__DATE__}, *m={__TIME__};
 	const char dt[] = {  //  build date, time   format yyyy-mmm-dd hh:mm
-		a[7],a[8],a[9],a[10],' ',a[0],a[1],a[2],' ',a[4],a[5],' ',' ',m[0],m[1],':',m[3],m[4],0};
+		a[7],a[8],a[9],a[10],' ',' ',a[0],a[1],a[2],' ',' ',a[4],a[5],
+		' ',' ',' ',' ',m[0],m[1],':',m[3],m[4],0};
 	d->print(dt);
 }
 

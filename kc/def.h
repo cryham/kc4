@@ -3,11 +3,10 @@
 typedef unsigned long ulong;
 
 
-//----  Setup  ----	  use:  ram B      flash
+//----  Setup  ----
 //  optional features, comment out to disable
-//#define DEMOS_OLD		//  280 <1%   16%  min
-					// all  6680 10%  17%  max 41k
-#define GAME		// game 1.5k 2%   8%  22.5k
+//#define DEMOS_OLD
+#define GAME
 
 
 //===---  Keyboard  ---===
@@ -16,6 +15,7 @@ typedef unsigned long ulong;
 //#define CK6  // 18x8  new CK6/3
 //#define CK7  // 18x8  old CK7/4/2
 //#define CK8  // 20x8  wip-
+
 
 //-----------------
 //  extra keyboard features, pins
@@ -29,7 +29,9 @@ typedef unsigned long ulong;
 	//#define TEMP1  14
 #endif
 
-const int W = 320, H = 240;  //  display dim
+
+//  display dim
+const int W = 320, H = 240;
 
 //  R F800  G 07E0  B 001F  R 32 G 64 B 32  565
 #define RGB(r,g,b)  ( ((r)<<11)+ ((g)<<6) +(b))   // 31 31 31
@@ -54,6 +56,7 @@ enum EMainMenu  //  main menu entries, level0
 
 enum EDemo  //  Demos, level1
 {
+	D_AutoAll,
 	D_Plasma,
 	D_Wave, D_Fire,
 	D_Hedrons,

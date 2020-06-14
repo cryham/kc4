@@ -11,8 +11,8 @@
 uint8_t MDays[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 const int8_t t12[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
 
-const char* mths[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
-const char* wdays[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+const char* months[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+const char* wkdays[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
 
 //  date from day number
@@ -118,8 +118,8 @@ void Gui::DrawClock()
 	//  x,y pos ~~~
 	int16_t x, y;
 	const int16_t x0 = W / 2,
-		yTime = 92, yUptime = H - 28, yDate = yTime + 34, yTemp = yTime + 6,
-		yPressed = yTime + 36, yPressMin = yPressed + 20, yPressMin1 = yPressMin - 26,
+		yTime = 92, yUptime = H - 25, yDate = yTime + 34, yTemp = yTime + 9,
+		yPressed = yTime + 38, yPressMin = yPressed + 20, yPressMin1 = yPressMin - 26,
 		yInact = yUptime - 30, yActive = yInact - 26;
 
 
@@ -313,14 +313,14 @@ void Gui::DrawClock()
 		sprintf(a, "%02d", day);  d->print(a);
 
 		d->setCursor(x2, y);
-		d->print(wdays[DayOfWeek(day, mth, yr)]);
+		d->print(wkdays[DayOfWeek(day, mth, yr)]);
 
 		y += 20;  // month
 		d->setCursor(x, y);
 		sprintf(a, "%d", mth);  d->print(a);
 
 		d->setCursor(x2, y);
-		d->print(mths[mth - 1]);
+		d->print(months[mth - 1]);
 
 		y += 20;  // year
 		d->setFont(OpenSans10);
@@ -329,7 +329,7 @@ void Gui::DrawClock()
 	}
 
 
-	//  small font  ----------------------
+	//  small fonts  ----------------------
 	d->setFont(OpenSans10);
 
 	//  page / all  ---
@@ -368,7 +368,7 @@ void Gui::DrawClock()
 		#ifdef TEMP1  // Temp'C
 		if (temp)
 		{	d->setClr(12,20,25);
-			d->setCursor(6, yTemp +24);  d->print("Temp \x01""C");
+			d->setCursor(6, yTemp +21);  d->print("Temp \x01""C");
 		}
 		#endif
 	}	break;
@@ -394,23 +394,24 @@ void Gui::DrawClock()
 
 		#ifdef TEMP1
 		if (temp)  // 'C
-		{	d->setCursor(76, yTemp +2);  d->print("\x01""C");  }
+		{	d->setCursor(78, yTemp);  d->print("\x01""C");  }
 		#endif
 	}	break;
+
 
 	case Cl_Stats:  //  new  no labels
 	case Cl_StatsExt:  //------------
 	{
 		#ifdef TEMP1
 		if (temp)  // 'C
-		{	d->setCursor(76, yTemp +2);  d->print("\x01""C");  }
+		{	d->setCursor(78, yTemp);  d->print("\x01""C");  }
 		#endif
 		if (pgClock == Cl_StatsExt)
 		{
 			//  press k
 			d->setFont(OpenSans10);
 			d->setClr(9, 18, 22);
-			x = 76;  y = yPressed +8;
+			x = 76;  y = yPressMin1 +2;
 			d->setCursor(x, y);
 			sprintf(a, "%dk", cnt_press / 1000);  d->print(a);
 
@@ -425,7 +426,7 @@ void Gui::DrawClock()
 				d->setFont(OpenSans14);
 				d->setClr(14, 18, 23);
 				d->setCursor(x, y);
-				d->print(wdays[DayOfWeek(day, mth, yr)]);
+				d->print(wkdays[DayOfWeek(day, mth, yr)]);
 				x += 50;
 				d->setCursor(x, y);
 				sprintf(a, "%d  %d", day, mth);  d->print(a);
@@ -440,27 +441,24 @@ void Gui::DrawClock()
 			dtostrf(m1, 3,0, f);  d->print(f);
 
 
-			//  inactive times  --
+			//  inactive times  ====
 			//  Previous 2
-			x = W - 40;
-			ti = kc.tInact1;
-			h = ti / 60 % 24;  m = ti % 60;
+			x = W - 44;
+			ti = kc.tInact1;	h = ti / 60 % 24;  m = ti % 60;
 
 			d->setFont(OpenSans14);
 			d->setClr(15, 19, 24);
 			d->setCursor(x, yInact + 22);
 			sprintf(a, "%d:%02d", h, m);  d->print(a);
 
-			ti = kc.tInact2;
-			h = ti / 60 % 24;  m = ti % 60;
+			ti = kc.tInact2;	h = ti / 60 % 24;  m = ti % 60;
 
 			d->setClr(12, 16, 22);
 			d->setCursor(x, yInact - 0);
 			sprintf(a, "%d:%02d", h, m);  d->print(a);
 
 			//  Sum
-			ti = kc.tInactSum;
-			h = ti / 60 % 24;  m = ti % 60;
+			ti = kc.tInactSum;	h = ti / 60 % 24;  m = ti % 60;
 
 			d->setClr(18, 18, 24);
 			d->setCursor(x, yActive - 0);
@@ -471,11 +469,12 @@ void Gui::DrawClock()
 		//  Sequence, prv  --------
 		if (kc.inSeq[0] >= 0)
 		{
-			d->setCursor(0, yUptime - 13);
+			d->setFont(OpenSans12);
+			d->setCursor(0, yUptime - 26);
 			d->setClr(25, 23, 31);
 			sprintf(a, "S%d", kc.inSeq[0]);  d->print(a);
 
-			d->setCursor(0, yUptime - 23);
+			d->setCursor(0, yUptime - 46);
 			DrawSeq(kc.inSeq[0], 2, 0);
 		}
 

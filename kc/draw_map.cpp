@@ -36,10 +36,11 @@ void Gui::DrawPickKey()
 		grpFilt ? RGB(30,26,26) : RGB(25,25,28));
 
 	//  key, grp
+	y = 43;
 	d->setCursor(W/2 -1, y);
 	d->setClr(25,28,31);
 	d->print(cKeyStr[keyCode]);
-	d->setCursor(0, 44);
+	d->setCursor(0, y);
 
 	//  seq preview  ---
 	if (keyCode >= K_Seq0 && keyCode <= K_SeqLast)
@@ -170,6 +171,7 @@ void Gui::DrawMapping()
 
 		case 2:
 			x = 12;  y = yTitle;
+			d->setCursor(x,y);
 			if (id < 0 || id >= kc.set.nkeys())
 				sprintf(a,"-  Key:  NONE");
 			else
@@ -182,17 +184,18 @@ void Gui::DrawMapping()
 					FadeGrp(cKeyGrp[u], 9, 0, 3, 0);
 					sprintf(a,"-  Key:  %s", cKeyStr[u]);
 					d->print(a);
+					y += 18;  d->setCursor(x, y);
 
 					//  seq preview  ---
 					if (u >= K_Seq0 && u <= K_SeqLast)
-					{	int8_t seq = u - K_Seq0;
+					{
+						int8_t seq = u - K_Seq0;
 						if (seq < KC_MaxSeqs)
-						{	d->setCursor(x, y+12);
 							DrawSeq(seq, 2, 0);
-					}	}
+					}
 					else if (u >= K_Fun0 && u <= K_FunLast)
-					{	int8_t fun = u - K_Fun0;
-						d->setCursor(x, y+12);
+					{
+						int8_t fun = u - K_Fun0;
 						d->print(cFunStr[fun]);
 					}
 					a[0]=0;

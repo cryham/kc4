@@ -36,7 +36,7 @@ void Gui::DrawTesting()
 		d->setFont(OpenSans14);
 		//  layer  -
 		d->setClr(20,23,31);
-		sprintf(a,"Layer: %d %s", kc.nLayer,
+		sprintf(a,"Layer:  %d %s", kc.nLayer,
 				   kc.nLayerLock >= 0 ? "Lock" : "");
 		d->setClr(24,27,31);
 		d->print(a);
@@ -49,7 +49,7 @@ void Gui::DrawTesting()
 
 		//  modifiers  -
 		d->setClr(18,21,24);
-		d->print("Modif:");
+		d->print("Modif:  ");
 		d->setClr(20,25,28);
 		for (uint i = 0; i < ScanKeys; ++i)
 		{
@@ -67,7 +67,7 @@ void Gui::DrawTesting()
 
 		//  scan codes  - - -
 		d->setClr(17,23,26);
-		d->print("Scan:");
+		d->print("Scan:  ");
 		d->setClr(15,20,25);
 		int c = 0;
 		for (uint i = 0; i < ScanKeys; ++i)
@@ -78,7 +78,7 @@ void Gui::DrawTesting()
 				sprintf(a," %d",i);  // scan code
 				d->print(a);  ++c;
 		}	}
-		d->println("");  d->moveCursor(0,8);
+		d->println("");  d->moveCursor(0,10);
 
 
 		//  keys  - - - -
@@ -88,19 +88,19 @@ void Gui::DrawTesting()
 		d->setFont(OpenSans14);
 		d->setCursor(0, H-1-20);
 		d->setClr(16+c, min(31,24+c), 31);
-		sprintf(a,"Held: %d", c);
+		sprintf(a,"Held:  %d", c);
 		d->print(a);
 
 		if (ghost_cols)  // ghost
 		{	d->setCursor(90, H-1-40);
 			d->setClr(min(31,24+c), 18+c, 31);
-			sprintf(a,"Ghost: %d %d", ghost_cols, ghost_rows);
+			sprintf(a,"Ghost:  %d %d", ghost_cols, ghost_rows);
 			d->print(a);
 		}
 		//  press count -
 		d->setCursor(90, H-1-20);
 		d->setClr(21,21,27);
-		sprintf(a,"Press: %d", cnt_press); //, cnt_hold % 1000);
+		sprintf(a,"Press:  %d", cnt_press); //, cnt_hold % 1000);
 		d->print(a);
 
 	}	break;
@@ -114,7 +114,7 @@ void Gui::DrawTesting()
 		
 		//  layer  -
 		d->setClr(20,23,31);
-		sprintf(a,"Layer: %d %s", kc.nLayer,
+		sprintf(a,"Layer:  %d %s", kc.nLayer,
 				   kc.nLayerLock >= 0 ? "Lock" : "");
 		d->print(a);
 		d->setCursor(0, d->getCursorY() + 20);
@@ -129,8 +129,9 @@ void Gui::DrawTesting()
 	//-----------------------------------------------------
 	case T_Matrix:
 	{
-		const uint x1 = 12, y1 = 120, w = 14, h = 14;
+		const uint x1 = 13, y1 = 122, w = 14, h = 14;
 		uint c,r, hc=99,hr=99;  // held col,row
+		uint16_t clr;
 
 		//  grid #
 		const uint16_t cl[3] = {RGB(9,10,10), RGB(13,14,14), RGB(16,20,20)};
@@ -154,8 +155,9 @@ void Gui::DrawTesting()
 			const KeyState& k = Matrix_scanArray[NumCols * r + c];
 
 			//  color from ghost, use
-			#define CGh(gh,u)  d->setClr(gh ? RGB(31,26,12) : \
-				RGB( min(31,7+u*5), min(31, 14+u*8), max(4, 24-u*2) ))
+			#define CGh(gh, u)  clr = gh ? RGB(31,26,12) : \
+				RGB( min(31,7+u*5), min(31, 14+u*8), max(4, 24-u*2) ); \
+				d->setColor(clr, clr)
 
 			a[1]=0;
 			if (k.state == KeyState_Off)
@@ -179,22 +181,20 @@ void Gui::DrawTesting()
 		for (c=0; c < NumCols; ++c)
 		{
 			CGh(col_ghost[c], col_use[c]);
-			d->setCursor(x1 + c*w, y1 - x1 - 6);
-			sprintf(a,"%d", col_use[c]);
-			d->print(a);
+			d->setCursor(x1 + c*w - 1, y1 - x1 - 6);
+			d->print(col_use[c]);
 		}
 		for (r=0; r < NumRows; ++r)
 		{
 			CGh(row_ghost[r], row_use[r]);
-			d->setCursor(0, y1 + r*h - 4);
-			sprintf(a,"%d", row_use[r]);
-			d->print(a);
+			d->setCursor(0, y1 + r*h - 3);
+			d->print(row_use[r]);
 		}
 
 		//  held  ---
 		d->setCursor(0,yTitle);
 		d->setClr(24,24,31);
-		sprintf(a,"Held %d   press %d ", cnt_press-cnt_rel, cnt_press);
+		sprintf(a,"Held:  %d   press:  %d ", cnt_press-cnt_rel, cnt_press);
 		d->print(a);
 		if  (hc<99 && hr<99)
 		{
@@ -219,8 +219,8 @@ void Gui::DrawPressed()
 {
 	int8_t seq=-1, fun=-1;
 	d->setClr(20,25,28);
-	d->print("Keys:");
-	d->setFont(0);  // arrows etc on 5x7 only  // todo ..
+	d->print("Keys:  ");
+	d->setFont(OpenSans12);
 
 	if (kc.set.nkeys() >= int(ScanKeys))
 	for (uint i = 0; i < ScanKeys; ++i)
@@ -239,10 +239,10 @@ void Gui::DrawPressed()
 				if (k >= K_Fun0 && k <= K_FunLast)  fun = k - K_Fun0;
 	}	}	}
 
-	d->setCursor(0, d->getCursorY()+12);
+	d->setCursor(0, d->getCursorY()+16);
 
 	if (seq >= 0)  //  seq preview  ---
-		DrawSeq(seq, 2);
+		DrawSeq(seq, 2, 0);
 	else
 	if (fun >= 0)
 		d->print(cFunStr[fun]);

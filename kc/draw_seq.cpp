@@ -1,7 +1,7 @@
 #include "gui.h"
 #include "ILI9341_t3n.h"
+#include "ili9341_t3n_font_OpenSans.h"
 
-//#include "FreeSans9pt7b.h"
 #include "usb_keyboard.h"
 #include "matrix.h"
 #include "kbd_layout.h"
@@ -11,7 +11,7 @@
 
 //  write sequence, 1 line, short
 //......................................................
-void Gui::DrawSeq(int8_t seq, int8_t q)
+void Gui::DrawSeq(int8_t seq, int8_t q, uint16_t bck)
 {
 	char a[16];
 	int n=0, len = kc.set.seqs[seq].len();
@@ -23,7 +23,7 @@ void Gui::DrawSeq(int8_t seq, int8_t q)
 		//  clr
 		const char* st = cKeyStr[dt];
 		uint8_t gr = cKeyGrp[dt];
-		FadeGrp(gr, 9, q, 3, 0);
+		FadeGrp(gr, 9, q, 3, bck);
 
 		//  pos
 		int16_t x = d->getCursorX(),
@@ -98,7 +98,7 @@ void Gui::DrawSequences()
 	if (!edit)
 	{
 		d->setClr(12,26,26);
-		d->print("View");  d->setFont(0);
+		d->print("View");  d->setFont(OpenSans12);
 		d->setClr(20,25,28);
 
 		//  page, center   /
@@ -109,35 +109,36 @@ void Gui::DrawSequences()
 		int s = page * iPage, i, y, q;
 		for (i=0; i < iPage && s < kc.set.seqSlots; ++i,++s)
 		{
-			y = yTitle + i*9;
+			y = yTitle + i*19;
 			d->setCursor(0, y);
-			d->setClr(20,30,25);
+			//d->setClr(20,30,25);
 			q = abs(i - slot);
-			FadeClr(C_Seq, 4, q, 2, 0);
-			if (!q)  d->fillRect(0, y-1, W-1, 10, RGB(2,6,8));
+			uint16_t bck = !q ? RGB(2,6,8) : 0;
+			if (!q)  d->fillRect(0, y-2, W-1, 19, bck);
+			FadeClr(C_Seq, 4, q, 2, bck);
 			sprintf(a,"%2d",s);  d->print(a);
 
-			d->setClr(0,30,30);
+			d->setColor(RGB(0,30,30), bck);
 			d->moveCursor(2,0);
 			if (!q)  d->print(">");
-			d->setClr(20,31,31);
+			d->setColor(RGB(20,31,31), bck);
 
-			d->setCursor(2*6, y);  // copy mark
-			if (s == copyId)  d->print("\x7");
-			d->setCursor(4*6, y);
+			d->setCursor(2*9, y);  // copy mark
+			if (s == copyId)  d->print("*"); //\x7");
+			d->setCursor(4*9, y);
 
-			DrawSeq(s, q);  // write
+			DrawSeq(s, q, bck);  // write
 		}
 
 		//  seq preview key(s), find  ---
-		const int x = W-1 -5*6;
+		const int x = W-1 -5*9;
 		q = K_Seq0 + seqId();  // code
 		int l;  y=0;
 		for (l=0; l < KC_MaxLayers; ++l)
 		for (i=0; i < kc.set.scanKeys; ++i)
 			if (kc.set.key[l][i] == q)  // found
 			{
-				d->setCursor(x-2*6 -4, y);
+				d->setCursor(x-2*9 -4, y);
 				d->setClr(25,18,21);
 				sprintf(a,"L%d", l);  d->print(a);
 
@@ -145,7 +146,7 @@ void Gui::DrawSequences()
 				int8_t dt = kc.set.key[0][i];  // layer 0 key
 				FadeGrp(cKeyGrp[dt], 9, 0, 3, 0);
 				sprintf(a,"%s", cKeyStr[dt]);  d->print(a);
-				y += 8+1;
+				y += 18;
 			}
 	}
 	//  Edit
@@ -158,8 +159,8 @@ void Gui::DrawSequences()
 		int si = seqId();
 		d->setClr(19,23,27);
 		//d->setCursor(W-1 -2*6, 4);
-		d->setCursor(W-1 -2*10, 0);  sprintf(a,"%2d", si);  d->print(a);
-		d->setFont(0);
+		d->setCursor(W-1 -2*20, 0);  sprintf(a,"%2d", si);  d->print(a);
+
 
 		//  write sequence  ------------------------------------
 		int n, l = kc.set.seqs[si].len();
@@ -191,7 +192,7 @@ void Gui::DrawSequences()
 			// todo- get num lines, scroll-
 		}
 
-		while (n <= l && d->getCursorY() < H-1-2*8)  // +1 for cursor
+		while (n <= l && d->getCursorY() < H-1-2*12)  // +1 for cursor
 		{
 			xx = 0;
 			bool cur = n == edpos;
@@ -253,8 +254,8 @@ void Gui::DrawSequences()
 					case CM_x:  sprintf(a,"Mx%+4d", cm);  d->print(a);  break;
 					case CM_y:  sprintf(a,"My%+4d", cm);  d->print(a);  break;
 
-					case CM_BtnOn:  sprintf(a,"%s\x19", sMB[cp]);  d->print(a);  break;
-					case CM_BtnOff: sprintf(a,"%s\x18", sMB[cp]);  d->print(a);  break;
+					case CM_BtnOn:  sprintf(a,"%s+", sMB[cp]);  d->print(a);  break;
+					case CM_BtnOff: sprintf(a,"%s-", sMB[cp]);  d->print(a);  break;
 
 					case CM_Btn:   d->print(sMB[cp]);  break;
 					case CM_Btn2x: sprintf(a,"%s2", sMB[cp]);  d->print(a);  break;
@@ -276,9 +277,9 @@ void Gui::DrawSequences()
 			{
 				int16_t b = 8 * tBlnk / cBlnk;
 				if (edins)  // ins |
-					d->drawFastVLine(x-1, y-1-b+8, b+1, 0xFFFF);
+					d->drawFastVLine(x-1, y-1-b+16, b+1, 0xFFFF);
 				else  // ovr _
-					d->drawFastHLine(x-1, y+8, b+1, 0xFFFF);
+					d->drawFastHLine(x-1, y+16, b+1, 0xFFFF);
 			}
 			x += xx;  ++n;
 		}
@@ -288,12 +289,12 @@ void Gui::DrawSequences()
 		d->setClr(21,25,28);
 		d->setCursor(x, 4);  d->print(edins ? "Ins" : "Ovr");
 		d->setClr(23,27,31);
-		if (ofs > 0) {  d->setCursor(x -4*6, 4);  d->print("<");  }
-		if (n < l) {    d->setCursor(x -2*6, 4);  d->print(">");  }
+		if (ofs > 0) {  d->setCursor(x -4*9, 4);  d->print("<");  }
+		if (n < l) {    d->setCursor(x -2*9, 4);  d->print(">");  }
 		#if 1
 		//  cursor ofs pos/len
 		d->setClr(18,21,23);
-		d->setCursor(x -3*6, 14);
+		d->setCursor(x -3*9, 14);
 		sprintf(a,"%d %d/%d", ofs, edpos, l);  d->print(a);
 		#endif
 
@@ -314,14 +315,15 @@ void Gui::DrawOperInfo()
 	if (tInfo > 0)
 	{	--tInfo;
 		bool h = infType == 1 || infType == 2;
-		int x = W-1 - 6*9, x1 = x+6, xe = 6*3,
+		int x = W-1 - 80, x1 = x+6, xe = 6*3,
 			y = 12, yy = h ? 42 : 10;
 
-		d->setFont(0);  // todo ..
-		d->setCursor(x, 0);  //  bck
-		d->fillRect(x-3, 0, W-1-(x-3), yy, RGB(4,6,8));
+		d->setFont(OpenSans12);
+		d->setCursor(x, 0);
+		uint16_t bck = RGB(4,6,8);
+		d->fillRect(x-3, 0, W-1-(x-3), yy, bck);
 		d->drawFastVLine(W-1, 0, yy * tInfo / 70, RGB(10,13,16));  // time|
-		d->setClr(27,29,31);
+		d->setColor(RGB(27,29,31), bck);
 
 		const static char* strInf[6] = {
 			"Reset", "Loaded", "Saved:", "Copied", "Pasted", "Swapped" };
@@ -342,8 +344,9 @@ void Gui::DrawOperInfo()
 
 			if (kc.err != E_ok)  // error string
 			{
-				d->fillRect(xe-3, y-2, x-3-(xe-3), 12, RGB(6,4,4));
-				d->setClr(31,22,21);
+				uint16_t bck = RGB(6,4,4);
+				d->fillRect(xe-3, y-2, x-3-(xe-3), 12, bck);
+				d->setColor(RGB(31,22,21), bck);
 				d->setCursor(xe, y);
 				d->print(KCerrStr[kc.err]);
 	}	}	}

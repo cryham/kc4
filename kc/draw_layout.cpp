@@ -18,7 +18,6 @@ const uint16_t clu[cluM] = {
 void Gui::DrawLayout(bool edit)
 {
 	int16_t x=2, y=0;
-	//d->setWrap(false);
 
 	for (int i=0; i < nDrawKeys; ++i)
 	{
@@ -50,23 +49,26 @@ void Gui::DrawLayout(bool edit)
 		{	drawX = x + k.w/2;
 			drawY = y + k.h/2;  }
 
-
-		if (f)  // backgr  ----
-			d->fillRect(x+1, y-1, k.w-1, k.h-1, clrRect[k.o]);
-
-		uint16_t  // clr
+		// backgr  ----
+		uint16_t bck = 0;
+		if (f)
+		{	bck = clrRect[k.o];
+			d->fillRect(x+1, y-1, k.w-1, k.h-1, bck);
+		}
+		uint16_t  // clr frame []
 			cR = f==2 ? RGB(31,30,29) : f==1 ? RGB(28,28,29) :
 				 lk ? RGB(31,26,28) : clrRect[k.o];
 
 		//  darken  if draw has NO scId
 		if (edit && no)  cR = RGB(9,9,9);
 
-		d->drawRect(x, y-2, k.w+1, k.h+1, cR);  // frame []
+		d->drawRect(x, y-2, k.w, k.h, cR);  // frame []
 
 
 		if (lk)  // cur lay key backg
-			d->fillRect(x+1, y-1, k.w-1, k.h-1, RGB(22,12,16));
-
+		{	bck = RGB(22,12,16);
+			d->fillRect(x+1, y-1, k.w-1, k.h-1, bck);
+		}
 
 		//  text  ----
 		d->setCursor(
@@ -94,25 +96,26 @@ void Gui::DrawLayout(bool edit)
 				{	d->moveCursor(tiny ? 0 : 0, m ? 2 : 2);
 					d->setFont(0);  // small 5x7
 
-					d->setColor(clu[ min(cluM-1, u-1) ]);
-					d->print(u+'0');
+					d->setColor(clu[ min(cluM-1, u-1) ], bck);
+					d->print(u);
 				}
 			}else	//  normal
 			if (dt != KEY_NONE)
 			{
 				if (m)	d->setFont();  // small
 				else	d->setFont(OpenSans12);
-				if (m)  d->moveCursor(0, m ? 2 : 4);
+				if (m)  d->moveCursor(0, m ? 2 : 6);
 
 				const uint8_t* c = &cGrpRgb[cKeyGrp[dt]][0][0];
+				uint16_t cl = RGB(c[0],c[1],c[2]);
 				if (tiny)  // tiny rect for color, no text
 					d->drawRect(d->getCursorX(), d->getCursorY()+1,
-						2,2, RGB(c[0],c[1],c[2]));
+						2,2, cl);
 				else
-				{	d->setClr(c[0],c[1],c[2]);
+				{	d->setColor(cl, bck);
 					d->print(tiny && layKey ? &ch[1] : ch);
 				}
 		}	}
 	}
-	d->setFont(0);  //d->setWrap(true);
+	d->setFont(0);
 }

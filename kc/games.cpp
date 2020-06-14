@@ -98,7 +98,7 @@ void Games::NewSet()
 void Games::NewGrid()
 {
 	//  box dim
-	dim_y = (H-12) / o.size_y;  dim_x = dim_y;
+	dim_y = (H-1-18) / o.size_y;  dim_x = dim_y;
 
 	//  grid pos
 	ofs_x = 10;

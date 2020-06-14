@@ -80,7 +80,7 @@ const static char* sOptPages[Games::O_All] = {
 void Games::Draw()
 {
 	char a[64];
-	int x = 0, y = 0;
+	int x = 0, y = 4;
 	ILI9341_t3n& d = *g->d;
 	d.setCursor(x,y);
 	d.setClr(30,14,10);
@@ -108,7 +108,7 @@ void Games::Draw()
 		{
 			int c = abs(y - yg);
 			if (!c)
-			{	d.fillRect(0, yy-1, 2*W/3, 20, bck);
+			{	d.fillRect(0, yy-2, 2*W/3, 20, bck);
 				d.setColor(RGB(30,20,20), bck);
 				d.setCursor(4, yy);
 				d.print(">");
@@ -126,7 +126,7 @@ void Games::Draw()
 				case G_Options: d.print("Options");  break;
 				case G_Help:    d.print("Help");  break;
 			}
-			yy += 20;
+			yy += 22;
 		}
 		return;
 	}
@@ -264,14 +264,14 @@ void Games::Draw()
 	#else
 
 	//  score  -
-	x = 0;  y = H-1 -20;
+	x = 0;  y = H-1 -16;
 	d.setClr(25,25,10);
-	d.setCursor(x,y);  sprintf(a,"Score %d", score);  d.print(a);
+	d.setCursor(x,y);  sprintf(a,"Score  %d", score);  d.print(a);
 
 	//d.setCursor(x,  y);  d.print("Lines");  y+=8;
 	//d.setCursor(x+6,y);  d.print(lines[0]);  y+=8+2;
 	d.setClr(10,26,10);
-	sprintf(a,"  Speed %ld", speed_y / SpdDet);  d.print(a);
+	sprintf(a,"   Speed  %ld", speed_y / SpdDet);  d.print(a);
 	#endif
 
 	//d.setCursor(x,  y);  d.print("Size");  y+=8;
@@ -281,7 +281,7 @@ void Games::Draw()
 
 	//  status  -
 	d.setClr(31,18,5);
-	d.setCursor(W-1-6*6, H-1 -20);
+	d.setCursor(W-1-46, H-1 -16);
 	if (ended)  d.print("Ended"); else
 	if (paused) d.print("Pause");
 }

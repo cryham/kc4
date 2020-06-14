@@ -1,5 +1,4 @@
 #include "def.h"
-#ifdef DEMOS
 #include "demos.h"
 #include "ILI9341_t3n.h"
 
@@ -241,5 +240,3 @@ void Demos::CK_logo()
 	}
 	t += ckSpeed;
 }
-
-#endif

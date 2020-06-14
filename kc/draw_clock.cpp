@@ -147,7 +147,6 @@ void Gui::DrawClock()
 
 
 	//  Graphs  ~~~~~~~~~~~~~~~~
-	#ifdef GRAPHS
 	int v, y0, ii, i;
 	if (ext)
 	for (i=0; i <= W-1; ++i)
@@ -167,8 +166,7 @@ void Gui::DrawClock()
 		DrawGraph();
 		return;
 	}
-	#endif
-
+	
 
 	//  Time  ----------------
 	if (clock || date)

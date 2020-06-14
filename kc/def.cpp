@@ -41,9 +41,7 @@ const char* strMain[M_All] =
 #ifdef GAME
 	"Game",
 #endif
-#ifdef DEMOS
 	"Demos",
-#endif
 };
 
 //  Testing kbd
@@ -64,15 +62,11 @@ const char* strInfo[I_All] =
 //  Clock pages
 const char* strClock[Cl_All] =
 {
-	"Adjust", "Clock", "Stats", "Stats Extd", "Stats+Graph",
-#ifdef GRAPHS
-	"Graphs~"
-#endif
+	"Adjust", "Clock", "Stats", "Stats Extd", "Stats+Graph", "Graphs~"
 };
 
 
 //  Demos
-#ifdef DEMOS
 const char* strDemo[D_All] =
 {
 	"Plasma",
@@ -86,7 +80,6 @@ const char* strDemo[D_All] =
 #endif
 	"Rain",
 };
-#endif
 
 
 //  sub pages
@@ -103,7 +96,5 @@ const uint8_t YM1[M_All] =
 #ifdef GAME
 	1,  // M_Game
 #endif
-#ifdef DEMOS
 	D_All,  // M_Demos
-#endif
 };

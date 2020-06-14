@@ -10,23 +10,19 @@ void Gui::Clear()
 	yy = ym1[ym];
 
 	//  Clear  if not full screen demo
-#ifdef DEMOS
 	bool demo = ym == M_Demos && mlevel == 2;
 	bool no = demo && (yy == D_Rain || yy == D_Plasma || yy == D_Wave || yy == D_Fire);
 	if (!no)
-#endif
 	{
 		d->waitUpdateAsyncComplete();
 		//d->fillScreen(ILI9341_BLACK);
 		memset(demos.data, 0, 2*W*H);
 	}
-#ifdef DEMOS
 	if (!demo)
-#endif
 	{
 		//d->setFont(&FreeSans9pt7b);
 		d->setFont(OpenSans12);
-		d->setCursor(0,0);
+		d->setCursor(0,4);
 	}
 }
 
@@ -54,7 +50,6 @@ void Gui::Draw()
 	{
 	//  Demos
 	//------------------------------------------------------
-	#ifdef DEMOS
 	case M_Demos:
 		if (mlevel == 2)
 		{
@@ -68,7 +63,6 @@ void Gui::Draw()
 			DrawMenu(D_All,strDemo, C_Demos,RGB(27,27,30),RGB(6,6,9), D_Next);
 		}
 		return;
-	#endif
 
 	#ifdef GAME   // game
 	case M_Game:  game.Draw();  return;

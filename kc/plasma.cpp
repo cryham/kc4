@@ -2,8 +2,6 @@
 #include "demos.h"
 #include "ILI9341_t3n.h"
 
-#ifdef DEMOS
-
 
 void Demos::Plasma()
 {
@@ -370,5 +368,3 @@ void Demos::PPink()  // fast4  pink
 		yy[0]+=113; yy[1]+=55; yy[2]+=33; yy[3]+=41;
 	}	t += tadd[9];
 }
-
-#endif

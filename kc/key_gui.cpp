@@ -57,8 +57,8 @@ void Gui::KeyPress()
 		if (kF9)   SetScreen(ST_Demos2 +
 			(kCtrl ? (kSh ? D_Rain : D_CK_Logo) :
 					 (kSh ? D_Hedrons : D_Plasma)));
-		if (kF10)  SetScreen(ST_Help);
 
+		if (kF10)  SetScreen(ST_Help);
 		if (kF11)
 		{	bool clk = ym == M_Clock;
 			SetScreen(ST_Displ);
@@ -160,11 +160,9 @@ void Gui::KeyPress()
 
 
 	//  Demos
-	#ifdef DEMOS
 	if (ym == M_Demos && mlevel == 2)
 	{
 		demos.KeyPress((EDemo)ym1[ym], this);
 		return;
 	}
-	#endif
 }

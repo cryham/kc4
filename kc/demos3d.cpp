@@ -1,5 +1,4 @@
 #include "def.h"
-#ifdef DEMOS
 #include "demos.h"
 #include "ILI9341_t3n.h"
 
@@ -405,4 +404,3 @@ void Demos::Hedrons()
 	}
 	t += hdSpd;
 }
-#endif

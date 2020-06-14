@@ -14,7 +14,6 @@ void Demos::Init(ILI9341_t3n* tft)
 	d = tft;  if (d)  data = d->getFrameBuffer();
 	ti = 0;  oti = 0;
 	
-#ifdef DEMOS  // params
 	bAuto = 0;  iFps = 0;  iInfo = 0;
 
 #ifdef DEMOS_OLD
@@ -43,11 +42,8 @@ void Demos::Init(ILI9341_t3n* tft)
 	waveSpd = 8;  // wave
 	fire = 1;
 	fireSpd[0]=19; fireSpd[1]=17;  // fire
-#endif
 }
 
-
-#ifdef DEMOS
 
 //  Key Press  demo params
 //....................................................................................
@@ -150,4 +146,3 @@ void Demos::KeyPress(EDemo demo, Gui* gui)
 		}
 	}
 }
-#endif

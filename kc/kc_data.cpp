@@ -32,13 +32,11 @@ void KC_Main::UpdLay(uint32_t ms)
 		min1_Keys = cnt_press1min * 60 / t1min(par);
 		cnt_press1min = 0;
 
-	#ifdef GRAPHS
 		//  graph inc pos
 		++grPpos;
 		if (grPpos >= W)  grPpos = 0;
 		//  add to graph
 		grPMin[grPpos] = min1_Keys > 255 ? 255 : min1_Keys;
-	#endif
 	}
 
 

@@ -2,7 +2,6 @@
 #include "WProgram.h"
 #include "def.h"
 
-#ifdef DEMOS
 
 //  sinus table  ----
 // for: plasma, wave, ck_logo
@@ -12,7 +11,6 @@
 #define Sin(x)  sint[      (x) %SX]
 
 extern const int16_t sint[SX];
-#endif
 
 
 struct Demos
@@ -33,7 +31,6 @@ struct Demos
 	void Version();  // ver, date
 
 
-#ifdef DEMOS
 	int8_t bAuto = 0;  // auto next demo
 	int8_t iInfo = 0;  // show demo params
 
@@ -122,6 +119,4 @@ struct Demos
 
 	int16_t hdt;  int8_t hdCur,  hdtOn, hdRot,  hdSpd, hdDiag;
 	void Hedrons();
-
-#endif  //DEMOS
 };

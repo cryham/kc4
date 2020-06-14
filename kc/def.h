@@ -5,11 +5,9 @@ typedef unsigned long ulong;
 
 //----  Setup  ----	  use:  ram B      flash
 //  optional features, comment out to disable
-#define DEMOS			//  28        9%
 //#define DEMOS_OLD		//  280 <1%   16%  min
 					// all  6680 10%  17%  max 41k
 #define GAME		// game 1.5k 2%   8%  22.5k
-#define GRAPHS          //  322 <1%
 
 
 //===---  Keyboard  ---===
@@ -50,13 +48,10 @@ enum EMainMenu  //  main menu entries, level0
 	#ifdef GAME
 		M_Game,
 	#endif
-	#ifdef DEMOS
-		M_Demos,
-	#endif
+	M_Demos,
 	M_All,  M_Next = M_Display  // 2nd column, -1 off
 };
 
-#ifdef DEMOS
 enum EDemo  //  Demos, level1
 {
 	D_Plasma,
@@ -72,7 +67,7 @@ enum EDemo  //  Demos, level1
 	D_All,  D_Next = D_CK_Logo
 };
 extern const char *strDemo[D_All];
-#endif
+
 
 //  menus  --
 enum ETesting  //  Testing kbd, level1
@@ -95,13 +90,12 @@ enum EDisplay
 {
 	Di_Bright, Di_Key, Di_Stats, Di_Graph, Di_Debug, Di_All
 };
+
 enum EClock
 {
 	Cl_Adjust, Cl_Simple,
 	Cl_StatsText, Cl_Stats, Cl_StatsExt,
-	#ifdef GRAPHS
-		Cl_Graphs,
-	#endif
+	Cl_Graphs,
 	Cl_All
 };
 
@@ -131,8 +125,5 @@ enum EStartScr  //  start screen
 	ST_Info, ST_Info2, ST_Info2Max = ST_Info2 +I_All,
 	ST_Setup2 = ST_Info2Max, ST_Setup2Max = ST_Setup2 +S_All,
 	ST_Demos = ST_Setup2Max,
-	ST_Demos2,  ST_ALL = ST_Demos2 //=ST_Demos2Max
-	#ifdef DEMOS
-		+D_All,
-	#endif
+	ST_Demos2,  ST_ALL = ST_Demos2 +D_All
 };

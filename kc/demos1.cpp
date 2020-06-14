@@ -5,7 +5,6 @@
 
 //  Draw
 //....................................................................................
-#ifdef DEMOS
 void Demos::Draw(int/*&*/ yy)
 {
 	uint len = 1000;
@@ -38,7 +37,6 @@ void Demos::Draw(int/*&*/ yy)
 			yy = 0;
 	}
 }
-#endif
 
 
 //  Version
@@ -73,8 +71,6 @@ void Demos::Version()
 	d->print(dt);
 }
 
-
-#ifdef DEMOS
 
 #ifdef DEMOS_OLD
 
@@ -163,7 +159,6 @@ void Demos::Rain()
 		d->print("Cur ");  d->println(rCur);
 	}
 }
-#endif
 
 
 //  Fonts

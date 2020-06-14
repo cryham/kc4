@@ -141,14 +141,12 @@ struct Gui
 	uint32_t msTemp = 0, msTempGr = 0;
 	void GetTemp();
 
-#ifdef GRAPHS
 	uint8_t grTemp[W];    // graph array
 	uint8_t grTpos = 0;   // write pos
 	// auto range
 	uint8_t grTempUpd = 1;  // update
 	uint8_t grFmin = 17, grFmax = 35;  // temp 'C
 	uint8_t grBmin = 0, grBmax = 255;  // val Byte
-#endif
 #endif
 
 };

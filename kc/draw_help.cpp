@@ -40,73 +40,73 @@ void Gui::DrawHelp()
 	d->setCursor(0, yTitle);
 	switch (hpage)
 	{
-	case 0:  //  main  // todo .. symbols
+	case 0:  //  main
 		d->setClr(20,26,31);
-		d->println("\x18,\x19        Move Cursor");  // ^,v \x10
+		d->println("^,v        Move Cursor");
 		yadd(2);
-		d->println("\x1A or Ent        Enter");
+		d->println("> or Ent        Enter");
 		yadd(2);
-		d->println("\x1B or Bksp or +  Go Back");
+		d->println("< or Bksp or +    Go Back");
 
 		yadd(8);
 		d->setClr(16,22,28);
-		d->println("PgUp,PgDn  Prev,Next Page");
+		d->println("PgUp,PgDn    Prev, Next Page");
 		yadd(2);
-		d->println("\x1B,\x1A     Dec,Inc Value");  // <,>
+		d->println("<,>     Dec, Inc Value");
 		d->setClr(12,18,24);
-		d->println("  LCtrl more  LShift less");
+		d->println("   LCtrl- more   LShift- less");
 
 		yadd(6);
 		d->setClr(16,22,28);
 		d->println("F4   Save");
-		d->println("F5   Load   Ctrl- Reset");
+		d->println("F5   Load    Ctrl- Reset");
 		break;
 
 	case 1:  //  quic
 
 		d->setClr(16,22,28);
-		d->println("F1  Mapping    /=Shift");
-		d->println("F2  Sequences");
-		d->println("F3  Test Layout /Pressed");
+		d->println("F1   Mapping    /=Shift");
+		d->println("F2   Sequences");
+		d->println("F3   Test Layout  /Pressed");
 		yadd(4);
-		d->println("F6  Info Use");
-		d->println("F7  Setup Mouse");
-		d->println("F8  Setup Layer /Keyboard");
+		d->println("F6   Info Use");
+		d->println("F7   Setup Mouse");
+		d->println("F8   Setup Layer  /Keyboard");
 		yadd(4);
-		d->println("F9  Demos Plasma /Hedrons");
-		d->println("F10  Help");
+		d->println("F9   Demos Plasma  /Hedrons");
+		d->println("F10   Help");
 		yadd(4);
-		d->println("F11  Display");
-		d->println("F12  Clock /Stats/Graphs");
+		d->println("F11   Display");
+		d->println("F12   Clock  /Stats  /Graphs");
 		break;
 
 	case 2:  //  mapping  ------------------------
 		d->setClr(25,28,23);
-		d->println("\x18,\x19 \x1B,\x1A    Move Cursor");
+		d->println("^,v <,>    Move Cursor");
 		yadd(2);
 		d->println("/    Press key, set cursor");
 		yadd(6);
-		d->println("PgUp,PgDn  Prev/Next Layer");
+		d->println("PgUp,PgDn   Prev / Next Layer");
 		//yadd(2);
 		d->setClr(17,24,17);
-		d->println("  Last is layer use visual");
+		d->println("   Last is layer use, visual");
 
 		yadd(6);
 		d->setClr(25,28,23);
 		d->println("- or Ent   Pick key list");
 		d->println("Ctrl-Ent   Go to sequence");
 		yadd(6);
-		d->println("C,V,X      Copy,Paste,Swap");
+		d->println("C,V,X      Copy, Paste, Swap");
 		//yadd(2);
 		d->println("Ctrl-Del   Delete key");
 		yadd(4);
 		d->setClr(17,24,17);
-		d->print("Ctrl-V  Paste whole layer");
+		d->print("Ctrl-V   Paste whole layer");
 		break;
 
 	case 3:  //  pick key
 		d->setClr(23,28,23);
-		d->println("\x18,\x19 PgUp,PgDn \x1B,\x1A  Move");
+		d->println("^,v PgUp,PgDn <,>   Move");
 		yadd(6);
 		d->println("+ or Ent    Set key");
 		yadd(2);
@@ -116,22 +116,21 @@ void Gui::DrawHelp()
 		d->setClr(21,25,21);
 		d->println("/    Group filter toggle");
 		yadd(2);
-		d->println("\x1B,\x1A  Prev,Next Group");
+		d->println("<,>   Prev, Next Group");
 		break;
 
 	case 4:  //  sequences
-	//	d->println("--------------------------");  // max 26
 		d->setClr(21,28,28);
-		d->println("\x18,\x19 PgUp,PgDn  Move");
+		d->println("^,v PgUp,PgDn   Move");
 		yadd(2);
 		d->println("Home,End   Move 3x");
 		yadd(6);
-		sprintf(a,"L%d-Enter   Edit seq.", par.editLayer);
+		sprintf(a,"L%d-Enter   Edit sequence", par.editLayer);
 		d->println(a);
 		d->println("Ctrl-Ent   Go to mapping");
 
 		yadd(6);
-		d->println("C,V,X      Copy,Paste,Swap");
+		d->println("C,V,X      Copy, Paste, Swap");
 		//yadd(2);
 		d->println("Ctrl-Del   Delete");
 		break;
@@ -142,87 +141,86 @@ void Gui::DrawHelp()
 		d->println(a);
 		d->setClr(18,29,29);
 		yadd(6);
-		d->println("\x1B,\x1A   Move Cursor  Ctrl 4x");
+		d->println("<,>   Move Cursor  Ctrl- 4x");
 		yadd(2);
-		d->println("Home,End   To Start,End");
-
+		d->println("Home,End   To Start, End");
 		yadd(6);
 		d->println("Del,Bksp   Delete");
-		d->println("Ins      Insert/Overwrite");
+		d->println("Ins      Insert / Overwrite");
 		yadd(6);
 		d->println("Enter      Exit Edit");
 		break;
 
 	case 6:  //  seq commands ___ help
 		d->setClr(25,26,26);
-		d->println("Insert command in seq:");
+		d->println("Insert command in sequence:");
 		yadd(6);
-		d->println("/  Set Key Delay [1ms]");
+		d->println("/   Set Key Delay [1ms]");
 		yadd(2);
-		d->println("*  Wait [0.1s]");
+		d->println("*   Wait [0.1s]");
 
 		yadd(6);
-		d->println("C  Comment start/end {}");
+		d->println("C   Comment start / end {}");
 		//yadd(2);
-		d->println("X  Hide> rest of seq.");
+		d->println("X   Hide> rest of sequence");
 		yadd(2);
-		d->println("V  Run other seq.");
+		d->println("V   Run other sequence");
 		yadd(2);
-		d->println("-  Repeat seq, Gui quits");
+		d->println("-   Repeat sequence, Gui quits");
 		yadd(6);
-		d->println("\x18,\x19  Adjust parameter");
+		d->println("^,v   Adjust parameter");
 		break;
 
 	case 7:  //  seq _mouse commands_ help
 		d->setClr(24,25,23);
-		d->println("Shift- Insert command:");
+		d->println("Shift-  Insert command:");
 		yadd(6);
-		d->println("\x1B,\x1A \x18,\x19  Move  Ctrl big");
+		d->println("<,> ^,v   Move   Ctrl- big");
 		yadd(4);
 		d->println("  Buttons:");
-		d->println("Home click  End  double");
-		d->println("PgDn press  PgUp release");
+		d->println("Home  Click    End   Double");
+		d->println("PgDn  Press    PgUp  Release");
 		yadd(4);
-		d->println("/,*  Wheel move horiz,vert");
+		d->println("/,*   Wheel move horiz, vert");
 		yadd(2);
-		d->println("/,*,-  Adjust x,y, Set xy-");
+		d->println("/,*,-   Adjust x, y, Set xy-");
 		yadd(6);
-		d->println("\x18,\x19  Adjust parameter");
+		d->println("^,v   Adjust parameter");
 		break;
 
 	case 8:  //  demos  ------------------------
 		d->setClr(26,26,29);
-		d->println("\x1B,\x1A   Prev/Next Preset");
-		d->println("\x18,\x19   Dec,Inc Speed");
+		d->println("<,>   Prev / Next Preset");
+		d->println("^,v   Dec, Inc Speed");
 		yadd(4);
-		d->println("-     Fps show +mode");
+		d->println("-     Fps show, mode");
 		d->println("*     Params Info");
 
 		yadd(8);
 		d->setClr(22,22,25);
-		d->println("PgUp,PgDn  Change");
-		d->println("Home,End   Params");
+		d->println("PgUp,PgDn   Change");
+		d->println("Home,End    Params");
 		yadd(2);
-		d->println("  Ctrl   Others");
-		d->println("  Shift  Fine");
+		d->println("   Ctrl-  Others");
+		d->println("   Shift-  Fine");
 		break;
 
 	case 9:  //  sixtis  ------------------------
 		d->setClr(29,26,23);
-		d->println("\x1B,\x1A      Move");
+		d->println("<,>      Move");
 		yadd(6);
-		d->println("\x18        Rotate cw");
+		d->println("^        Rotate clockwise");
 		yadd(2);
 		d->println("5 or /   Rotate ccw");
 		yadd(6);
-		d->println("\x19        Fall down");
+		d->println("v        Fall down");
 		yadd(2);
 		d->println("Ins      Drop");
 		break;
 
 	case 10:  //  sixtis cd
 		d->setClr(29,25,20);
-		d->println("+ or Bksp  Back");
+		d->println("+ or Bksp   Back");
 		yadd(2);
 		d->println("-        Pause");
 		yadd(2);
@@ -231,8 +229,8 @@ void Gui::DrawHelp()
 		d->println("*        Options toggle");
 		yadd(2);
 		d->setClr(25,21,16);
-		d->println("\x1B,\x1A      Dec,Inc Value");
-		d->println("PgUp,PgDn  Page");
+		d->println("<,>      Dec, Inc Value");
+		d->println("PgUp,PgDn   Page");
 		break;
 	}
 }

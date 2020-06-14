@@ -36,7 +36,7 @@ void Gui::DrawEnd()
 void Gui::DrawMenu(int cnt, const char** str, EFadeClr ec, uint16_t curClr,
 	uint16_t bckClr, int16_t nextCol, int16_t numGap)
 {
-	const int16_t xw = W/2, y1 = 48, yadd = 20;  // par
+	const int16_t xw = W/2, y1 = yTitle, yadd = 22;  // par
 	const int16_t my = mlevel==0 ? ym : yy;
 	d->setFont(OpenSans14);
 
@@ -46,7 +46,7 @@ void Gui::DrawMenu(int cnt, const char** str, EFadeClr ec, uint16_t curClr,
 		d->setCursor(x+4,y);
 		d->setColor(curClr, bckClr);
 		if (i == my)
-			d->fillRect(x, y-1, W/2-2, yadd, bckClr);
+			d->fillRect(x, y-3, W/2-2, yadd, bckClr);
 		if (i == my)
 			d->print(">");
 
@@ -58,7 +58,7 @@ void Gui::DrawMenu(int cnt, const char** str, EFadeClr ec, uint16_t curClr,
 		//  next, extras
 		y += yadd;
 
-		if (i == numGap)  y += 8;
+		if (i == numGap)  y += yadd/2;
 
 		if (i+1 == nextCol)
 		{	x += xw;  y = y1;  }
@@ -70,7 +70,7 @@ void Gui::DrawDispCur(int i, int16_t y)
 	uint16_t bck = RGB(8,8,4);
 	int c = abs(i - ym2Disp);  // dist dim
 	if (!c)
-	{	d->fillRect(0, y-1, W-1, 20, bck);
+	{	d->fillRect(0, y-2, W-1, 20, bck);
 		d->setColor(RGB(31,22,6), bck);
 		
 		d->setCursor(4, y);
@@ -113,10 +113,10 @@ void Gui::FadeGrp(uint8_t g, const uint8_t mi, const uint8_t mul, const uint8_t 
 	const uint8_t* clr = &cGrpRgb[g][0][0];
 	const uint8_t* cmu = &cGrpRgb[g][1][0];
 
-	d->setClr( RGB(
+	d->setColor( RGB(
 		max(mi, clr[0] - cmu[0] * mul / div),
 		max(mi, clr[1] - cmu[1] * mul / div),
-		max(mi, clr[2] - cmu[2] * mul / div)) );
+		max(mi, clr[2] - cmu[2] * mul / div)), bckClr );
 }
 
 

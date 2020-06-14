@@ -5,6 +5,7 @@
 #include "matrix.h"
 #include "kc_data.h"
 
+#define TEMP1  // test
 
 //  const
 uint8_t MDays[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -51,16 +52,17 @@ int DayOfWeek(int d, int m, int y)
 void Gui::DrawClockCur(int i, int16_t y)
 {
 	d->setCursor(2, y);
-	uint16_t bck = RGB(4,7,10);
 	int c = abs(i - ym2Clock);  // dist dim
-	if (!c)
-	{	d->fillRect(0, y-1, W/2, 10, bck);
-		d->setClr(21,26,31);
-		d->print("> ");
-	}else
-		d->print("  ");
+	uint16_t bck = !c ? RGB(4,7,10) : 0;
+	if (bck)
+	{
+		d->fillRect(0, y-2, W/2, 20, bck);
+		d->setColor(RGB(21,26,31), bck);
+		d->print(">");
+	}
+	d->setCursor(20, y);
 
-	FadeClr(C_Clock, 4, c, 1, !c ? bck : 0);
+	FadeClr(C_Clock, 4, c, 1, bck);
 }
 
 //  color from value
@@ -101,6 +103,7 @@ void Gui::DrawClock()
 	unsigned long t = rtc_get(), to, ti;
 	int h = t / 3600 % 24, m = t / 60 % 60, s = t % 60,
 		dt = t / 3600 / 24, yr = dt / 365 + 2000;
+	to = t - kc.tm_on;
 
 	bool adjust = pgClock == Cl_Adjust;
 	bool simple = pgClock == Cl_Simple;
@@ -112,16 +115,15 @@ void Gui::DrawClock()
 	bool ext = pgClock == Cl_StatsExt;
 	bool stats = pgClock == Cl_Stats || ext;
 
-	//  x,y pos~
+	//  x,y pos ~~~
 	int16_t x, y;
 	const int16_t x0 = W / 2,
-			yt = 32, yu = H - 40, yd = yt + 48, // time, uptime, date
-			yp = yt + 44, yi = yu - 28;
-	to = t - kc.tm_on;
+		yTime = 92, yUptime = H - 28, yDate = yTime + 34, yTemp = yTime + 6,
+		yPressed = yTime + 36, yPressMin = yPressed + 20, yPressMin1 = yPressMin - 26,
+		yInact = yUptime - 30, yActive = yInact - 26;
 
 
 	//  late hours Background  --------
-	x = x0;  y = yt;
 	if (date && kbdSend)  // not in menu
 	{
 		int8_t r = 0, g = 0, b = 0, hf = m >= 30 ? 5 : 0;
@@ -156,7 +158,7 @@ void Gui::DrawClock()
 		if (v > 0)
 		{
 			ClrPress(v);  uint16_t c = d->getClr();
-			y0 = yt - v / 3;  // 96 is max  //par scale-
+			y0 = yTime - v / 3;  // 96 is max  //par scale-
 			if (y0 < 0)  y0 = 0;
 			d->drawPixel(i,y0, c);
 	}	}
@@ -166,29 +168,42 @@ void Gui::DrawClock()
 		DrawGraph();
 		return;
 	}
-	
+
 
 	//  Time  ----------------
+	x = x0;  y = yTime;
 	if (clock || date)
 	{
+		d->setFont(OpenSans24);
 		d->setCursor(x, y);
 		if (clock)
 			d->setClr(22, 24, 26);
 		else
 			d->setClr(18, 22, 26);
 
-		sprintf(a, "%2d:%02d:%02d", h, m, s);  d->print(a);
+		sprintf(a, "%d:%02d", h, m);  d->print(a);
+
+		d->setFont(OpenSans12);  // sec smaller
+		d->moveCursor(2, 9);
+		d->setClr(15, 19, 23);
+		sprintf(a, ":%02d", s);  d->print(a);
 	}
 
 
 	//  Uptime, since on  --------
 	if (!adjust)
 	{
+		d->setFont(OpenSans20);
 		h = to / 3600 % 24;  m = to / 60 % 60;  s = to % 60;
-		y = yu;
+		y = yUptime;
 		d->setCursor(x, y);
 		d->setClr(18, 22, 28);
-		sprintf(a, "%d:%02d:%02d", h, m, s);  d->print(a);
+		sprintf(a, "%d:%02d", h, m);  d->print(a);
+		
+		d->setFont(OpenSans12);  // sec smaller
+		d->moveCursor(2, 6);
+		d->setClr(15, 19, 25);
+		sprintf(a, ":%02d", s);  d->print(a);
 	}
 
 
@@ -204,9 +219,10 @@ void Gui::DrawClock()
 		if (s > 60)  d->setClr(24, 22, 28);  else
 		if (s > 30)  d->setClr(20, 20, 26);  else
 		             d->setClr(14, 18, 24);
-		y = yi;
+		y = yInact;
+		d->setFont(OpenSans18);
 		d->setCursor(x, y);
-		sprintf(a, "%d:%02d%c", h, m, inact?'*':' ');  d->print(a);
+		sprintf(a, "%d:%02d %c", h, m, inact?'*':' ');  d->print(a);
 
 
 		//  time Active  --------
@@ -221,7 +237,8 @@ void Gui::DrawClock()
 			if (s > 50)   d->setClr(24, 18, 10);  else
 			if (s > 25)   d->setClr(10, 22, 24);  else
 			              d->setClr(15, 15, 20);
-			y = yp + 28;
+			y = yActive;
+			d->setFont(OpenSans18);
 			d->setCursor(x, y);
 			sprintf(a, "%d:%02d%c", h, m, inact?' ':'*');  d->print(a);
 		}
@@ -229,7 +246,8 @@ void Gui::DrawClock()
 
 		//  Press/min  --------
 		x = stats ? 6 : x0;
-		y = yp + (pgClock == Cl_StatsText ? 26 : 28 -8);
+		y = yPressMin;  // + (pgClock == Cl_StatsText ? 26 : 28 -8);
+		d->setFont(OpenSans18);
 		d->setCursor(x, y);
 
 		float fto = to ? to : 1;
@@ -243,18 +261,22 @@ void Gui::DrawClock()
 
 	//  Temp'C  val  --------
 	#ifdef TEMP1
+	float fTemp = 26.09f;  // test
+	int temp1 = 4;
+
 	if (!adjust && fTemp > -90.f)
 	{
+		d->setFont(OpenSans20);
 		dtostrf(fTemp, 4,2, f);
 		if (pgClock == 0)
 		{	d->setClr(18,22,26);
-			d->setCursor(6, 71);
+			d->setCursor(6, yTime);
 		}else
 		{	if (pgClock == 2)
 				d->setClr(16,20,24);
 			else
 				d->setClr(14,18,22);
-			d->setCursor(6, 32);
+			d->setCursor(6, yTime);
 		}
 		d->print(f);
 	}
@@ -271,8 +293,10 @@ void Gui::DrawClock()
 		if (def)  d->setClr(14, 14, 22);  else
 		/*hold*/  d->setClr(17, 17, 28);
 
+		d->setFont(OpenSans20);
+		d->setCursor(6, yUptime);
 		sprintf(a, "L%d %c", kc.nLayer, lock ? '*' : def ? ' ' : '+');
-		d->setCursor(6, yu);  d->print(a);
+		d->print(a);
 	}
 
 
@@ -282,8 +306,8 @@ void Gui::DrawClock()
 		int mth = 0, day = 0, x2 = x0 + 36;
 		getMD(leap, dt % 365, &day, &mth);
 		//  day, week
-		x = x0 + 4;
-		y = yd;
+		x = x0 + 4;  y = yDate;
+		d->setFont(OpenSans14);
 		d->setCursor(x, y);
 		d->setClr(20, 23, 26);
 		sprintf(a, "%02d", day);  d->print(a);
@@ -291,30 +315,28 @@ void Gui::DrawClock()
 		d->setCursor(x2, y);
 		d->print(wdays[DayOfWeek(day, mth, yr)]);
 
-		y += 16; // month
+		y += 20;  // month
 		d->setCursor(x, y);
 		sprintf(a, "%d", mth);  d->print(a);
 
 		d->setCursor(x2, y);
 		d->print(mths[mth - 1]);
-		d->setFont(OpenSans10);
 
-		y += 16; // year
+		y += 20;  // year
+		d->setFont(OpenSans10);
 		d->setCursor(x, y);
 		sprintf(a, "%04d", yr);  d->print(a);
 	}
-	else
-		d->setFont(OpenSans10);
 
 
 	//  small font  ----------------------
-
+	d->setFont(OpenSans10);
 
 	//  page / all  ---
 	d->setClr(12, 16, 22);
 	if (!stats)
 	{
-		d->setCursor(W-1 - 24, 4);
+		d->setCursor(W-1 - 40, 4);
 		sprintf(a, "%d/%d", pgClock + 1, Cl_All);  d->print(a);
 	}
 
@@ -327,24 +349,26 @@ void Gui::DrawClock()
 
 
 	//  labels, par values  ====--------
+	d->setFont(0);
+	
 	int pg = ClockVars(pgClock);
     #ifdef TEMP1
     bool temp = temp1 > 2;
     #endif
-    y = yt;
+    y = yTime;
 	switch (pgClock)
 	{
 
 	case Cl_Simple:
 	{
 		d->setClr(12, 18, 22);
-		x = 6;  y = yu;
+		x = 6;  y = yUptime;
 		d->setCursor(x, y + 4);  d->print("Uptime");
 
 		#ifdef TEMP1  // Temp'C
 		if (temp)
 		{	d->setClr(12,20,25);
-			d->setCursor(6,54);  d->print("Temp \x01""C");
+			d->setCursor(6, yTemp +24);  d->print("Temp \x01""C");
 		}
 		#endif
 	}	break;
@@ -352,25 +376,25 @@ void Gui::DrawClock()
 	case Cl_StatsText:  //  old, labels
 	{
 		d->setClr(12, 22, 30);
-		x = x0 + 4;  y = yp;
+		x = x0 + 4;  y = yPressed;
 		d->setCursor(x, y);
 		sprintf(a, "%d", cnt_press);  d->print(a);
 		//sprintf(a, "%lu", t);  d->print(a);
 
 		d->setClr(10, 14, 18);
-		x = 6;  y = yp;
+		x = 6;  y = yPressed;
 		d->setCursor(x, y);  d->print("Pressed");
-		y += 32;
+		y = yPressMin;
 		d->setCursor(x, y);  d->print("Press/min");
 
-		x = 6;  y = yi;
+		x = 6;  y = yInact;
 		d->setCursor(x, y + 2);  d->print("Inactive");
-		x = 6;  y = yu;
+		x = 6;  y = yUptime;
 		d->setCursor(x, y + 4);  d->print("Uptime");
 
 		#ifdef TEMP1
 		if (temp)  // 'C
-		{	d->setCursor(9*6, 32+4);  d->print("\x01""C");  }
+		{	d->setCursor(76, yTemp +2);  d->print("\x01""C");  }
 		#endif
 	}	break;
 
@@ -379,14 +403,14 @@ void Gui::DrawClock()
 	{
 		#ifdef TEMP1
 		if (temp)  // 'C
-		{	d->setCursor(9*6, 32+4);  d->print("\x01""C");  }
+		{	d->setCursor(76, yTemp +2);  d->print("\x01""C");  }
 		#endif
 		if (pgClock == Cl_StatsExt)
 		{
 			//  press k
+			d->setFont(OpenSans10);
 			d->setClr(9, 18, 22);
-			x = x0 - 22;
-			y = yp + 26;
+			x = 76;  y = yPressed +8;
 			d->setCursor(x, y);
 			sprintf(a, "%dk", cnt_press / 1000);  d->print(a);
 
@@ -397,17 +421,18 @@ void Gui::DrawClock()
 				getMD(leap, dt % 365, &day, &mth);
 
 				//  day, week
-				x = x0 + 8;  y = 32 + 36;
+				x = x0 + 8*0;  y = yDate;
+				d->setFont(OpenSans14);
 				d->setClr(14, 18, 23);
 				d->setCursor(x, y);
 				d->print(wdays[DayOfWeek(day, mth, yr)]);
-				x += 30;
+				x += 50;
 				d->setCursor(x, y);
-				sprintf(a, "%d.%d", day, mth);  d->print(a);
+				sprintf(a, "%d  %d", day, mth);  d->print(a);
 			}
 
 			//  press / 1min
-			x = 6;  y = yp;
+			x = 6;  y = yPressMin1;
 			d->setCursor(x, y);
 
 			int m1 = kc.min1_Keys;
@@ -421,23 +446,24 @@ void Gui::DrawClock()
 			ti = kc.tInact1;
 			h = ti / 60 % 24;  m = ti % 60;
 
+			d->setFont(OpenSans14);
 			d->setClr(15, 19, 24);
-			d->setCursor(x, yi + 5);
+			d->setCursor(x, yInact + 22);
 			sprintf(a, "%d:%02d", h, m);  d->print(a);
 
 			ti = kc.tInact2;
 			h = ti / 60 % 24;  m = ti % 60;
 
 			d->setClr(12, 16, 22);
-			d->setCursor(x, yi - 4);
+			d->setCursor(x, yInact - 0);
 			sprintf(a, "%d:%02d", h, m);  d->print(a);
 
 			//  Sum
 			ti = kc.tInactSum;
 			h = ti / 60 % 24;  m = ti % 60;
 
-			d->setClr(18, 18, 26);
-			d->setCursor(x, yi - 18);
+			d->setClr(18, 18, 24);
+			d->setCursor(x, yActive - 0);
 			sprintf(a, "%d:%02d", h, m);  d->print(a);
 		}
 
@@ -445,12 +471,12 @@ void Gui::DrawClock()
 		//  Sequence, prv  --------
 		if (kc.inSeq[0] >= 0)
 		{
-			d->setCursor(0, yu - 13);
+			d->setCursor(0, yUptime - 13);
 			d->setClr(25, 23, 31);
 			sprintf(a, "S%d", kc.inSeq[0]);  d->print(a);
 
-			d->setCursor(0, yu - 23);
-			DrawSeq(kc.inSeq[0], 2);
+			d->setCursor(0, yUptime - 23);
+			DrawSeq(kc.inSeq[0], 2, 0);
 		}
 
 	}	break;
@@ -459,6 +485,7 @@ void Gui::DrawClock()
 	case Cl_Adjust:  //  Adjust  ----
 		for (int i = 0; i <= pg; ++i)
 		{
+			d->setFont(OpenSans12);
 			DrawClockCur(i, y);
 			int8_t h = 2;
 			switch (i)
@@ -469,7 +496,7 @@ void Gui::DrawClock()
 
 			case 3:  sprintf(a, "Day");  break;
 			case 4:  sprintf(a, "Month");  break;
-			case 5:  sprintf(a, "Year");  h = 10;  break;
+			case 5:  sprintf(a, "Year");  h = 6;  break;
 
 			case 6:  sprintf(a, "RTC Compensate: %d", par.rtcCompensate);  h = 2;  break;
 			}

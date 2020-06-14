@@ -25,7 +25,7 @@ void Gui::DrawInfo()
 	}
 	char a[64];
 	int16_t y = yTitle;
-	auto yadd = [&y](int16_t h){  y += h*7/4;  };
+	auto yadd = [&y](int16_t h){  y += h*15/8;  };
 
 
 	if (yy == I_Version)
@@ -49,7 +49,7 @@ void Gui::DrawInfo()
 		d->print("> ");
 
 		d->setClr(16,20,24);
-		sprintf(a,"Save counter: %d", par.verCounter);
+		sprintf(a,"Save counter:  %d", par.verCounter);
 		d->print(a);  yadd(14);
 
 		int i,l,k, s = 0, t = 0, si = 0;
@@ -72,13 +72,13 @@ void Gui::DrawInfo()
 			}
 		}
 
-		d->setClr(21,25,29);
-		sprintf(a,"  Sequences:  %d /%d", s, KC_MaxSeqs);
+		d->setClr(21,25,29);  // todo: ..  align "   " width auto
+		sprintf(a,"  Sequences:  %d  of %d", s, KC_MaxSeqs);
 		d->setCursor(0, y);  d->print(a);  yadd(10);
 		d->setClr(15,21,25);
-		sprintf(a,"     Unused:  %d", t);
+		sprintf(a,"        Unused:  %d", t);
 		d->setCursor(0, y);  d->print(a);  yadd(10);
-		sprintf(a,"       Size:  %d B", si);
+		sprintf(a,"                Size:  %d B", si);
 		d->setCursor(0, y);  d->print(a);  yadd(12);
 
 		//  int.funct keys used
@@ -105,17 +105,17 @@ void Gui::DrawInfo()
 		}
 
 		d->setClr(21,25,29);
-		sprintf(a,"     Layers:  %d /%d", s, KC_MaxLayers);
+		sprintf(a,"      Layers:  %d  of %d", s, KC_MaxLayers);
 		d->setCursor(0, y);  d->print(a);  yadd(12);
 
-		sprintf(a,"       Keys:  %d", t);
+		sprintf(a,"          Keys:  %d", t);
 		d->setCursor(0, y);  d->print(a);  yadd(10);
 		d->setClr(15,21,25);
-		sprintf(a,"   Internal:  %d", si);
+		sprintf(a,"    Internal:  %d", si);
 		d->setCursor(0, y);  d->print(a);  yadd(12);
 
 		d->setClr(25,25,29);
-		sprintf(a,"      Total:  %d B", kc.memSize);
+		sprintf(a,"          Total:  %d B", kc.memSize);
 		d->setCursor(0, y);  d->print(a);  yadd(12);
 
 

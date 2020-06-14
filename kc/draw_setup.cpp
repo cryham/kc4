@@ -33,15 +33,24 @@ void Gui::DrawSetup()
 	auto yadd = [&y](int16_t h){  y += h*2;  };
 
 
+	int ii = ScanPages[yy], xw = W*2/3;
+	uint16_t bck = RGB(3,6,6);
+
+	auto DrawCursor = [&](auto clr)
+	{
+		d->setColor(clr, bck);
+		d->fillRect(0, y-3, xw, 21, bck);
+		d->setCursor(4,y);
+		d->print(">");
+	};
+
+
 	//  title
 	d->setClr(17,22,22);
 	d->print(strSetup[yy]);
 	d->setFont(OpenSans12);
 	d->setClr(21,26,26);
 
-
-	uint16_t bck = RGB(3,6,6);
-	int ii = ScanPages[yy];
 	switch (yy)
 	{
 	//-----------------------------------------------------
@@ -51,29 +60,25 @@ void Gui::DrawSetup()
 		{
 			int c = abs(i - ym2Lay);
 			if (!c)
-			{	d->setColor(RGB(30,25,20), bck);
-				d->fillRect(0, y-1, W-1, 20, bck);
-				d->setCursor(4,y);
-				d->print(">");
-			}
+				DrawCursor(RGB(30,25,20));
 			d->setCursor(20,y);
 
 			FadeClr(C_Setup2, 4, c, 1, !c ? bck : 0);
 			switch(i)
 			{
 			case 0:
-				sprintf(a,"Default layer: %d", par.defLayer);  y-=2;  break;
+				sprintf(a,"Default layer:  %d", par.defLayer);  y-=2;  break;
 
 			case 1:  // todo warning seq key not bound
-				sprintf(a," Seq. edit on: %d", par.editLayer);  break;
+				sprintf(a,"Sequence edit layer:  %d", par.editLayer);  break;
 
 			case 2:
-				d->print("Lock Fast max: ");
+				d->print("Lock Fast max:  ");
 				dtostrf(par.msLLTapMax*0.01f, 4,2, a);  d->print(a);
 				d->print(" s");
 				y-=2;  break;
 			case 3:
-				d->print("Lock Hold min: ");
+				d->print("Lock Hold min:  ");
 				dtostrf(par.msLLHoldMin*0.1f, 3,1, a);  d->print(a);
 				d->print(" s");
 				y+=2;  break;
@@ -90,24 +95,20 @@ void Gui::DrawSetup()
 		{
 			int c = abs(i - ym2Keyb);
 			if (!c)
-			{	d->setColor(RGB(30,25,20), bck);
-				d->fillRect(0, y-1, W-1, 20, bck);
-				d->setCursor(4,y);
-				d->print("> ");
-			}
+				DrawCursor(RGB(30,25,20));
 			d->setCursor(20,y);
 
 			FadeClr(C_Setup2, 4, c, 1, !c ? bck : 0);
 			switch(i)
 			{
 			case 0:  // todo warning layer empty
-				sprintf(a,"Sequence delay: %d ms", par.dtSeqDef);  break;
+				sprintf(a,"Sequence delay:  %d ms", par.dtSeqDef);  break;
 
 			case 1:
 				if (pressGui)
-					sprintf(a,"Gui toggle Key: Press ..");
+					sprintf(a,"Gui toggle Key:  Press ..");
 				else
-					sprintf(a,"Gui toggle Key: %d", par.keyGui);  break;
+					sprintf(a,"Gui toggle Key:  %d", par.keyGui);  break;
 			}
 			if (i < 4)
 				d->print(a);  yadd(8+4);
@@ -122,22 +123,18 @@ void Gui::DrawSetup()
 		{
 			int c = abs(i - ym2Scan);
 			if (!c)
-			{	d->setColor(RGB(10,30,30), bck);
-				d->fillRect(0, y-1, W-1, 20, bck);
-				d->setCursor(4,y);
-				d->print(">");
-			}
+				DrawCursor(RGB(10,30,30));
 			d->setCursor(20,y);
 
 			FadeClr(C_Setup2, 4, c, 1, !c ? bck : 0);
 			switch(i)
 			{
-			case 0:  // todo ..
-				sprintf(a,"Scan: "); //%u Hz", F_BUS/par.scanFreq/1000);  break;
+			case 0:
+				sprintf(a,"Scan:  %u Hz", par.scanFreq * 20);  break;
 			case 1:
-				sprintf(a,"Strobe delay: %d us", par.strobe_delay);  break;
+				sprintf(a,"Strobe delay:  %d us", par.strobe_delay);  break;
 			case 2:
-				sprintf(a,"Debounce: %d ms", par.debounce);  break;
+				sprintf(a,"Debounce:  %d ms", par.debounce);  break;
 			}
 			d->print(a);  yadd(8+4);
 		}
@@ -147,16 +144,16 @@ void Gui::DrawSetup()
 		d->print("Fps");
 
 		d->setCursor(2,H-80);
-		sprintf(a,"  Time: %lu us  %u Hz", us_scan, scan_freq);
+		sprintf(a,"  Time:  %lu us  %u Hz", us_scan, scan_freq);
 		d->println(a);
 		d->setClr(20,23,26);
 
 		d->setCursor(0,H-40);
-		sprintf(a,"Matrix keys: %d = %d x %d", ScanKeys, NumCols, NumRows);
+		sprintf(a,"Matrix keys:  %d = %d x %d", ScanKeys, NumCols, NumRows);
 		d->println(a);
 
 		d->setCursor(0,H-20);
-		sprintf(a,"Layout keys: %d  %s", nDrawKeys, CKname);
+		sprintf(a,"Layout keys:  %d  %s", nDrawKeys, CKname);
 		d->println(a);
 
 	}	break;
@@ -165,36 +162,31 @@ void Gui::DrawSetup()
 	//-----------------------------------------------------
 	case S_Mouse:
 	{
-		int16_t x=2;
 		bck = RGB(3,5,6);
 		for (int i=0; i <= ii; ++i)
 		{
 			int c = abs(i - ym2Mouse);
 			if (!c)
-			{	d->setColor(RGB(15,23,30), bck);
-				d->fillRect(x, y-1, W/2-1, 20, bck);
-				d->setCursor(x+4,y);
-				d->print(">");
-			}
-			d->setCursor(x+20,y);
+				DrawCursor(RGB(15,23,30));
+			d->setCursor(20,y);
 
 			FadeClr(C_Setup2, 4, c, 1, !c ? bck : 0);
 			switch(i)
 			{
 			case 0:
-				sprintf(a,"Speed: %3d  Move", par.mkSpeed);  break;
+				sprintf(a,"Speed:  %3d  Move", par.mkSpeed);  break;
 			case 1:
-				sprintf(a,"Accel: %3d", par.mkAccel);  break;
+				sprintf(a,"Accel:  %3d", par.mkAccel);  break;
 			case 2:
 				if (pressGui)
-					sprintf(a,"Slow key: Press ..");
+					sprintf(a,"Slow key:  Press ..");
 				else
-					sprintf(a,"Slow key: %d", par.keyMouseSlow);
+					sprintf(a,"Slow key:  %d", par.keyMouseSlow);
 				break;
 			case 3:
-				sprintf(a,"Speed: %3d  Wheel", par.mkWhSpeed);  break;
+				sprintf(a,"Speed:  %3d  Wheel", par.mkWhSpeed);  break;
 			case 4:
-				sprintf(a,"Accel: %3d", par.mkWhAccel);  break;
+				sprintf(a,"Accel:  %3d", par.mkWhAccel);  break;
 			}
 			d->print(a);  yadd(8+1);
 		}

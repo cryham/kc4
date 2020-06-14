@@ -5,6 +5,9 @@
 #include "kc_params.h"
 #include "kc_data.h"
 
+#include "IntervalTimer.h"
+extern IntervalTimer tim;
+
 const uint8_t Gui::DispPages[Di_All] = {2,2,1,3,1};
 const uint8_t Gui::ScanPages[S_All] = {3,1,4,2};
 
@@ -99,8 +102,8 @@ void Gui::KeysParSetup(int sp)
 		switch (ym2Scan)
 		{
 		case 0:
-			par.scanFreq = RangeAdd(par.scanFreq, -kRight * (kSh ? 1 : 4), 2, 150);
-			//Periodic_init( par.scanFreq * 1000 );  break;  // upd  // todo ..
+			par.scanFreq = RangeAdd(par.scanFreq, kRight * (kSh ? 1 : 4), 2, 250);
+			tim.update( 1000000 / (par.scanFreq * 20) );  break;  // upd
 		case 1:
 			par.strobe_delay = RangeAdd(par.strobe_delay, kRight, 0, 50);  break;
 		case 2:

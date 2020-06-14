@@ -17,7 +17,7 @@ uint8_t scan_n = 0;
 
 Gui gui;
 KC_Main kc;
-IntervalTimer ti;
+IntervalTimer tim;
 extern void ParInit();
 
 
@@ -50,9 +50,12 @@ void main_periodic()
 
 	//  kbd scan
 	bool bsc = false;
-	if (gui.kbdSend ||  // slower for demos
-		gui.ym != M_Demos || scan_n % 4==0)
-	{	Matrix_scan(0);  bsc = true;  }  // K
+	if (gui.kbdSend
+		// slower for demos ?
+		|| gui.ym != M_Demos || scan_n % 2==0
+	){
+		Matrix_scan(0);  bsc = true;
+	}	// K
 
 
 	//  gui keys
@@ -85,7 +88,7 @@ int main()
 	//  kbd
 	Matrix_setup();
 
-	ti.begin(main_periodic, 1000);  // par.scanFreq * 1000);  // todo ..
+	tim.begin(main_periodic, 1000000 / (par.scanFreq * 20));
 
 
 	#ifdef LED
@@ -112,6 +115,7 @@ int main()
 
 
 	//  load set from ee
+	//kc.Save();  // todo .. fix
 	//kc.Load();
 	gui.SetScreen(par.startScreen);
 	gui.kbdSend = 0;  //1;  // 1 release
@@ -124,43 +128,15 @@ int main()
 	par.brightOff = 90;
 #endif
 
-	ulong all = 0;
-
 	while (1)
 	{
-		ulong stAll = micros();
 		gui.Clear();
 
-		ulong stDraw = micros();
 		gui.Draw();
 		gui.DrawEnd();
 
-		#if 0
-		// tft.setFont(OpenSans12);
-		// tft.setCursor(0, H-28);
-		tft.setFont(0);
-		tft.setCursor(0, H-8);
-
-		tft.setColor(RGB(26, 25, 31), ILI9341_BLACK);
-		//tft.print("t ");  tft.println(gui.demos.t);
-		
-		if (all > 0)
-			tft.print(int(1000000.f / all));
-		#if 1
-		tft.print("  ");
-		ulong draw = micros() - stDraw;
-		if (draw > 0)
-			tft.print(int(1000000.f / draw));
-		#endif
-
-		// tft.print("  sc fq ");  tft.print(scan_freq);
-		// tft.print(" c ");  tft.print(scan_cnt);
-		#endif
-
-		tft.waitUpdateAsyncComplete();  // all 45 Fps 60 MHz, some tearing
+		tft.waitUpdateAsyncComplete();  // 60 MHz, all 45 Fps, 41 with kbd
 		tft.updateScreenAsync();
-
-		all = micros() - stAll;
 
 		//  temp get  --------
 		#ifdef TEMP1  // 18B20  Temp'C

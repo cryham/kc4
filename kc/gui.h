@@ -20,18 +20,19 @@ struct Gui
 	Gui();
 	void Init(ILI9341_t3n* tft);
 	void Clear(), Draw(), DrawEnd();
-	void KeyPress();
-	void NextDemo();
+	void KeyPress(), NextDemo();
 
 
 	//  draw menus
-	void DrawMapping(), DrawSequences();  // edit
+	void DrawMapping(), DrawSequences(), DrawPickKey();  // edit
 	void DrawTesting(), DrawSetup(), DrawDisplay();  // set params
 	void DrawClock(), DrawGraph(), DrawHelp(), DrawInfo();  // info
+	const static int PickR = 10;  // key pick rows
 
 	//  draw util
 	void DrawPressed(), DrawLayout(bool edit), Chk_y1();
-	void DrawSeq(int8_t seq, int8_t q), DrawOperInfo();
+	void DrawSeq(int8_t seq, int8_t q, uint16_t bck);
+	void DrawOperInfo();
 	void DrawDispCur(int i, int16_t y), DrawClockCur(int i, int16_t y);
 	//  util
 	void ClrPress(int pressPerMin), ClrTemp(int temp);
@@ -92,8 +93,8 @@ struct Gui
 
 
 	//  Mapping  - - - -
-	const uint8_t yTitle = 48;  // y after title
-	const uint8_t yPosLay = 110;
+	const uint8_t yTitle = 52;  // y after title
+	const uint8_t yPosLay = 112;
 	int16_t keyCode=0, scId=0, scIdCpy=0, drawId=-1, drawX=0,drawY=0;
 	int8_t nLay=0, nLayCpy=0,
 		pressKey=0, pickCode=K_Seq0, // edit operations

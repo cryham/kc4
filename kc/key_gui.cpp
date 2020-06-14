@@ -11,8 +11,11 @@
 void Gui::KeyPress()
 {
 	if (Key(par.keyGui))  // toggle Gui **
-	{	kbdSend = 1 - kbdSend;  kc.QuitSeq();
-		kc.setDac = 1;  }
+	{
+		kbdSend = 1 - kbdSend;
+		kc.QuitSeq();
+		kc.setDac = 1;
+	}
 
 	if (kbdSend)
 		return;
@@ -40,7 +43,7 @@ void Gui::KeyPress()
 
 
 	//  quick access keys  * * *
-	//  -----
+	//----------------------------
 	if (par.quickKeys && !(pressGui || pressKey ||
 		(edit && mlevel == 1 && ym == M_Sequences) ||
 		(mlevel == 2 && ym == M_Testing)))
@@ -127,13 +130,15 @@ void Gui::KeyPress()
 	if (mlevel == 0)  //  main menu
 	{
 		if (kUp){  ym += kUp;  if (ym >= M_All)  ym = 0;  if (ym < 0)  ym = M_All-1;  }
-		if (kRight > 0 || kEnt2)  mlevel = 1;  // enter>
+		if (kRight > 0 || kEnt2)
+			mlevel = 1;  // enter>
 		return;
 	}
 
 
 	//  Add+  <back global
-	if ((kAdd || kBckSp) && mlevel > 0)  --mlevel;
+	if ((kAdd || kBckSp) && mlevel > 0)
+		--mlevel;
 
 
 	//  Help
@@ -152,7 +157,12 @@ void Gui::KeyPress()
 		//  navigate
 		if (kRight < 0)  mlevel = 0;  // <back
 		if (kRight > 0 || kEnt2)
-			if (ym != M_Display)  mlevel = 2;  // enter>
+		{
+			if (ym != M_Display)
+				mlevel = 2;  // enter>
+
+			demos.bAuto = ym == M_Demos && yy == D_AutoAll;
+		}
 
 		if (kUp){  ym1[ym] += kUp;  Chk_y1();  }
 		return;
@@ -165,4 +175,15 @@ void Gui::KeyPress()
 		demos.KeyPress((EDemo)ym1[ym], this);
 		return;
 	}
+}
+
+
+void Gui::NextDemo()
+{
+	auto& yy = ym1[M_Demos];
+	++yy;  // next
+	if (yy == D_Fonts)  // skip
+		++yy;
+	if (yy >= D_All)
+		yy = D_Plasma;  // first
 }

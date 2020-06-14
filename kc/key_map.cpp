@@ -41,7 +41,7 @@ void Gui::KeysMap()
 				if (keyGroup >= grpMax)	 keyGroup = 1;
 				keyCode = grpStart[keyGroup];
 			}else
-				keyCode += kRight * 12;
+				keyCode += kRight * PickR;
 		}else
 		if (kUp)	keyCode += kUp;  else
 		if (kPgUp)	keyCode += kPgUp * 4;  else
@@ -86,24 +86,25 @@ void Gui::KeysMap()
 			int dx = x + k.w/2 - drawX,
 				dy = y + k.h/2 - drawY, ay = abs(dy), ax = abs(dx);
 
+			const int minXY = 12;
 			if (i != drawId)
 			{
-				if (kRight > 0 && dx > 0 && abs(dy) < 6)  // >
+				if (kRight > 0 && dx > 0 && abs(dy) < minXY)  // >
 				{
 					if (dx < mxr)
 					{	mxr = dx;  ii = i;  }
 				}else
-				if (kRight < 0 && dx < 0 && abs(dy) < 6)  // <
+				if (kRight < 0 && dx < 0 && abs(dy) < minXY)  // <
 				{
 					if (dx > mxl)
 					{	mxl = dx;  ii = i;  }
 				}else
-				if (kUp < 0 && dy < 0 && ax < 6)  // ^
+				if (kUp < 0 && dy < 0 && ax < minXY)  // ^
 				{
 					if (ay < myu || (ay == myu && ax < axu))
 					{	myu = ay;  axu = ax;  ii = i;  }
 				}else
-				if (kUp > 0 && dy > 0 && ax < 6)  // v
+				if (kUp > 0 && dy > 0 && ax < minXY)  // v
 				{
 					if (dy <= myd && ax < axd)
 					{	myd = dy;  axd = ax;  ii = i;  }
@@ -135,11 +136,13 @@ void Gui::KeysMap()
 	//  quick access keys / * -
 	if (kDiv)  pressKey = 1;
 	if (kSub || kEnt || kEnt2)
-	{	if (!kCtrl)
+	{
+		if (!kCtrl)
 			pickCode = 1;
 		else	//  jump to seq id, if seq key
 		if (scId != NO && scId >= 0) /*&& scId < kc.set.nkeys()*/
-		{	int sq = kc.set.key[nLay][scId] - K_Seq0;
+		{
+			int sq = kc.set.key[nLay][scId] - K_Seq0;
 			if (sq >= 0 && sq <= K_SeqLast && sq < KC_MaxSeqs)
 			{
 				SetScreen(ST_Seqs);
@@ -160,18 +163,20 @@ void Gui::KeysMap()
 		if (kCopy)
 		{	scIdCpy = scId;  nLayCpy = nLay;  }
 
-		if (kPaste) {
-		if (!kCtrl)
-			kc.set.key[nLay][scId] = kc.set.key[nLayCpy][scIdCpy];
-		else
-		{	// paste whole layer, to empty keys
-			for (int i=0; i < kc.set.nkeys(); ++i)
-				if (kc.set.key[nLay][i] == KEY_NONE)
-					kc.set.key[nLay][i] = kc.set.key[nLayCpy][i];
+		if (kPaste)
+		{
+			if (!kCtrl)
+				kc.set.key[nLay][scId] = kc.set.key[nLayCpy][scIdCpy];
+			else
+			{	// paste whole layer, to empty keys
+				for (int i=0; i < kc.set.nkeys(); ++i)
+					if (kc.set.key[nLay][i] == KEY_NONE)
+						kc.set.key[nLay][i] = kc.set.key[nLayCpy][i];
 		}	}
 
 		if (kSwap)
-		{	uint8_t c = kc.set.key[nLay][scId];
+		{
+			uint8_t c = kc.set.key[nLay][scId];
 			kc.set.key[nLay][scId] = kc.set.key[nLayCpy][scIdCpy];
 			kc.set.key[nLayCpy][scIdCpy] = c;
 		}

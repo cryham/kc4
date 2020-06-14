@@ -120,10 +120,10 @@ void KC_Setup::InitCK()
 			#define add(code, lay)  key[lay][dk.sc] = code
 			add(dk.code, 0);
 
-		#if 0  //  CK1 override  --*
+		#if 1  //  CK1 override  --*
 		#ifdef CK1
-			if (dk.code == K_INS)	add(K_Layer1, 0);
-			if (dk.code == K_SPACE) add(K_Layer2, 0);  else 
+			if (dk.code == K_6)		add(K_Layer1, 0);
+			if (dk.code == K_INS)	add(K_Layer2, 0);  else 
 		#elif defined(CK6)  //3 new
 			if (dk.code == K_F14)	add(K_Layer2, 0);
 			if (dk.code == K_CAPS)	add(K_Layer2, 0);  else 
@@ -133,8 +133,8 @@ void KC_Setup::InitCK()
 			if (dk.code == K_MENU)	add(K_Layer1, 0);
 			if (dk.code == K_CAPS)	add(K_Layer2, 0);  else 
 		#endif
-			if (dk.code == K_1)	add(K_Seq0, 2);  else 
-			if (dk.code == K_Q)	add(K_S1, 2);  else
+			if (dk.code == K_5) 	add(K_Seq0, 2);  else 
+			if (dk.code == K_Q) 	add(K_S1, 2);  else
 			//  funct
 			if (dk.code == K_MINUS)	add(K_Fun1, 2);  else
 			if (dk.code == K_EQUAL)	add(K_Fun2, 2);  else

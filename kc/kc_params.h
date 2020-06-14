@@ -27,7 +27,7 @@ struct KC_Params
 	uint8_t debounce;  // ms
 	//  delay before and after each strobe
 	uint8_t strobe_delay;  // us
-	//  scanFreq * 1000 = timer period, 50 is 960 Hz
+	//  scanFreq * 20 Hz
 	uint8_t scanFreq;
 
 	//  brightness led, 0..100%

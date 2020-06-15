@@ -128,7 +128,7 @@ struct Gui
 
 	int8_t tBlnk = 0;
 	int16_t tInfo=0;  int8_t infType=0;  // info text vars
-	const int8_t iPage = 10, cBlnk = 25;  // par-
+	const int8_t iPage = 10, cBlnk = 60;  // par-
 
 	//  const from grp
 	uint8_t grpStart[grpMax], grpEnd[grpMax];

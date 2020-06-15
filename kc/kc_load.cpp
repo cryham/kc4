@@ -15,9 +15,9 @@
 //  default params  ----
 void ParInit()
 {
-	par.debounce = 1;  // ms?
+	par.debounce = 2;  // ms?
 	par.strobe_delay = 8;
-	par.scanFreq = 50;  // mul by 1 kHz
+	par.scanFreq = 50;  // * 20 Hz
 
 	par.brightness = 80;  par.brightOff = 60;
 	par.startScreen = 0;

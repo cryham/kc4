@@ -133,8 +133,6 @@ void KC_Setup::InitCK()
 			if (dk.code == K_MENU)	add(K_Layer1, 0);
 			if (dk.code == K_CAPS)	add(K_Layer2, 0);  else 
 		#endif
-			if (dk.code == K_5) 	add(K_Seq0, 2);  else 
-			if (dk.code == K_Q) 	add(K_S1, 2);  else
 			//  funct
 			if (dk.code == K_MINUS)	add(K_Fun1, 2);  else
 			if (dk.code == K_EQUAL)	add(K_Fun2, 2);  else
@@ -157,7 +155,11 @@ void KC_Setup::InitCK()
 			if (dk.code == K_S)   add(KM_NEXT_TRACK, 1);  else
 			if (dk.code == K_Z)   add(K_F13, 1);  else
 			if (dk.code == K_X)   add(KM_PLAY_PAUSE, 1);  else
-			if (dk.code == K_C)   add(KM_STOP, 1);
+			//  seq
+			if (dk.code == K_D)   add(K_Seq0, 1);
+			if (dk.code == K_F)   add(K_S1, 1);
+			if (dk.code == K_G)   add(K_S2, 1);
+			if (dk.code == K_H)   add(K_S3, 1);
 		#endif
 			#undef add
 	}	}

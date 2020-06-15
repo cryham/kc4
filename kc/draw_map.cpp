@@ -177,14 +177,14 @@ void Gui::DrawMapping()
 			else
 			{
 				uint8_t u = kc.set.key[nLay == KC_MaxLayers ? 0 : nLay][id];
-					 if (u == KEY_NONE)  sprintf(a,"-  Key:  None");
+					 if (u == KEY_NONE)      sprintf(a,"-  Key:  None");
 				else if (u >= KEYS_ALL_EXT)  sprintf(a,"-  Key:  OUT");
 				else
 				{
 					FadeGrp(cKeyGrp[u], 9, 0, 3, 0);
 					sprintf(a,"-  Key:  %s", cKeyStr[u]);
 					d->print(a);
-					y += 18;  d->setCursor(x, y);
+					y += 22;  d->setCursor(x, y);
 
 					//  seq preview  ---
 					if (u >= K_Seq0 && u <= K_SeqLast)

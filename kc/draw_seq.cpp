@@ -101,9 +101,9 @@ void Gui::DrawSequences()
 		d->print("View");  d->setFont(OpenSans12);
 		d->setClr(20,25,28);
 
-		//  page, center   /
-		d->setCursor(W/2 -24, 4);
-		sprintf(a,"%d/%d", page+1, kc.set.seqSlots/iPage);  d->print(a);
+		//  page / all, center   /
+		d->setCursor(W/2 -14, 6);
+		sprintf(a,"%d / %d", page+1, kc.set.seqSlots/iPage);  d->print(a);
 
 		//  list slots
 		int s = page * iPage, i, y, q;
@@ -154,12 +154,12 @@ void Gui::DrawSequences()
 	else
 	{
 		d->setClr(5,27,27);
-		d->print("Edit");  //d->setFont(0);
+		d->print("Edit");  d->setFont(OpenSans18);
 
 		int si = seqId();
 		d->setClr(19,23,27);
-		//d->setCursor(W-1 -2*6, 4);
-		d->setCursor(W-1 -2*20, 0);  sprintf(a,"%2d", si);  d->print(a);
+		d->setCursor(W-1 -2*21, 4);  sprintf(a,"%2d", si);  d->print(a);
+		d->setFont(OpenSans12);
 
 
 		//  write sequence  ------------------------------------
@@ -211,11 +211,11 @@ void Gui::DrawSequences()
 				int q = abs(n - edpos)/qdiv;
 				FadeGrp(gr, 13, q, 4, 0);
 
-				//  string length
+				//  string length  // todo: ..?
 				xx = (isCmd ? cCmdStrLen[min(CMD_ALL-1, cmd)] :
-						strlen(cKeyStr[dt])) * 6 +2;
+						strlen(cKeyStr[dt])) * 12 +2;
 				if (x + xx > W-1)
-				{	x = 1;  y += 8+2;  }  // new line
+				{	x = 1;  y += 16+2;  }  // new line
 
 				//  write
 				d->setCursor(x,y);
@@ -225,7 +225,7 @@ void Gui::DrawSequences()
 					int8_t cm = cp-128;  // next, param
 
 					uint16_t ln = cCmdClrLn[cmd];
-					d->drawFastHLine(x, y+8, xx-2, ln);  //_ underline
+					d->drawFastHLine(x, y+16, xx-2, ln);  //_ underline
 					int w = max(21, 30-q/2);
 					d->setClr(w,w,w);
 
@@ -275,7 +275,7 @@ void Gui::DrawSequences()
 			}
 			if (cur)  // cursor
 			{
-				int16_t b = 8 * tBlnk / cBlnk;
+				int16_t b = 16 * tBlnk / cBlnk;
 				if (edins)  // ins |
 					d->drawFastVLine(x-1, y-1-b+16, b+1, 0xFFFF);
 				else  // ovr _
@@ -285,7 +285,8 @@ void Gui::DrawSequences()
 		}
 
 		//  header more signs < >
-		x = W/2-2;
+		x = W/2 - 40;
+		d->setFont(OpenSans14);
 		d->setClr(21,25,28);
 		d->setCursor(x, 4);  d->print(edins ? "Ins" : "Ovr");
 		d->setClr(23,27,31);
@@ -293,8 +294,9 @@ void Gui::DrawSequences()
 		if (n < l) {    d->setCursor(x -2*9, 4);  d->print(">");  }
 		#if 1
 		//  cursor ofs pos/len
+		d->setFont(OpenSans12);
 		d->setClr(18,21,23);
-		d->setCursor(x -3*9, 14);
+		d->setCursor(x + 45, 6);
 		sprintf(a,"%d %d/%d", ofs, edpos, l);  d->print(a);
 		#endif
 

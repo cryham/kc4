@@ -19,6 +19,20 @@
 		"ratio": "cpp",
 		"sstream": "cpp",
 		"streambuf": "cpp",
-		"cstring": "cpp"
+		"cstring": "cpp",
+		"cassert": "cpp",
+		"cctype": "cpp",
+		"cerrno": "cpp",
+		"cfloat": "cpp",
+		"climits": "cpp",
+		"clocale": "cpp",
+		"cmath": "cpp",
+		"cstdarg": "cpp",
+		"cstddef": "cpp",
+		"cstdio": "cpp",
+		"cstdlib": "cpp",
+		"ctime": "cpp",
+		"cwchar": "cpp",
+		"cwctype": "cpp"
 	}
 }

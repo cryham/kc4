@@ -59,7 +59,7 @@ const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw
 //symbols:  2. 3,  7 cir  9 dot` 28 ent
 const uint8_t gGui=34, gMslow=NO, gLoad=0/*F3*/,gSave=48,gDiv=46, gEsc=NO,gAdd=10,gEnt=57,gEnt2=NO,
 	gRight=5,gLeft=42/*ent*/,gDown=62,gUp=14, gPgDn=61,gPgUp=13,gEnd=NO,gHome=NO,
-	gCtrl=NO,gSh=58/*\*/,gMul=45,gSub=37, gIns=54,gDel=53, gBckSp=2,gSpc=47/*M*/, gC=40,gV=44,gX=36/*B*/,
+	gCtrl=NO,gSh=58/*\*/,gMul=45,gSub=37, gIns=/*54*/NO,gDel=53, gBckSp=2,gSpc=47/*M*/, gC=40,gV=44,gX=36/*B*/,
 	gF1=NO,gF2=16,gF3=NO,gF6=NO,gF7=NO,gF8=NO,gF9=18,gF10=NO,gF11=NO,gF12=50/*F11*/;  //--
 
 #elif defined(CK8)   //  CK8  ------------------------------------------------

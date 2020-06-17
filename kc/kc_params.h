@@ -7,14 +7,10 @@
   18x8 = 144  * 9L = 1296 B max
      + 60 seq * 20 = 1200 B
   = 2500 B  RAM big
-
-  144 keys * (1 size + 2 Lay data) = 432 B
-    + 10 seq * 15 len = 150 B
-  = 600 B  EE small
 */
 const static int8_t
 	KC_MaxRows = 8,
-	KC_MaxCols = 18,
+	KC_MaxCols = 20,
 	KC_MaxLayers = 8,  // 16
 	KC_MaxSeqs = 60;  // 60
 

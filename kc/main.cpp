@@ -115,8 +115,7 @@ int main()
 
 
 	//  load set from ee
-	//kc.Save();  // todo .. fix
-	//kc.Load();
+	kc.Load();
 	gui.SetScreen(par.startScreen);
 	gui.kbdSend = 0;  //1;  // 1 release
 

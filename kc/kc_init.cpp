@@ -72,7 +72,7 @@ void KC_Setup::Clear()
 	h1 ='k';  h2 = 'c';  ver = 3;  //+ up on changes
 
 	//  default  matrix
-	rows = 8;  cols = 18;  scanKeys = rows * cols;
+	rows = NumRows;  cols = NumCols;  scanKeys = rows * cols;
 	seqSlots = KC_MaxSeqs;
 
 	int i,l;
@@ -100,13 +100,7 @@ KC_Setup::KC_Setup()
 void KC_Setup::InitCK()
 {
 	Clear();
-#if defined(CK8)
-	rows = 8;  cols = 20;
-#elif defined(CK1)
-	rows = 6;  cols = 8;
-#elif defined(CK3)
-	rows = 8;  cols = 18;
-#endif
+	rows = NumRows;  cols = NumCols;
 	scanKeys = rows * cols;
 	seqSlots = KC_MaxSeqs;
 

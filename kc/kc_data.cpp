@@ -19,7 +19,8 @@ void KC_Main::UpdLay(uint32_t ms)
 	if (setDac)
 	{	setDac = 0;
 		int bri = gui.kbdSend ? par.brightOff : par.brightness;
-		analogWrite(LCD_LED, bri);
+		int val = 4095.f * powf(float(bri) / 255.f, 2.f);
+		analogWrite(LCD_LED, val);
 	}
 
 	//  1 minute time, stats

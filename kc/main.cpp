@@ -85,6 +85,12 @@ int main()
 {
 	ParInit();  // par defaults
 
+	//  PWM brightness to display LED
+	pinMode(LCD_LED, OUTPUT);
+	analogWrite(LCD_LED, 1000);  // 0-255
+	analogWriteResolution(12);
+
+
 	//  kbd
 	Matrix_setup();
 
@@ -96,9 +102,6 @@ int main()
 	digitalWrite(LED, gui.led ? LOW : HIGH);
 	#endif
 
-	//  PWM brightness to display LED
-	pinMode(LCD_LED, OUTPUT);
-	analogWrite(LCD_LED, 1);  // 0-255
 
 	//  Init display
 	memset(data, 0, sizeof(data));
@@ -123,8 +126,8 @@ int main()
 	gui.kbdSend = 0;  // release
 	//gui.SetScreen(ST_Test2+T_Matrix);  // test +
 	gui.SetScreen(ST_Test2+T_Pressed);  // test +
-	par.brightness = 100;
-	par.brightOff = 90;
+	par.brightness = 30;
+	par.brightOff = 20;
 #endif
 
 	while (1)

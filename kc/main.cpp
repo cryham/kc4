@@ -96,9 +96,9 @@ int main()
 	digitalWrite(LED, gui.led ? LOW : HIGH);
 	#endif
 
-	//  pin 19, PWM brightness to display LED
-	pinMode(19, OUTPUT);
-	analogWrite(19, 15); // 0-255
+	//  PWM brightness to display LED
+	pinMode(LCD_LED, OUTPUT);
+	analogWrite(LCD_LED, 1);  // 0-255
 
 	//  Init display
 	memset(data, 0, sizeof(data));

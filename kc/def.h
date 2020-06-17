@@ -19,6 +19,8 @@ typedef unsigned long ulong;
 
 //-----------------
 //  extra keyboard features, pins
+#define LCD_LED  19
+
 #ifdef CK6
     //  led light
 	//#define LED  12

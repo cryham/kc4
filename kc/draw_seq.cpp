@@ -170,7 +170,7 @@ void Gui::DrawSequences()
 		const int qdiv = 1 + min(11, l/20);  // less fade
 
 		//  offset from cursor, big seqs
-		n = max(0, edpos-80);
+		n = max(0, edpos - 100);
 		int ofs = n;
 
 		if (n > 0)  // find out Cmt state
@@ -317,14 +317,15 @@ void Gui::DrawOperInfo()
 	if (tInfo > 0)
 	{	--tInfo;
 		bool h = infType == 1 || infType == 2;
-		int x = W-1 - 80, x1 = x+6, xe = 6*3,
-			y = 12, yy = h ? 42 : 10;
+		int x = W-1 - 76, x1 = x+6, xe = 9*3,
+			y = 3, yy = h ? 73 : 19;
 
-		d->setFont(OpenSans12);
-		d->setCursor(x, 0);
 		uint16_t bck = RGB(4,6,8);
 		d->fillRect(x-3, 0, W-1-(x-3), yy, bck);
 		d->drawFastVLine(W-1, 0, yy * tInfo / 70, RGB(10,13,16));  // time|
+
+		d->setFont(OpenSans12);
+		d->setCursor(x, y);  y+=18;
 		d->setColor(RGB(27,29,31), bck);
 
 		const static char* strInf[6] = {
@@ -332,22 +333,22 @@ void Gui::DrawOperInfo()
 		d->print(strInf[infType]);
 
 		if (h)
-		{	d->setClr(28,25,31);  // mem`
-			d->setCursor(x1, y);
+		{	d->setColor(RGB(28,25,31), bck);  // mem`
+			d->setCursor(x1, y);  y+=17;
 			sprintf(a,"%d B", kc.memSize);  d->print(a);
 
-			d->setClr(24,21,28);  // cnt
-			d->setCursor(x1, y+10);
+			d->setColor(RGB(24,21,28), bck);  // cnt
+			d->setCursor(x1, y);  y+=17;
 			sprintf(a,"cnt %d", par.verCounter);  d->print(a);
 
-			d->setClr(20,16,24);  // ver-
-			d->setCursor(x1, y+20);
+			d->setColor(RGB(20,16,24), bck);  // ver-
+			d->setCursor(x1, y);  y+=17;
 			sprintf(a,"ver %d", kc.set.ver);  d->print(a);
 
 			if (kc.err != E_ok)  // error string
 			{
 				uint16_t bck = RGB(6,4,4);
-				d->fillRect(xe-3, y-2, x-3-(xe-3), 12, bck);
+				d->fillRect(xe-3, y-2, x-3-(xe-3), 16, bck);
 				d->setColor(RGB(31,22,21), bck);
 				d->setCursor(xe, y);
 				d->print(KCerrStr[kc.err]);

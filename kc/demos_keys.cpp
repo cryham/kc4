@@ -14,7 +14,7 @@ void Demos::Init(ILI9341_t3n* tft)
 	d = tft;  if (d)  data = d->getFrameBuffer();
 	ti = 0;  oti = 0;
 	
-	bAuto = 0;  iFps = 0;  iInfo = 0;
+	bAuto = 0;  iFps = 1;  iInfo = 1;
 
 #ifdef DEMOS_OLD
 	einit = INone;
@@ -35,13 +35,10 @@ void Demos::Init(ILI9341_t3n* tft)
 
 	ckCur = 1;  ckSpeed = 8;  // logo
 
-	plasma = 2;  t = 13210;  // plasma
-	tadd[0]=5; tadd[1]=7; tadd[2]=6; tadd[3]=8; tadd[4]=7; tadd[5]=7;
-	tadd[6]=3; tadd[7]=3; tadd[8]=2; tadd[9]=5;
+	PlasmaInit();
 
 	waveSpd = 8;  // wave
-	fire = 1;
-	fireSpd[0]=19; fireSpd[1]=17;  // fire
+	fire = 0;  fireSpd[0] = 16; fireSpd[1] = 17;  // fire
 }
 
 
@@ -65,8 +62,8 @@ void Demos::KeyPress(EDemo demo, Gui* gui)
 		{
 		//  full  --------
 		case D_Plasma:
-			if (k)  plasma = (plasma + k + num_plasma) % num_plasma;
-			if (u)  PlasmaT(u);
+			if (k)  plasma = (plasma + k + Plasma_All) % Plasma_All;
+			if (u)  tadd[plasma] += u;
 			break;
 
 		case D_Hedrons:  // 3d

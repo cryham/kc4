@@ -12,7 +12,7 @@ void Gui::DrawEnd()
 {
 	DrawOperInfo();
 
-	//  fps  ---------
+	//  Fps  ---------
 	bool sc = ym == M_Setup && yy == S_Scan;
 	if (demos.iFps == 2 ||
 		(mlevel == 2 && (sc || (demos.iFps && ym == M_Demos))))
@@ -22,10 +22,10 @@ void Gui::DrawEnd()
 		int ff = fr;
 		oldti = ti;
 
-		d->setClr(24,28,31);
-		d->setCursor(W-14, H-8);
-		d->setFont(0);
-	
+		d->setFont(OpenSans12);
+		uint16_t c = RGB(29,30,31);
+		d->setColor(c,0);
+		d->setCursor(W - (ff>99 ? 33 : 19), H-1 - 12);
 		d->print(ff);
 	}
 }

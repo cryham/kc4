@@ -24,8 +24,8 @@ void Demos::Fire()
 
 	if (iInfo > 0)
 	{
-		d->setCursor(0,0);
-		d->println(fireSpd[fire]);
+		d->setCursor(0, H-1 - 7);
+		d->print("Spd ");  d->print(fireSpd[fire]);
 	}
 	t += fireSpd[fire];
 }
@@ -55,7 +55,7 @@ void Demos::Fire1()
 			data[a] = RGB(min(31, c/2), min(31, c/8), c/24);
 		}
 		yy[0]+=13; yy[1]+=25; yy[2]+=34; yy[3]+=45;
-		cd -= cd / 56 + 6;
+		cd -= cd / 44 + 4;
 	}
 }
 
@@ -85,7 +85,7 @@ void Demos::Fire2()
 			data[a] = RGB(min(31, c/18), min(31, c/12), c/26);
 		}
 		yy[0]+=13; yy[1]+=25; yy[2]+=34; yy[3]+=45; yy[4]+=21; yy[5]+=28;
-		cd -= cd / 46 + 6;
+		cd -= cd / 52 + 4;
 	}
 }
 
@@ -136,8 +136,8 @@ void Demos::Wave()
 
 	if (iInfo > 0)
 	{
-		d->setCursor(0,0);
-		d->println(waveSpd);
+		d->setCursor(0, H-1 - 7);
+		d->print("Spd ");  d->print(waveSpd);
 	}
 	t += waveSpd;
 }

@@ -88,12 +88,12 @@ void main_periodic()
 //-------------------------------------------------------------------------
 int main()
 {
-	ParInit();  // par defaults
-
 	//  PWM brightness to display LED
 	pinMode(LCD_LED, OUTPUT);
-	analogWrite(LCD_LED, 1000);  // 0-255
 	analogWriteResolution(12);
+	analogWrite(LCD_LED, 100);  // 0-4095
+
+	ParInit();  // par defaults
 
 
 	//  kbd

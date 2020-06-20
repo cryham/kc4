@@ -104,6 +104,7 @@ enum EClock
 	Cl_All
 };
 
+
 //  string names for all above ^
 extern const char
 	*strMain[M_All], *strTest[T_All], *strSetup[S_All],

@@ -69,7 +69,7 @@ void KC_Main::ResetStats(bool rtc)
 void KC_Setup::Clear()
 {
 	//  header  ver
-	h1 ='k';  h2 = 'c';  ver = 3;  //+ up on changes
+	h1 ='k';  h2 = 'c';  ver = 4;  //+ up on changes
 
 	//  default  matrix
 	rows = NumRows;  cols = NumCols;  scanKeys = rows * cols;

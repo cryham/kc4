@@ -41,13 +41,17 @@ struct Demos
 
 
 	//  Plasma  ~~~~
-	const static int8_t num_plasma = 10;  // all sets
-	int8_t plasma = 0, tadd[num_plasma];  // cur mode, speeds
+	enum EPlasma  {  // sets
+		Pls_SlowClrRings, Pls_ClrLines, Pls_OrnPinkCy, Pls_OrnViolBlue,
+		Pls_SmallWhiteCyVi, Pls_PAbsCyanRed, Pls_PAbsCyanOlive, Pls_PAbsViolDarkCyanEl,
+		Pls_FastOrnCy, Pls_FastBlueYellow, Pls_FastDiamCyBlR, Pls_PinkSlime, Pls_WhitePaint,
+		Plasma_All  };
+	int8_t plasma = 0, tadd[Plasma_All];  // cur mode, speeds
 
-	void Plasma(), PlasmaT(int8_t dt);
-	void PSlowClrRings(), PClrLines(),
-		POrnPinkCy(), POrnViolBlue(), PSmallWhiteCyVi(),  POldBlue(),
-		PFastOrnCy(), PFastBlueYellow(), PFastDiamCyBlR(), PPink();
+	void PlasmaDraw(), PlasmaInit();
+	void PSlowClrRings(), PClrLines(), POrnPinkCy(), POrnViolBlue(),
+		PSmallWhiteCyVi(), PAbsCyanRed(), PAbsCyanOlive(), PAbsViolDarkCyanEl(),
+		PFastOrnCy(), PFastBlueYellow(), PFastDiamCyBlR(), PPinkSlime(), PWhitePaint();
 
 	//  Wave  ~
 	int8_t waveSpd = 8;

@@ -1,6 +1,7 @@
 #include "def.h"
 #include "demos.h"
 #include "ILI9341_t3n.h"
+#include "ili9341_t3n_font_OpenSans.h"
 
 
 //  3D
@@ -249,6 +250,22 @@ const int      NPa[ALL] = {  NP2,  NP1,  NP3,  NP3,  NP4,  NP4,  NP5,  NP5,  NP5
 const int      NEa[ALL] = {  NE2,  NE1,  NE3,  NE3,  NE4,  NE4,  NE5,  NE5,  NE5b,  NE5b,  NE6};  //  Edges
 const int      NFa[ALL] = {    0,    0,    0,  NF3,    0,  NF4,    0,  NF5,    0 ,  NF5b,    0};  //  Faces
 const float    SCa[ALL] = { 1.18, 1.18, 1.26, 1.26, 1.35, 1.35, 1.35, 1.35,  1.35,  1.35, 1.45};  // scale
+
+const char* sHedronName[ALL][2] = 
+{
+	// info names
+	{"1 Icosahedron", "20  <3"},
+	{"2 Dodecahedron", "12  *5"},
+	{"3 Icosidodecahedron", "20  <3  12 *5"},
+	{"3 Icosidodecahedron", "fill"},
+	{"4 Rhombicosidodecahedron", "20 <3  30 [4  12 *5"},
+	{"4 Rhombicosidodecahedron", "fill"},
+	{"5 Snub Dodecahedron", "20+60 <3  12 *5"},
+	{"5 Snub Dodecahedron", "fill"},
+	{"5 Snub Dodecahedron b", "20+60 <3  12 *5"},
+	{"5 Snub Dodecahedron b", "fill"},
+	{"6 Pentagonal Icositetrahedron", ""}
+};
 #undef ALL
 
 
@@ -342,8 +359,10 @@ void Demos::Hedrons()
 	}
 
 	//  inside diagonals to all  clr \|/ xX
-	if (bAuto)
+	if (bAuto)  // demo all
+	{	hdRot = (cnt / 600) % hdRotMax;
 		hdDiag = (cnt / 200) % 4 + 3;
+	}
 
 	const int a0 = (t / 6) % NP, i0 = (t / 8) % NP;
 	switch (hdDiag) {
@@ -394,10 +413,19 @@ void Demos::Hedrons()
 
 	if (iInfo > 0)  // txt
 	{
-		d->setCursor(0,0);
-		d->print("Cur ");  d->println(hdCur);
+		d->setFont(0);
+		d->setCursor(0, H-1 - 2*8);
+		uint16_t c = RGB(28,28,31);
+		d->setColor(c,c);
+		d->println(sHedronName[hdCur][1]);
+		d->print(sHedronName[hdCur][0]);
+
+		//  var
+		d->setFont(OpenSans10);
+		d->setCursor(0, 0);
+		d->setColor(c,0);
 		d->print("Rot ");  d->println(hdRot);
-		//d->setCursor(0,H-1-2*8);
+		//d->setCursor(0, H-1-2*8);
 		d->print("Spd ");  d->println(hdSpd);
 		d->print("Diag ");  d->println(hdDiag);
 		if (hdtOn)  d->println("On");

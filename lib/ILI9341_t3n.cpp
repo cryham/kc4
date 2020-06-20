@@ -471,7 +471,7 @@ void dumpDMA_TCD(DMABaseClass *dmabc, const char *psz_title)
 void	ILI9341_t3n::initDMASettings(void) 
 {
 	// Serial.printf("initDMASettings called %d\n", _dma_state);
-	if (_dma_state) {  // should test for init, but...
+	if (_dma_state & ILI9341_DMA_INIT) {  // should test for init, but...
 		return;	// we already init this. 
 	}
 
@@ -2104,6 +2104,7 @@ FLASHMEM void ILI9341_t3n::begin(uint32_t spi_clock, uint32_t spi_clock_read)
 	}
 #elif defined(__IMXRT1052__) || defined(__IMXRT1062__)  // Teensy 4.x 
 	// Serial.println("   T4 setup CS/DC"); Serial.flush();
+    pending_rx_count = 0; // Make sure it is zero if we we do a second begin...
 	_csport = portOutputRegister(_cs);
 	_cspinmask = digitalPinToBitMask(_cs);
 	pinMode(_cs, OUTPUT);	

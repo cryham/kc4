@@ -23,7 +23,7 @@ void Gui::DrawEnd()
 		oldti = ti;
 
 		d->setClr(24,28,31);
-		d->setCursor(W-14,0);
+		d->setCursor(W-14, H-8);
 		d->setFont(0);
 	
 		d->print(ff);

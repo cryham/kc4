@@ -397,10 +397,10 @@ void Demos::Hedrons()
 		d->setCursor(0,0);
 		d->print("Cur ");  d->println(hdCur);
 		d->print("Rot ");  d->println(hdRot);
-		if (hdtOn)  d->println("On");
-		d->setCursor(0,H-1-2*8);
+		//d->setCursor(0,H-1-2*8);
 		d->print("Spd ");  d->println(hdSpd);
 		d->print("Diag ");  d->println(hdDiag);
+		if (hdtOn)  d->println("On");
 	}
 	t += hdSpd;
 }

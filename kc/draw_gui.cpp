@@ -5,7 +5,7 @@
 
 //  Draw  main
 //....................................................................................
-void Gui::Clear()
+void Gui::Clear(void* buf)
 {
 	yy = ym1[ym];
 
@@ -15,7 +15,7 @@ void Gui::Clear()
 	if (!no)
 	{
 		d->waitUpdateAsyncComplete();
-		memset(demos.data, 0, 2*W*H);
+		memset(buf, 0, 2*W*H);
 		//d->fillScreen(ILI9341_BLACK);
 	}
 	if (!demo)

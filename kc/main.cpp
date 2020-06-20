@@ -25,8 +25,13 @@ extern void ParInit();
 #define TFT_CS 10
 ILI9341_t3n tft = ILI9341_t3n(TFT_CS, TFT_DC);
 
+//#define BUFx2   // double buffering broken
+#ifdef BUFx2
+uint16_t data[2][320 * 240];  // screen buffers
+int buf = 0;
+#else
 uint16_t data[320 * 240];  // screen buffer
-
+#endif
 
 
 //  kbd  timer event,  scan, send
@@ -105,12 +110,20 @@ int main()
 
 	//  Init display
 	memset(data, 0, sizeof(data));
+	#ifdef BUFx2
+	tft.setFrameBuffer(data[buf]);
+	#else
 	tft.setFrameBuffer(data);
+	#endif
 	tft.useFrameBuffer(true);
 
-	tft.begin();
+	tft.begin(60000000);  // 45 Fps, 41 with kbd  60 MHz  stable
+	//tft.begin(80000000);  // 62 Fps  some jitter
+	//tft.begin(112000000);  // 62 Fps  some jitter
 	tft.setRotation(1);
 	tft.fillScreen(ILI9341_BLACK);
+	tft.updateScreen();
+
 	tft.setColor(ILI9341_WHITE);
 	tft.setFont(OpenSans12);
 
@@ -132,12 +145,18 @@ int main()
 
 	while (1)
 	{
-		gui.Clear();
+		#ifdef BUFx2
+		tft.setFrameBuffer(data[buf]);
+		gui.Clear(data[buf]);
+		buf = 1-buf;
+		#else
+		gui.Clear(data);
+		#endif
 
 		gui.Draw();
 		gui.DrawEnd();
 
-		tft.waitUpdateAsyncComplete();  // 60 MHz, all 45 Fps, 41 with kbd
+		tft.waitUpdateAsyncComplete();
 		tft.updateScreenAsync();
 
 		//  temp get  --------

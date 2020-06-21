@@ -133,14 +133,14 @@ int main()
 	//  load set from ee
 	kc.Load();
 	gui.SetScreen(par.startScreen);
-	gui.kbdSend = 0;  //1;  // 1 release
+	gui.kbdSend = 1;  // 1 release
 
 #ifdef CK8
 	gui.kbdSend = 0;  // release
-	//gui.SetScreen(ST_Test2+T_Matrix);  // test +
-	gui.SetScreen(ST_Test2+T_Pressed);  // test +
-	par.brightness = 30;
-	par.brightOff = 20;
+	gui.SetScreen(ST_Test2+T_Matrix);  // test +
+	//gui.SetScreen(ST_Test2+T_Pressed);  // test +
+	par.brightness = 40;
+	par.brightOff = 60;
 #endif
 
 	while (1)

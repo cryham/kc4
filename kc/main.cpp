@@ -135,10 +135,10 @@ int main()
 	gui.SetScreen(par.startScreen);
 	gui.kbdSend = 1;  // 1 release
 
-#ifdef CK8
-	gui.kbdSend = 0;  // release
-	gui.SetScreen(ST_Test2+T_Matrix);  // test +
-	//gui.SetScreen(ST_Test2+T_Pressed);  // test +
+#ifdef CK1  // uncomment for new keyboard / test
+	gui.kbdSend = 0;
+	//gui.SetScreen(ST_Test2+T_Matrix);  // test matrix cols,rows
+	gui.SetScreen(ST_Test2+T_Pressed);  // test scan codes to fill kbd_layout.cpp
 	par.brightness = 40;
 	par.brightOff = 60;
 #endif

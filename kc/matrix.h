@@ -22,16 +22,16 @@ typedef enum KeyPosition {
 
 //  ----***  Matrix configs  ***----
 
-#if defined(CK8)   //  20- 14 x 8  CK8
+#if defined(CK8)   //  20 x 8  CK8
 	const static uint8_t
 	Matrix_cols[] = {
 		24, 25, 28, 32, 30, 33, 31, 29, 27, 38, 39,  // x11
-		5, 6, 7}, //x3  4, 8, 17, 16, 15, 14},  // x9 20
+		14, 15, 16, 17, 8, 7, 6, 5, 4},  // x9
 	Matrix_rows[] = { 0, 1, 2, 3, 34, 35, 36, 37 };
 
 #elif defined(CK1)   //  8 x 8  CK1
 	const static uint8_t
-	Matrix_cols[] = { 32, 30, 33, 31, 29, 27, 38, 39}, // x11 20
+	Matrix_cols[] = { 32, 30, 33, 31, 29, 27, 38, 39},
 	Matrix_rows[] = { 0, 1, 2, 3, 34, 35, 36, 37 };
 
 //#elif defined(CK6) || defined(CK7)   //  18 x 8  CK6 or CK7

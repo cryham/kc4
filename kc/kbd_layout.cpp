@@ -8,6 +8,7 @@ RGB(12,12,12), RGB(13,13,10), RGB( 8,14,19), RGB(21,21,12),	RGB(12,19,19), RGB(1
 //  6 ent,tab  7 ent R        8 arrows      9 tiny
 RGB( 9,21,12), RGB( 9,21,12), RGB(1,20,20), RGB(17,18,18) };
 
+
 #if defined(CK1)   //  CK1  ------------------------------------------------
 #define  wf  kW,fH
 #define  wh  kW,kH
@@ -62,6 +63,7 @@ const uint8_t gGui=34, gMslow=NO, gLoad=0/*F3*/,gSave=48,gDiv=46, gEsc=NO,gAdd=1
 	gCtrl=NO,gSh=58/*\*/,gMul=45,gSub=37, gIns=54,gDel=53, gBckSp=2,gSpc=51, gC=40,gV=44,gX=36/*B*/,
 	gF1=NO,gF2=16,gF3=NO,gF6=NO,gF7=NO,gF8=NO,gF9=18,gF10=NO,gF11=NO,gF12=50/*F11*/;  //--
 
+
 #elif defined(CK8)   //  CK8  ------------------------------------------------
 #define  wf  kW,fH
 #define  wh  kW,kH
@@ -70,51 +72,52 @@ const int8_t  kW = 16, kH = 18, fH = 12, /* size */  X = -kW;
 const uint8_t Y1=1,Y2=21,Y3=41,Y4=61,Y5=81,Y6=101;
 
 const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw
-{ 0,Y1,wf, 'e',6,NO,K_ESC}, //Esc 13x
-{-26,0,wf, '1',2,NO,K_F1},{X, 0,wf, '2',2,NO,K_F2}, {X,0,wf, '3',2,NO,K_F3}, {X,0,wf, '4',2,NO,K_F4},
-{-24,0,wf, '5',2,NO,K_F5},{X, 0,wf, '6',2,NO,K_F6}, {X,0,wf, '7',2,NO,K_F7}, {X,0,wf, '8',2,NO,K_F8},
-{-24,0,wf, '9',2,NO,K_F9},{X, 0,wf, '0',2,NO,K_F10},{X,0,wf, '1',2,NO,K_F11},{X,0,wf, '2',2,NO,K_F12},
+{ 0,Y1,wf, 'e',6,157,K_ESC}, //Esc 13x
+{-26,0,wf, '1',2, 50,K_F1},{X, 0,wf, '2',2, 49,K_F2}, {X,0,wf, '3',2,109,K_F3}, {X,0,wf, '4',2,149,K_F4},
+{-24,0,wf, '5',2, 73,K_F5},{X, 0,wf, '6',2,146,K_F6}, {X,0,wf, '7',2,105,K_F7}, {X,0,wf, '8',2, 45,K_F8},
+{-24,0,wf, '9',2, 56,K_F9},{X, 0,wf, '0',2, 76,K_F10},{X,0,wf, '1',2,156,K_F11},{X,0,wf, '2',2, 36,K_F12},
 
-{ 0,Y2,16,kH, '`',3,NO,K_TILDE}, //~
-{-16,0,wh, '1',1,NO,K_1},{X, 0,wh, '2',1,NO,K_2},{X,0,wh, '3',1,NO,K_3},{X,0,wh, '4',1,NO,K_4},
-{ X, 0,wh, '5',1,NO,K_5},{X, 0,wh, '6',1,NO,K_6},{X,0,wh, '7',1,NO,K_7},{X,0,wh, '8',1,NO,K_8},
-{ X, 0,wh, '9',1,NO,K_9},{X, 0,wh, '0',1,NO,K_0},
-{X,0,wh, '-',3,NO,K_MINUS},{X, 0,wh, '=',3,NO,K_EQUAL}, {X,0,26,kH, '<',7,NO,K_BACK}, //Back 14x
+{ 0,Y2,16,kH, '`',3, 57,K_TILDE}, //~
+{-16,0,wh, '1',1, 77,K_1},{X, 0,wh, '2',1, 70,K_2},{X,0,wh, '3',1, 69,K_3},{X,0,wh, '4',1, 68,K_4},
+{ X, 0,wh, '5',1, 48,K_5},{X, 0,wh, '6',1, 47,K_6},{X,0,wh, '7',1, 67,K_7},{X,0,wh, '8',1, 66,K_8},
+{ X, 0,wh, '9',1, 65,K_9},{X, 0,wh, '0',1, NO,K_0},
+{X,0,wh, '-',3, NO,K_MINUS},{X, 0,wh, '=',3, 46,K_EQUAL}, {X,0,26,kH, '<',7,116,K_BACK}, //Back 14x
 
-{ 0,Y3,24,kH, 29 ,6,NO,K_TAB}, //Tab
-{-24,0,wh, 'Q',0,NO,K_Q},{X, 0,wh, 'W',0,NO,K_W},{X,0,wh, 'E',0,NO,K_E},{X,0,wh, 'R',0,NO,K_R},
-{ X, 0,wh, 'T',0,NO,K_T},{X, 0,wh, 'Y',0,NO,K_Y},{X,0,wh, 'U',0,NO,K_U},{X,0,wh, 'I',0,NO,K_I},
-{ X, 0,wh, 'O',0,NO,K_O},{X, 0,wh, 'P',0,NO,K_P},{X,0,wh, '[',3,NO,K_LBRACE},
-{X, 0,wh, ']',3,NO,K_RBRACE}, {X,0, 18,kH,'\\',3,NO,K_BSLASH}, // \| 14x
+{ 0,Y3,24,kH, 29 ,6,117,K_TAB}, //Tab
+{-24,0,wh, 'Q',0, 97,K_Q},{X, 0,wh, 'W',0, 90,K_W},{X,0,wh, 'E',0, 89,K_E},{X,0,wh, 'R',0, 88,K_R},
+{ X, 0,wh, 'T',0,108,K_T},{X, 0,wh, 'Y',0,107,K_Y},{X,0,wh, 'U',0, 87,K_U},{X,0,wh, 'I',0, 86,K_I},
+{ X, 0,wh, 'O',0, 85,K_O},{X, 0,wh, 'P',0, NO,K_P},{X,0,wh, '[',3, NO,K_LBRACE},
+{X, 0,wh, ']',3,106,K_RBRACE}, {X,0, 18,kH,'\\',3,136,K_BSLASH}, // \| 14x
 
-{ 0,Y4,30,kH,  2 ,6,NO,K_A}, //Caps
-{-30,0,wh, 'A',0,NO,K_A},{X, 0,wh, 'S',0,NO,K_S},{X,0,wh, 'D',0,23,K_D},{X,0,wh, 'F',0,NO,K_F},
-{ X, 0,wh, 'G',0,NO,K_G},{X, 0,wh, 'H',0,NO,K_H},{X,0,wh, 'J',0,19,K_J},{X,0,wh, 'K',0,NO,K_K},
-{ X, 0,wh, 'L',0,NO,K_L},{X,0,wh, ';',3,NO,K_SEMIC},
-{X, 0,wh,'\'',3,NO,K_QUOTE}, {X,0, 28,kH, 28,7,NO,K_ENT}, //Ent 13x
+{ 0,Y4,30,kH,  2 ,6, NO,K_A}, //Caps
+{-30,0,wh, 'A',0,137,K_A},{X, 0,wh, 'S',0,130,K_S},{X,0,wh, 'D',0,129,K_D},{X,0,wh, 'F',0,128,K_F},
+{ X, 0,wh, 'G',0,148,K_G},{X, 0,wh, 'H',0,147,K_H},{X,0,wh, 'J',0,127,K_J},{X,0,wh, 'K',0,126,K_K},
+{ X, 0,wh, 'L',0,125,K_L},{X,0,wh, ';',3, NO,K_SEMIC},
+{X, 0,wh,'\'',3, NO,K_QUOTE}, {X,0, 28,kH, 28,7, 16,K_ENT}, //Ent 13x
 
-{ 0,Y5,36,kH, 's',4,NO,K_LSHIFT}, //L Sh
-{-36,0,wh, 'Z',0,NO,K_Z},{X, 0,wh, 'X',0,NO,K_X},{X,0,wh, 'C',0,NO,K_C},{X,0,wh, 'V',0,NO,K_V},
-{ X, 0,wh, 'B',0,NO,K_B},{X, 0,wh, 'N',0,NO,K_N},{X,0,wh, 'M',0,NO,K_M},{X,0,wh, ',',3,NO,K_COMMA},
-{ X, 0,wh, '.',3,NO,K_PERIOD},{X,0,wh, '/',3,NO,K_SLASH}, {X, 0, 38,kH, 's',5,NO,K_RSHIFT}, //R Sh 12x
+{ 0,Y5,36,kH, 's',4,100,K_LSHIFT}, //L Sh
+{-36,0,wh, 'Z',0, 17,K_Z},{X, 0,wh, 'X',0, 10,K_X},{X,0,wh, 'C',0,  9,K_C},{X,0,wh, 'V',0,  8,K_V},
+{ X, 0,wh, 'B',0, 28,K_B},{X, 0,wh, 'N',0, 27,K_N},{X,0,wh, 'M',0,  7,K_M},{X,0,wh, ',',3,  6,K_COMMA},
+{ X, 0,wh, '.',3,  5,K_PERIOD},{X,0,wh, '/',3, NO,K_SLASH}, {X, 0, 38,kH, 's',5,120,K_RSHIFT}, //R Sh 12x
 
 //modif:  L Ctrl, L Gui, L Alt, space, R Alt, App,K_Ss, R Gui, R Ctrl
-{ 0,Y6,24,kH, 'c',4,NO,K_LCTRL},{-24,0,16,kH,  9 ,4,NO,K_LGUI},{-16,0,24,kH,'a',4,NO,K_LALT},
-{-24,0,90,kH, ' ',6,NO,K_SPACE}, //Space
-{-90,0,20,kH, 'a',5,NO,K_RALT}, {-20,0,16,kH,  9 ,6,NO,K_RGUI},{-16,0,18,kH,254,5,NO,K_MENU},
-{-18,0,26,kH, 'c',5,NO,K_RCTRL}, //R Ct 8x
+{ 0,Y6,24,kH, 'c',4, 53,K_LCTRL},{-24,0,16,kH,  9 ,4,112,K_LGUI},{-16,0,24,kH,'a',4, NO,K_LALT},
+{-24,0,90,kH, ' ',6,159,K_SPACE}, //Space
+{-90,0,20,kH, 'a',5, NO,K_RALT}, {-20,0,16,kH,  9 ,6, NO,K_RGUI},{-16,0,18,kH,254,5, 25,K_MENU},
+{-18,0,26,kH, 'c',5, 13,K_RCTRL}, //R Ct 8x
 //numpad: 17x
-{XN,Y2,wh,  3 ,6,NO,K_NUML},{X, 0,wh, '/',3,NO,KP_DIV},{X,0,wh, 'x',3,NO,KP_MUL},{X,0,wh,  '-',3,NO,KP_SUB},
-{XN,Y3,wh, '7',8,NO,K_HOME},{X, 0,wh, 24 ,8,NO,K_UP},  {X,0,wh, '9',8,NO,K_PGUP},{X,0,kW,kH*2+2,'+',3,NO,KP_ADD},
-{XN,Y4,wh, 27 ,8,NO,K_LEFT},{X, 0,wh,  7 ,6,NO,K_DEL}, {X,0,wh, 26 ,8,NO,K_RIGHT},
-{XN,Y5,wh, '1',8,NO,K_END}, {X, 0,wh, 25 ,8,NO,K_DOWN},{X,0,wh, '3',8,NO,K_PGDN},{X,0,kW,kH*2+2, 28,6,NO,KP_ENT},
-{XN,Y6,kW*2,kH,'_',6,NO,K_INS},{-kW*2,0,wh,'.',6,NO,K_DEL}, //Ins Del
+{XN,Y2,wh,  3 ,6,  1,K_NUML},{X, 0,wh, '/',3,  2,KP_DIV},{X,0,wh, 'x',3,  3,KP_MUL},{X,0,wh,  '-',3, 23,KP_SUB},
+{XN,Y3,wh, '7',8, 81,K_HOME},{X, 0,wh, 24 ,8, 82,K_UP},  {X,0,wh, '9',8, 83,K_PGUP},{X,0,kW,kH*2+2,'+',3, 84,KP_ADD},
+{XN,Y4,wh, 27 ,8,101,K_LEFT},{X, 0,wh,  7 ,6,102,K_DEL}, {X,0,wh, 26 ,8,103,K_RIGHT},
+{XN,Y5,wh, '1',8,121,K_END}, {X, 0,wh, 25 ,8,122,K_DOWN},{X,0,wh, '3',8,123,K_PGDN},{X,0,kW,kH*2+2, 28,6,124,KP_ENT},
+{XN,Y6,kW*2,kH,'_',6,158,K_INS},{-kW*2,0,wh,'.',6,143,K_DEL}, //Ins Del
 };
 //symbols:  2. 3,  7 cir  9 dot` 28 ent   // todo .. enum, array
-const uint8_t gGui=NO, gMslow=NO, gLoad=NO,gSave=NO,gDiv=NO, gEsc=NO,gAdd=NO,gEnt=NO,gEnt2=NO,
-	gRight=NO,gLeft=NO,gDown=NO,gUp=NO, gPgDn=NO,gPgUp=NO,gEnd=NO,gHome=NO,
-	gCtrl=NO,gSh=NO,gMul=NO,gSub=NO, gIns=NO,gDel=NO, gBckSp=NO,gSpc=NO, gC=NO,gV=NO,gX=NO,
-	gF1=NO,gF2=NO,gF3=NO,gF6=NO,gF7=NO,gF8=NO,gF9=NO,gF10=NO,gF11=NO,gF12=NO;  //--
+const uint8_t gGui=93/*pause*/, gMslow=100, gLoad=73,gSave=149,gDiv=2, gEsc=157,gAdd=84,gEnt=16,gEnt2=124,
+	gRight=103,gLeft=101,gDown=122,gUp=82, gPgDn=123,gPgUp=83,gEnd=121,gHome=81,
+	gCtrl=53,gSh=100,gMul=3,gSub=23, gIns=158,gDel=143, gBckSp=116,gSpc=159, gC=9,gV=8,gX=10,
+	gF1=50,gF2=49,gF3=109,gF6=146,gF7=105,gF8=45,gF9=56,gF10=76,gF11=156,gF12=36;  //--
+
 
 #elif defined(CK6)   //  CK6/3  ------------------------------------------------
 #define  wf  fW,fH

@@ -11,10 +11,10 @@ typedef unsigned long ulong;
 
 //===---  Keyboard  ---===
 //  define just one type, for matrix.h
-#define CK1  // 8x8
+//#define CK1  // 8x8
 //#define CK6  // 18x8  new CK6/3
 //#define CK7  // 18x8  old CK7/4/2
-//#define CK8  // 20x8  wip-
+#define CK8  // 20x8  wip CK8/5
 
 
 //-----------------

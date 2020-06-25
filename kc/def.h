@@ -8,6 +8,10 @@ typedef unsigned long ulong;
 //#define DEMOS_OLD
 #define GAME
 
+// uncomment to draw using double buffering
+// uses 75% RAM but has almost always 45 Fps flat on all demos
+#define BUFx2
+
 
 //===---  Keyboard  ---===
 //  define just one type, for matrix.h
@@ -36,7 +40,7 @@ typedef unsigned long ulong;
 const int W = 320, H = 240;
 
 //  R F800  G 07E0  B 001F  R 32 G 64 B 32  565
-#define RGB(r,g,b)  ( ((r)<<11)+ ((g)<<6) +(b))   // 31 31 31
+#define RGB(r,g,b)  ( ((r)<<11)+ ((g)<<6) +(b))  // 31 31 31
 #define RGB2(r,g,b) ( ((r)<<11)+ ((g)<<5) +(b))  // 31 63 31
 
 #ifdef __cplusplus

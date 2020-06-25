@@ -25,12 +25,11 @@ extern void ParInit();
 #define TFT_CS 10
 ILI9341_t3n tft = ILI9341_t3n(TFT_CS, TFT_DC);
 
-//#define BUFx2   // double buffering broken
 #ifdef BUFx2
-uint16_t data[2][320 * 240];  // screen buffers
+DMAMEM uint16_t data[2][320 * 240];
 int buf = 0;
 #else
-uint16_t data[320 * 240];  // screen buffer
+DMAMEM uint16_t data[320 * 240];  // screen buffer
 #endif
 
 
@@ -110,16 +109,16 @@ int main()
 
 	//  Init display
 	memset(data, 0, sizeof(data));
+	tft.useFrameBuffer(true);
 	#ifdef BUFx2
-	tft.setFrameBuffer(data[buf]);
+	tft.setFrameBuffer(data[0]);
 	#else
 	tft.setFrameBuffer(data);
 	#endif
-	tft.useFrameBuffer(true);
 
 	tft.begin(60000000);  // 45 Fps, 41 with kbd  60 MHz  stable
-	//tft.begin(80000000);  // 62 Fps  some jitter
-	//tft.begin(112000000);  // 62 Fps  some jitter
+	//tft.begin(80000000);  // 52 Fps  some jitter
+	//tft.begin(112000000);  // 52? 62 Fps  some jitter
 	tft.setRotation(1);
 	tft.fillScreen(ILI9341_BLACK);
 	tft.updateScreen();
@@ -133,7 +132,7 @@ int main()
 	//  load set from ee
 	kc.Load();
 	gui.SetScreen(par.startScreen);
-	gui.kbdSend = 1;  // 1 release
+	gui.kbdSend = 0;  // 1 release
 
 #ifdef CK1  // uncomment for new keyboard / test
 	gui.kbdSend = 0;
@@ -156,8 +155,16 @@ int main()
 		gui.Draw();
 		gui.DrawEnd();
 
+	#if 1
+		elapsedMillis em = 0;
+		while (tft.asyncUpdateActive() && ( em < 100)) ;
+		//if (em >= 100) { Serial.print("Timeout"); Serial.flush(); }
+		//tft.waitUpdateAsyncComplete();
+		tft.updateScreenAsync();
+	#else    
 		tft.waitUpdateAsyncComplete();
 		tft.updateScreenAsync();
+	#endif
 
 		//  temp get  --------
 		#ifdef TEMP1  // 18B20  Temp'C

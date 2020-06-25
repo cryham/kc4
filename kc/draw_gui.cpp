@@ -8,13 +8,16 @@
 void Gui::Clear(void* buf)
 {
 	yy = ym1[ym];
+	demos.data = (uint16_t*)buf;  // change if double buffer
 
 	//  Clear  if not full screen demo
 	bool demo = ym == M_Demos && mlevel == 2;
 	bool no = demo && (yy == D_Rain || yy == D_Plasma || yy == D_Wave || yy == D_Fire);
 	if (!no)
 	{
+		#ifndef BUFx2
 		d->waitUpdateAsyncComplete();
+		#endif
 		memset(buf, 0, 2*W*H);
 		//d->fillScreen(ILI9341_BLACK);
 	}

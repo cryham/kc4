@@ -179,6 +179,10 @@
 #define sint16_t int16_t
 
 // Lets see about supporting Adafruit fonts as well?
+#if __has_include(<gfxfont.h>)
+	#include <gfxfont.h>
+#endif
+
 #ifndef _GFXFONT_H_
 #define _GFXFONT_H_
 
@@ -227,8 +231,8 @@ typedef struct {
 #define ILI9341_SPICLOCK 30000000
 #define ILI9341_SPICLOCK_READ 2000000
 #elif defined(__IMXRT1052__) || defined(__IMXRT1062__)  // Teensy 4.x
-#define ILI9341_SPICLOCK 60000000u
-#define ILI9341_SPICLOCK_READ 6000000
+#define ILI9341_SPICLOCK 30000000u
+#define ILI9341_SPICLOCK_READ 2000000
 #else
 #define ILI9341_SPICLOCK 30000000
 #define ILI9341_SPICLOCK_READ 2000000
@@ -431,7 +435,7 @@ class ILI9341_t3n : public Print
 	void resetScrollBackgroundColor(uint16_t color);
 
 	// added support to use optional Frame buffer
-	enum {ILI9341_DMA_INIT=0x01, ILI9341_DMA_CONT=0x02, ILI9341_DMA_FINISH=0x04,ILI9341_DMA_ACTIVE=0x80};
+	enum {ILI9341_DMA_INIT=0x01, ILI9341_DMA_EVER_INIT=0x08, ILI9341_DMA_CONT=0x02, ILI9341_DMA_FINISH=0x04, ILI9341_DMA_ACTIVE=0x80};
 	void	setFrameBuffer(uint16_t *frame_buffer);
 	uint8_t useFrameBuffer(boolean b);		// use the frame buffer?  First call will allocate
 	void	freeFrameBuffer(void);			// explicit call to release the buffer

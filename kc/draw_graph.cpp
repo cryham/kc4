@@ -210,9 +210,9 @@ void Gui::DrawGraph()
 
 	if (cursor)
 	{
-		d->drawPixel(xc,  0, RGB(29,29,29));  //.
+		d->drawPixel(xc,  0, RGB(29,29,29));  //^
 		d->drawPixel(xc,H/2, RGB(29,29,29));  //.
-		d->drawPixel(xc,H-1, RGB(29,29,29));  //.
+		d->drawPixel(xc,H-1, RGB(29,29,29));  //v
 
 		getTv(xc);
 		ClrTemp(v);

@@ -264,7 +264,7 @@ class ILI9341_t3n : public Print
 	void setAddrWindow(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
 
 	//  cryham
-	uint8_t getClr()
+	uint16_t getClr()
 	{
 		return textcolor;
 	}

@@ -120,7 +120,7 @@ struct KC_Main
 	//   0   1   2* *3 * 4  *5   6   7 * 8 * 9  10 now    * key press
 
 	uint8_t grPMin[W];  // press/1min graph array
-	uint8_t grPpos = 0;  // write pos
+	uint16_t grPpos = 0;  // write pos
 };
 
 extern KC_Main kc;

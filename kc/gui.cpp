@@ -61,7 +61,7 @@ void Gui::Init(ILI9341_t3n* tft)
 			{
 				if (grpStart[g] == 0)  grpStart[g] = i;
 				grpEnd[g] = i;
-}
+			}
 	}
 }
 

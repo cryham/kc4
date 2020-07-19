@@ -145,7 +145,7 @@ struct Gui
 	void GetTemp();
 
 	uint8_t grTemp[W];    // graph array
-	uint8_t grTpos = 0;   // write pos
+	uint16_t grTpos = 0;  // write pos
 	// auto range
 	uint8_t grTempUpd = 1;  // update
 	uint8_t grFmin = 17, grFmax = 35;  // temp 'C

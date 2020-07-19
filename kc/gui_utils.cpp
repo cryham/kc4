@@ -13,20 +13,32 @@ void Gui::DrawEnd()
 	DrawOperInfo();
 
 	//  Fps  ---------
+	++fps_cnt;
+	uint32_t ti = millis(),
+		ms_diff = ti - oldti;
+	if (ms_diff >= 1000)  // 1.0s upd
+	{
+		oldti = ti;
+		float fr = float(fps_cnt) * 1000.f / ms_diff;
+		fps = fr;  // / 1000 Hz
+		fps_cnt = 0;
+	}
+
 	bool sc = ym == M_Setup && yy == S_Scan;
 	if (demos.iFps == 2 ||
 		(mlevel == 2 && (sc || (demos.iFps && ym == M_Demos))))
 	{
-		uint32_t ti = millis();
-		float fr = 1000.f / (ti - oldti);
-		int ff = fr;
-		oldti = ti;
-
 		d->setFont(OpenSans12);
 		uint16_t c = RGB(29,30,31);
 		d->setColor(c,0);
-		d->setCursor(W - (ff>99 ? 33 : 19), H-1 - 12);
-		d->print(ff);
+	#if 0  // old way
+		float fr = 1000.f / (ti - oldti);
+		int fps = fr;
+		oldti = ti;
+	#else
+		d->setCursor(W - (fps > 99 ? 33 : 19), H-1 - 12);
+		d->print(fps);
+	#endif
 	}
 }
 

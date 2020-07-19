@@ -76,6 +76,8 @@ struct Gui
 	//  time, key repeat
 	uint32_t oldti=0, oldti_kr=0;
 	int8_t kr(uint8_t sc, uint16_t dt);
+	//  fps
+	int16_t fps=0, fps_cnt=0;
 
 	//  help
 	int8_t hpage = 0;

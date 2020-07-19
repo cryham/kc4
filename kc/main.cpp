@@ -116,9 +116,9 @@ int main()
 	tft.setFrameBuffer(data);
 	#endif
 
-	tft.begin(60000000);  // 45 Fps, 41 with kbd  60 MHz  stable
-	//tft.begin(80000000);  // 52 Fps  some jitter
-	//tft.begin(112000000);  // 52? 62 Fps  some jitter
+	tft.begin(60000000);  // 45 Fps  60 MHz  stable
+	//tft.begin(80000000);  // 60 Fps  some jitter
+	//tft.begin(112000000);  // 60 Fps  jitter
 	tft.setRotation(1);
 	tft.fillScreen(ILI9341_BLACK);
 	tft.updateScreen();
@@ -140,6 +140,12 @@ int main()
 	gui.SetScreen(ST_Test2+T_Pressed);  // test scan codes to fill kbd_layout.cpp
 	par.brightness = 40;
 	par.brightOff = 60;
+#endif
+#ifdef CK9  // no keyboard, run all demos
+	gui.SetScreen(ST_Demos2+D_AutoAll);
+	gui.demos.bAuto = 1;
+	par.brightness = 30;
+	par.brightOff = 30;
 #endif
 
 	while (1)

@@ -31,8 +31,8 @@ typedef unsigned long ulong;
 	//  temperature 'C sensor DS18B20
 	//#define TEMP1  31	//  44   9%  24k
 #endif
-#ifdef CK7
-	//#define TEMP1  14
+#ifdef CK8
+	#define TEMP1  23
 #endif
 
 

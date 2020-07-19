@@ -5,7 +5,6 @@
 #include "matrix.h"
 #include "kc_data.h"
 
-#define TEMP1  // test
 
 //  const
 uint8_t MDays[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -261,9 +260,6 @@ void Gui::DrawClock()
 
 	//  Temp'C  val  --------
 	#ifdef TEMP1
-	float fTemp = 26.09f;  // test
-	int temp1 = 4;
-
 	if (!adjust && fTemp > -90.f)
 	{
 		d->setFont(OpenSans20);

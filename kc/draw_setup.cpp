@@ -192,15 +192,21 @@ void Gui::DrawSetup()
 		}
 
 		///  dbg  mouse accel  --
-		const int16_t x0 = 8, x1 = W/4 +x0, x2 = 2*W/4 +x0, h = 16;
+		const int16_t x0 = 8, x1 = W/5 +x0, x2 = 2*W/5 +x0, h = 16;
 		y = H-1 - h;
+		uint8_t u = usb_mouse_buttons_state;
 		d->setClr(16,20,24);
 
-		const static char ch[3]={'<','0','>'};  // input status
-		#define Ch(v)  ch[max(0, min(2, v))]
-		d->setCursor(0, y);  sprintf(a,"m-+  x%c y%c  wh x%c y%c  bt %d",
-			Ch(Mouse_input_x/8+1), Ch(Mouse_input_y/8+1),
-			Ch(Mouse_wheel_x+1), Ch(Mouse_wheel_y+1), usb_mouse_buttons_state);
+		const static char  // input status
+			chx[3]={'<','0','>'}, chy[3]={'^','0','v'};  // input status
+		#define Ch(v)  max(0, min(2, v))
+		
+		d->setCursor(0, y);
+		sprintf(a,"mv %c %c  wh %c %c  btn "/*%d */"%c%c%c%c%c",
+			chx[Ch(Mouse_input_x/8+1)], chy[Ch(Mouse_input_y/8+1)],
+			chx[Ch(Mouse_wheel_x  +1)], chy[Ch(Mouse_wheel_y  +1)], /*u,*/
+			u & MOUSE_LEFT ? 'L':' ',	u & MOUSE_MIDDLE ? 'M':' ',
+			u & MOUSE_RIGHT ? 'R':' ',	u & MOUSE_BACK ? '<':' ',	u & MOUSE_FORWARD ? '>':' ');
 		d->print(a);  y -= h+4;
 
 		d->setCursor(x0,y);  dtostrf(my_holdtime, 4,2, a);  d->print(a);
@@ -214,6 +220,29 @@ void Gui::DrawSetup()
 		d->setCursor(0, y);  d->print("Hold");
 		d->setCursor(x1-x0, y);  d->print("Delay");
 		d->setCursor(x2-x0, y);  d->print("Speed");
+
+
+		//  mouse circle visual  o +
+		const int16_t r = W/6, rm = 2, xc = W-1 -r -rm, yc = H-1 -r -rm;
+		const uint16_t c = RGB(8,10,12), q = RGB(29,30,31);
+		d->drawCircle(xc, yc, r, c);  // o - |
+		d->drawFastHLine(xc-r, yc, 2*r, c);
+		d->drawFastVLine(xc, yc-r, 2*r, c);
+		
+		int i = r * mx_delay / 20000;  // del -
+		static int8_t mx = 0, my = 0;
+		int bx = Mouse_input_x / 8, by = Mouse_input_y / 8;
+		if (bx)  mx = bx;
+		if (by)  my = by;
+		if (mx)
+		d->drawFastHLine(mx>0 ? xc : xc-i, yc, i, q);
+
+		i = r * my_delay / 20000;  // del |
+		if (my)
+		d->drawFastVLine(xc, my>0 ? yc : yc-i, i, q);
+	
+		d->drawCircle(xc + mx * r * mx_speed / 10,  // cur speed .
+					  yc + my * r * my_speed / 10, rm, q);
 
 	}	break;
 

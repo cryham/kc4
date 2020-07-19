@@ -36,6 +36,8 @@
 		"cwctype": "cpp",
 		"usb_dev.h": "c",
 		"pgmspace.h": "c",
-		"inttypes.h": "c"
+		"inttypes.h": "c",
+		"string.h": "c",
+		"usb_mouse.h": "c"
 	}
 }

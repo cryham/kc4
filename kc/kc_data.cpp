@@ -380,8 +380,8 @@ void KC_Main::Send(uint32_t ms)
 						tInactSum += tInact1;  // sum
 					}
 				}
-				//  mouse  * * *  // todo ..
-				/*else
+				//  mouse  * * *
+				else
 				if (code >= KM_Left && code <= KM_Down)
 				{	switch (code)
 					{
@@ -408,7 +408,7 @@ void KC_Main::Send(uint32_t ms)
 					}
 					Mouse.press(b);
 					k.layerOn = nLayer;
-				}*/
+				}
 				//  sequences  * * *
 				else
 				if (code >= K_Seq0 && code <= K_SeqLast
@@ -440,8 +440,8 @@ void KC_Main::Send(uint32_t ms)
 					Keyboard.release(usb);
 					Keyboard.send_now();
 				}
-				//  mouse  * * *  // todo ..
-				/*else
+				//  mouse  * * *
+				else
 				if (code >= KM_Left && code <= KM_Down)
 				{	switch (code)
 					{
@@ -466,13 +466,13 @@ void KC_Main::Send(uint32_t ms)
 					case KM_Back: b = MOUSE_BACK;   break;  case KM_Forw: b = MOUSE_FORWARD;  break;
 					}
 					Mouse.release(b);
-				}*/
+				}
 			}
 		}
 	}
 
-	//  mouse move and send  * * *  // todo ..
+	//  mouse move and send  * * *
 
-	//Mouse_shift = KeyH(par.keyMouseSlow);
-	//usb_mouse_idle();
+	Mouse_shift = KeyH(par.keyMouseSlow);
+	usb_mouse_idle();
 }

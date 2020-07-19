@@ -191,27 +191,30 @@ void Gui::DrawSetup()
 			d->print(a);  yadd(8+1);
 		}
 
-		///  dbg  mouse accel  --  // todo ..
-		/*const int16_t x0 = 0, x1 = W/3+6, x2 = 2*W/3+6;
-		y = H-1 - 2*8 - 2*(8+2);
+		///  dbg  mouse accel  --
+		const int16_t x0 = 8, x1 = W/4 +x0, x2 = 2*W/4 +x0, h = 16;
+		y = H-1 - h;
 		d->setClr(16,20,24);
-		d->setCursor(0, y);     d->print("hold");
-		d->setCursor(W/3, y);   d->print("delay");
-		d->setCursor(2*W/3, y); d->print("speed");  y+= 8+2;
 
-		d->setCursor(x0,y);  dtostrf(mx_holdtime, 4,2, a);  d->print(a);
-		d->setCursor(x1,y);  sprintf(a,"%d", mx_delay);  d->print(a);
-		d->setCursor(x2,y);  sprintf(a,"%d", mx_speed);  d->print(a);  yadd(8);
+		const static char ch[3]={'<','0','>'};  // input status
+		#define Ch(v)  ch[max(0, min(2, v))]
+		d->setCursor(0, y);  sprintf(a,"m-+  x%c y%c  wh x%c y%c  bt %d",
+			Ch(Mouse_input_x/8+1), Ch(Mouse_input_y/8+1),
+			Ch(Mouse_wheel_x+1), Ch(Mouse_wheel_y+1), usb_mouse_buttons_state);
+		d->print(a);  y -= h+4;
 
 		d->setCursor(x0,y);  dtostrf(my_holdtime, 4,2, a);  d->print(a);
 		d->setCursor(x1,y);  sprintf(a,"%d", my_delay);  d->print(a);
-		d->setCursor(x2,y);  sprintf(a,"%d", my_speed);  d->print(a);  yadd(8+2);
+		d->setCursor(x2,y);  sprintf(a,"%d", my_speed);  d->print(a);  y -= h;
 
-		const static char ch[3]={'-',' ','+'};  // input status
-		#define Ch(v)  ch[max(0, min(2, v))]
-		d->setCursor(0, H-1-8);  sprintf(a,"m x%cy%c wh x%cy%c bt %d",
-			Ch(Mouse_input_x/8+1), Ch(Mouse_input_y/8+1),
-			Ch(Mouse_wheel_x+1), Ch(Mouse_wheel_y+1), usb_mouse_buttons_state);  d->print(a);*/
+		d->setCursor(x0,y);  dtostrf(mx_holdtime, 4,2, a);  d->print(a);
+		d->setCursor(x1,y);  sprintf(a,"%d", mx_delay);  d->print(a);
+		d->setCursor(x2,y);  sprintf(a,"%d", mx_speed);  d->print(a);  y -= h+2;
+
+		d->setCursor(0, y);  d->print("Hold");
+		d->setCursor(x1-x0, y);  d->print("Delay");
+		d->setCursor(x2-x0, y);  d->print("Speed");
+
 	}	break;
 
 	}

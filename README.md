@@ -46,13 +46,13 @@ Lastly:
 
 ### Code used
 
-It uses code from repositories, possibly modified:
-* [PaulStoffregen cores](https://github.com/PaulStoffregen/cores/tree/master/teensy4) for Teensy 4 core. Added mouse idle and acceleration.
-* [KurtE ILI9341_t3n](https://github.com/KurtE/ILI9341_t3n) for fast ILI9341 display using DMA. Added only small utility methods.
+It uses code from repositories, modified slightly:
+* [PaulStoffregen cores](https://github.com/PaulStoffregen/cores/tree/master/teensy4) for Teensy 4 core. - Added mouse idle and acceleration.
+* [KurtE ILI9341_t3n](https://github.com/KurtE/ILI9341_t3n) for fast ILI9341 display using DMA. - Removed fonts, added small utility methods.
 * My previous [KC repo](https://github.com/cryham/kc) as base. Adapted to bigger display and continued with new features.
 
-I am using double buffering (so 2 times screen buffer of 153kB for 320x240) which makes displaying at 45 Fps (almost always constant).
-Single buffering can work too, with slightly less Fps and it then depends on drawing time.
+I am using double buffering (so 2 times screen buffer of 153kB for 320x240) which makes displaying at 45 Fps (almost always constant).  
+Single buffering can work too, with slightly less Fps which then depends on drawing time.
 
 This is while scanning keyboard matrix at 1kHz, with higher rate e.g. 2kHz Fps drops to 41 etc.
 

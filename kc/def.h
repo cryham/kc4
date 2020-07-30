@@ -22,7 +22,7 @@ typedef unsigned long ulong;
 
 //-----------------
 //  extra keyboard features, pins
-#define LCD_LED  19
+#define LCD_LED  19  // pwm brightness
 
 #ifdef CK9
     //  led light

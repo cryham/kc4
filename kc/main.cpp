@@ -55,7 +55,7 @@ void main_periodic()
 	//  kbd scan
 	bool bsc = false;
 	if (gui.kbdSend
-		// slower for demos ?
+		// slower for demos
 		|| gui.ym != M_Demos || scan_n % 2==0
 	){
 		Matrix_scan(0);  bsc = true;
@@ -145,7 +145,6 @@ int main()
 #ifdef CK9test  // no keyboard, run all demos
 	// gui.SetScreen(ST_Demos2+D_AutoAll);
 	// gui.demos.bAuto = 1;
-	gui.SetScreen(ST_Test2+T_Pressed);  // test scan codes to fill kbd_layout.cpp
 	par.brightness = 30;
 	par.brightOff = 30;
 #endif

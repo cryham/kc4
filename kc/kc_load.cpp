@@ -6,7 +6,7 @@
 //  load, save in eeprom
 //.............................................
 #define EOfs 0      //  offset and
-#define ESize 2048  //  max size to use
+#define ESize 4095  //  max size to use
 
 #define Erd(a)    eeprom_read_byte((uint8_t*)a);      ++a;  memSize = a;  if (a >= ESize) {  err=E_size;  return;  }
 #define Ewr(a,b)  eeprom_write_byte((uint8_t*)a, b);  ++a;  memSize = a;  if (a >= ESize) {  err=E_size;  return;  }

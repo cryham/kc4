@@ -134,6 +134,7 @@ int main()
 	gui.SetScreen(par.startScreen);
 	gui.kbdSend = 1;  // 1 release
 
+
 #ifdef CK1  // uncomment for new keyboard / test
 	gui.kbdSend = 0;
 	//gui.SetScreen(ST_Test2+T_Matrix);  // test matrix cols,rows
@@ -148,6 +149,7 @@ int main()
 	par.brightness = 30;
 	par.brightOff = 30;
 #endif
+
 
 	while (1)
 	{

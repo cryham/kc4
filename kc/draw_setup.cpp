@@ -130,7 +130,7 @@ void Gui::DrawSetup()
 			switch(i)
 			{
 			case 0:
-				sprintf(a,"Scan:  %u Hz", par.scanFreq * 20);  break;
+				sprintf(a,"Frequency:  %u Hz", par.scanFreq * 20);  break;
 			case 1:
 				sprintf(a,"Strobe delay:  %d us", par.strobe_delay);  break;
 			case 2:
@@ -140,7 +140,7 @@ void Gui::DrawSetup()
 		}
 
 		d->setClr(22,23,23);
-		d->setCursor(W-1-44,0);
+		d->setCursor(W-1-44,H-32);
 		d->print("Fps");
 
 		d->setCursor(2,H-80);

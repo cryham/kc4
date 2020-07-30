@@ -72,7 +72,7 @@ void Gui::DrawLayout(bool edit)
 
 		//  text  ----
 		d->setCursor(
-			k.o==5 || k.o==7 ? x + k.w - 12 :  // right align
+			k.o==5 || k.o==7 ? x + k.w - 13 :  // right align
 			(k.o==3 ? x+1 : x+2),  // symb 3
 			k.h == fH ? y-2 : y-1);  // short
 

@@ -132,7 +132,7 @@ int main()
 	//  load set from ee
 	kc.Load();
 	gui.SetScreen(par.startScreen);
-	gui.kbdSend = 0;  // 1 release
+	gui.kbdSend = 1;  // 1 release
 
 #ifdef CK1  // uncomment for new keyboard / test
 	gui.kbdSend = 0;
@@ -141,9 +141,10 @@ int main()
 	par.brightness = 40;
 	par.brightOff = 60;
 #endif
-#ifdef CK9  // no keyboard, run all demos
-	gui.SetScreen(ST_Demos2+D_AutoAll);
-	gui.demos.bAuto = 1;
+#ifdef CK9test  // no keyboard, run all demos
+	// gui.SetScreen(ST_Demos2+D_AutoAll);
+	// gui.demos.bAuto = 1;
+	gui.SetScreen(ST_Test2+T_Pressed);  // test scan codes to fill kbd_layout.cpp
 	par.brightness = 30;
 	par.brightOff = 30;
 #endif

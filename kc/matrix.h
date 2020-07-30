@@ -34,8 +34,12 @@ typedef enum KeyPosition {
 	Matrix_cols[] = { 32, 30, 33, 31, 29, 27, 38, 39},
 	Matrix_rows[] = { 0, 1, 2, 3, 34, 35, 36, 37 };
 
-//#elif defined(CK6) || defined(CK7)   //  18 x 8  CK6 or CK7
-	//
+#elif defined(CK9)   //  18 x 8  CK9/6/3
+	const static uint8_t
+	Matrix_cols[] = {
+		24, 25, 28, 32, 30, 33, 31, 29, 27, 38, 39,  // x11
+		22, 23, 8, 7, 6, 5, 4},  // x7
+	Matrix_rows[] = { 0, 1, 2, 3, 34, 35, 36, 37 };
 #else
 	#error "No keyboard defined! Put e.g. #define CK1 in def.h"
 #endif

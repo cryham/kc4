@@ -119,66 +119,66 @@ const uint8_t gGui=93/*pause*/, gMslow=100, gLoad=73,gSave=149,gDiv=2, gEsc=157,
 	gF1=50,gF2=49,gF3=109,gF6=146,gF7=105,gF8=45,gF9=56,gF10=76,gF11=156,gF12=36;  //--
 
 
-#elif defined(CK6)   //  CK6/3  ------------------------------------------------
+#elif defined(CK9)   //  CK9/6/3  ------------------------------------------------
 #define  wf  fW,fH
 #define  wh  kW,kH
-const char* CKname = "CK6 18x8";  const int16_t XR = 235, XN = 256;  // pos
+const char* CKname = "CK9 18x8";  const int16_t XR = 235, XN = 256;  // pos
 const int8_t  kW = 16, kH = 18, /* size */ fW = 14, fH = 12, F = -fW, X = -kW;
 const uint8_t Y1=1,Y2=21,Y3=41,Y4=61,Y5=81,Y6=101;
 
 const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw
-{ 0,Y1,wf, 'e',6, 15,K_ESC},  //Esc 15x
-{-32,0,wf, '1',2,139,K_F1},{F, 0,wf, '2',2,103,K_F2}, {F,0,wf, '3',2, 13,K_F3}, {F,0,wf, '4',2,110,K_F4},
-{-30,0,wf, '5',2, 95,K_F5},{F, 0,wf, '6',2,131,K_F6}, {F,0,wf, '7',2,127,K_F7}, {F,0,wf, '8',2,109,K_F8},
-{-28,0,wf, '9',2, 19,K_F9},{F, 0,wf, '0',2,111,K_F10},{F,0,wf, '1',2, 75,K_F11},{F,0,wf, '2',2, 74,K_F12},
- {XR+1,0,wf, '.',6, 57,0},  //Displ
+{ 0,Y1,wf, 'e',6, 72,K_ESC},  //Esc 15x
+{-32,0,wf, '1',2, 56,K_F1},{F, 0,wf, '2',2, 20,K_F2}, {F,0,wf, '3',2, 74,K_F3}, {F,0,wf, '4',2, 44,K_F4},
+{-30,0,wf, '5',2, 31,K_F5},{F, 0,wf, '6',2, 67,K_F6}, {F,0,wf, '7',2, 61,K_F7}, {F,0,wf, '8',2, 43,K_F8},
+{-28,0,wf, '9',2, 97,K_F9},{F, 0,wf, '0',2, 45,K_F10},{F,0,wf, '1',2,135,K_F11},{F,0,wf, '2',2,134,K_F12},
+ {XR+1,0,wf, '.',6, 9,0},  //Displ
 
-{ 0,Y2,16,kH, '`',3,141,K_TILDE}, //~
-{-16, 0,wh, '1',1,123,K_1},{X, 0,wh, '2',1,122,K_2},{X,0,wh, '3',1,121,K_3},{X,0,wh, '4',1,116,K_4},
-{ X, 0,wh, '5',1,134,K_5},{X, 0,wh, '6',1,133,K_6},{X,0,wh, '7',1,115,K_7},{X,0,wh, '8',1,114,K_8},
-{ X, 0,wh, '9',1,113,K_9},{X, 0,wh, '0',1,108,K_0},
-{ X, 0,wh, '-',3,126,K_MINUS},{X, 0,wh, '=',3,132,K_EQUAL},{X,0,24,kH, '<',7, 91,K_BACK}, //Back 15x
- {XR,0,wh, 'e',6,138,K_ESC},
+{ 0,Y2,16,kH, '`',3, 54,K_TILDE}, //~
+{-16,0,wh, '1',1, 36,K_1},{X, 0,wh, '2',1, 37,K_2},{X,0,wh, '3',1, 38,K_3},{X,0,wh, '4',1, 52,K_4},
+{ X, 0,wh, '5',1, 70,K_5},{X, 0,wh, '6',1, 69,K_6},{X,0,wh, '7',1, 51,K_7},{X,0,wh, '8',1, 50,K_8},
+{ X, 0,wh, '9',1, 49,K_9},{X, 0,wh, '0',1, 42,K_0},
+{ X, 0,wh, '-',3, 60,K_MINUS},{X, 0,wh, '=',3, 68,K_EQUAL},{X,0,24,kH, '<',7, 25,K_BACK}, //Back 15x
+ {XR,0,wh, 'e',6, 57,K_ESC},
 
-{ 0,Y3,24,kH, 29 ,6,105,K_TAB}, //Tab
-{-24,0,wh, 'Q',0, 87,K_Q},{X, 0,wh, 'W',0, 86,K_W},{X,0,wh, 'E',0, 85,K_E},{X,0,wh, 'R',0, 80,K_R},
-{ X, 0,wh, 'T',0, 98,K_T},{X, 0,wh, 'Y',0, 97,K_Y},{X,0,wh, 'U',0, 79,K_U},{X,0,wh, 'I',0, 78,K_I},
-{ X, 0,wh, 'O',0, 77,K_O},{X, 0,wh, 'P',0, 72,K_P},{X,0,wh, '[',3, 90,K_LBRACE},
-{ X, 0,wh, ']',3, 96,K_RBRACE},{X,0,16,kH,'\\',3, 55,K_BSLASH}, // \| 15x
- {XR,0,wh, '<',7,137,K_BACK},
+{ 0,Y3,24,kH, 29 ,6, 18,K_TAB}, //Tab
+{-24,0,wh, 'Q',0,126,K_Q},{X, 0,wh, 'W',0,127,K_W},{X,0,wh, 'E',0,128,K_E},{X,0,wh, 'R',0,142,K_R},
+{ X, 0,wh, 'T',0, 34,K_T},{X, 0,wh, 'Y',0, 33,K_Y},{X,0,wh, 'U',0,141,K_U},{X,0,wh, 'I',0,140,K_I},
+{ X, 0,wh, 'O',0,139,K_O},{X, 0,wh, 'P',0,132,K_P},{X,0,wh, '[',3, 24,K_LBRACE},
+{ X, 0,wh, ']',3, 32,K_RBRACE},{X,0,16,kH,'\\',3,  7,K_BSLASH}, // \| 15x
+ {XR,0,wh, '<',7, 58,K_BACK},
 
-{ 0,Y4,30,kH,  2 ,6,104,K_CAPS}, //Caps
-{-30,0,wh, 'A',0, 69,K_A},{X, 0,wh, 'S',0, 68,K_S},{X,0,wh, 'D',0, 67,K_D},{X,0,wh, 'F',0, 62,K_F},
-{ X, 0,wh, 'G',0,  8,K_G},{X, 0,wh, 'H',0,  7,K_H},{X,0,wh, 'J',0, 61,K_J},{X,0,wh, 'K',0, 60,K_K},
-{ X, 0,wh, 'L',0, 59,K_L},{X, 0,wh, ';',3, 54,K_SEMIC},
-{ X, 0,wh,'\'',3,  0,K_QUOTE},{X, 0,26,kH, 28,7, 37,K_ENT}, //Ent 14x
- {XR,0,wh, 28,7,119,K_ENT},
+{ 0,Y4,30,kH,  2 ,6, 19,K_Layer1}, //Caps
+{-30,0,wh, 'A',0,  0,K_A},{X, 0,wh, 'S',0,  1,K_S},{X,0,wh, 'D',0,  2,K_D},{X,0,wh, 'F',0, 16,K_F},
+{ X, 0,wh, 'G',0, 88,K_G},{X, 0,wh, 'H',0, 87,K_H},{X,0,wh, 'J',0, 15,K_J},{X,0,wh, 'K',0, 14,K_K},
+{ X, 0,wh, 'L',0, 13,K_L},{X, 0,wh, ';',3,  6,K_SEMIC},
+{ X, 0,wh,'\'',3, 78,K_QUOTE},{X, 0,26,kH, 28,7,115,K_ENT}, //Ent 14x
+ {XR,0,wh, 28,7, 40,K_ENT},
 
-{ 0,Y5,36,kH, 's',4, 94,K_LSHIFT}, //L Sh
-{-36,0,wh, 'Z',0, 51,K_Z},{X, 0,wh, 'X',0, 50,K_X},{X,0,wh, 'C',0, 49,K_C},{X,0,wh, 'V',0, 44,K_V},
-{ X, 0,wh, 'B',0, 26,K_B},{X, 0,wh, 'N',0, 25,K_N},{X,0,wh, 'M',0, 43,K_M},{X,0,wh, ',',3, 42,K_COMMA},
-{ X, 0,wh, '.',3, 41,K_PERIOD},{X,0,wh, '/',3, 18,K_SLASH},
-{ X, 0,20,kH, 's',5, 58,K_RSHIFT}, {-20,0,16,kH, '^',5, 12,K_F15}, //R Sh 14x
- {XR,0,wh, 's',7,120,K_RSHIFT}, // 12 up  120 end
+{ 0,Y5,36,kH, 's',4, 28,K_LSHIFT}, //L Sh
+{-36,0,wh, 'Z',0,108,K_Z},{X, 0,wh, 'X',0,109,K_X},{X,0,wh, 'C',0,110,K_C},{X,0,wh, 'V',0,124,K_V},
+{ X, 0,wh, 'B',0,106,K_B},{X, 0,wh, 'N',0,105,K_N},{X,0,wh, 'M',0,123,K_M},{X,0,wh, ',',3,122,K_COMMA},
+{ X, 0,wh, '.',3,121,K_PERIOD},{X,0,wh, '/',3, 96,K_SLASH},
+{ X, 0,20,kH, 's',5, 10,K_RSHIFT}, {-20,0,16,kH, '^',5, 75,K_F15}, //R Sh 14x
+ {XR,0,wh, 's',7, 39,K_RSHIFT}, // 12 up  120 end
 
  //modif:  L Ctrl, L Gui, L Alt, space, R Alt, App,K_Ss, R Gui, R Ctrl
-{ 0,Y6,22,kH, 'c',4,128,K_LCTRL},{-22,0,14,kH,  9 ,4,106,K_LGUI},{-14,0,14,kH,  '\\',4, 14,K_12N_US_NUM},
-{-14,0,22,kH, 'a',4,  3,K_LALT}, {-22,0,68,kH,' ',6,  9,K_SPACE}, //Space
-{-68,0,18,kH, 'a',5, 21,K_RALT}, // 23 menu 136 ins 135 del  30 ri 27 dn  28 le
-{-18,0,16,kH,  9 ,6, 23,K_RGUI}, {-16,0,16,kH,254,5,136,K_MENU},{-16,0,14,kH,'c',5,135,K_RCTRL}, //R Ct 12x
-{-14,0,14,kH, '>',5, 30,K_F13},  {-14,0,14,kH,'v',5, 27,K_F14},
- {XR,0,wh,'c',7,28,K_RCTRL},
+{ 0,Y6,22,kH, 'c',4, 62,K_LCTRL},{-22,0,14,kH,  9,4, 29,K_LGUI},{-14,0,14,kH,  '\\',4, 73,K_F22},
+{-14,0,22,kH, 'a',4, 81,K_LALT}, {-22,0,68,kH,' ',6, 89,K_SPACE}, //Space
+{-68,0,18,kH, 'a',5, 99,K_RALT}, // 23 menu 136 ins 135 del  30 ri 27 dn  28 le
+{-18,0,16,kH,  9 ,6,103,K_RGUI}, {-16,0,16,kH,254,5, 59,K_MENU},{-16,0,14,kH,'c',5, 71,K_RCTRL}, //R Ct 12x
+{-14,0,14,kH, '>',5, 93,K_F13},  {-14,0,14,kH,'v',5,107,K_F14},
+ {XR,0,wh,'c',7, 95,K_RCTRL},
 //numpad: 17x
-{XN,Y2,wh,  3 ,6, 45,K_NUML},{X, 0,wh, '/',3, 46,KP_DIV},{X,0,wh, 'x',3, 47,KP_MUL},{X,0,kW-2,kH,  '-',3, 29,KP_SUB},
-{XN,Y3,wh, '7',8, 81,K_HOME},{X, 0,wh, 24 ,8, 82,K_UP},  {X,0,wh, '9',8, 83,K_PGUP},{X,0,kW-2,kH*2+2,'+',3, 84,KP_ADD},
-{XN,Y4,wh, 27 ,8, 99,K_LEFT},{X, 0,wh,  7 ,6,100,K_DEL}, {X,0,wh, 26 ,8,101,K_RIGHT},
-{XN,Y5,wh, '1',8, 63,K_END}, {X, 0,wh, 25 ,8, 64,K_DOWN},{X,0,wh, '3',8, 65,K_PGDN},{X,0,kW-2,kH*2+2, '|',3, 66,KP_ENT},
-{XN,Y6,kW*2,kH,'_',6, 10,K_INS},{-kW*2,0,wh,'.',6, 11,K_DEL}, //Ins Del
+{XN,Y2,wh,  3 ,6,125,K_NUML},{X, 0,wh, '/',3,113,KP_DIV},{X,0,wh, 'x',3,112,KP_MUL},{X,0,kW-2,kH,  '-',3, 94,KP_SUB},
+{XN,Y3,wh, '7',8,143,K_HOME},{X, 0,wh, 24 ,8,131,K_UP},  {X,0,wh, '9',8,130,K_PGUP},{X,0,kW-2,kH*2+2,'+',3,129,KP_ADD},
+{XN,Y4,wh, 27 ,8, 35,K_LEFT},{X, 0,wh,  7 ,6, 23,K_DEL}, {X,0,wh, 26 ,8, 22,K_RIGHT},
+{XN,Y5,wh, '1',8, 17,K_END}, {X, 0,wh, 25 ,8,  5,K_DOWN},{X,0,wh, '3',8,  4,K_PGDN},{X,0,kW-2,kH*2+2, '|',3,  3,KP_ENT},
+{XN,Y6,kW*2,kH,'_',6, 77,K_INS},{-kW*2,0,wh,'.',6, 76,K_DEL}, //Ins Del
 };
-const uint8_t gGui=57, gMslow=94, gLoad=95,gSave=110,gDiv=46, gEsc=15,gAdd=84,gEnt=66,gEnt2=37,
-	gRight=101,gLeft=99,gDown=64,gUp=82, gPgUp=83,gPgDn=65,gEnd=63,gHome=81,
-	gCtrl=128,gSh=94,gMul=47,gSub=29, gIns=10,gDel=100, gBckSp=91,gSpc=9, gC=49,gV=44,gX=50,
-	gF1=139,gF2=103,gF3=13,gF6=131,gF7=127,gF8=109,gF9=19,gF10=111,gF11=75,gF12=74;
+const uint8_t gGui=9, gMslow=28, gLoad=31,gSave=44,gDiv=113, gEsc=72,gAdd=129,gEnt=115/*40*/,gEnt2=3,
+	gRight=22,gLeft=35,gDown=5,gUp=131, gPgUp=130,gPgDn=4,gEnd=17,gHome=143,
+	gCtrl=62,gSh=28,gMul=112,gSub=94, gIns=77,gDel=76, gBckSp=25,gSpc=89, gC=110,gV=124,gX=109,
+	gF1=56,gF2=20,gF3=74,gF6=67,gF7=61,gF8=43,gF9=97,gF10=45,gF11=135,gF12=134;
 
 #endif
 #undef wf

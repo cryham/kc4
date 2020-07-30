@@ -175,7 +175,7 @@ void KC_Main::Save()
 	if (set.rows * set.cols != set.scanKeys)
 	{	err=E_rcEq;  return;  }
 
-	#ifndef CK1
+	#if !(defined(CK1) || defined(CK9))
 	if (set.nkeys() != int(set.scanKeys))
 	{	err=E_nkeys;  return;  }
 	#endif
@@ -183,7 +183,7 @@ void KC_Main::Save()
 	int a = EOfs, i, n;
 
 	//  header
-	set.h1 = 'k';  set.h2 = 'c';  set.ver = 3;  // cur
+	set.h1 = 'k';  set.h2 = 'c';  set.ver = 4;  // cur
 	Ewr(a, set.h1);  Ewr(a, set.h2);  Ewr(a, set.ver);
 
 	//  matrix

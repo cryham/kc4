@@ -10,7 +10,11 @@
 */
 const static int8_t
 	KC_MaxRows = 8,
+#ifdef CK8
 	KC_MaxCols = 20,
+#else
+	KC_MaxCols = 18,
+#endif
 	KC_MaxLayers = 8,  // 16
 	KC_MaxSeqs = 60;  // 60
 

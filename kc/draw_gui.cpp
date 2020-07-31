@@ -28,6 +28,12 @@ void Gui::Clear(void* buf)
 	}
 }
 
+bool Gui::Force1Buf()
+{
+	bool demo = ym == M_Demos && mlevel == 2;
+	return demo && yy == D_Rain;
+}
+
 
 //  Draw  main
 //....................................................................................

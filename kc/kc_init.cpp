@@ -26,7 +26,7 @@ KC_Main::KC_Main()
 	Mouse.screenSize(1920,1200);  //?
 
 	//  rtc set
-	unsigned long t = rtc_get();
+	/*unsigned long t = rtc_get();
 
 	int yr = t/3600/24/365;
 	if (yr == 0)  // set date if none
@@ -35,7 +35,7 @@ KC_Main::KC_Main()
 		t = 20 * 365 + 7 * 30;  t *= 24 * 3600;
 		t += 16 * 3600;
 		rtc_set(t);
-	}
+	}*/
 	ResetStats(true);
 
 	memset(grPMin, 0, sizeof(grPMin));
@@ -72,7 +72,8 @@ void KC_Setup::Clear()
 	h1 ='k';  h2 = 'c';  ver = 4;  //+ up on changes
 
 	//  default  matrix
-	rows = NumRows;  cols = NumCols;  scanKeys = rows * cols;
+	rows = NumRows;  cols = NumCols;
+	scanKeys = rows * cols;
 	seqSlots = KC_MaxSeqs;
 
 	int i,l;
@@ -91,7 +92,6 @@ void KC_Setup::Clear()
 //------------------------------------------------
 KC_Setup::KC_Setup()
 {
-	//Clear();
 	InitCK();
 }
 
@@ -100,9 +100,6 @@ KC_Setup::KC_Setup()
 void KC_Setup::InitCK()
 {
 	Clear();
-	rows = NumRows;  cols = NumCols;
-	scanKeys = rows * cols;
-	seqSlots = KC_MaxSeqs;
 
 	int i;
 	//  from draw layout

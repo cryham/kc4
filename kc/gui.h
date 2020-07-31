@@ -19,7 +19,7 @@ struct Gui
 	//  main  ----
 	Gui();
 	void Init(ILI9341_t3n* tft);
-	void Clear(void* buf), Draw(), DrawEnd();
+	void Clear(void* buf), Draw(), DrawEnd();  bool Force1Buf();
 	void KeyPress(), NextDemo();
 
 

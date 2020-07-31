@@ -14,7 +14,7 @@ void Demos::Init(ILI9341_t3n* tft)
 	d = tft;  if (d)  data = d->getFrameBuffer();
 	ti = 0;  oti = 0;
 	
-	bAuto = 0;  iFps = 1;  iInfo = 1;
+	bAuto = 0;  iFps = 0;  iInfo = 0;
 
 #ifdef DEMOS_OLD
 	einit = INone;

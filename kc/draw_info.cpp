@@ -73,7 +73,7 @@ void Gui::DrawInfo()
 		}
 
 		d->setClr(21,25,29);  // todo: ..  align "   " width auto
-		sprintf(a,"  Sequences:  %d  of %d", s, KC_MaxSeqs);
+		sprintf(a,"  Sequences:  %d  of %d", s, kc.set.seqSlots/*KC_MaxSeqs*/);
 		d->setCursor(0, y);  d->print(a);  yadd(10);
 		d->setClr(15,21,25);
 		sprintf(a,"        Unused:  %d", t);

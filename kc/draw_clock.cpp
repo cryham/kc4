@@ -465,12 +465,13 @@ void Gui::DrawClock()
 		//  Sequence, prv  --------
 		if (kc.inSeq[0] >= 0)
 		{
-			d->setFont(OpenSans12);
-			d->setCursor(0, yUptime - 26);
+			d->setFont(OpenSans18);
+			d->setCursor(84, yUptime);
 			d->setClr(25, 23, 31);
 			sprintf(a, "S%d", kc.inSeq[0]);  d->print(a);
 
-			d->setCursor(0, yUptime - 46);
+			d->setFont(OpenSans12);
+			d->setCursor(6, yUptime - 28);
 			DrawSeq(kc.inSeq[0], 2, 0);
 		}
 

@@ -155,7 +155,8 @@ int main()
 		#ifdef BUFx2
 		tft.setFrameBuffer(data[buf]);
 		gui.Clear(data[buf]);
-		buf = 1-buf;
+		if (!gui.Force1Buf())
+			buf = 1-buf;
 		#else
 		gui.Clear(data);
 		#endif
@@ -166,8 +167,6 @@ int main()
 	#if 1
 		elapsedMillis em = 0;
 		while (tft.asyncUpdateActive() && ( em < 100)) ;
-		//if (em >= 100) { Serial.print("Timeout"); Serial.flush(); }
-		//tft.waitUpdateAsyncComplete();
 		tft.updateScreenAsync();
 	#else    
 		tft.waitUpdateAsyncComplete();

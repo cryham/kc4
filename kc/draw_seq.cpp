@@ -97,8 +97,8 @@ void Gui::DrawSequences()
 	//......................................................
 	if (!edit)
 	{
-		d->setClr(12,26,26);
-		d->print("View");  d->setFont(OpenSans12);
+		DrawTitle("View", RGB(12,26,26), &bmpDOTS3);
+		d->setFont(OpenSans12);
 		d->setClr(20,25,28);
 
 		//  page / all, center   /
@@ -153,8 +153,8 @@ void Gui::DrawSequences()
 	//......................................................
 	else
 	{
-		d->setClr(5,27,27);
-		d->print("Edit");  d->setFont(OpenSans18);
+		DrawTitle("Edit", RGB(5,27,27), &bmpDOTS3);
+		d->setFont(OpenSans18);
 
 		int si = seqId();
 		d->setClr(19,23,27);

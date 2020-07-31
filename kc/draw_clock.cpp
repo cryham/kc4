@@ -144,13 +144,19 @@ void Gui::DrawClock()
 	//  title
 	d->setClr(12, 14, 17);
 	if (clock)
-		d->print(strMain[ym]);
+		DrawTitle(strMain[ym], RGB(12,14,17), &bmpCLOCK);
 
 
 	//  Graphs  ~~~~~~~~~~~~~~~~
+	if (pgClock == Cl_Graphs)
+	{
+		DrawGraph();
+		return;
+	}
+
 	int v, y0, ii, i;
 	if (ext)
-	for (i=0; i <= W-1; ++i)
+	for (i=W/2; i <= W-1; ++i)
 	{
 		ii = kc.grPpos + i - (W-1) + W;
 		v = kc.grPMin[ii % W];
@@ -161,12 +167,6 @@ void Gui::DrawClock()
 			if (y0 < 0)  y0 = 0;
 			d->drawPixel(i,y0, c);
 	}	}
-
-	if (pgClock == Cl_Graphs)
-	{
-		DrawGraph();
-		return;
-	}
 
 
 	//  Time  ----------------

@@ -1,15 +1,17 @@
 #include "gui.h"
 #include "ILI9341_t3n.h"
+#include "ili9341_t3n_font_OpenSans.h"
 
 #include "kc_data.h"
 
 
 //  Grid  | |
+const int hu = 11;  // top marg |
 inline void GridLineP(ILI9341_t3n* d, KC_Params& par, int m, uint16_t c, const char* s)
 {
 	int h = m * 60 / t1min(par);  // m min time
 	int x = W-1 - h;
-	if (x > 0)  d->drawFastVLine(x, 0, H/2, c);
+	if (x > 0)  d->drawFastVLine(x, hu, H/2 -hu, c);
 	else  return;
 	x -= 6;
 	if (x < 12 || x >= W-12)  return;
@@ -22,7 +24,7 @@ inline void GridLineT(ILI9341_t3n* d, KC_Params& par, int m, uint16_t c, const c
 {
 	int h = m * 60000 / tTgraph(par);  // m min time
 	int x = W-1 - h;
-	if (x > 0)  d->drawFastVLine(x, H/2, H/2-1, c);
+	if (x > 0)  d->drawFastVLine(x, H/2 +hu, H/2-1 -hu, c);
 	else  return;
 	x -= 6;
 	if (x < 12 || x >= W-12)  return;
@@ -53,7 +55,7 @@ void Gui::DrawGraph()
 	#define getTv(i)  ii =    grTpos + i - (W-1) + W;  v =    grTemp[ii % W];
 
 	char a[64];
-	d->setFont(0);  // todo ..
+	d->setFont(OpenSans10);  // todo ..
 	int xc = par.xCur;
 	bool cursor = xc < W;
 	int i,ii, x,y0, v,y,h;  uint16_t c;
@@ -61,12 +63,12 @@ void Gui::DrawGraph()
 
 	// press/1min  ------------------------
 
-	//  grid
+	//  grid  ||
 	if (par.time1min)
 	{
-		GridLineP(d,par, 10, RGB(12, 12, 12),"10");  // m
-		GridLineP(d,par, 30, RGB(12, 12, 12),"30");
-		GridLineP(d,par, 60, RGB(16, 16, 16),"1h");  // h
+		GridLineP(d,par, 10, RGB(14, 14, 14),"10");  // m
+		GridLineP(d,par, 30, RGB(14, 14, 14),"30");
+		GridLineP(d,par, 60, RGB(18, 18, 18),"1h");  // h
 		GridLineP(d,par,120, RGB(16, 16, 16),"2h");
 		GridLineP(d,par,240, RGB(16, 16, 16),"4h");
 		GridLineP(d,par,480, RGB(16, 16, 16),"8h");
@@ -80,7 +82,7 @@ void Gui::DrawGraph()
 		{
 			ClrPress(v);  c = d->getClr();
 
-			h = 2 * v / 4;  // max
+			h = 3 * v / 4;  // max
 			if (h > H/2)  h = H/2;
 
 			y = H/2 - h;
@@ -98,7 +100,7 @@ void Gui::DrawGraph()
 	d->setClr(20, 20, 25);
 	d->setCursor(x, y0);
 	d->println("Press/min");
-	d->moveCursor(0,2);
+	d->moveCursor(0,4);
 
 	if (cursor)
 	{
@@ -106,13 +108,13 @@ void Gui::DrawGraph()
 		ClrPress(v);
 		sprintf(a,"%d", v);  d->println(a);
 
-		d->moveCursor(0,1);
+		d->moveCursor(0,2);
 		PrintInterval(t1min(par)*1000*(W-1-xc));  d->println("");
 	}
 	//  max
-	v = H/2 * 4 / 2;
+	v = H/2 * 4 / 3;
 	d->setClr(16, 16, 20);
-	d->moveCursor(0,2);
+	d->moveCursor(0,4);
 	if (!cursor)
 	{	d->print("max ");
 		sprintf(a,"%d", v);  d->println(a);
@@ -155,12 +157,12 @@ void Gui::DrawGraph()
 		}
 	}
 
-	//  grid
+	//  grid  ||
 	{
-		GridLineT(d,par,  5, RGB( 9,  9,  9),"5");
-		GridLineT(d,par, 10, RGB(14, 14, 14),"10");  // m
-		GridLineT(d,par, 30, RGB(12, 12, 12),"30");
-		GridLineT(d,par, 60, RGB(16, 16, 16),"1h");  // h
+		GridLineT(d,par,  5, RGB(10, 10, 10),"5");
+		GridLineT(d,par, 10, RGB(15, 15, 15),"10");  // m
+		GridLineT(d,par, 30, RGB(13, 13, 13),"30");
+		GridLineT(d,par, 60, RGB(18, 18, 18),"1h");  // h
 		GridLineT(d,par,120, RGB(16, 16, 16),"2h");
 		GridLineT(d,par,240, RGB(16, 16, 16),"4h");
 		GridLineT(d,par,480, RGB(16, 16, 16),"8h");

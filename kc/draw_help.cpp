@@ -10,8 +10,9 @@
 void Gui::DrawHelp()
 {
 	char a[32];
-	d->setClr(21,26,31);
-	d->print(strMain[ym]);  d->setFont(OpenSans12);
+	
+	DrawTitle(strMain[ym], RGB(21,26,31), &bmpHELP);
+	d->setFont(OpenSans12);
 
 	//  page / all
 	d->setClr(22,22,23);

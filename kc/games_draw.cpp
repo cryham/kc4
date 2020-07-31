@@ -93,7 +93,9 @@ void Games::Draw()
 		y = random(1000);
 		for (x=0; x<y; ++x)
 			t += random();
-		d.print("Sixtis");  d.setFont(OpenSans12);
+		
+		g->DrawTitle("Sixtis", RGB(30,14,10), &bmpGAME);
+		d.setFont(OpenSans12);
 	}
 
 	if (gui==1)  //  game menu

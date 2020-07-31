@@ -48,18 +48,13 @@ const char* strMain[M_All] =
 
 const Bmp20* bmpMain[M_All] =
 {
-	&bmpKEY,
-	&bmpDOTS2,
-	//bmpMATRIX,
-	&bmpTEST,
-	&bmpSETUP,
-	&bmpINFO,
-	&bmpSUN,
-	&bmpCLOCK,
-	//bmpCLOCKW,
-	&bmpHELP,
-	nullptr,
-	&bmpLAVA,
+	&bmpKEY, &bmpDOTS3,
+	&bmpTEST, &bmpSETUP, &bmpINFO,
+	&bmpSUN, &bmpCLOCK, &bmpHELP,
+#ifdef GAME
+	&bmpGAME,
+#endif
+	&bmpDEMO,
 };
 
 //  Testing kbd

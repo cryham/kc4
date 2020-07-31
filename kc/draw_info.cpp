@@ -16,15 +16,13 @@ void Gui::DrawInfo()
 	//  menu
 	if (mlevel == 1)
 	{
-		d->setClr(22,20,26);
-		d->print(strMain[ym]);
-
-		DrawMenu(I_All,strInfo, C_Info,RGB(22,20,28),RGB(4,4,8), -1);
+		DrawTitle(strMain[ym], RGB(22,20,26), &bmpINFO);
+		DrawMenu(I_All,strInfo,0, C_Info,RGB(22,20,28),RGB(4,4,8), -1);
 		pressGui = 0;
 		return;
 	}
 	char a[64];
-	int16_t y = yTitle;
+	int16_t y = yTitle, x1 = W / 2, x2 = x1 + 14;
 	auto yadd = [&y](int16_t h){  y += h*15/8;  };
 
 
@@ -32,8 +30,7 @@ void Gui::DrawInfo()
 	{	demos.Version();  return;  }
 
 	//  title
-	d->setClr(17,17,22);
-	d->print(strInfo[yy]);
+	DrawTitle(strInfo[yy], RGB(17,17,22), yy == I_Version ? &bmpHELP : &bmpINFO);
 	d->setFont(OpenSans12);
 	d->setClr(21,21,26);
 
@@ -45,12 +42,11 @@ void Gui::DrawInfo()
 	case I_Use:  // use
 	{
 		d->setClr(15,23,30);
-		d->setCursor(0, y);
-		d->print("> ");
+		d->setCursor(40, y);  d->print("> ");
 
 		d->setClr(16,20,24);
-		sprintf(a,"Save counter:  %d", par.verCounter);
-		d->print(a);  yadd(14);
+		sprintf(a,"Save counter:");  PrintR(a, x1, y);
+		sprintf(a,"%d", par.verCounter);  d->setCursor(x2, y);  d->print(a);  yadd(14);
 
 		int i,l,k, s = 0, t = 0, si = 0;
 
@@ -72,14 +68,15 @@ void Gui::DrawInfo()
 			}
 		}
 
-		d->setClr(21,25,29);  // todo: ..  align "   " width auto
-		sprintf(a,"  Sequences:  %d  of %d", s, kc.set.seqSlots/*KC_MaxSeqs*/);
-		d->setCursor(0, y);  d->print(a);  yadd(10);
+		d->setClr(21,25,29);
+		sprintf(a,"Sequences:");  PrintR(a, x1, y);
+		sprintf(a,"%d  of %d", s, kc.set.seqSlots/*KC_MaxSeqs*/);
+		d->setCursor(x2, y);  d->print(a);  yadd(10);
 		d->setClr(15,21,25);
-		sprintf(a,"        Unused:  %d", t);
-		d->setCursor(0, y);  d->print(a);  yadd(10);
-		sprintf(a,"                Size:  %d B", si);
-		d->setCursor(0, y);  d->print(a);  yadd(12);
+		sprintf(a,"Unused:");  PrintR(a, x1, y);
+		sprintf(a,"%d", t);    d->setCursor(x2, y);  d->print(a);  yadd(10);
+		sprintf(a,"Size:");     PrintR(a, x1, y);
+		sprintf(a,"%d B", si);  d->setCursor(x2, y);  d->print(a);  yadd(12);
 
 		//  int.funct keys used
 		si = 0;
@@ -105,18 +102,20 @@ void Gui::DrawInfo()
 		}
 
 		d->setClr(21,25,29);
-		sprintf(a,"      Layers:  %d  of %d", s, KC_MaxLayers);
-		d->setCursor(0, y);  d->print(a);  yadd(12);
+		sprintf(a,"Layers:");  PrintR(a, x1, y);
+		sprintf(a,"%d  of %d", s, KC_MaxLayers);
+		d->setCursor(x2, y);  d->print(a);  yadd(12);
 
-		sprintf(a,"          Keys:  %d", t);
-		d->setCursor(0, y);  d->print(a);  yadd(10);
+		sprintf(a,"Keys:");    PrintR(a, x1, y);
+		sprintf(a,"%d", t);  d->setCursor(x2, y);  d->print(a);  yadd(10);
 		d->setClr(15,21,25);
-		sprintf(a,"    Internal:  %d", si);
-		d->setCursor(0, y);  d->print(a);  yadd(12);
+		sprintf(a,"Internal:");  PrintR(a, x1, y);
+		sprintf(a,"%d", si);   d->setCursor(x2, y);  d->print(a);  yadd(12);
 
 		d->setClr(25,25,29);
-		sprintf(a,"          Total:  %d B", kc.memSize);
-		d->setCursor(0, y);  d->print(a);  yadd(12);
+		sprintf(a,"Total:");  PrintR(a, x1, y);
+		sprintf(a,"%d B", kc.memSize);
+		d->setCursor(x2, y);  d->print(a);  yadd(12);
 
 
 		//  usb const  --

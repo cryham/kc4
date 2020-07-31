@@ -21,10 +21,8 @@ void Gui::DrawSetup()
 	//  menu
 	if (mlevel == 1)
 	{
-		d->setClr(21,23,23);
-		d->print(strMain[ym]);
-
-		DrawMenu(S_All,strSetup, C_Setup,RGB(18,24,22),RGB(4,6,6));
+		DrawTitle(strMain[ym], RGB(21,23,23), &bmpSETUP);
+		DrawMenu(S_All,strSetup,0, C_Setup,RGB(18,24,22),RGB(4,6,6));
 		pressGui = 0;
 		return;
 	}
@@ -46,8 +44,7 @@ void Gui::DrawSetup()
 
 
 	//  title
-	d->setClr(17,22,22);
-	d->print(strSetup[yy]);
+	DrawTitle(strSetup[yy], RGB(17,22,22), &bmpSETUP);
 	d->setFont(OpenSans12);
 	d->setClr(21,26,26);
 

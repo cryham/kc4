@@ -6,6 +6,7 @@
 #ifdef GAME
 #include "games.h"
 #endif
+#include "gui_bitmaps.h"
 
 
 struct Gui
@@ -34,6 +35,12 @@ struct Gui
 	void DrawSeq(int8_t seq, int8_t q, uint16_t bck);
 	void DrawOperInfo();
 	void DrawDispCur(int i, int16_t y), DrawClockCur(int i, int16_t y);
+
+	void PrintR(const char* str, int16_t x, int16_t y);  // right align
+	void DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h, uint al=256);
+	void DrawBmp(const Bmp20* bmp, int16_t x, int16_t y, uint al=256);
+	void DrawTitle(const char* str, uint16_t clr, const Bmp20* bmp);
+	
 	//  util
 	void ClrPress(int pressPerMin), ClrTemp(int temp);
 	void PrintInterval(uint32_t t);
@@ -61,8 +68,8 @@ struct Gui
 
 	void FadeClr(EFadeClr ec, const uint8_t minRGB, const uint8_t mul, const uint8_t div, uint16_t bckClr);
 	void FadeGrp(uint8_t g, const uint8_t minRGB, const uint8_t mul, const uint8_t div, uint16_t bckClr);
-	void DrawMenu(int cnt, const char** str, EFadeClr ec, uint16_t curClr,
-		uint16_t bckClr, int16_t nextCol=-1, int16_t numGap=-1);
+	void DrawMenu(int cnt, const char** str, const Bmp20** bmp,
+		EFadeClr ec, uint16_t curClr, uint16_t bckClr, int16_t nextCol=-1, int16_t numGap=-1);
 
 
 	//  vars  ---

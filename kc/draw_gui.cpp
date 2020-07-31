@@ -48,7 +48,7 @@ void Gui::Draw()
 		d->setClr(6,19,31);
 		d->print("Main Menu");
 
-		DrawMenu(M_All,strMain, C_Main,RGB(20,25,29),RGB(5,7,9), M_Next);
+		DrawMenu(M_All,strMain,&bmpMain[0], C_Main,RGB(20,25,29),RGB(5,7,9), M_Next);
 		return;
 	}
 	d->setClr(12,22,31);
@@ -66,10 +66,8 @@ void Gui::Draw()
 				NextDemo();
 		}else
 		{	//  menu
-			d->setClr(25,16,28);
-			d->print(strMain[ym]);
-
-			DrawMenu(D_All,strDemo, C_Demos,RGB(27,27,30),RGB(6,6,9), D_Next);
+			DrawTitle(strMain[ym], RGB(25,16,28), &bmpDEMO);
+			DrawMenu(D_All,strDemo,0, C_Demos,RGB(27,27,30),RGB(6,6,9), D_Next);
 		}
 		return;
 

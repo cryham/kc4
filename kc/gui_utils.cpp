@@ -45,8 +45,60 @@ void Gui::DrawEnd()
 
 //  draw utils
 //....................................................................................
-void Gui::DrawMenu(int cnt, const char** str, EFadeClr ec, uint16_t curClr,
-	uint16_t bckClr, int16_t nextCol, int16_t numGap)
+void Gui::PrintR(const char* s, int16_t x, int16_t y)
+{
+	d->setCursor(x, y);
+	int16_t x1, y1;   uint16_t w, h;
+	d->getTextBounds(s, x,y, &x1,&y1, &w,&h);
+	d->setCursor(x - w, y);
+	d->print(s);
+}
+
+void Gui::DrawBmp(const Bmp20* bmp, int16_t x, int16_t y, uint al)
+{
+	DrawBmp((const uint8_t*)bmp, x, y, 20, 20, al);
+}
+void Gui::DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h, uint al)
+{
+	const uint8_t* q = (const uint8_t*)bmp;
+	int i,j;
+	for (j=0; j < h; ++j)
+	{
+		uint a = (y+j)*W + x;
+		for (i=0; i < w; ++i,++a)
+		{
+		#if 0  // no alpha fast
+			uint8_t b = *q;  ++q;
+			uint8_t g = *q;  ++q;
+			uint8_t r = *q;  ++q;
+			/*uint8_t al = *q;*/  ++q;
+			demos.data[(y+j)*W + x+i] = RGB2(r/8,g/4,b/8);
+		#else
+			uint b = *q;  ++q;
+			uint g = *q;  ++q;
+			uint r = *q;  ++q;
+			int aa = *q;  ++q;
+			b = b * al * aa / 65536 /8;
+			g = g * al * aa / 65536 /4;
+			r = r * al * aa / 65536 /8;
+			demos.data[a] = RGB2(r, g, b);
+		#endif
+	}	}
+}
+
+void Gui::DrawTitle(const char* str, uint16_t clr, const Bmp20* bmp)
+{
+	d->setCursor(24,4);  //par
+	d->setColor(clr, 0);
+	d->print(str);
+	if (bmp)  DrawBmp(bmp,0,4);
+}
+
+
+//  Menu
+//....................................................................................
+void Gui::DrawMenu(int cnt, const char** str, const Bmp20** bmp,
+	EFadeClr ec, uint16_t curClr, uint16_t bckClr, int16_t nextCol, int16_t numGap)
 {
 	const int16_t xw = W/2, y1 = yTitle, yadd = 22;  // par
 	const int16_t my = mlevel==0 ? ym : yy;
@@ -64,8 +116,11 @@ void Gui::DrawMenu(int cnt, const char** str, EFadeClr ec, uint16_t curClr,
 
 		c = abs(i - my);  // dist dim
 		FadeClr(ec, 4, c, 1, i == my ? bckClr : 0);
-		d->setCursor(x+20,y);
+		d->setCursor(x+40,y);
 		d->print(str[i]);
+
+		if (bmp && bmp[i])
+			DrawBmp(bmp[i],x+20-2,y-2, 256-c*(192/9));
 
 		//  next, extras
 		y += yadd;

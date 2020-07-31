@@ -13,17 +13,14 @@ void Gui::DrawTesting()
 	//  menu
 	if (mlevel == 1)
 	{
-		d->setClr(16,26,16);
-		d->print(strMain[ym]);
-
-		DrawMenu(T_All,strTest, C_Test,RGB(22,31,14),RGB(5,9,6), -1, 2);
+		DrawTitle(strMain[ym], RGB(16,26,16), &bmpTEST);
+		DrawMenu(T_All,strTest,0, C_Test,RGB(22,31,14),RGB(5,9,6), -1, 2);
 		return;
 	}
 	char a[64];
 
 	//  title
-	d->setClr(12,20,28);
-	d->print(strTest[yy]);
+	DrawTitle(strTest[yy], RGB(12,20,28), yy == T_Matrix ? &bmpMATRIX : &bmpTEST);
 	d->setFont(OpenSans12);
 	d->setClr(21,26,31);
 

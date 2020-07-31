@@ -15,9 +15,10 @@ void Gui::DrawPickKey()
 	int x=0, y=2;
 
 	d->setFont(OpenSans12);
-	d->setCursor(x,y);
+	d->setCursor(22,y);
 	d->setClr(28,28,26);
 	d->print("Pick key..");
+	DrawBmp(&bmpKEY,0,0);
 
 	d->setCursor(0,20);
 	d->setClr(22,22,12);

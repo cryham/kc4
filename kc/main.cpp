@@ -133,6 +133,7 @@ int main()
 	kc.Load();
 	gui.SetScreen(par.startScreen);
 	gui.kbdSend = 1;  // 1 release
+	kc.setBright = 1;
 
 
 #ifdef CK1  // uncomment for new keyboard / test
@@ -155,6 +156,7 @@ int main()
 		#ifdef BUFx2
 		tft.setFrameBuffer(data[buf]);
 		gui.Clear(data[buf]);
+		
 		if (!gui.Force1Buf())
 			buf = 1-buf;
 		#else
@@ -166,9 +168,9 @@ int main()
 
 	#if 1
 		elapsedMillis em = 0;
-		while (tft.asyncUpdateActive() && ( em < 100)) ;
+		while (tft.asyncUpdateActive() && em < 100) ;
 		tft.updateScreenAsync();
-	#else    
+	#else
 		tft.waitUpdateAsyncComplete();
 		tft.updateScreenAsync();
 	#endif

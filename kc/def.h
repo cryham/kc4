@@ -113,6 +113,11 @@ extern const char
 	*strMain[M_All], *strTest[T_All], *strSetup[S_All],
 	*strInfo[I_All], *strClock[Cl_All];
 
+//  bitmaps
+// 20 x 20 x 4B  (B,G,R,A 32bit  could be 16bit but meh)
+typedef uint8_t Bmp20[1600];
+extern const Bmp20* bmpMain[M_All];
+
 //  sub page counts, inside each main menu entry
 extern const uint8_t YM1[M_All];
 

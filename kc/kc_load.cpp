@@ -119,7 +119,7 @@ void KC_Main::Load()
 
 	if (par.startScreen >= ST_ALL)
 		par.startScreen = ST_ALL-1;
-	setDac = 1;  // upd
+	setBright = 1;  // upd
 	
 	//  old versions  --
 	if (set.ver == 2)

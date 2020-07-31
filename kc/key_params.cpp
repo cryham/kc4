@@ -134,7 +134,7 @@ void Gui::KeysParDisplay(int sp)
 		{
 		case 0:
 			par.brightness = RangeAdd(par.brightness, kRight * sp, 0, 100);
-			kc.setDac = 1;  break;
+			kc.setBright = 1;  break;
 		case 1:
 			par.brightOff = RangeAdd(par.brightOff, kRight * sp, 0, 100);  break;
 		case 2:

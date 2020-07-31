@@ -1,5 +1,6 @@
 #include "def.h"
 #include "gui.h"
+#include "gui_bitmaps.h"
 
 
 //  time intervals *0.1s
@@ -43,6 +44,22 @@ const char* strMain[M_All] =
 	"Game",
 #endif
 	"Demos",
+};
+
+const Bmp20* bmpMain[M_All] =
+{
+	&bmpKEY,
+	&bmpDOTS2,
+	//bmpMATRIX,
+	&bmpTEST,
+	&bmpSETUP,
+	&bmpINFO,
+	&bmpSUN,
+	&bmpCLOCK,
+	//bmpCLOCKW,
+	&bmpHELP,
+	nullptr,
+	&bmpLAVA,
 };
 
 //  Testing kbd

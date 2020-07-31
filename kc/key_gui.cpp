@@ -14,7 +14,7 @@ void Gui::KeyPress()
 	{
 		kbdSend = 1 - kbdSend;
 		kc.QuitSeq();
-		kc.setDac = 1;
+		kc.setBright = 1;
 	}
 
 	if (kbdSend)

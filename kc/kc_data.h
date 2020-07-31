@@ -70,7 +70,7 @@ struct KC_Main
 	int8_t nLayer = 0,  // final, held layer key (or set)
 		   nLayerLock = -1;  // tap layer key to lock/unlock
 
-	int8_t setDac = 1;  // update
+	int8_t setBright = 1;  // update
 
 	//  sequence running vars  0 norm, 1 from seq
 	int8_t inSeq[2] = {-1,-1},	// id run, -1 none

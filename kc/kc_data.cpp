@@ -16,8 +16,8 @@ extern Gui gui;
 void KC_Main::UpdLay(uint32_t ms)
 {
 	//  brightness dac led  ~~~
-	if (setDac)
-	{	setDac = 0;
+	if (setBright)
+	{	setBright = 0;
 		int bri = gui.kbdSend ? par.brightOff : par.brightness;
 		int val = 4095.f * powf(float(bri) / 255.f, 2.f);
 		analogWrite(LCD_LED, val);
@@ -98,7 +98,7 @@ void KC_Main::UpdLay(uint32_t ms)
 				{
 				case K_Fun10:  // send, Gui toggle
 					gui.kbdSend = 1 - gui.kbdSend;  QuitSeq();
-					setDac = 1;  break;
+					setBright = 1;  break;
 
 				case K_Fun1:
 				case K_Fun2:  // brightness -+
@@ -163,10 +163,10 @@ void KC_Main::UpdLay(uint32_t ms)
 				{
 				case K_Fun1:  // brightness -+
 					br = gui.RangeAdd(br, (gui.kCtrl ?-10 :-2), 0, 100);
-					setDac = 1;  break;
+					setBright = 1;  break;
 				case K_Fun2:
 					br = gui.RangeAdd(br, (gui.kCtrl ? 10 : 2), 0, 100);
-					setDac = 1;  break;
+					setBright = 1;  break;
 				}
 			}
 		}

@@ -144,7 +144,7 @@ void Gui::DrawClock()
 	//  title
 	d->setClr(12, 14, 17);
 	if (clock)
-		DrawTitle(strMain[ym], RGB(12,14,17), &bmpCLOCK);
+		DrawTitleMain(RGB(12,14,17), &bmpCLOCK);
 
 
 	//  Graphs  ~~~~~~~~~~~~~~~~

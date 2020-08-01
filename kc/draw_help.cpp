@@ -11,7 +11,7 @@ void Gui::DrawHelp()
 {
 	char a[32];
 	
-	DrawTitle(strMain[ym], RGB(21,26,31), &bmpHELP);
+	DrawTitleMain(RGB(21,26,31), &bmpHELP);
 	d->setFont(OpenSans12);
 
 	//  page / all

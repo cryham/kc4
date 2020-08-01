@@ -12,7 +12,7 @@ const char* sPgDisplay[Di_All] = {
 void Gui::DrawDisplay()
 {		
 	char a[64],b[64];
-	DrawTitle(strMain[ym], RGB(29,28,6), &bmpSUN);
+	DrawTitleMain(RGB(29,28,6), &bmpSCREEN);
 	d->setFont(OpenSans12);
 
 	//  subtitle

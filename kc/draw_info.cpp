@@ -16,8 +16,8 @@ void Gui::DrawInfo()
 	//  menu
 	if (mlevel == 1)
 	{
-		DrawTitle(strMain[ym], RGB(22,20,26), &bmpINFO);
-		DrawMenu(I_All,strInfo,0, C_Info,RGB(22,20,28),RGB(4,4,8), -1);
+		DrawTitleMain(RGB(22,20,26), &bmpINFO);
+		DrawMenu(I_All,strInfo,0, C_Info,RGB(22,20,28),RGB(4,4,8));
 		pressGui = 0;
 		return;
 	}

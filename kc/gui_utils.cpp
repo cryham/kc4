@@ -24,7 +24,7 @@ void Gui::DrawEnd()
 		fps_cnt = 0;
 	}
 
-	bool sc = ym == M_Setup && yy == S_Scan;
+	bool sc = ym == M_Matrix && yy == X_Scan;
 	if (demos.iFps == 2 ||
 		(mlevel == 2 && (sc || (demos.iFps && ym == M_Demos))))
 	{
@@ -45,6 +45,10 @@ void Gui::DrawEnd()
 
 //  Menu
 //....................................................................................
+void Gui::DrawTitleMain(uint16_t clr, const Bmp20* bmp)
+{
+	DrawTitle(strMain[ym], clr, bmp);
+}
 void Gui::DrawTitle(const char* str, uint16_t clr, const Bmp20* bmp)
 {
 	d->setCursor(27,4);  //par
@@ -53,8 +57,10 @@ void Gui::DrawTitle(const char* str, uint16_t clr, const Bmp20* bmp)
 	if (bmp)  DrawBmp(bmp,0,4);
 }
 
-void Gui::DrawMenu(int cnt, const char** str, const Bmp20** bmp,
-	EFadeClr ec, uint16_t curClr, uint16_t bckClr, int16_t nextCol, int16_t numGap)
+void Gui::DrawMenu(
+	int cnt, const char** str, const Bmp20** bmp,
+	EFadeClr ec, uint16_t curClr, uint16_t bckClr,
+	int8_t nextCol, int8_t numGap, int8_t numGap2)
 {
 	const int16_t xw = W/2, y1 = yTitle, yadd = 22;  // par
 	const int16_t my = mlevel==0 ? ym : yy;
@@ -81,7 +87,8 @@ void Gui::DrawMenu(int cnt, const char** str, const Bmp20** bmp,
 		//  next, extras
 		y += yadd;
 
-		if (i == numGap)  y += yadd/2;
+		if (i == numGap || i == numGap2)
+			y += yadd/2;
 
 		if (i+1 == nextCol)
 		{	x += xw;  y = y1;  }
@@ -198,7 +205,7 @@ void Gui::FadeGrp(uint8_t g, const uint8_t mi, const uint8_t mul, const uint8_t 
 
 //  key utils
 //....................................................................................
-void Gui::Chk_y1()
+void Gui::Check_ym1()
 {
 	if (ym1[ym] >= YM1[ym])  ym1[ym] = 0;
 	if (ym1[ym] < 0)  ym1[ym] = YM1[ym]-1;

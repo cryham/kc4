@@ -61,27 +61,26 @@ void Gui::DrawSetup()
 			d->setCursor(20,y);
 
 			FadeClr(C_Setup2, 4, c, 1, !c ? bck : 0);
+			h = 8+3;
+
 			switch(i)
 			{
 			case 0:  // todo warning layer empty
 				strcpy(a,"Default layer:");
-				sprintf(b,"%d", par.defLayer);
-				y-=2;  break;
+				sprintf(b,"%d", par.defLayer);  break;
 			case 1:  // todo warning seq key not bound
 				strcpy(a,"Sequence edit layer:");
-				sprintf(b,"%d", par.editLayer);  break;
+				sprintf(b,"%d", par.editLayer);  h+=2;  break;
 
 			case 2:
 				strcpy(a,"Lock Fast max:");
-				dtostrf(par.msLLTapMax*0.01f, 4,2, b);  strcat(b," s");
-				y-=2;  break;
+				dtostrf(par.msLLTapMax*0.01f, 4,2, b);  strcat(b," s");  break;
 			case 3:
 				strcpy(a,"Lock Hold min:");
-				dtostrf(par.msLLHoldMin*0.1f, 3,1, b);  strcat(b," s");
-				y+=2;  break;
+				dtostrf(par.msLLHoldMin*0.1f, 3,1, b);  strcat(b," s");  break;
 			}
 			PrintR(a, x0, y);
-			d->setCursor(x1, y);  d->print(b);  yadd(8+4);
+			d->setCursor(x1, y);  d->print(b);  yadd(h);
 		}
 	}	break;
 
@@ -127,14 +126,15 @@ void Gui::DrawSetup()
 
 			FadeClr(C_Setup2, 4, c, 1, !c ? bck : 0);
 			h = 8+1;
+			
 			switch(i)
 			{
 			case 0:
 				strcpy(a,"Move Speed:");
-				sprintf(b,"%3d", par.mkSpeed);  break;
+				sprintf(b,"%d", par.mkSpeed);  break;
 			case 1:
 				strcpy(a,"Accel:");
-				sprintf(b,"%3d", par.mkAccel);  h+=2;  break;
+				sprintf(b,"%d", par.mkAccel);  h+=2;  break;
 			case 2:
 				strcpy(a,"Slow key:");
 				if (pressGui)
@@ -144,10 +144,10 @@ void Gui::DrawSetup()
 				h+=2;  break;
 			case 3:
 				strcpy(a,"Wheel Speed:");
-				sprintf(b,"%3d", par.mkWhSpeed);  break;
+				sprintf(b,"%d", par.mkWhSpeed);  break;
 			case 4:
 				strcpy(a,"Accel:");
-				sprintf(b,"%3d", par.mkWhAccel);  break;
+				sprintf(b,"%d", par.mkWhAccel);  break;
 			}
 			PrintR(a, x0 -xm, y);
 			d->setCursor(x1 -xm, y);  d->print(b);  yadd(h);

@@ -41,10 +41,12 @@ void Gui::DrawInfo()
 	//-----------------------------------------------------
 	case I_Use:  // use
 	{
-		d->setClr(15,23,30);
-		d->setCursor(40, y);  d->print("> ");
+		uint16_t bck = RGB(3,3,6);
+		d->setColor(RGB(15,23,30),bck);
+		d->fillRect(0, y-3, W, 21, bck);
+		d->setCursor(2, y);  d->print(">");
 
-		d->setClr(16,20,24);
+		d->setColor(RGB(16,20,24),bck);
 		sprintf(a,"Save counter:");  PrintR(a, x1, y);
 		sprintf(a,"%d", par.verCounter);  d->setCursor(x2, y);  d->print(a);  yadd(14);
 

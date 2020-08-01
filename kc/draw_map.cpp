@@ -20,7 +20,7 @@ void Gui::DrawPickKey()
 	d->print("Pick key..");
 	DrawBmp(&bmpKEY,0,0);
 
-	d->setCursor(W/3 +20, 0);
+	d->setCursor(W/3 +10, y);
 	d->setClr(24,22,22);
 	//sprintf(a,"%3d/%d", keyCode, KEYS_ALL_EXT);
 	//d->print(a);
@@ -34,7 +34,7 @@ void Gui::DrawPickKey()
 
 	x = (W-1-5) * keyCode / KEYS_ALL_EXT;
 	d->drawFastHLine(x, y, 5,
-		grpFilt ? RGB(30,26,26) : RGB(25,25,28));
+		grpFilt ? RGB(30,23,26) : RGB(26,24,28));
 
 	//  key, grp
 	y = 32;

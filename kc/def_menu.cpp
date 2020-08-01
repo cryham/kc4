@@ -18,7 +18,7 @@ const uint16_t gIntervals[gIntvMask+1] =
 };
 
 //  menu colors
-const uint8_t Mclr[C_ALL][2][3] =
+const uint8_t gMenuClr[C_ALL][2][3] =
 {
 	{{20,26,31},{5,3,1}},  // 0 main
 	{{27,26,31},{2,3,1}},  // 1 demos
@@ -32,7 +32,7 @@ const uint8_t Mclr[C_ALL][2][3] =
 	{{31,26,12},{1,4,5}},  //  9 game
 	{{31,26,22},{1,6,8}},  //  10 game opt
 	{{26,26,28},{6,6,7}},  // 11 info
-	{{21,21,28},{6,6,7}},  // 12 matrix
+	{{24,24,31},{4,3,3}},  // 12 matrix
 };
 
 //  Main Menu

@@ -21,10 +21,11 @@ enum ESeqCmd {
 	//  mouse move: x,y, buttons: press,release, click,double, wheels: x,y
 	CM_x,CM_y, CM_BtnOn,CM_BtnOff, CM_Btn,CM_Btn2x, CM_WhX,CM_WhY,
 	CMD_RunSeq, CM_xbig,CM_ybig, CM_xset,CM_yset,CM_mset,
-	CMD_Repeat, CMD_ALL // 19
-};	// note: need >= sequence ids than commands
+	CMD_Repeat,
+	CMD_ALL  // 19
+};	// note: need at least so many sequence ids as commands
 
-extern const uint16_t cCmdClrLn[CMD_ALL];  // underline colors
+extern const Clr cCmdClr[CMD_ALL];  // underline colors
 
 
 struct KC_Setup

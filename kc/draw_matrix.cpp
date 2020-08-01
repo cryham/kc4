@@ -33,7 +33,7 @@ void Gui::DrawMatrix()
 	int16_t y = yTitle, x0 = W / 2, x1 = x0 + 14;
 	auto yadd = [&y](int16_t h){  y += h*2;  };
 
-	uint16_t bck = RGB(3,6,6);
+	uint16_t bck = RGB(4,4,8);
 
 	auto DrawCursor = [&](auto clr)
 	{
@@ -139,7 +139,7 @@ void Gui::DrawMatrix()
 		{
 			int c = abs(i - ym2Scan);
 			if (!c)
-				DrawCursor(RGB(20,20,30));
+				DrawCursor(RGB(24,22,28));
 			d->setCursor(20,y);
 
 			FadeClr(C_Matrix, 4, c, 1, !c ? bck : 0);
@@ -159,22 +159,22 @@ void Gui::DrawMatrix()
 			d->setCursor(x1, y);  d->print(b);  yadd(8+4);
 		}
 
-		d->setClr(24,23,26);
+		d->setClr(23,22,25);
 		d->setCursor(W-1-44,H-32);
 		d->print("Fps");
 
-		d->setCursor(62,H-80);
-		sprintf(a,"Time:  %lu us   %u Hz", us_scan, scan_freq);
-		d->println(a);
-		d->setClr(23,21,27);
+		y = H-100;
+		sprintf(a,"Time:  %lu us", us_scan);  PrintR(a, x0, y);
+		sprintf(a,"%u Hz", scan_freq);  d->setCursor(x1, y);  d->print(a);
 
-		d->setCursor(0,H-40);
-		sprintf(a," Matrix keys:  %d = %d x %d", ScanKeys, NumCols, NumRows);
-		d->println(a);
+		y = H-20;  x0 = W / 3;  x1 = x0 + 14;
+		d->setClr(22,20,26);
+		sprintf(a,"Matrix keys:");  PrintR(a, x0, y);
+		sprintf(a,"%d = %d x %d", ScanKeys, NumCols, NumRows);  d->setCursor(x1, y);  d->print(a);
 
-		d->setCursor(0,H-20);
-		sprintf(a,"Layout keys:  %d  %s", nDrawKeys, CKname);
-		d->println(a);
+		y = H-44;
+		sprintf(a,"Layout keys:");  PrintR(a, x0, y);
+		sprintf(a,"%d  %s", nDrawKeys, CKname);  d->setCursor(x1, y);  d->print(a);
 
 	}	break;
 	}

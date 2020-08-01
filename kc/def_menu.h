@@ -118,4 +118,4 @@ enum EFadeClr
 	C_Setup, C_Disp, C_Clock, C_Setup2,
 	C_Game, C_GameOpt, C_Info, C_Matrix, C_ALL  };
 extern const uint8_t
-	Mclr[C_ALL][2][3];
+	gMenuClr[C_ALL][2][3];

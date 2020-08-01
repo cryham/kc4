@@ -183,8 +183,8 @@ void Gui::PrintInterval(uint32_t t)
 //  fade
 void Gui::FadeClr(EFadeClr ec, const uint8_t mi, const uint8_t mul, const uint8_t div, uint16_t bckClr)
 {
-	const uint8_t* clr = &Mclr[ec][0][0];
-	const uint8_t* cmu = &Mclr[ec][1][0];
+	const uint8_t* clr = &gMenuClr[ec][0][0];
+	const uint8_t* cmu = &gMenuClr[ec][1][0];
 
 	d->setColor( RGB(
 		max(mi, clr[0] - cmu[0] * mul / div),
@@ -200,6 +200,15 @@ void Gui::FadeGrp(uint8_t g, const uint8_t mi, const uint8_t mul, const uint8_t 
 		max(mi, clr[0] - cmu[0] * mul / div),
 		max(mi, clr[1] - cmu[1] * mul / div),
 		max(mi, clr[2] - cmu[2] * mul / div)), bckClr );
+}
+uint16_t Gui::FadeClr(uint8_t r, uint8_t g, uint8_t b, uint8_t mul, uint8_t div, uint8_t mi, uint16_t bckClr)
+{
+	uint16_t clr = RGB(
+		max(mi, r * mul / div),
+		max(mi, g * mul / div),
+		max(mi, b * mul / div));
+	d->setColor( clr, bckClr );
+	return clr;
 }
 
 

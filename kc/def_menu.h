@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 typedef unsigned long ulong;
+typedef uint8_t Clr[3];
 
 
 //  display  dim

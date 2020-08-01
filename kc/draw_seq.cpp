@@ -9,13 +9,100 @@
 #include "keys_usb.h"
 
 
-//  write sequence, 1 line, short
+//  const
 //......................................................
+const static char* sMB[2][6]={
+	{"LMB", "MMB", "RMB", "Mbk", "Mfw"},
+	{"L", "M", "R", "b", "f"}};
+char smx(int8_t cm) {  return cm > 0 ? '>' : '<';  }
+char smy(int8_t cm) {  return cm > 0 ? 'v' : '^';  }
+
+
+//  format seq cmd
+void Gui::StrSeqCmd(int cmd, uint8_t cp, char* a, bool& inCmt, bool sh/*short 1 line*/)
+{
+	int8_t cm = cp-128;  // signed for mouse
+	const char* mb = sMB[sh ? 1 : 0][cp];
+
+	//  format command name and param  ---
+	switch (cmd)
+	{
+	case CMD_SetDelay:
+		sprintf(a, sh ? "%d" : "D%3dms", cp);  return;
+	case CMD_Wait:
+	{	char f[6];  dtostrf(cp*0.1f, 3,1, f);
+		sprintf(a, sh ? "%s" : "W%ss", f);  }  return;
+
+	case CMD_Comment:
+		strcpy(a, inCmt ? "}" : "{");
+		inCmt = !inCmt;  return;
+	case CMD_Hide:
+		strcpy(a, sh ? "" : "H>");  return;
+
+	case CMD_RunSeq:
+		sprintf(a, "S%2d", cp);  return;
+
+	case CMD_Repeat:
+		strcpy(a, /*sh ? "R" :*/ "Rpt");  return;
+	}
+
+	//  _mouse commands_
+	if (sh)
+	switch (cmd)  // short
+	{
+	case CM_x:  sprintf(a, "X%c", smx(cm));  break;
+	case CM_y:  sprintf(a, "Y%c", smy(cm));  break;
+
+	case CM_BtnOn:  sprintf(a,"%s+", mb);  break;
+	case CM_BtnOff: sprintf(a,"%s-", mb);  break;
+
+	case CM_Btn:   strcpy(a, mb);  break;
+	case CM_Btn2x: sprintf(a,"%s2", mb);  break;
+
+	case CM_WhX:   sprintf(a,"W%c", smx(cm));  break;
+	case CM_WhY:   sprintf(a,"W%c", smy(cm));  break;
+
+	case CM_xbig:  sprintf(a,"X|%c", smx(cm));  break;
+	case CM_ybig:  sprintf(a,"Y|%c", smy(cm));  break;
+
+	case CM_xset:  strcpy(a,"X=");  break;
+	case CM_yset:  strcpy(a,"Y=");  break;
+	case CM_mset:  strcpy(a, "XY");  break;
+	}
+	else switch (cmd)  // normal
+	{
+	case CM_x:  sprintf(a, "Mx%+4d", cm);  break;
+	case CM_y:  sprintf(a, "My%+4d", cm);  break;
+
+	case CM_BtnOn:  sprintf(a,"%s+", mb);  break;
+	case CM_BtnOff: sprintf(a,"%s-", mb);  break;
+
+	case CM_Btn:   strcpy(a, mb);  break;
+	case CM_Btn2x: sprintf(a,"%s2", mb);  break;
+
+	case CM_WhX:   sprintf(a,"Wx%2d", cm);  break;
+	case CM_WhY:   sprintf(a,"Wy%2d", cm);  break;
+
+	case CM_xbig:  sprintf(a,"MX%+4d", cm);  break;
+	case CM_ybig:  sprintf(a,"MY%+4d", cm);  break;
+
+	case CM_xset:  sprintf(a,"X=%+3d", cp);  break;
+	case CM_yset:  sprintf(a,"Y=%+3d", cp);  break;
+	case CM_mset:  strcpy(a, "XY");  break;
+	}
+}
+
+
+//  write sequence,  short 1 line
+//......................................................
+const uint8_t sf = 16;  // seq fade
 void Gui::DrawSeq(int8_t seq, int8_t q, uint16_t bck)
 {
 	char a[16];
-	int n=0, len = kc.set.seqs[seq].len();
-	while (n < len)
+	bool inCmt = false;
+
+	int n=0, l = kc.set.seqs[seq].len();
+	while (n < l)
 	{
 		uint8_t dt = kc.set.seqs[seq].data[n];
 		bool isCmd = dt >= K_Cmd0 && dt <= K_CmdLast;
@@ -23,7 +110,8 @@ void Gui::DrawSeq(int8_t seq, int8_t q, uint16_t bck)
 		//  clr
 		const char* st = cKeyStr[dt];
 		uint8_t gr = cKeyGrp[dt];
-		FadeGrp(gr, 9, q, 3, bck);
+		const uint8_t* c = &cGrpRgb[gr][0][0];
+		FadeClr(c[0],c[1],c[2], sf-q,sf, 7, bck);
 
 		//  pos
 		int16_t x = d->getCursorX(),
@@ -35,53 +123,31 @@ void Gui::DrawSeq(int8_t seq, int8_t q, uint16_t bck)
 			d->print(".");  return;
 		}
 		else
-		{	//  commands ___ draw short
+		{	//  commands ___
 			if (isCmd)
-			{	//  just indicator|
+			{
 				int cmd = dt - K_Cmd0;
 				int16_t y = d->getCursorY();
-				uint16_t ln = cCmdClrLn[cmd];
+				const Clr& c = cCmdClr[cmd];
+
 				++n;  // next, param
-				uint8_t par = n < len ? kc.set.seqs[seq].data[n] : 0;
+				uint8_t cpar = n < l ? kc.set.seqs[seq].data[n] : 0;
 
-				switch (cmd)
-				{
-				case CMD_SetDelay:
-				case CMD_Wait:		d->drawFastVLine(x,y+1,5, ln);  break;
-				case CMD_Comment:	d->drawFastVLine(x,y+2,3, ln);  break;
-				case CMD_Hide:		d->drawFastVLine(x,y+1,5, ln);  return;
-				case CMD_RunSeq:    d->drawFastVLine(x,y,6, ln);
-					d->moveCursor(2, 0);  sprintf(a,"%2d",par);  d->print(a);  break;
-				case CMD_Repeat:	d->drawFastVLine(x,y+0,5, ln);  break;
+				StrSeqCmd(cmd, cpar, a, inCmt, true);
 
-				//  _mouse commands_ draw short
-				#define ma(y1,h,a,s)  d->drawFastVLine(x, y+y1, h, ln); \
-					d->moveCursor(a, 0);  d->print(s);
-				case CM_x:  ma(2,3,2,"x");  break;
-				case CM_y:  ma(2,3,2,"y");  break;
+				int16_t w = GetWidth(a);
+				uint16_t clr = FadeClr(c[0],c[1],c[2], sf-q,sf, 7, bck);
 
-				case CM_BtnOn:  ma(1,4,2,"b");  break;
-				case CM_BtnOff: ma(1,4,2,"b");  break;
+				d->print(a);
+				d->drawFastHLine(x, y+14, w, clr);
 
-				case CM_Btn:   ma(1,4,2,"B");   break;
-				case CM_Btn2x: ma(1,4,2,"B2");  break;
-
-				case CM_WhX:  ma(1,2,2,"W");  break;
-				case CM_WhY:  ma(1,4,2,"w");  break;
-
-				case CM_xbig:  ma(1,4,2,"X");  break;
-				case CM_ybig:  ma(1,4,2,"Y");  break;
-
-				case CM_xset:  ma(0,6,2,"X");  break;
-				case CM_yset:  ma(0,6,2,"Y");  break;
-				case CM_mset:  ma(0,6,2,"XY");  break;
-				}
-				d->moveCursor(4, 0);
+				if (cmd == CMD_Hide)
+					return;
 			}
 			else  //  keys
-			{	d->print(st);  //d->print(" ");
-				d->moveCursor(dt<=1 ? 0 : 2, 0);
-			}
+				d->print(st);
+
+			d->moveCursor(6, 0);
 			++n;
 	}	}
 }
@@ -202,9 +268,7 @@ void Gui::DrawSequences()
 				//  command
 				bool isCmd = dt >= K_Cmd0 && dt <= K_CmdLast;
 				int cmd = dt - K_Cmd0;
-
-				//  const
-				const static char* sMB[6]={"LMB", "MMB", "RMB", "Mbk", "Mfw"};
+				uint16_t clr = 0;
 
 				//  clr
 				int gr = cKeyGrp[dt];
@@ -212,79 +276,38 @@ void Gui::DrawSequences()
 				FadeGrp(gr, 13, q, 4, 0);
 
 
-				//---- cmd string
-				if (isCmd)  //  commands ___ draw
+				//  cmd string
+				if (isCmd)
 				{	++n;
-					uint8_t cp = n < l ? kc.set.seqs[si].data[n] : 0;
-					int8_t cm = cp-128;  // next, param
+					uint8_t cpar = n < l ? kc.set.seqs[si].data[n] : 0;
 
-					uint16_t ln = cCmdClrLn[cmd];
-					d->drawFastHLine(x, y+16, xx-2, ln);  //_ underline
-					int w = max(21, 30-q/2);
-					d->setClr(w,w,w);
+					StrSeqCmd(cmd, cpar, a, inCmt, false);
 
-					//  format command name and param  ---
-					switch (cmd)
-					{
-					case CMD_SetDelay:
-						sprintf(a,"D%3dms", cp);  break;
-					case CMD_Wait:
-					{	char f[6];  dtostrf(cp*0.1f, 4,1, f);
-						sprintf(a,"W%ss", f);  }  break;
-
-					case CMD_Comment:
-						strcpy(a, inCmt ? "}C" : "C{");
-						inCmt = !inCmt;  break;
-					case CMD_Hide:
-						strcpy(a, "H>");  break;
-
-					case CMD_RunSeq:
-						sprintf(a,"S%2d", cp);  break;
-
-					case CMD_Repeat:
-						strcpy(a, "Rpt");  break;
-
-					//  _mouse commands_ draw
-					case CM_x:  sprintf(a,"Mx%+4d", cm);  break;
-					case CM_y:  sprintf(a,"My%+4d", cm);  break;
-
-					case CM_BtnOn:  sprintf(a,"%s+", sMB[cp]);  break;
-					case CM_BtnOff: sprintf(a,"%s-", sMB[cp]);  break;
-
-					case CM_Btn:   strcpy(a, sMB[cp]);  break;
-					case CM_Btn2x: sprintf(a,"%s2", sMB[cp]);  break;
-
-					case CM_WhX:  sprintf(a,"Wx%2d", cm);  break;
-					case CM_WhY:  sprintf(a,"Wy%2d", cm);  break;
-
-					case CM_xbig:  sprintf(a,"MX%+4d", cm);  break;
-					case CM_ybig:  sprintf(a,"MY%+4d", cm);  break;
-
-					case CM_xset:  sprintf(a,"X=%+3d", cp);  break;
-					case CM_yset:  sprintf(a,"Y=%+3d", cp);  break;
-					case CM_mset:  strcpy(a, "XY");  break;
-					}
-				}else  // key
+					const Clr& c = cCmdClr[cmd];
+					clr = RGB(c[0],c[1],c[2]);
+					d->setColor(clr, 0);
+				}
+				else  // key
 					strcpy(a, cKeyStr[dt]);
-				//----
 
 
 				//  string width
-				xx = GetWidth(a) + 4;
-				// xx = (isCmd ? cCmdStrLen[min(CMD_ALL-1, cmd)] :
-				// 		strlen(cKeyStr[dt])) * 12 +2;
+				xx = GetWidth(a) + 6;
 				if (x + xx > W-1)
 				{	x = 1;  y += 16+2;  }  // new line
 
 				d->setCursor(x,y);  d->print(a);
+
+				if (isCmd)  // underline ___
+					d->drawFastHLine(x, y+16, xx-2, clr);
 			}
 			if (cur)  // cursor
 			{
 				int16_t b = 16 * tBlnk / cBlnk;
 				if (edins)  // ins |
-					d->drawFastVLine(x-1, y-1-b+16, b+1, 0xFFFF);
+					d->drawFastVLine(x-1, y-1-b+16, b+1, RGB(31-b,31-b,31));
 				else  // ovr _
-					d->drawFastHLine(x-1, y+16, b+1, 0xFFFF);
+					d->drawFastHLine(x-1, y+16, b+1, RGB(31,31-b,31));
 			}
 			x += xx;  ++n;
 		}

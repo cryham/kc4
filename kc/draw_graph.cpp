@@ -55,7 +55,6 @@ void Gui::DrawGraph()
 	#define getTv(i)  ii =    grTpos + i - (W-1) + W;  v =    grTemp[ii % W];
 
 	char a[64];
-	d->setFont(OpenSans10);  // todo ..
 	int xc = par.xCur;
 	bool cursor = xc < W;
 	int i,ii, x,y0, v,y,h;  uint16_t c;
@@ -64,6 +63,7 @@ void Gui::DrawGraph()
 	// press/1min  ------------------------
 
 	//  grid  ||
+	d->setFont(OpenSans10);
 	if (par.time1min)
 	{
 		GridLineP(d,par, 10, RGB(14, 14, 14),"10");  // m
@@ -73,6 +73,7 @@ void Gui::DrawGraph()
 		GridLineP(d,par,240, RGB(16, 16, 16),"4h");
 		GridLineP(d,par,480, RGB(16, 16, 16),"8h");
 	}
+	d->setFont(OpenSans12);
 
 	//  graph  Press/1min
 	for (i=0; i <= W-1; ++i)
@@ -159,6 +160,7 @@ void Gui::DrawGraph()
 
 	//  grid  ||
 	{
+		d->setFont(OpenSans10);
 		GridLineT(d,par,  5, RGB(10, 10, 10),"5");
 		GridLineT(d,par, 10, RGB(15, 15, 15),"10");  // m
 		GridLineT(d,par, 30, RGB(13, 13, 13),"30");
@@ -166,6 +168,7 @@ void Gui::DrawGraph()
 		GridLineT(d,par,120, RGB(16, 16, 16),"2h");
 		GridLineT(d,par,240, RGB(16, 16, 16),"4h");
 		GridLineT(d,par,480, RGB(16, 16, 16),"8h");
+		d->setFont(OpenSans12);
 
 		//  vertical  ==
 		if (grFmax > grFmin)

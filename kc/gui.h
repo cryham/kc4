@@ -33,7 +33,7 @@ struct Gui
 	const static int PickR = 10;  // key pick rows
 	void DrawPressed(bool far=false), DrawLayout(bool edit);
 	void DrawSeq(int8_t seq, int8_t q, uint16_t bck);
-	void StrSeqCmd(int cmd, uint8_t cpar, char* a, bool inCmt, bool shrt);
+	void StrSeqCmd(int cmd, uint8_t cpar, char* a, bool& inCmt, bool shrt);
 	void DrawOperInfo();
 	void DrawDispCur(int i, int16_t y), DrawClockCur(int i, int16_t y);
 
@@ -67,6 +67,7 @@ struct Gui
 
 	void FadeClr(EFadeClr ec, const uint8_t minRGB, const uint8_t mul, const uint8_t div, uint16_t bckClr);
 	void FadeGrp(uint8_t g, const uint8_t minRGB, const uint8_t mul, const uint8_t div, uint16_t bckClr);
+	uint16_t FadeClr(uint8_t r, uint8_t g, uint8_t b, uint8_t mul, uint8_t div, uint8_t mi, uint16_t bckClr);
 	
 
 	//  vars  ---------

@@ -73,7 +73,6 @@ void Gui::DrawGraph()
 		GridLineP(d,par,240, RGB(16, 16, 16),"4h");
 		GridLineP(d,par,480, RGB(16, 16, 16),"8h");
 	}
-	d->setFont(OpenSans12);
 
 	//  graph  Press/1min
 	for (i=0; i <= W-1; ++i)
@@ -101,6 +100,7 @@ void Gui::DrawGraph()
 	d->setClr(20, 20, 25);
 	d->setCursor(x, y0);
 	d->println("Press/min");
+	d->setFont(OpenSans12);
 	d->moveCursor(0,4);
 
 	if (cursor)
@@ -168,7 +168,6 @@ void Gui::DrawGraph()
 		GridLineT(d,par,120, RGB(16, 16, 16),"2h");
 		GridLineT(d,par,240, RGB(16, 16, 16),"4h");
 		GridLineT(d,par,480, RGB(16, 16, 16),"8h");
-		d->setFont(OpenSans12);
 
 		//  vertical  ==
 		if (grFmax > grFmin)
@@ -211,6 +210,7 @@ void Gui::DrawGraph()
 	d->setClr(18, 22, 25);
 	d->setCursor(x, y0);
 	d->println("Temp \x01""C");
+	d->setFont(OpenSans12);
 	d->moveCursor(0,2);
 
 	if (cursor)

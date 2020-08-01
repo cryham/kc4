@@ -299,13 +299,13 @@ void Gui::DrawSequences()
 				d->setCursor(x,y);  d->print(a);
 
 				if (isCmd)  // underline ___
-					d->drawFastHLine(x, y+16, xx-2, clr);
+					d->drawFastHLine(x, y+16, xx-6, clr);
 			}
 			if (cur)  // cursor
 			{
 				int16_t b = 16 * tBlnk / cBlnk;
 				if (edins)  // ins |
-					d->drawFastVLine(x-1, y-1-b+16, b+1, RGB(31-b,31-b,31));
+					d->drawFastVLine(x-1, y-1-b+16, b+1, RGB(31-b/2,31-b/2,31));
 				else  // ovr _
 					d->drawFastHLine(x-1, y+16, b+1, RGB(31,31-b,31));
 			}
@@ -313,7 +313,7 @@ void Gui::DrawSequences()
 		}
 
 		//  header more signs < >
-		x = W/2 - 40;
+		x = W/2 - (demos.iFps ? 40 : 0);
 		d->setFont(OpenSans14);
 		d->setClr(21,25,28);
 		d->setCursor(x, 4);  d->print(edins ? "Ins" : "Ovr");

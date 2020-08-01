@@ -107,7 +107,7 @@ void Gui::DrawTesting()
 	case T_Layout:
 	{
 		d->setFont(OpenSans12);
-		d->setCursor(0,yTitle-6);
+		d->setCursor(0, yTitleUp);
 		
 		//  layer  -
 		d->setClr(20,23,31);

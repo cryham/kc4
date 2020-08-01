@@ -56,12 +56,12 @@ const char* KCerrStr[E_max] = {
 //  seq commands ___ underline colors
 const Clr cCmdClr[CMD_ALL]={
 	// CMD_SetDelay, CMD_Wait,  CMD_Comment, CMD_Hide,
-	{30,30,24},{30,30,16},  {6,28,30}, {12,22,31},
+	{31,31,12},{31,31,20},  {6,28,30}, {12,22,31},
 	// CM_x,CM_y, CM_BtnOn,CM_BtnOff,
 	{6,31,6},{16,31,6}, {18,26,18},{14,26,22},
 	// CM_Btn,CM_Btn2x, CM_WhX,CM_WhY,
 	{6,31,6},{16,31,6}, {6,31,16},{16,31,16},
-	{30,15,15}, // CMD_RunSeq
+	{31,16,16}, // CMD_RunSeq
 	//  CM_xbig,CM_ybig, CM_xset,CM_yset,  CM_mset,
 	{6,31,6},{16,31,6}, {16,24,16},{19,24,16},  {21,26,21},
 	{31,21,6} }; // CMD_Repeat

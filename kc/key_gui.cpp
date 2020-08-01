@@ -105,8 +105,10 @@ void Gui::KeyPress()
 
 	if (mlevel == 0)  //  main menu
 	{
-		if (kUp){  ym += kUp;  if (ym >= M_All)  ym = 0;  if (ym < 0)  ym = M_All-1;  }
-		if (kRight > 0 || kEnt2)
+		if (kUp || kPgUp)
+			ym = RangeAdd(ym, kUp + kPgUp*3, 0,M_All-1, 1);
+		
+		if (kRight > 0 || kEnt || kEnt2)
 			mlevel = 1;  // enter>
 		return;
 	}

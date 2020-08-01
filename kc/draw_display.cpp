@@ -16,12 +16,12 @@ void Gui::DrawDisplay()
 	d->setFont(OpenSans12);
 
 	//  subtitle
-	d->setCursor(W/2 -6, 4);
+	d->setCursor(W/2 +6, 8);
 	d->setClr(30,22,12);
 	d->print(sPgDisplay[pgDisp]);
 
 	//  page / all
-	d->setCursor(W-1 -24, 4);
+	d->setCursor(W-1 -24, 8);
 	d->setClr(28,22,10);
 	sprintf(a,"%d/%d", pgDisp+1, Di_All);
 	d->print(a);
@@ -45,10 +45,10 @@ void Gui::DrawDisplay()
 			sprintf(a,"Brightness:");
 			sprintf(b,"%d %%", par.brightness);  h = 2;  break;
 		case 1:
-			sprintf(a,"Off bright:");
+			sprintf(a,"Off brightness:");
 			sprintf(b,"%d %%", par.brightOff);  break;
 		case 2:
-			sprintf(a,"Start with:");
+			sprintf(a,"Start screen:");
 			sprintf(b,"%s", StrScreen(par.startScreen));  break;
 		}
 		PrintR(a, x0, y);

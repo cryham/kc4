@@ -37,6 +37,7 @@ struct Gui
 	void DrawDispCur(int i, int16_t y), DrawClockCur(int i, int16_t y);
 
 	void PrintR(const char* str, int16_t x, int16_t y);  // right align
+	int16_t GetWidth(const char* s);
 	void DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h, uint al=256);
 	void DrawBmp(const Bmp20* bmp, int16_t x, int16_t y, uint al=256);
 	void DrawTitle(const char* str, uint16_t clr, const Bmp20* bmp);
@@ -102,7 +103,7 @@ struct Gui
 
 
 	//  Mapping  - - - -
-	const uint8_t yTitle = 52;  // y after title
+	const uint8_t yTitle = 60, yTitleUp = 52;  // y after title
 	const uint8_t yPosLay = 112;
 	int16_t keyCode=0, scId=0, scIdCpy=0, drawId=-1, drawX=0,drawY=0;
 	int8_t nLay=0, nLayCpy=0,

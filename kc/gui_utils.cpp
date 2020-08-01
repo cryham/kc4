@@ -43,60 +43,16 @@ void Gui::DrawEnd()
 }
 
 
-//  draw utils
+//  Menu
 //....................................................................................
-void Gui::PrintR(const char* s, int16_t x, int16_t y)
-{
-	d->setCursor(x, y);
-	int16_t x1, y1;   uint16_t w, h;
-	d->getTextBounds(s, x,y, &x1,&y1, &w,&h);
-	d->setCursor(x - w, y);
-	d->print(s);
-}
-
-void Gui::DrawBmp(const Bmp20* bmp, int16_t x, int16_t y, uint al)
-{
-	DrawBmp((const uint8_t*)bmp, x, y, 20, 20, al);
-}
-void Gui::DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h, uint al)
-{
-	const uint8_t* q = (const uint8_t*)bmp;
-	int i,j;
-	for (j=0; j < h; ++j)
-	{
-		uint a = (y+j)*W + x;
-		for (i=0; i < w; ++i,++a)
-		{
-		#if 0  // no alpha fast
-			uint8_t b = *q;  ++q;
-			uint8_t g = *q;  ++q;
-			uint8_t r = *q;  ++q;
-			/*uint8_t al = *q;*/  ++q;
-			demos.data[(y+j)*W + x+i] = RGB2(r/8,g/4,b/8);
-		#else
-			uint b = *q;  ++q;
-			uint g = *q;  ++q;
-			uint r = *q;  ++q;
-			int aa = *q;  ++q;
-			b = b * al * aa / 65536 /8;
-			g = g * al * aa / 65536 /4;
-			r = r * al * aa / 65536 /8;
-			demos.data[a] = RGB2(r, g, b);
-		#endif
-	}	}
-}
-
 void Gui::DrawTitle(const char* str, uint16_t clr, const Bmp20* bmp)
 {
-	d->setCursor(24,4);  //par
+	d->setCursor(27,4);  //par
 	d->setColor(clr, 0);
 	d->print(str);
 	if (bmp)  DrawBmp(bmp,0,4);
 }
 
-
-//  Menu
-//....................................................................................
 void Gui::DrawMenu(int cnt, const char** str, const Bmp20** bmp,
 	EFadeClr ec, uint16_t curClr, uint16_t bckClr, int16_t nextCol, int16_t numGap)
 {
@@ -116,7 +72,7 @@ void Gui::DrawMenu(int cnt, const char** str, const Bmp20** bmp,
 
 		c = abs(i - my);  // dist dim
 		FadeClr(ec, 4, c, 1, i == my ? bckClr : 0);
-		d->setCursor(x+40,y);
+		d->setCursor(x + 43,y);
 		d->print(str[i]);
 
 		if (bmp && bmp[i])
@@ -132,6 +88,7 @@ void Gui::DrawMenu(int cnt, const char** str, const Bmp20** bmp,
 	}
 }
 
+//  cursor
 void Gui::DrawDispCur(int i, int16_t y)
 {
 	uint16_t bck = RGB(8,8,4);
@@ -146,6 +103,57 @@ void Gui::DrawDispCur(int i, int16_t y)
 	d->setCursor(20, y);
 
 	FadeClr(C_Disp, 4, c, 1, !c ? bck : 0);
+}
+
+
+//  draw utils
+//....................................................................................
+int16_t Gui::GetWidth(const char* s)
+{
+	int16_t x1, y1;   uint16_t w, h;
+	d->getTextBounds(s, 0,0, &x1,&y1, &w,&h);
+	return w;
+}
+void Gui::PrintR(const char* s, int16_t x, int16_t y)
+{
+	//d->setCursor(x, y);
+	// int16_t x1, y1;   uint16_t w, h;
+	// d->getTextBounds(s, x,y, &x1,&y1, &w,&h);
+	d->setCursor(x - GetWidth(s), y);
+	d->print(s);
+}
+
+//  bitmap
+void Gui::DrawBmp(const Bmp20* bmp, int16_t x, int16_t y, uint al)
+{
+	DrawBmp((const uint8_t*)bmp, x, y, 20, 20, al);
+}
+void Gui::DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h, uint al)
+{
+	const uint8_t* q = bmp;
+	int i,j;
+	for (j=0; j < h; ++j)
+	{
+		uint a = (y+j)*W + x;
+		for (i=0; i < w; ++i,++a)
+		{
+		#if 0  // no alpha
+			uint8_t b = *q;  ++q;
+			uint8_t g = *q;  ++q;
+			uint8_t r = *q;  ++q;
+			/*uint8_t al = *q;*/  ++q;
+			demos.data[(y+j)*W + x+i] = RGB2(r/8,g/4,b/8);
+		#else
+			uint b = *q;  ++q;
+			uint g = *q;  ++q;
+			uint r = *q;  ++q;
+			int aa = *q;  ++q;
+			b = b * al * aa / 65536 /8;
+			g = g * al * aa / 65536 /4;
+			r = r * al * aa / 65536 /8;
+			demos.data[a] = RGB2(r, g, b);
+		#endif
+	}	}
 }
 
 //  time
@@ -165,6 +173,7 @@ void Gui::PrintInterval(uint32_t t)
 	d->print(a);
 }
 
+//  fade
 void Gui::FadeClr(EFadeClr ec, const uint8_t mi, const uint8_t mul, const uint8_t div, uint16_t bckClr)
 {
 	const uint8_t* clr = &Mclr[ec][0][0];
@@ -257,7 +266,8 @@ int16_t Gui::RangeAdd(int16_t val, int16_t add, int16_t vmin, int16_t vmax, int8
 	return v;
 }
 
-//  save
+
+//  save KC
 void Gui::Save()
 {
 	kc.Save();  infType = 2;  tInfo = -1;

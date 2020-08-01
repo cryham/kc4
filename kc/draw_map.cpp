@@ -20,7 +20,7 @@ void Gui::DrawPickKey()
 	d->print("Pick key..");
 	DrawBmp(&bmpKEY,0,0);
 
-	d->setCursor(0,20);
+	d->setCursor(W/5,20);
 	d->setClr(22,22,12);
 	//sprintf(a,"%3d/%d", keyCode, KEYS_ALL_EXT);
 	//d->print(a);

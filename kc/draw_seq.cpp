@@ -109,7 +109,7 @@ void Gui::DrawSequences()
 		int s = page * iPage, i, y, q;
 		for (i=0; i < iPage && s < kc.set.seqSlots; ++i,++s)
 		{
-			y = yTitle + i*19;
+			y = yTitleUp + i*19;
 			d->setCursor(0, y);
 			//d->setClr(20,30,25);
 			q = abs(i - slot);
@@ -211,14 +211,8 @@ void Gui::DrawSequences()
 				int q = abs(n - edpos)/qdiv;
 				FadeGrp(gr, 13, q, 4, 0);
 
-				//  string length  // todo: ..?
-				xx = (isCmd ? cCmdStrLen[min(CMD_ALL-1, cmd)] :
-						strlen(cKeyStr[dt])) * 12 +2;
-				if (x + xx > W-1)
-				{	x = 1;  y += 16+2;  }  // new line
 
-				//  write
-				d->setCursor(x,y);
+				//---- cmd string
 				if (isCmd)  //  commands ___ draw
 				{	++n;
 					uint8_t cp = n < l ? kc.set.seqs[si].data[n] : 0;
@@ -233,45 +227,56 @@ void Gui::DrawSequences()
 					switch (cmd)
 					{
 					case CMD_SetDelay:
-						sprintf(a,"D%3dms", cp);  d->print(a);  break;
+						sprintf(a,"D%3dms", cp);  break;
 					case CMD_Wait:
 					{	char f[6];  dtostrf(cp*0.1f, 4,1, f);
-						sprintf(a,"W%ss", f);  d->print(a);  }  break;
+						sprintf(a,"W%ss", f);  }  break;
 
 					case CMD_Comment:
-						d->print(inCmt ? "}C" : "C{");
+						strcpy(a, inCmt ? "}C" : "C{");
 						inCmt = !inCmt;  break;
 					case CMD_Hide:
-						d->print("H>");  break;
+						strcpy(a, "H>");  break;
 
 					case CMD_RunSeq:
-						sprintf(a,"S%2d", cp);  d->print(a);  break;
+						sprintf(a,"S%2d", cp);  break;
 
 					case CMD_Repeat:
-						d->print("Rpt");  break;
+						strcpy(a, "Rpt");  break;
 
 					//  _mouse commands_ draw
-					case CM_x:  sprintf(a,"Mx%+4d", cm);  d->print(a);  break;
-					case CM_y:  sprintf(a,"My%+4d", cm);  d->print(a);  break;
+					case CM_x:  sprintf(a,"Mx%+4d", cm);  break;
+					case CM_y:  sprintf(a,"My%+4d", cm);  break;
 
-					case CM_BtnOn:  sprintf(a,"%s+", sMB[cp]);  d->print(a);  break;
-					case CM_BtnOff: sprintf(a,"%s-", sMB[cp]);  d->print(a);  break;
+					case CM_BtnOn:  sprintf(a,"%s+", sMB[cp]);  break;
+					case CM_BtnOff: sprintf(a,"%s-", sMB[cp]);  break;
 
-					case CM_Btn:   d->print(sMB[cp]);  break;
-					case CM_Btn2x: sprintf(a,"%s2", sMB[cp]);  d->print(a);  break;
+					case CM_Btn:   strcpy(a, sMB[cp]);  break;
+					case CM_Btn2x: sprintf(a,"%s2", sMB[cp]);  break;
 
-					case CM_WhX:  sprintf(a,"Wx%2d", cm);  d->print(a);  break;
-					case CM_WhY:  sprintf(a,"Wy%2d", cm);  d->print(a);  break;
+					case CM_WhX:  sprintf(a,"Wx%2d", cm);  break;
+					case CM_WhY:  sprintf(a,"Wy%2d", cm);  break;
 
-					case CM_xbig:  sprintf(a,"MX%+4d", cm);  d->print(a);  break;
-					case CM_ybig:  sprintf(a,"MY%+4d", cm);  d->print(a);  break;
+					case CM_xbig:  sprintf(a,"MX%+4d", cm);  break;
+					case CM_ybig:  sprintf(a,"MY%+4d", cm);  break;
 
-					case CM_xset:  sprintf(a,"X=%+3d", cp);  d->print(a);  break;
-					case CM_yset:  sprintf(a,"Y=%+3d", cp);  d->print(a);  break;
-					case CM_mset:  d->print("XY");  break;
+					case CM_xset:  sprintf(a,"X=%+3d", cp);  break;
+					case CM_yset:  sprintf(a,"Y=%+3d", cp);  break;
+					case CM_mset:  strcpy(a, "XY");  break;
 					}
 				}else  // key
-					d->print(cKeyStr[dt]);
+					strcpy(a, cKeyStr[dt]);
+				//----
+
+
+				//  string width
+				xx = GetWidth(a) + 4;
+				// xx = (isCmd ? cCmdStrLen[min(CMD_ALL-1, cmd)] :
+				// 		strlen(cKeyStr[dt])) * 12 +2;
+				if (x + xx > W-1)
+				{	x = 1;  y += 16+2;  }  // new line
+
+				d->setCursor(x,y);  d->print(a);
 			}
 			if (cur)  // cursor
 			{
@@ -292,13 +297,15 @@ void Gui::DrawSequences()
 		d->setClr(23,27,31);
 		if (ofs > 0) {  d->setCursor(x -4*9, 4);  d->print("<");  }
 		if (n < l) {    d->setCursor(x -2*9, 4);  d->print(">");  }
-		#if 1
-		//  cursor ofs pos/len
-		d->setFont(OpenSans12);
-		d->setClr(18,21,23);
-		d->setCursor(x + 45, 6);
-		sprintf(a,"%d %d/%d", ofs, edpos, l);  d->print(a);
-		#endif
+
+		//  cursor ofs pos/len debug
+		if (demos.iFps)
+		{
+			d->setFont(OpenSans12);
+			d->setClr(18,21,23);
+			d->setCursor(x + 45, 6);
+			sprintf(a,"%d %d/%d", ofs, edpos, l);  d->print(a);
+		}
 
 		++tBlnk;  // blink cur
 		if (tBlnk > cBlnk)  tBlnk = 0;

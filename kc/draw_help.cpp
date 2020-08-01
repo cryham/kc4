@@ -16,7 +16,7 @@ void Gui::DrawHelp()
 
 	//  page / all
 	d->setClr(22,22,23);
-	d->setCursor(W-1 -44, 0);
+	d->setCursor(W-1 -44, 8);
 	sprintf(a, "%2d/%d", hpage+1, HAll);
 	d->print(a);
 
@@ -31,14 +31,14 @@ void Gui::DrawHelp()
 		" View", " Edit", "Commands", "Mouse",
 		"", " 1/2", " 2/2"};
 
-	const int x = W/3+6;
+	const int x = W/3 +30;
 	d->setClr(25,28,31);  d->setCursor(x, 2);  d->print(title[hpage]);
 	d->setClr(21,24,28);  d->setCursor(x,20);  d->print(title2[hpage]);
 	
 	auto yadd = [&](int16_t y){  d->moveCursor(0, y*2);  };
 
 	//  text
-	d->setCursor(0, yTitle);
+	d->setCursor(0, yTitleUp);
 	switch (hpage)
 	{
 	case 0:  //  main

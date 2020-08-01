@@ -44,7 +44,7 @@ void Gui::DrawSetup()
 
 
 	//  title
-	DrawTitle(strSetup[yy], RGB(17,22,22), &bmpSETUP);
+	DrawTitle(strSetup[yy], RGB(17,22,22), yy == S_Scan ? &bmpMATRIX : &bmpSETUP);
 	d->setFont(OpenSans12);
 	d->setClr(21,26,26);
 

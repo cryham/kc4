@@ -101,7 +101,7 @@ void Games::Draw()
 	if (gui==1)  //  game menu
 	{
 		d.setClr(31,24,12);
-		d.setCursor(W/2-6, 4);
+		d.setCursor(W/2 -6, 8);
 		d.println(sPresets[preset]);  // title
 		uint16_t bck = RGB(9,7,5);
 		

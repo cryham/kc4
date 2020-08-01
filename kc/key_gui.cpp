@@ -74,57 +74,33 @@ void Gui::KeyPress()
 			(kCtrl ? Cl_Graphs : kSh ? Cl_StatsExt : pgClock));
 	}
 
-	//  Game  ------
-	#ifdef GAME
-	if (ym == M_Game && mlevel == 1)
-	{
-		if (game.KeyPress(mlevel))
-		{	// goto help
-			ym = M_Help;  mlevel = 1;  hpage = HAll-2;
-		}
-		return;
-	}
-	#endif
-
 	int sp = (kCtrl ? 10 : kSh ? 1 : 2);  // mul
 
 
-	//  Setup
-	if (ym == M_Setup && mlevel == 2)
-	{
-		KeysParSetup(sp);
-	}
-
-	//  Info
-	if (ym == M_Info && mlevel == 2)
-	{
-		KeysParInfo(sp);
-	}
-
-	//  Display
-	if (ym == M_Display && mlevel == 1)
-	{
-		KeysParDisplay(sp);  return;
-	}
-
-	//  Clock
-	if (ym == M_Clock && mlevel == 1)
-	{
-		KeysClock();  return;
-	}
-
-
-	//  Mapping kbd
-	if (ym == M_Mapping && mlevel == 1)
-	{
-		KeysMap();  return;
-	}
-
-	//  Sequences
-	if (ym == M_Sequences && mlevel == 1)
-	{
-		KeysSeq();  return;
-	}
+	//  Keys
+	if (mlevel == 2)
+		switch (ym)
+		{
+		case M_Setup:  KeysSetup(sp);  break;
+		case M_Matrix: KeysMatrix(sp);  break;
+		case M_Info:   KeysInfo(sp);  break;
+		}
+	else if (mlevel == 1)
+		switch (ym)
+		{
+		#ifdef GAME
+		case M_Game:
+			if (game.KeyPress(mlevel))
+			{	// goto help
+				ym = M_Help;  mlevel = 1;  hpage = HAll-2;
+			}
+			return;
+		#endif
+		case M_Display:   KeysDisplay(sp);  return;
+		case M_Clock:     KeysClock();  return;
+		case M_Mapping:   KeysMap();  return;
+		case M_Sequences: KeysSeq();  return;
+		}
 
 
 	if (mlevel == 0)  //  main menu
@@ -164,7 +140,7 @@ void Gui::KeyPress()
 			demos.bAuto = ym == M_Demos && yy == D_AutoAll;
 		}
 
-		if (kUp){  ym1[ym] += kUp;  Chk_y1();  }
+		if (kUp){  ym1[ym] += kUp;  Check_ym1();  }
 		return;
 	}
 

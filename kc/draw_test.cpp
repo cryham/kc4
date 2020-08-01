@@ -13,14 +13,14 @@ void Gui::DrawTesting()
 	//  menu
 	if (mlevel == 1)
 	{
-		DrawTitle(strMain[ym], RGB(16,26,16), &bmpTEST);
-		DrawMenu(T_All,strTest,0, C_Test,RGB(22,31,14),RGB(5,9,6), -1, 2);
+		DrawTitleMain(RGB(16,26,16), &bmpZOOM);
+		DrawMenu(T_All,strTest,0, C_Test,RGB(22,31,14),RGB(5,9,6));
 		return;
 	}
 	char a[64];
 
 	//  title
-	DrawTitle(strTest[yy], RGB(12,20,28), yy == T_Matrix ? &bmpMATRIX : &bmpTEST);
+	DrawTitle(strTest[yy], RGB(12,20,28), &bmpZOOM);
 	d->setFont(OpenSans12);
 	d->setClr(21,26,31);
 
@@ -79,7 +79,7 @@ void Gui::DrawTesting()
 
 
 		//  keys  - - - -
-		DrawPressed();
+		DrawPressed(true);
 
 		//  held count
 		d->setFont(OpenSans14);
@@ -121,98 +121,13 @@ void Gui::DrawTesting()
 
 		DrawLayout(false);
 	}	break;
-
-
-	//-----------------------------------------------------
-	case T_Matrix:
-	{
-		const uint x1 = 13, y1 = 122, w = 14, h = 14;
-		uint c,r, hc=99,hr=99;  // held col,row
-		uint16_t clr;
-
-		//  grid #
-		const uint16_t cl[3] = {RGB(9,10,10), RGB(13,14,14), RGB(16,20,20)};
-		uint ww = min(NumCols*w, W-1-x1);
-		uint hh = min(NumRows*h, H-1-y1);
-			
-		for (r=0; r < NumRows; ++r)
-			if (r % 2 == 1)
-				d->drawFastHLine(x1, y1 + r*h +4, ww, cl[r % 4 == 3 ? 1 : 0]);
-		for (c=0; c < NumCols; ++c)
-			if (c % 2 == 1)
-				d->drawFastVLine(x1 + c*w +3, y1, hh-3, cl[c%8==7 ? 2 : c%4==3 ? 1 : 0]);
-		d->setFont(0);
-
-		//  matrix  :::  *
-		bool ghost = false;
-		for (c=0; c < NumCols; ++c)
-		for (r=0; r < NumRows; ++r)
-		{
-			d->setCursor(x1 + c*w, y1 + r*h);
-			const KeyState& k = Matrix_scanArray[NumCols * r + c];
-
-			//  color from ghost, use
-			#define CGh(gh, u)  clr = gh ? RGB(31,26,12) : \
-				RGB( min(31,7+u*5), min(31, 14+u*8), max(4, 24-u*2) ); \
-				d->setColor(clr, clr)
-
-			a[1]=0;
-			if (k.state == KeyState_Off)
-			{	//sprintf(a,".");
-				a[0]=2;
-				bool gh = col_ghost[c] || row_ghost[r];
-				int u = max(col_use[c], row_use[r]);
-				CGh(gh, u);
-				ghost |= gh;
-			}else{
-				hc=c; hr=r;  // held
-				a[0]='*';
-				//sprintf(a,"%d", k.state);
-				d->setClr(24,28,31);
-			}
-			d->print(a);
-		}
-
-		//  col| row- use
-		d->setFont(OpenSans12);
-		for (c=0; c < NumCols; ++c)
-		{
-			CGh(col_ghost[c], col_use[c]);
-			d->setCursor(x1 + c*w - 1, y1 - x1 - 6);
-			d->print(col_use[c]);
-		}
-		for (r=0; r < NumRows; ++r)
-		{
-			CGh(row_ghost[r], row_use[r]);
-			d->setCursor(0, y1 + r*h - 3);
-			d->print(row_use[r]);
-		}
-
-		//  held  ---
-		d->setCursor(0,yTitle);
-		d->setClr(24,24,31);
-		sprintf(a,"Held:  %d   press:  %d ", cnt_press-cnt_rel, cnt_press);
-		d->print(a);
-		if  (hc<99 && hr<99)
-		{
-			d->setCursor(W/2, 6);
-			sprintf(a,"R%d  C%d", hr+1, hc+1);
-			d->print(a);
-		}
-
-		//  ghosting  ---
-		d->setCursor(0,yTitle+20);
-		d->setColor(ghost ? RGB(31,26,12) : RGB(16,21,26));
-		sprintf(a,"Ghost   col %d  row %d", ghost_cols, ghost_rows);
-		d->print(a);
-
-	}	break;
 	}
 }
 
+
 //  pressed keys list
 //....................................................................................
-void Gui::DrawPressed()
+void Gui::DrawPressed(bool far)
 {
 	int8_t seq=-1, fun=-1;
 	d->setClr(20,25,28);
@@ -236,7 +151,7 @@ void Gui::DrawPressed()
 				if (k >= K_Fun0 && k <= K_FunLast)  fun = k - K_Fun0;
 	}	}	}
 
-	d->setCursor(0, d->getCursorY()+16);
+	d->setCursor(20, d->getCursorY() + (far ? 30 : 16));
 
 	if (seq >= 0)  //  seq preview  ---
 		DrawSeq(seq, 2, 0);

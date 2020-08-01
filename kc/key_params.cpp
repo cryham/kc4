@@ -8,14 +8,14 @@
 #include "IntervalTimer.h"
 extern IntervalTimer tim;
 
+
 const uint8_t Gui::DispPages[Di_All] = {2,2,1,3,1};
-const uint8_t Gui::ScanPages[S_All] = {3,1,4,2};
+const uint8_t Gui::ScanPages[S_All] = {3,1,4};
 
 
 //  Info
 //....................................................................................
-
-void Gui::KeysParInfo(int sp)
+void Gui::KeysInfo(int sp)
 {
 	switch (yy)
 	{
@@ -26,7 +26,7 @@ void Gui::KeysParInfo(int sp)
 
 //  Setup
 //....................................................................................
-void Gui::KeysParSetup(int sp)
+void Gui::KeysSetup(int sp)
 {
 	int16_t ysp = ScanPages[yy];
 	switch (yy)
@@ -94,8 +94,20 @@ void Gui::KeysParSetup(int sp)
 		case 4:
 			par.mkWhAccel = RangeAdd(par.mkWhAccel, kRight * sp, 0, 250);  break;
 		}	break;
+	}
+	if (kSave)  Save();
+	if (kLoad)  Load(kCtrl);
+}
 
-	case S_Scan:
+
+//  Matrix Scan
+//....................................................................................
+void Gui::KeysMatrix(int sp)
+{
+	int16_t ysp = 2;  //ScanPages[yy];
+	switch (yy)
+	{
+	case X_Scan:
 		if (kUp)
 		{	ym2Scan = RangeAdd(ym2Scan, kUp, 0, ysp, 1);  }
 		else if (kRight)
@@ -117,7 +129,7 @@ void Gui::KeysParSetup(int sp)
 
 //  Display
 //....................................................................................
-void Gui::KeysParDisplay(int sp)
+void Gui::KeysDisplay(int sp)
 {
 	if (kUp)  // y
 	{	ym2Disp = RangeAdd(ym2Disp, kUp, 0, DispPages[pgDisp], 1);  }

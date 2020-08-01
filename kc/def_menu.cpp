@@ -18,7 +18,7 @@ const uint16_t gIntervals[gIntvMask+1] =
 };
 
 //  menu colors
-const uint8_t Gui::Mclr[Gui::C_ALL][2][3] =
+const uint8_t Mclr[C_ALL][2][3] =
 {
 	{{20,26,31},{5,3,1}},  // 0 main
 	{{27,26,31},{2,3,1}},  // 1 demos
@@ -32,13 +32,14 @@ const uint8_t Gui::Mclr[Gui::C_ALL][2][3] =
 	{{31,26,12},{1,4,5}},  //  9 game
 	{{31,26,22},{1,6,8}},  //  10 game opt
 	{{26,26,28},{6,6,7}},  // 11 info
+	{{21,21,28},{6,6,7}},  // 12 matrix
 };
 
 //  Main Menu
 const char* strMain[M_All] =
 {
-	"Mapping", "Sequences",
-	"Testing", "Setup", "Info",
+	"Mapping", "Sequences",	"Testing",
+	"Setup", "Matrix", "Info",
 	"Display", "Clock", "Help",
 #ifdef GAME
 	"Game",
@@ -48,9 +49,9 @@ const char* strMain[M_All] =
 
 const Bmp20* bmpMain[M_All] =
 {
-	&bmpKEY, &bmpDOTS3,
-	&bmpTEST, &bmpSETUP, &bmpINFO,
-	&bmpSUN, &bmpCLOCK, &bmpHELP,
+	&bmpKEY, &bmpDOTS3, &bmpZOOM,
+	&bmpSETUP, &bmpMATRIX, &bmpINFO,
+	&bmpSCREEN, &bmpCLOCK, &bmpHELP,
 #ifdef GAME
 	&bmpGAME,
 #endif
@@ -60,13 +61,19 @@ const Bmp20* bmpMain[M_All] =
 //  Testing kbd
 const char* strTest[T_All] =
 {
-	"Layout", "Pressed", "Matrix #",
+	"Layout", "Pressed",
 };
 //  Setup kbd
 const char* strSetup[S_All] =
 {
-	"Layer", "Keyboard", "Mouse", "Scan #",
+	"Layer", "Keyboard", "Mouse",
 };
+//  Matrix
+const char* strMatrix[X_All] =
+{
+	"Test matrix", "Scan setup",
+};
+
 //  Info use, ver
 const char* strInfo[I_All] =
 {
@@ -96,14 +103,17 @@ const char* strDemo[D_All] =
 };
 
 
-//  sub pages
+//  sub pages  menu level1
 const uint8_t YM1[M_All] =
 {
 	4,  // M_Mapping
 	1,  // M_Sequences
 	T_All,  // M_Testing
+	
 	S_All,  // M_Setup
+	X_All,  // M_Matrix
 	I_All,  // M_Info
+	
 	1,  // M_Display
 	1,  // M_Clock  Cl_All
 	1,  // M_Help

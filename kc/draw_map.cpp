@@ -12,7 +12,7 @@
 //....................................................................................
 void Gui::DrawPickKey()
 {
-	int x=0, y=2;
+	int x=0, y=2, xg = W*2/3 -10;
 
 	d->setFont(OpenSans12);
 	d->setCursor(22,y);
@@ -20,25 +20,25 @@ void Gui::DrawPickKey()
 	d->print("Pick key..");
 	DrawBmp(&bmpKEY,0,0);
 
-	d->setCursor(W/5,20);
-	d->setClr(22,22,12);
+	d->setCursor(W/3 +20, 0);
+	d->setClr(24,22,22);
 	//sprintf(a,"%3d/%d", keyCode, KEYS_ALL_EXT);
 	//d->print(a);
 	if (grpFilt)  d->print("/  Group:");
 			else  d->print("/  All");
 
-	//  line  -
-	y = 2*18;
+	//  line  --
+	y = 20;
 	d->drawFastHLine(0, y, W-1,
-		grpFilt ? RGB(16,10,12) : RGB(10,10,12));
+		grpFilt ? RGB(12,9,9) : RGB(9,9,12));
 
 	x = (W-1-5) * keyCode / KEYS_ALL_EXT;
 	d->drawFastHLine(x, y, 5,
 		grpFilt ? RGB(30,26,26) : RGB(25,25,28));
 
 	//  key, grp
-	y = 43;
-	d->setCursor(W/2 -1, y);
+	y = 32;
+	d->setCursor(xg, y);
 	d->setClr(25,28,31);
 	d->print(cKeyStr[keyCode]);
 	d->setCursor(0, y);
@@ -56,8 +56,8 @@ void Gui::DrawPickKey()
 		d->print(cFunStr[fun]);
 	}
 
-
-	d->setCursor(W/2 -1, 20);
+	y = 2;
+	d->setCursor(xg, y);  // group
 	d->setClr(31,15,21);
 
 	const int xw = 60, h = 17, y0 = 66;
@@ -134,7 +134,7 @@ void Gui::DrawMapping()
 	}
 
 
-	d->setClr(13,20,9);
+	d->setClr(13,22,9);
 	d->print(strMain[ym]);
 	d->setFont(OpenSans12);
 
@@ -171,7 +171,7 @@ void Gui::DrawMapping()
 			break;
 
 		case 2:
-			x = 12;  y = yTitle;
+			x = 12;  y = yTitleUp;
 			d->setCursor(x,y);
 			if (id < 0 || id >= kc.set.nkeys())
 				sprintf(a,"-  Key:  NONE");
@@ -251,6 +251,4 @@ void Gui::DrawMapping()
 
 
 	DrawLayout(true);
-
-	//d->setFont(0);
 }

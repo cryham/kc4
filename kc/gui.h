@@ -26,13 +26,14 @@ struct Gui
 
 	//  draw menus
 	void DrawMapping(), DrawSequences(), DrawPickKey();  // edit
-	void DrawTesting(), DrawSetup(), DrawDisplay();  // set params
-	void DrawClock(), DrawGraph(), DrawHelp(), DrawInfo();  // info
-	const static int PickR = 10;  // key pick rows
+	void DrawTesting(), DrawSetup(), DrawMatrix();  // setup
+	void DrawInfo(), DrawDisplay(), DrawClock(), DrawGraph(), DrawHelp();  // info
 
 	//  draw util
-	void DrawPressed(), DrawLayout(bool edit), Chk_y1();
+	const static int PickR = 10;  // key pick rows
+	void DrawPressed(bool far=false), DrawLayout(bool edit);
 	void DrawSeq(int8_t seq, int8_t q, uint16_t bck);
+	void StrSeqCmd(int cmd, uint8_t cpar, char* a, bool inCmt, bool shrt);
 	void DrawOperInfo();
 	void DrawDispCur(int i, int16_t y), DrawClockCur(int i, int16_t y);
 
@@ -40,7 +41,13 @@ struct Gui
 	int16_t GetWidth(const char* s);
 	void DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h, uint al=256);
 	void DrawBmp(const Bmp20* bmp, int16_t x, int16_t y, uint al=256);
+
+	//  draw menu
+	void DrawTitleMain(uint16_t clr, const Bmp20* bmp);
 	void DrawTitle(const char* str, uint16_t clr, const Bmp20* bmp);
+	void DrawMenu(int cnt, const char** str, const Bmp20** bmp,
+		EFadeClr ec, uint16_t curClr, uint16_t bckClr,
+		int8_t nextCol=-1, int8_t numGap=-1, int8_t numGap2=-1);
 	
 	//  util
 	void ClrPress(int pressPerMin), ClrTemp(int temp);
@@ -51,35 +58,25 @@ struct Gui
 	//  keys
 	int8_t KeysSeq();  void KeysMap();
 	int PressKey(int8_t& var);
-	void KeysParSetup(int sp), KeysParDisplay(int sp);
-	void KeysParInfo(int sp), KeysClock();
+	void KeysSetup(int sp), KeysMatrix(int sp), KeysDisplay(int sp);
+	void KeysInfo(int sp), KeysClock();
 
 	//  start
 	void SetScreen(int8_t start);
 	const char* StrScreen(int8_t s);
 
-
-	//  fade color menu  ---
-	enum EFadeClr
-	{	C_Main=0, C_Demos, C_Test, C_Map, C_Seq,
-		C_Setup, C_Disp, C_Clock, C_Setup2,
-		C_Game, C_GameOpt, C_Info, C_ALL  };
-	const static uint8_t
-		Mclr[C_ALL][2][3];
-
 	void FadeClr(EFadeClr ec, const uint8_t minRGB, const uint8_t mul, const uint8_t div, uint16_t bckClr);
 	void FadeGrp(uint8_t g, const uint8_t minRGB, const uint8_t mul, const uint8_t div, uint16_t bckClr);
-	void DrawMenu(int cnt, const char** str, const Bmp20** bmp,
-		EFadeClr ec, uint16_t curClr, uint16_t bckClr, int16_t nextCol=-1, int16_t numGap=-1);
+	
 
-
-	//  vars  ---
+	//  vars  ---------
 	int8_t kbdSend = 0; // 1 send to usb  0 in menu
 	int8_t mlevel = 0;  // 0 main, 1 level1, 2 level2
 
 	int8_t ym = 0;      // 0 main y cursor
 	int8_t ym1[M_All];  // 1 y cursor for all main menu entries
 	int8_t yy = 0;      // = ym1[ym]  level1 y cursor
+	void Check_ym1();
 
 	//  time, key repeat
 	uint32_t oldti=0, oldti_kr=0;
@@ -101,20 +98,22 @@ struct Gui
 	/*seq*/	kBckSp=0, kIns=0, kDel=0,  kCopy=0, kPaste=0, kSwap=0, /*F4,5*/kLoad=0, kSave=0,
 			kF1=0,kF2=0,kF3=0,kF6=0,kF7=0,kF8=0,kF9=0,kF10=0,kF11=0,kF12=0;
 
-
 	//  Mapping  - - - -
-	const uint8_t yTitle = 60, yTitleUp = 52;  // y after title
-	const uint8_t yPosLay = 112;
 	int16_t keyCode=0, scId=0, scIdCpy=0, drawId=-1, drawX=0,drawY=0;
 	int8_t nLay=0, nLayCpy=0,
 		pressKey=0, pickCode=K_Seq0, // edit operations
 		keyGroup=grpMax-1, grpFilt=1;  // pick group filter
 
 	//  level 2 y cursors  - - -
-	int8_t ym2Lay = 0, ym2Scan = 0, ym2Keyb = 0, ym2Mouse = 0, pressGui = 0;  // Setup
+	int8_t ym2Lay = 0, ym2Keyb = 0, ym2Mouse = 0,  // Setup
+		ym2Scan = 0, pressGui = 0;  // Matrix
 	int8_t ym2Disp = 0, pgDisp = 0;  // Display
 	int8_t ym2Clock = 0, pgClock = Cl_StatsExt;  // Clock
 
+
+	//  const
+	const uint8_t yTitle = 60, yTitleUp = 52;  // y after title
+	const uint8_t yPosLay = 112;
 	const static uint8_t
 		DispPages[Di_All], ScanPages[S_All]; //, InfoPages[I_All];
 

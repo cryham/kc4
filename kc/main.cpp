@@ -26,10 +26,10 @@ extern void ParInit();
 ILI9341_t3n tft = ILI9341_t3n(TFT_CS, TFT_DC);
 
 #ifdef BUFx2
-DMAMEM uint16_t data[2][320 * 240];
+DMAMEM uint16_t data[2][W * H];
 int buf = 0;
 #else
-DMAMEM uint16_t data[320 * 240];  // screen buffer
+DMAMEM uint16_t data[W * H];  // screen buffer
 #endif
 
 

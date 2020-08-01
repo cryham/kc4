@@ -25,7 +25,6 @@ enum ESeqCmd {
 };	// note: need >= sequence ids than commands
 
 extern const uint16_t cCmdClrLn[CMD_ALL];  // underline colors
-extern const uint8_t cCmdStrLen[CMD_ALL];  // string lengths
 
 
 struct KC_Setup

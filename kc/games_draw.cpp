@@ -115,8 +115,8 @@ void Games::Draw()
 				d.setCursor(4, yy);
 				d.print(">");
 			}
-			d.setCursor(20, yy);
-			g->FadeClr(Gui::C_Game, 6, c, 1, !c ? bck : 0);
+			d.setCursor(30, yy);
+			g->FadeClr(C_Game, 6, c, 1, !c ? bck : 0);
 
 			switch (y)
 			{	case G_Resume:   d.print("Resume");  yy+=2;  break;
@@ -303,7 +303,7 @@ void Games::OptLine(int& x, int& y, int& l, const char* str, int par, int8_t yy)
 		d.setCursor(x+4,y);
 		d.print(">");
 	}
-	g->FadeClr(Gui::C_GameOpt, 8, c, 2, !c ? bck : 0);
+	g->FadeClr(C_GameOpt, 8, c, 2, !c ? bck : 0);
 	d.setCursor(x+20,y);
 	sprintf(a,str, par);  d.print(a);
 	++l;  y += 2*(yy+2);

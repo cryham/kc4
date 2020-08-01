@@ -10,7 +10,9 @@ extern const Bmp20
 	bmpDEMO,
 	bmpMATRIX,
 	bmpSETUP,
-	bmpSUN,
-	bmpTEST,
+	//bmpSUN,
+	//bmpTEST,
 	bmpGAME,
-	bmpDOTS3;
+	bmpDOTS3,
+	bmpZOOM,
+	bmpSCREEN;

@@ -2,11 +2,12 @@
 #include <stdint.h>
 #include "def.h"
 
-/*  data mem sizes
+/*  data mem sizes max
 //--------------------------------------
-  18x8 = 144  * 9L = 1296 B max
-     + 60 seq * 20 = 1200 B
-  = 2500 B  RAM big
+  18x8 = 144  * 9L = 1296 B
+     + 60 seq * 20 = 1200 B  E = 2500 B
+  20x8 = 160 * 16L = 2560 B
+     + 99 seq * 20 = 1980 B  E = 4540 B
 */
 const static int8_t
 	KC_MaxRows = 8,
@@ -15,8 +16,8 @@ const static int8_t
 #else
 	KC_MaxCols = 18,
 #endif
-	KC_MaxLayers = 8,  // 16
-	KC_MaxSeqs = 60;  // 60
+	KC_MaxLayers = 16,
+	KC_MaxSeqs = 70;
 
 
 //  params, saved

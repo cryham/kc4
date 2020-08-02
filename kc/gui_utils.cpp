@@ -123,22 +123,20 @@ int16_t Gui::GetWidth(const char* s)
 }
 void Gui::PrintR(const char* s, int16_t x, int16_t y)
 {
-	//d->setCursor(x, y);
-	// int16_t x1, y1;   uint16_t w, h;
-	// d->getTextBounds(s, x,y, &x1,&y1, &w,&h);
 	d->setCursor(x - GetWidth(s), y);
 	d->print(s);
 }
 
 //  bitmap
-void Gui::DrawBmp(const Bmp20* bmp, int16_t x, int16_t y, uint al)
+void Gui::DrawBmp(const Bmp20* bmp, int16_t x, int16_t y, uint16_t bck, uint al)
 {
-	DrawBmp((const uint8_t*)bmp, x, y, 20, 20, al);
+	DrawBmp((const uint8_t*)bmp, x, y, 20, 20, bck, al);
 }
-void Gui::DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h, uint al)
+void Gui::DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h, uint16_t bck, uint al)
 {
 	const uint8_t* q = bmp;
 	int i,j;
+	//if (bck == 0)
 	for (j=0; j < h; ++j)
 	{
 		uint a = (y+j)*W + x;
@@ -161,6 +159,26 @@ void Gui::DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h
 			demos.data[a] = RGB2(r, g, b);
 		#endif
 	}	}
+	/*else
+	{
+		uint bb = bck ;
+		uint bg = *q;
+		uint br = *q;
+	for (j=0; j < h; ++j)
+	{
+		uint a = (y+j)*W + x;
+		for (i=0; i < w; ++i,++a)
+		{
+			uint b = *q;  ++q;
+			uint g = *q;  ++q;
+			uint r = *q;  ++q;
+			int aa = *q;  ++q;
+			int ac = 
+			b = b * al * aa / 65536 /8;
+			g = g * al * aa / 65536 /4;
+			r = r * al * aa / 65536 /8;
+			demos.data[a] = RGB2(r, g, b);
+	}	}*/
 }
 
 //  time
@@ -295,4 +313,10 @@ void Gui::Load(int8_t reset)
 	{	kc.set.InitCK();  infType = 0;  }
 	else
 	{	kc.Load();  infType = 1;  }  tInfo = -1;
+}
+
+void Gui::KeysLoadSave()
+{
+	if (kSave)  Save();
+	if (kLoad)  Load(kCtrl);
 }

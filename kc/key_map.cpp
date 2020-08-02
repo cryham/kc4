@@ -150,8 +150,7 @@ void Gui::KeysMap()
 				slot = sq - page*iPage;
 	}	}	}
 
-	if (kSave)  Save();
-	if (kLoad)  Load(kCtrl);
+	KeysLoadSave();
 
 
 	//  key oper

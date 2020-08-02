@@ -22,7 +22,7 @@ void Gui::KeysClock()
 		unsigned long tm = rtc_get(), td = 0;
 		int a = kRight * (kCtrl ? 10 : 1);
 		if (a)
-		{	switch (ym2Clock)
+			switch (ym2Clock)
 			{
 			case 0:  td = a * 3600;  break;  // h
 			case 1:  td = a * 60;  break;  // m
@@ -32,11 +32,9 @@ void Gui::KeysClock()
 			case 4:  td = a * 3600*24*30;  break;  // mth-
 			case 5:  td = a * 3600*24*365;  break;  // yr
 
-			case 6:
-				par.rtcCompensate += a;
-				rtc_compensate(par.rtcCompensate);  break;
+			case 6:  par.rtcCompensate += a;
+					 rtc_compensate(par.rtcCompensate);  break;
 			}
-
 			if (td)
 			if (tm + td >= 0)
 			{	tm += td;
@@ -46,7 +44,6 @@ void Gui::KeysClock()
 					kc.tm_on += td;
 				kc.ResetStats(false);
 			}
-		}
 	}
 	//  graphs  cursor move  ---
 	else if (pgClock == Cl_Graphs)
@@ -65,8 +62,5 @@ void Gui::KeysClock()
 	if (kAdd || kBckSp)  --mlevel;
 
 	if (pgClock == Cl_Adjust || pgClock == Cl_Graphs)
-	{
-		if (kSave)  Save();
-		if (kLoad)  Load(kCtrl);
-	}
+		KeysLoadSave();
 }

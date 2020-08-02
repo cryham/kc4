@@ -208,8 +208,7 @@ int8_t Gui::KeysSeq()
 	{	// View
 		//------------------------------------------------------------
 		//  save  load
-		if (kSave)  Save();
-		if (kLoad)  Load(kCtrl);
+		KeysLoadSave();
 
 		//  move
 		if (kUp > 0){	++slot;  slotMax();  }

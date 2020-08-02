@@ -39,8 +39,8 @@ struct Gui
 
 	void PrintR(const char* str, int16_t x, int16_t y);  // right align
 	int16_t GetWidth(const char* s);
-	void DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h, uint al=256);
-	void DrawBmp(const Bmp20* bmp, int16_t x, int16_t y, uint al=256);
+	void DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h, uint16_t bck=0, uint al=256);
+	void DrawBmp(const Bmp20* bmp, int16_t x, int16_t y, uint16_t bck=0, uint al=256);
 
 	//  draw menu
 	void DrawTitleMain(uint16_t clr, const Bmp20* bmp);
@@ -124,6 +124,7 @@ struct Gui
 	//  util
 	int16_t RangeAdd(int16_t val, int16_t add, int16_t vmin, int16_t vmax, int8_t cycle=0);
 	void Save(), Load(int8_t reset);
+	void KeysLoadSave();
 
 
 	//  Sequences  - - - -

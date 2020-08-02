@@ -6,7 +6,7 @@
 //  load, save in eeprom
 //.............................................
 #define EOfs 0      //  offset and
-#define ESize 2048  //  max size to use
+#define ESize 5000  //  max size to use  60 kB total eeprom
 
 #define Erd(a)    eeprom_read_byte((uint8_t*)a);      ++a;  memSize = a;  if (a >= ESize) {  err=E_size;  return;  }
 #define Ewr(a,b)  eeprom_write_byte((uint8_t*)a, b);  ++a;  memSize = a;  if (a >= ESize) {  err=E_size;  return;  }
@@ -53,7 +53,7 @@ const char* KCerrStr[E_max] = {
 	"r * c != sc", "nkeys != sc",
 };
 
-//  seq commands ___ underline colors
+//  seq commands colors ___ underline
 const Clr cCmdClr[CMD_ALL]={
 	// CMD_SetDelay, CMD_Wait,  CMD_Comment, CMD_Hide,
 	{31,31,12},{31,31,20},  {6,28,30}, {12,22,31},
@@ -119,12 +119,6 @@ void KC_Main::Load()
 	setBright = 1;  // upd
 	
 	//  old versions  --
-	if (set.ver == 2)
-	{	par.defLayer = 0;  par.editLayer = 2;
-		par.keyGui = gGui;  par.keyMouseSlow = gMslow;
-		par.mkWhSpeed = 100;  par.mkWhAccel = 100;
-		par.quickKeys = 1;
-	}
 
 	//  zero
 	memset(set.key, 0, sizeof(set.key));
@@ -147,7 +141,6 @@ void KC_Main::Load()
 	for (i=0; i < set.seqSlots; ++i)
 	{
 		uint8_t len = Erd(a);
-		if (len > 100)  len = 0;
 
 		KC_Sequence s;
 		for (n=0; n < len; ++n)
@@ -181,7 +174,7 @@ void KC_Main::Save()
 	int a = EOfs, i, n;
 
 	//  header
-	set.h1 = 'k';  set.h2 = 'c';  set.ver = 4;  // cur
+	set.h1 = 'k';  set.h2 = 'c';  set.ver = 5;  // cur
 	Ewr(a, set.h1);  Ewr(a, set.h2);  Ewr(a, set.ver);
 
 	//  matrix

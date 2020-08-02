@@ -11,9 +11,10 @@
 //  kbd draw   Layout
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 //  layer use count colors
-const uint8_t cluM = 5;
+const uint8_t cluM = 11;
 const uint16_t clu[cluM] = {
-	RGB(16,24,31), RGB(5,30,30), RGB(30,30,4), RGB(31,19,8), RGB(31,21,22), };
+	RGB(19,19,31), RGB(16,24,31), RGB(5,30,30), RGB(30,30,4), RGB(31,17,4), RGB(31,5,5),
+	RGB(30,18,31), RGB(28,28,28), RGB(10,31,21), RGB(11,31,12), RGB(21,31,9) };
 
 void Gui::DrawLayout(bool edit)
 {
@@ -33,11 +34,11 @@ void Gui::DrawLayout(bool edit)
 
 
 		//  vars  layer keys visible on all layers ``
-		uint8_t dtL0 = kc.set.key[0][k.sc];
-		bool layKey = dtL0 >= K_Layer1 && dtL0 < K_Layer1+KC_MaxLayers;
+		uint8_t kL0 = kc.set.key[0][k.sc];
+		bool layKey = kL0 >= K_Layer1 && kL0 < K_Layer1+KC_MaxLayers;
 		bool layUse = nLay == KC_MaxLayers;  // vis mode
 		bool tiny = false; //k.w < 12;
-		bool lk = layKey && nLay == dtL0 -K_Layer1 +1;  // cur layer key
+		bool lk = layKey && nLay == kL0 -K_Layer1 +1;  // cur layer key
 
 
 		//  set coords or advance
@@ -78,12 +79,14 @@ void Gui::DrawLayout(bool edit)
 
 		if (!no && k.sc < kc.set.nkeys())
 		{
-			uint8_t dt = layKey ? dtL0 :
+			uint8_t kk = layKey ? kL0 :
 				kc.set.key[edit ? nLay : kc.nLayer][k.sc];
 
-			const char* ch = cKeySh[dt];
+			const char* ch = cKeySh[kk];
 			//  font size
-			bool m = tiny || strlen(ch) == 2 || ch[0] < 32;
+			bool m = tiny || strlen(ch) >= 2 || ch[0] < 32 ||
+				kk == K_ESC || kk == K_MENU || kk == K_TILDE || kk == K_PRTSCR ||
+				kk >= K_MINUS && kk <= K_NON_US_BS;  // symbols
 
 			if (edit && layUse && !layKey)
 			{
@@ -94,25 +97,26 @@ void Gui::DrawLayout(bool edit)
 
 				if (u > 0)
 				{	d->moveCursor(tiny ? 0 : 0, m ? 2 : 2);
-					d->setFont(0);  // small 5x7
+					d->setFont();  // small 5x7
 
-					d->setColor(clu[ min(cluM-1, u-1) ], bck);
+					uint16_t c = clu[ (u-1) % cluM ];
+					d->setColor(c, c); //bck);
 					d->print(u);
 				}
-			}else	//  normal
-			if (dt != KEY_NONE)
+			}
+			else if (kk != KEY_NONE)
 			{
+				//  normal
 				if (m)	d->setFont();  // small
 				else	d->setFont(OpenSans12);
 				if (m)  d->moveCursor(0, m ? 2 : 6);
 
-				const uint8_t* c = &cGrpRgb[cKeyGrp[dt]][0][0];
+				const uint8_t* c = &cGrpRgb[cKeyGrp[kk]][0][0];
 				uint16_t cl = RGB(c[0],c[1],c[2]);
 				if (tiny)  // tiny rect for color, no text
-					d->drawRect(d->getCursorX(), d->getCursorY()+1,
-						2,2, cl);
+					d->drawRect(d->getCursorX(), d->getCursorY()+1, 2,2, cl);
 				else
-				{	d->setColor(cl, bck);
+				{	d->setColor(cl, m ? cl : bck);
 					d->print(tiny && layKey ? &ch[1] : ch);
 				}
 		}	}

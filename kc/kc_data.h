@@ -121,6 +121,8 @@ struct KC_Main
 
 	uint8_t grPMin[W];  // press/1min graph array
 	uint16_t grPpos = 0;  // write pos
+
+	uint8_t matrixVis[KC_MaxRows * KC_MaxCols];
 };
 
 extern KC_Main kc;

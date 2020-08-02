@@ -39,6 +39,29 @@ KC_Main::KC_Main()
 	ResetStats(true);
 
 	memset(grPMin, 0, sizeof(grPMin));
+
+
+	//  init matrixVis  :::
+	uint c,r;
+	for (c=0; c < KC_MaxCols; ++c)
+	for (r=0; r < KC_MaxRows; ++r)
+	{
+		int sc = NumCols * r + c;
+		matrixVis[sc] = 0;
+
+		int i = 0;
+		bool ok = true;
+		while (ok && i < nDrawKeys)
+		{
+			const DrawKey& k = drawKeys[i];
+			++i;
+			if (k.sc == sc)  // found key with scan id
+			{
+				matrixVis[sc] = 1;
+				ok = false;
+			}
+		}
+	}
 }
 
 //  Reset stats, rtc, times
@@ -69,7 +92,7 @@ void KC_Main::ResetStats(bool rtc)
 void KC_Setup::Clear()
 {
 	//  header  ver
-	h1 ='k';  h2 = 'c';  ver = 4;  //+ up on changes
+	h1 ='k';  h2 = 'c';  ver = 5;  //+ up on changes
 
 	//  default  matrix
 	rows = NumRows;  cols = NumCols;
@@ -92,6 +115,7 @@ void KC_Setup::Clear()
 //------------------------------------------------
 KC_Setup::KC_Setup()
 {
+	//Clear();
 	InitCK();
 }
 
@@ -99,11 +123,11 @@ KC_Setup::KC_Setup()
 //------------------------------------------------
 void KC_Setup::InitCK()
 {
+	#if 1
 	Clear();
 
-	int i;
 	//  from draw layout
-	for (i=0; i < nDrawKeys; ++i)
+	for (int i=0; i < nDrawKeys; ++i)
 	{
 		const DrawKey& dk = drawKeys[i];
 		if (dk.sc != NO)
@@ -165,4 +189,43 @@ void KC_Setup::InitCK()
 	sq.add(K_LEFT);  sq.add(K_LEFT);  sq.add(K_LEFT);
 	seqs[2] = sq;  sq.data.clear();
 	#endif
+
+#else  // import fix from old kc data
+
+	uint8_t key2[KC_MaxLayers][KC_MaxRows * KC_MaxCols];
+	KC_Sequence seqs2[KC_MaxSeqs];
+
+	int i,l;
+	for (l=0; l < KC_MaxLayers; ++l)
+	for (i=0; i < KC_MaxRows * KC_MaxCols; ++i)
+		key2[l][i] = KEY_NONE;
+
+	for (i=0; i < KC_MaxSeqs; ++i)
+		seqs2[i].data.clear();
+
+	//  copy
+	for (l=0; l < KC_MaxLayers; ++l)
+	for (i=0; i < KC_MaxRows * KC_MaxCols; ++i)
+		key2[l][i] = key[l][i];
+
+	for (i=0; i < 60; ++i)
+		seqs2[i] = seqs[i];
+
+	Clear();
+
+	//  set
+	//  from draw layout
+	for (l=0; l <= 4; ++l)  //par
+	for (i=0; i < nDrawKeys; ++i)
+	{
+		const DrawKey& dk = drawKeys[i];
+		if (dk.sc != NO)
+		{
+			key[l][dk.sc] = key2[l][dk.sc];
+		}
+	}
+
+	for (i=0; i < 60; ++i)
+		seqs[i] = seqs2[i];
+#endif
 }

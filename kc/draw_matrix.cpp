@@ -71,7 +71,8 @@ void Gui::DrawMatrix()
 		for (r=0; r < NumRows; ++r)
 		{
 			d->setCursor(x1 + c*w, y1 + r*h);
-			const KeyState& k = Matrix_scanArray[NumCols * r + c];
+			int sc = NumCols * r + c;
+			const KeyState& k = Matrix_scanArray[sc];
 
 			//  color from ghost, use
 			#define CGh(gh, u)  clr = gh ? RGB(31,26,12) : \
@@ -90,8 +91,10 @@ void Gui::DrawMatrix()
 				hc=c; hr=r;  // held
 				a[0]='*';
 				//sprintf(a,"%d", k.state);
-				d->setClr(24,28,31);
+				d->setClr(29,30,31);
 			}
+			if (!kc.matrixVis[sc])
+				a[0]='X';  // unavailable scan id
 			d->print(a);
 		}
 

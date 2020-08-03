@@ -77,12 +77,14 @@ void Gui::DrawMenu(
 			d->print(">");
 
 		c = abs(i - my);  // dist dim
-		FadeClr(ec, 4, c, 1, i == my ? bckClr : 0);
+		uint16_t bclr = i == my ? bckClr : 0;
+		FadeClr(ec, 4, c, 1, bclr);
+		
 		d->setCursor(x + 43,y);
 		d->print(str[i]);
 
 		if (bmp && bmp[i])
-			DrawBmp(bmp[i],x+20-2,y-2, 256-c*(192/9));
+			DrawBmp(bmp[i],x+20-2,y-2, bclr, 256-c*(192/9));
 
 		//  next, extras
 		y += yadd;
@@ -136,7 +138,7 @@ void Gui::DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h
 {
 	const uint8_t* q = bmp;
 	int i,j;
-	//if (bck == 0)
+	if (bck == 0)
 	for (j=0; j < h; ++j)
 	{
 		uint a = (y+j)*W + x;
@@ -159,26 +161,30 @@ void Gui::DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h
 			demos.data[a] = RGB2(r, g, b);
 		#endif
 	}	}
-	/*else
+	else
 	{
-		uint bb = bck ;
-		uint bg = *q;
-		uint br = *q;
-	for (j=0; j < h; ++j)
-	{
-		uint a = (y+j)*W + x;
-		for (i=0; i < w; ++i,++a)
+		uint bb = (bck &0x1F) *8;
+		uint bg = ((bck>>5) &0x3F) *4;
+		uint br = ((bck>>11) &0x1F) *8;
+		uint bl = 256;// -al;
+		for (j=0; j < h; ++j)
 		{
-			uint b = *q;  ++q;
-			uint g = *q;  ++q;
-			uint r = *q;  ++q;
-			int aa = *q;  ++q;
-			int ac = 
-			b = b * al * aa / 65536 /8;
-			g = g * al * aa / 65536 /4;
-			r = r * al * aa / 65536 /8;
-			demos.data[a] = RGB2(r, g, b);
-	}	}*/
+			uint a = (y+j)*W + x;
+			for (i=0; i < w; ++i,++a)
+			{
+				uint b = *q;  ++q;
+				uint g = *q;  ++q;
+				uint r = *q;  ++q;
+				int aa = *q, ba = 256 -aa;  ++q;
+				 b = (b * al * aa + bb * bl * ba)/ 65536/8;
+				 g = (g * al * aa + bg * bl * ba)/ 65536/4;
+				 r = (r * al * aa + br * bl * ba)/ 65536/8;
+				//b = (b * al * aa + bb * bl * ba)/ 256/8;
+				//g = (g * al * aa + bg * bl * ba)/ 256/4;
+				//r = (r * al * aa + br * bl * ba)/ 256/8;
+				demos.data[a] = RGB2(r, g, b);
+		}	}
+	}
 }
 
 //  time

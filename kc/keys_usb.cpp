@@ -57,8 +57,8 @@ const char* cKeyStr[KEYS_ALL_EXT]={  "None",  // max [255]
 	"Mute", "Vol+", "Vol-",  "Power", "Sleep", "Wake",  // volume, power
 	"All",  // _extras_
 
-	"Fun10", "Fun11", "Fun12", "Fun13", "Fun14", "Fun15", "Fun16", "Fun17",  // internal funct
-	"Fun0", "Fun1", "Fun2", "Fun3", "Fun4", "Fun5", "Fun6", "Fun7", "Fun8", "Fun9",
+	"GUI", "Bri-", "Bri+", "RESET", "Light", "X Seq", "X Stats", "DefLay-", "DefLay+", "LayLck",
+	"Fun11", "Fun12", "Fun13", "Fun14", "Fun15", "Fun16", "Fun17", "Fun18",  // internal funct
 
 	"M<<", "M>>", "M^^", "Mvv", "LMB","MMB","RMB",  // mouse
 	"Wh^^","Whvv", "Wh<<","Wh>>", "Mbck","Mfwd",
@@ -100,8 +100,8 @@ const char* cKeySh[KEYS_ALL_EXT]={  "no",
 	"Mt", "V+", "V-",  "Pw", "Sl", "Wk",  // volume, power
 	"Aa",  // _extras_
 
-	"10", "11", "12", "13", "14", "15", "16", "17",  // internal funct
-	"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+	"GI", "B-", "B+", "R!", "Li", "Sx", "Rs", "L-", "L+", "Lx",
+	"11", "12", "13", "14", "15", "16", "17", "18",  // internal funct
 
 	"<<", ">>", "^^", "vv", "L","M","R",  // mouse
 	"W^","Wv", "W<","W>", "Mb","Mf",
@@ -201,11 +201,9 @@ const uint8_t cGrpRgb[grpMax][2][3]=
 //--------------------------------------------
 const char* cFunStr[K_FunLast-K_Fun0+1]=
 {
-	"", "", "", "", "", "", "", "",
 	"\x13"" GUI toggle", "\x14"" Bright -", "\x16"" Bright +",
 	"\x08"" Soft Reset", "\x0F"" Light",
 	"X Quit Sequence", "~ Reset stats",
-	"- Default Layer","+ Default Layer", "* Un/lock layer"
+	"- Default Layer", "+ Default Layer", "* Un/lock layer",
+	"Fun11", "Fun12", "Fun13", "Fun14", "Fun15", "Fun16", "Fun17", "Fun18",
 };
-
-

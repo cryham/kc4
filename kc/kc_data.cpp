@@ -96,43 +96,43 @@ void KC_Main::UpdLay(uint32_t ms)
 			{
 				switch (codeL)
 				{
-				case K_Fun10:  // send, Gui toggle
+				case KF_GUI:  // send, Gui toggle
 					gui.kbdSend = 1 - gui.kbdSend;  QuitSeq();
 					setBright = 1;  break;
 
-				case K_Fun1:
-				case K_Fun2:  // brightness -+
+				case KF_BriDn:
+				case KF_BriUp:  // brightness -+
 					tiFun = ms;  break;  // delay no par
 
-				case K_Fun3:  // soft reset  //NVIC_SystemReset();
-					#define SCB_AIRCR (*(volatile uint32_t *)0xE000ED0C)
-					SCB_AIRCR = 0x05FA0004;  break;
+				case KF_Reset:  // soft reset  //NVIC_SystemReset();
+					/*#define SCB_AIRCR (*(volatile uint32_t *)0xE000ED0C)
+					SCB_AIRCR = 0x05FA0004; ? */  break;
 
-				case K_Fun4:  // light, led toggle
+				case KF_Light:  // light, led toggle
 					#ifdef LED
 					gui.led = 1 - gui.led;
 					digitalWrite(LED, gui.led ? LOW : HIGH);
 					#endif
 					break;
 
-				case K_Fun5:  // quit seq, stop repeat
+				case KF_QuitSeq:  // quit seq, stop repeat
 					QuitSeq(0);
 					break;
 
-				case K_Fun6:  // reset stats
+				case KF_StatsRst:  // reset stats
 					ResetStats(true);
 					break;
 
-				case K_Fun7:  // dec,inc default layer
+				case KF_DefLayDn:  // dec,inc default layer
 					if (par.defLayer > 0)
 						--par.defLayer;
 					break;
-				case K_Fun8:
+				case K_DefLayUp:
 					if (par.defLayer < KC_MaxLayers-1)
 						++par.defLayer;
 					break;
 
-				case K_FunLast:  // un/lock layer
+				case KF_LayLock:  // un/lock layer
 					if (nLayerLock >= 0)
 						nLayerLock = -1;  // unlock
 					else
@@ -140,8 +140,7 @@ void KC_Main::UpdLay(uint32_t ms)
 						nLayerLock = nLayer;
 					break;
 
-				//todo new funct
-				//case K_Fun0, K_Fun11, K_Fun12, K_Fun13, K_Fun14, K_Fun15, K_Fun16, K_Fun17,
+				//todo new funct..
 				}
 			}
 			/*else
@@ -161,10 +160,10 @@ void KC_Main::UpdLay(uint32_t ms)
 				uint8_t& br = gui.kbdSend ? par.brightOff : par.brightness;
 				switch (codeL)
 				{
-				case K_Fun1:  // brightness -+
+				case KF_BriDn:  // brightness -+
 					br = gui.RangeAdd(br, (gui.kCtrl ?-10 :-2), 0, 100);
 					setBright = 1;  break;
-				case K_Fun2:
+				case KF_BriUp:
 					br = gui.RangeAdd(br, (gui.kCtrl ? 10 : 2), 0, 100);
 					setBright = 1;  break;
 				}

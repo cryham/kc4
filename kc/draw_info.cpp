@@ -121,16 +121,16 @@ void Gui::DrawInfo()
 
 
 		//  usb const  --
-	#if 0
-		d->setClr(19,19,22);
-		d->setCursor(0, y);  d->print(" USB const");  yadd(9);
+	#if 0  //  All 137 Ext 255 Md 119 Lay 169 Fun 138 Pw 134
+		d->setClr(19,19,22);  y=0;
+		d->setCursor(W/4, y);  d->print(" USB const");  yadd(9);
 		d->setClr(15,15,18);
 
 		sprintf(a,"All %d  Ext %d  Md %d", KEYS_ALL, KEYS_ALL_EXT, K_F24+1);
-		d->setCursor(0, y);  d->print(a);  yadd(8);
+		d->setCursor(W/4, y);  d->print(a);  yadd(8);
 
 		sprintf(a,"Lay %d  Fun %d  Pw %d", K_Layer1, K_Fun0, KS_POWER_DOWN);
-		d->setCursor(0, y);  d->print(a);  yadd(10);
+		d->setCursor(W/4, y);  d->print(a);  yadd(10);
 	#endif
 
 	}	break;

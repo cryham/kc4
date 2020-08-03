@@ -85,8 +85,9 @@ void Gui::DrawLayout(bool edit)
 			const char* ch = cKeySh[kk];
 			//  font size
 			bool m = tiny || strlen(ch) >= 2 || ch[0] < 32 ||
-				kk == K_ESC || kk == K_MENU || kk == K_TILDE || kk == K_PRTSCR ||
-				kk >= K_MINUS && kk <= K_NON_US_BS;  // symbols
+				kk == K_ESC || kk == K_MENU || kk == K_PRTSCR ||
+				kk == K_TILDE || (kk >= K_MINUS && kk <= K_NON_US_BS) ||  // symbols
+				(kk >= KP_DIV && kk <= KP_ADD);  // numpad
 
 			if (edit && layUse && !layKey)
 			{

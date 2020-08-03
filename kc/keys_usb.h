@@ -36,8 +36,9 @@ enum EKeys  // byte key codes
 
 //	>  special  EXT  < Start  ----
 	//  internal functions  18  =138
-	K_Fun0, K_Fun11, K_Fun12, K_Fun13, K_Fun14, K_Fun15, K_Fun16, K_Fun17,
-	K_Fun10, K_Fun1, K_Fun2, K_Fun3, K_Fun4, K_Fun5, K_Fun6, K_Fun7, K_Fun8, K_FunLast,
+	KF_GUI, KF_BriDn, KF_BriUp, KF_Reset, KF_Light,	KF_QuitSeq,
+	KF_StatsRst, KF_DefLayDn, K_DefLayUp, KF_LayLock,  // 10
+	KF_11, KF_12, KF_13, KF_14, KF_15, KF_16, KF_17, KF_18,  // 18
 
 	//  mouse  13
 	KM_Left, KM_Right, KM_Up, KM_Down,  KM_LMB, KM_MMB, KM_RMB,
@@ -57,7 +58,8 @@ enum EKeys  // byte key codes
 	KEYS_ALL_EXT,  // < End  = 255 max
 
 	//  commands in sequence, same ids, note: have at least 10 seqs to have all cmds
-	K_Cmd0=K_Seq0, K_CmdLast=K_SeqLast
+	K_Cmd0=K_Seq0, K_CmdLast=K_SeqLast,
+	K_Fun0=KF_GUI, K_FunLast=KF_18
 };
 
 //  usb codes  for byte key codes

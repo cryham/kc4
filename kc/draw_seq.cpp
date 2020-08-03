@@ -172,7 +172,7 @@ void Gui::DrawSequences()
 		sprintf(a,"%d / %d", page+1, kc.set.seqSlots/iPage);  d->print(a);
 
 		//  list slots
-		int s = page * iPage, i, y, q;
+		int s = page * iPage, i,l,y, q,k;
 		for (i=0; i < iPage && s < kc.set.seqSlots; ++i,++s)
 		{
 			y = yTitleUp + i*19;
@@ -180,26 +180,43 @@ void Gui::DrawSequences()
 			//d->setClr(20,30,25);
 			q = abs(i - slot);
 			uint16_t bck = !q ? RGB(2,6,8) : 0;
+			
+			//  bck
 			if (!q)  d->fillRect(0, y-2, W-1, 19, bck);
 			FadeClr(C_Seq, 4, q, 2, bck);
-			sprintf(a,"%2d",s);  d->print(a);
-
+			//  id
+			sprintf(a,"%2d", s);  d->print(a);
+			//  cur
 			d->setColor(RGB(0,30,30), bck);
 			d->moveCursor(2,0);
 			if (!q)  d->print(">");
 			d->setColor(RGB(20,31,31), bck);
 
-			d->setCursor(2*9, y);  // copy mark
+			d->setCursor(18, y);  // * copy mark
 			if (s == copyId)  d->print("*"); //\x7");
-			d->setCursor(4*9, y);
+			d->setCursor(36, y);
+			if (kc.set.seqs[s].len())
+			{
+				DrawSeq(s, q, bck);  // write
 
-			DrawSeq(s, q, bck);  // write
+				int u = 0;  //  use cnt
+				for (l=0; l < KC_MaxLayers; ++l)
+				for (k=0; k < kc.set.scanKeys; ++k)
+					if (kc.set.key[l][k] == s + K_Seq0)
+						++u;
+				
+				if (u > 0)
+				{	d->setCursor(W-20, y);
+					d->setColor(RGB(12+u*2-q, 22+u-q*2, 12+u*2-q), bck);
+					sprintf(a,"%d", u);  d->print(a);
+				}
+			}
 		}
 
 		//  seq preview key(s), find  ---
 		const int x = W-1 -5*9;
 		q = K_Seq0 + seqId();  // code
-		int l;  y=0;
+		y = 0;
 		for (l=0; l < KC_MaxLayers; ++l)
 		for (i=0; i < kc.set.scanKeys; ++i)
 			if (kc.set.key[l][i] == q)  // found

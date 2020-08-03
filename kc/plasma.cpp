@@ -13,7 +13,7 @@ const char* sPlsName[Demos::Plasma_All] = {
 	"5 Drops Cyan Red",
 	"6 Mirror Cyan Olive",
 	"7 Electric Violet",
-	"8 Still : Cyan Brown",
+	"8 Still : Blue Brown",
 	"9 Fast Blue Yellow",
 	"10 Glass # Water",
 	"11 Pink Slime",
@@ -45,15 +45,16 @@ void Demos::PlasmaDraw()
 
 	if (iInfo > 0)
 	{
-		d->setFont(OpenSans12);
-		d->setCursor(0, H-1 - 16);
 		uint16_t c = RGB(28,28,31);
 		d->setColor(c,0);
 
+		d->setFont(OpenSans12);
+		d->setCursor(0, H-1 - 16);
 		d->print(sPlsName[plasma]);
-		d->setCursor(0, H-1 - 2*16);
-		d->print("Spd: ");
-		d->print(tadd[plasma]);
+
+		d->setFont(0);
+		d->setCursor(0, 0);
+		d->print("Spd: ");  d->print(tadd[plasma]);
 	}
 }
 

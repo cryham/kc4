@@ -91,6 +91,11 @@ int main()
 	pinMode(LCD_LED, OUTPUT);
 	analogWriteResolution(12);
 	analogWrite(LCD_LED, 100);  // 0-4095
+	
+	#ifdef LIGHT_SENS
+	analogReadResolution(12);
+	#endif
+
 
 	ParInit();  // par defaults
 

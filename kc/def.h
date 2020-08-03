@@ -28,6 +28,8 @@
 #ifdef CK9
     //  led light
 	//#define LED  12
+	//  photoresistor divider for adc
+	#define LIGHT_SENS  20
 	//  temperature 'C sensor DS18B20
 	#define TEMP1  21
 #endif

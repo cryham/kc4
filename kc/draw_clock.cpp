@@ -402,7 +402,7 @@ void Gui::DrawClock()
 		if (temp)  // 'C
 		{	d->setCursor(78, yTemp);  d->print("\x01""C");  }
 		#endif
-		if (pgClock == Cl_StatsExt)
+		if (ext)
 		{
 			//  press k
 			d->setFont(OpenSans10);
@@ -501,4 +501,38 @@ void Gui::DrawClock()
 		}
 		break;
 	}
+
+	#ifdef LIGHT_SENS
+	#define AVG 40  //64
+	if (stats && !ext)
+	{
+		static uint16_t lar[AVG]={0};
+		static int8_t li = 0;
+		
+		uint16_t light = analogRead(LIGHT_SENS);
+		lar[li] = light;
+		li = (li+1) % AVG;
+		
+		int avg = 0;
+		for (int i=0; i < AVG; ++i)
+			avg += lar[i];
+		avg /= AVG;
+
+		d->setFont(OpenSans12);
+		d->setClr(16, 16, 18);
+		d->setCursor(6, yTitleUp);
+		sprintf(a, "%d", avg);  d->print(a);
+
+		static uint16_t gl[W]={0};
+		static uint16_t gi = 0;
+		gl[gi] = avg;
+		gi = (gi+1) % W;
+
+		for (int i=0; i < W; ++i)
+		{
+			y = gl[(gi - i + W)%W];
+			d->drawPixel(i, y, RGB(17,18,19));
+		}
+	}
+	#endif
 }

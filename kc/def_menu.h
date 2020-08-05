@@ -99,7 +99,6 @@ const static uint8_t gIntvMask = 0x1F;
 
 enum EStartScr  //  start screen
 {	ST_Main0 = 0,
-	ST_Test,
 	ST_Test2, ST_Test2Max = ST_Test2 +T_All,
 	ST_Map = ST_Test2Max,
 	ST_Seqs,
@@ -107,7 +106,8 @@ enum EStartScr  //  start screen
 	ST_Clock, ST_ClockMax = ST_Clock +Cl_All,
 	ST_Help = ST_ClockMax,
 	ST_Setup,
-	ST_Info, ST_Info2, ST_Info2Max = ST_Info2 +I_All,
+	ST_Matrix2,
+	ST_Info2, ST_Info2Max = ST_Info2 +I_All,
 	ST_Setup2 = ST_Info2Max, ST_Setup2Max = ST_Setup2 +S_All,
 	ST_Demos = ST_Setup2Max,
 	ST_Demos2,  ST_ALL = ST_Demos2 +D_All

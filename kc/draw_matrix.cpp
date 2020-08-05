@@ -82,19 +82,17 @@ void Gui::DrawMatrix()
 			a[1]=0;
 			if (k.state == KeyState_Off)
 			{	//sprintf(a,".");
-				a[0]=2;
+				a[0] = kc.matrixVis[sc] ? 2 : 'X';  // unavailable scan id
 				bool gh = col_ghost[c] || row_ghost[r];
 				int u = max(col_use[c], row_use[r]);
 				CGh(gh, u);
 				ghost |= gh;
 			}else{
 				hc=c; hr=r;  // held
-				a[0]='*';
+				a[0] = '*';
 				//sprintf(a,"%d", k.state);
 				d->setClr(29,30,31);
 			}
-			if (!kc.matrixVis[sc])
-				a[0]='X';  // unavailable scan id
 			d->print(a);
 		}
 

@@ -41,5 +41,6 @@
 		"usb_mouse.h": "c",
 		"complex": "cpp",
 		"new": "cpp"
-	}
+	},
+	"C_Cpp.errorSquiggles": "Disabled"
 }

@@ -77,9 +77,8 @@ void Gui::SetScreen(int8_t s)
 	case ST_Map:   ym = M_Mapping;  break;
 	case ST_Seqs:  ym = M_Sequences;  break;
 
-	case ST_Test:  ym = M_Testing;  break;
 	case ST_Setup: ym = M_Setup;  break;
-	case ST_Info:  ym = M_Info;  break;
+	case ST_Matrix2:ym = M_Matrix;  mlevel = 2;  ym1[ym] = s - ST_Matrix2;  break;
 
 	case ST_Displ: ym = M_Display;  break;
 	case ST_Help:  ym = M_Help;  break;
@@ -99,18 +98,17 @@ const char* Gui::StrScreen(int8_t s)
 {
 	switch (s)
 	{
-	case ST_Main0:  return "Main ""\x13";
+	case ST_Main0:  return "Main Menu";
 	case ST_Map:    return strMain[M_Mapping];
 	case ST_Seqs:   return strMain[M_Sequences];
 
-	case ST_Test:   return strMain[M_Testing];
 	case ST_Setup:  return strMain[M_Setup];
-	case ST_Info:   return strMain[M_Info];
 
 	case ST_Displ:  return strMain[M_Display];
 	case ST_Help:   return strMain[M_Help];
 
 	case ST_Demos:  return strMain[M_Demos];
+	case ST_Matrix2:  return strMain[M_Matrix];
 	}
 	if (s >= ST_Demos2)  return strDemo[s - ST_Demos2];
 	

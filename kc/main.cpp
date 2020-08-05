@@ -138,22 +138,22 @@ int main()
 	kc.Load();
 	gui.SetScreen(par.startScreen);
 	gui.kbdSend = 1;  // 1 release
-	kc.setBright = 1;
 
 
-#ifdef CK1  // uncomment for new keyboard / test
+#ifdef CKtest  // uncomment for new keyboard / test
 	gui.kbdSend = 0;
-	//gui.SetScreen(ST_Test2+T_Matrix);  // test matrix cols,rows
-	gui.SetScreen(ST_Test2+T_Pressed);  // test scan codes to fill kbd_layout.cpp
-	par.brightness = 40;
+	gui.SetScreen(ST_Matrix2);  // test matrix cols,rows
+	//gui.SetScreen(ST_Test2+T_Pressed);  // test scan codes to fill kbd_layout.cpp
+	par.brightness = 60;
 	par.brightOff = 60;
 #endif
-#ifdef CK9test  // no keyboard, run all demos
+#ifdef CKdemo  // no keyboard, run all demos
 	// gui.SetScreen(ST_Demos2+D_AutoAll);
 	// gui.demos.bAuto = 1;
 	par.brightness = 30;
 	par.brightOff = 30;
 #endif
+	kc.setBright = 1;
 
 
 	while (1)

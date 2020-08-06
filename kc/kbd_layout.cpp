@@ -122,8 +122,9 @@ const uint8_t gGui=93/*pause*/, gMslow=100, gLoad=73,gSave=149,gDiv=2, gEsc=157,
 #elif defined(CK9)   //  CK9/6/3  ------------------------------------------------
 #define  wf  fW,fH
 #define  wh  kW,kH
+#define  wm  7,7
 const char* CKname = "CK9 18x8";  const int16_t XR = 235, XN = 256;  // pos
-const int8_t  kW = 16, kH = 18, /* size */ fW = 14, fH = 12, F = -fW, X = -kW;
+const int8_t  kW = 16, kH = 18, /* size */ fW = 14, fH = 12, F = -fW, X = -kW, M = -6, M2 = -9;
 const uint8_t Y1=1,Y2=21,Y3=41,Y4=61,Y5=81,Y6=101;
 
 const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw
@@ -132,6 +133,12 @@ const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw
 {-30,0,wf, '5',2, 31,K_F5},{F, 0,wf, '6',2, 67,K_F6}, {F,0,wf, '7',2, 61,K_F7}, {F,0,wf, '8',2, 43,K_F8},
 {-28,0,wf, '9',2, 97,K_F9},{F, 0,wf, '0',2, 45,K_F10},{F,0,wf, '1',2,135,K_F11},{F,0,wf, '2',2,134,K_F12},
  {XR+1,0,wf, '.',6, 9,0},  //Displ
+
+// extra 4x4
+  {XN,Y1,wm, '.',9, 47,K_F13},{M,0,wm, '.',9, 65,K_F14},{M2,0,wm, '.',9,137,K_F15}, {M,0,wm, '.',9,119,K_F16},
+   {M2,0,wm, '.',9,120,K_F17},{M,0,wm, '.',9, 84,K_F18},{M2,0,wm, '.',9, 83,K_F19}, {M,0,wm, '.',9,101,K_F20},
+{XN,Y1+7,wm, '.',9, 64,K_F21},{M,0,wm, '.',9, 66,K_F22},{M2,0,wm, '.',9,138,K_F23}, {M,0,wm, '.',9,136,K_F24},
+   {M2,0,wm, '.',9,118,K_F13},{M,0,wm, '.',9, 82,K_F14},{M2,0,wm, '.',9,100,K_F15}, {M,0,wm, '.',9,102,K_F16},
 
 { 0,Y2,16,kH, '`',3, 54,K_TILDE}, //~
 {-16,0,wh, '1',1, 36,K_1},{X, 0,wh, '2',1, 37,K_2},{X,0,wh, '3',1, 38,K_3},{X,0,wh, '4',1, 52,K_4},

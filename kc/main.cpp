@@ -140,14 +140,14 @@ int main()
 	gui.kbdSend = 1;  // 1 release
 
 
-#ifdef CKtest  // uncomment for new keyboard / test
+#if 0  // 1 for new keyboard / test
 	gui.kbdSend = 0;
 	gui.SetScreen(ST_Matrix2);  // test matrix cols,rows
 	//gui.SetScreen(ST_Test2+T_Pressed);  // test scan codes to fill kbd_layout.cpp
 	par.brightness = 60;
 	par.brightOff = 60;
 #endif
-#ifdef CKdemo  // no keyboard, run all demos
+#if 0  // 1 no keyboard, run all demos
 	// gui.SetScreen(ST_Demos2+D_AutoAll);
 	// gui.demos.bAuto = 1;
 	par.brightness = 30;

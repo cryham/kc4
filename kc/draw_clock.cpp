@@ -144,7 +144,7 @@ void Gui::DrawClock()
 	//  title
 	d->setClr(12, 14, 17);
 	if (clock)
-		DrawTitleMain(RGB(12,14,17), &bmpCLOCK);
+		DrawTitleMain(RGB(12,14,17), &bmpCLOCK, 160);
 
 
 	//  Graphs  ~~~~~~~~~~~~~~~~
@@ -182,11 +182,12 @@ void Gui::DrawClock()
 
 		sprintf(a, "%d:%02d", h, m);  d->print(a);
 
-		d->setFont(OpenSans12);  // sec smaller
-		d->moveCursor(2, 9);
-		d->setClr(15, 19, 23);
-		sprintf(a, ":%02d", s);  d->print(a);
-	}
+		if (!ext)
+		{	d->setFont(OpenSans12);  // sec smaller
+			d->moveCursor(2, 9);
+			d->setClr(15, 19, 23);
+			sprintf(a, ":%02d", s);  d->print(a);
+	}	}
 
 
 	//  Uptime, since on  --------
@@ -199,11 +200,12 @@ void Gui::DrawClock()
 		d->setClr(18, 22, 28);
 		sprintf(a, "%d:%02d", h, m);  d->print(a);
 		
-		d->setFont(OpenSans12);  // sec smaller
-		d->moveCursor(2, 6);
-		d->setClr(15, 19, 25);
-		sprintf(a, ":%02d", s);  d->print(a);
-	}
+		if (!ext)
+		{	d->setFont(OpenSans12);  // sec smaller
+			d->moveCursor(2, 6);
+			d->setClr(15, 19, 25);
+			sprintf(a, ":%02d", s);  d->print(a);
+	}	}
 
 
 	//  time Inactive  --------
@@ -251,7 +253,7 @@ void Gui::DrawClock()
 
 		float fto = to ? to : 1;
 		float pm = 60.f * cnt_press / fto;
-		dtostrf(pm, 4, 1, f);
+		dtostrf(pm, ext ? 1 : 3, ext ? 0 : 1, f);
 
 		ClrPress(pm);
 		d->print(f);
@@ -274,7 +276,10 @@ void Gui::DrawClock()
 				d->setClr(14,18,22);
 			d->setCursor(6, yTime);
 		}
-		d->print(f);
+		sprintf(a, "%c%c%c", f[0],f[1],f[2]);  d->print(a);
+		d->setFont(OpenSans14);  // dot smaller
+		d->moveCursor(2, 4);
+		sprintf(a, ext ? "%c" : "%c%c", f[3],f[4]);  d->print(a);
 	}
 	#endif
 
@@ -434,7 +439,7 @@ void Gui::DrawClock()
 
 			int m1 = kc.min1_Keys;
 			ClrPress(m1);
-			dtostrf(m1, 3,0, f);  d->print(f);
+			dtostrf(m1, 1,0, f);  d->print(f);
 
 
 			//  inactive times  ====

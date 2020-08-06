@@ -45,16 +45,16 @@ void Gui::DrawEnd()
 
 //  Menu
 //....................................................................................
-void Gui::DrawTitleMain(uint16_t clr, const Bmp20* bmp)
+void Gui::DrawTitleMain(uint16_t clr, const Bmp20* bmp, uint al)
 {
-	DrawTitle(strMain[ym], clr, bmp);
+	DrawTitle(strMain[ym], clr, bmp, al);
 }
-void Gui::DrawTitle(const char* str, uint16_t clr, const Bmp20* bmp)
+void Gui::DrawTitle(const char* str, uint16_t clr, const Bmp20* bmp, uint al)
 {
 	d->setCursor(27,4);  //par
 	d->setColor(clr, 0);
 	d->print(str);
-	if (bmp)  DrawBmp(bmp,0,4);
+	if (bmp)  DrawBmp(bmp,0,4, 0,al);
 }
 
 void Gui::DrawMenu(
@@ -166,7 +166,7 @@ void Gui::DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h
 		uint bb = (bck &0x1F) *8;
 		uint bg = ((bck>>5) &0x3F) *4;
 		uint br = ((bck>>11) &0x1F) *8;
-		uint bl = 256;// -al;
+		//uint bl = 256; // -al;
 		for (j=0; j < h; ++j)
 		{
 			uint a = (y+j)*W + x;
@@ -176,12 +176,9 @@ void Gui::DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h
 				uint g = *q;  ++q;
 				uint r = *q;  ++q;
 				int aa = *q, ba = 256 -aa;  ++q;
-				 b = (b * al * aa + bb * bl * ba)/ 65536/8;
-				 g = (g * al * aa + bg * bl * ba)/ 65536/4;
-				 r = (r * al * aa + br * bl * ba)/ 65536/8;
-				//b = (b * al * aa + bb * bl * ba)/ 256/8;
-				//g = (g * al * aa + bg * bl * ba)/ 256/4;
-				//r = (r * al * aa + br * bl * ba)/ 256/8;
+				b = (b * al * aa + bb * 256 * ba)/ 65536/8;
+				g = (g * al * aa + bg * 256 * ba)/ 65536/4;
+				r = (r * al * aa + br * 256 * ba)/ 65536/8;
 				demos.data[a] = RGB2(r, g, b);
 		}	}
 	}

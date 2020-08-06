@@ -43,8 +43,8 @@ struct Gui
 	void DrawBmp(const Bmp20* bmp, int16_t x, int16_t y, uint16_t bck=0, uint al=256);
 
 	//  draw menu
-	void DrawTitleMain(uint16_t clr, const Bmp20* bmp);
-	void DrawTitle(const char* str, uint16_t clr, const Bmp20* bmp);
+	void DrawTitleMain(uint16_t clr, const Bmp20* bmp, uint al=256);
+	void DrawTitle(const char* str, uint16_t clr, const Bmp20* bmp, uint al=256);
 	void DrawMenu(int cnt, const char** str, const Bmp20** bmp,
 		EFadeClr ec, uint16_t curClr, uint16_t bckClr,
 		int8_t nextCol=-1, int8_t numGap=-1, int8_t numGap2=-1);

@@ -134,7 +134,7 @@ void Gui::DrawMapping()
 	}
 
 
-	d->setClr(13,22,9);
+	d->setClr(13,13,20);
 	d->print(strMain[ym]);
 	d->setFont(OpenSans12);
 
@@ -157,7 +157,7 @@ void Gui::DrawMapping()
 			{
 			case 0:
 			case 1:  sprintf(a," /  Press");  break;
-			case 2:  sprintf(a,"/  Press key ..");  bck = RGB(6,8,2);
+			case 2:  sprintf(a," /  Press key ..");  bck = RGB(2,6,8);
 				d->fillRect(x-6, y-1, W/4, 20, bck);
 				/*d->drawRect(0, y-1, 2*W/3, 20, RGB(20,28,12));*/  break;
 			}
@@ -219,7 +219,7 @@ void Gui::DrawMapping()
 	//  key binds, lay data
 	//. . . . . . . . . . . . . . . . . . . . . . . . .
 	x = W-72;  y=2;
-	d->setClr(12,21,9);
+	d->setClr(10,12,21);
 	d->setCursor(x,y);
 	int si = kc.set.nkeys();
 	//sprintf(a,"all %d", si);  d->print(a);  y+=10;
@@ -227,8 +227,8 @@ void Gui::DrawMapping()
 	d->setCursor(x,y);
 	if (id >= 0 && id < si)
 	{
-		sprintf(a,"L  key");  // hdr
-		d->print(a);  y += 18;
+		//sprintf(a,"L  key");  // hdr
+		//d->print(a);  y += 18;
 
 		for (int i=0; i < KC_MaxLayers && y < H/2; ++i)
 		{

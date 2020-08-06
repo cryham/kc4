@@ -4,9 +4,9 @@
 
 const uint16_t clrRect[Omax] = {  // _colors for key types_
 //  0 letters  1 digits       2 func F1      3 symbols ,.   4 modifiers L  5 modif R
-RGB(12,12,12), RGB(13,13,10), RGB( 8,14,19), RGB(21,21,12),	RGB(12,19,19), RGB(12,19,19),
+RGB(9,9,16), RGB(12,11,10),  RGB(6,11,16), RGB(16,16,18),	RGB(11,15,19), RGB(11,19,19),
 //  6 ent,tab  7 ent R        8 arrows      9 tiny
-RGB( 9,21,12), RGB( 9,21,12), RGB(1,20,20), RGB(17,18,18) };
+RGB(16,14,19), RGB(16,14,19), RGB(5,8,12), RGB(14,15,17) };
 
 
 #if defined(CK1)   //  CK1  ------------------------------------------------
@@ -124,8 +124,8 @@ const uint8_t gGui=93/*pause*/, gMslow=100, gLoad=73,gSave=149,gDiv=2, gEsc=157,
 #define  wh  kW,kH
 #define  wm  7,7
 const char* CKname = "CK9 18x8";  const int16_t XR = 235, XN = 256;  // pos
-const int8_t  kW = 16, kH = 18, /* size */ fW = 14, fH = 12, F = -fW, X = -kW, M = -6, M2 = -9;
-const uint8_t Y1=1,Y2=21,Y3=41,Y4=61,Y5=81,Y6=101;
+const int8_t  kW = 16, kH = 18, /* size */ fW = 14, fH = 12, F = -fW, X = -kW,  M = -6, M2 = -9;
+const uint8_t Y1=20,YY=18, Y2=Y1+YY, Y3=Y2+YY, Y4=Y3+YY, Y5=Y4+YY, Y6=Y5+YY,  Y0a=Y1-2,Y0b=Y0a+6;
 
 const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw
 { 0,Y1,wf, 'e',6, 72,K_ESC},  //Esc 15x
@@ -135,10 +135,10 @@ const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw
  {XR+1,0,wf, '.',6, 9,0},  //Displ
 
 // extra 4x4
-  {XN,Y1,wm, '.',9, 47,K_F13},{M,0,wm, '.',9, 65,K_F14},{M2,0,wm, '.',9,137,K_F15}, {M,0,wm, '.',9,119,K_F16},
-   {M2,0,wm, '.',9,120,K_F17},{M,0,wm, '.',9, 84,K_F18},{M2,0,wm, '.',9, 83,K_F19}, {M,0,wm, '.',9,101,K_F20},
-{XN,Y1+7,wm, '.',9, 64,K_F21},{M,0,wm, '.',9, 66,K_F22},{M2,0,wm, '.',9,138,K_F23}, {M,0,wm, '.',9,136,K_F24},
-   {M2,0,wm, '.',9,118,K_F13},{M,0,wm, '.',9, 82,K_F14},{M2,0,wm, '.',9,100,K_F15}, {M,0,wm, '.',9,102,K_F16},
+{XN,Y0a,wm, '.',9, 47,K_F13},{M,0,wm, '.',9, 65,K_F14},{M2,0,wm, '.',9,137,K_F15}, {M,0,wm, '.',9,119,K_F16},
+  {M2,0,wm, '.',9,120,K_F17},{M,0,wm, '.',9, 84,K_F18},{M2,0,wm, '.',9, 83,K_F19}, {M,0,wm, '.',9,101,K_F20},
+{XN,Y0b,wm, '.',9, 64,K_F21},{M,0,wm, '.',9, 66,K_F22},{M2,0,wm, '.',9,138,K_F23}, {M,0,wm, '.',9,136,K_F24},
+  {M2,0,wm, '.',9,118,K_F13},{M,0,wm, '.',9, 82,K_F14},{M2,0,wm, '.',9,100,K_F15}, {M,0,wm, '.',9,102,K_F16},
 
 { 0,Y2,16,kH, '`',3, 54,K_TILDE}, //~
 {-16,0,wh, '1',1, 36,K_1},{X, 0,wh, '2',1, 37,K_2},{X,0,wh, '3',1, 38,K_3},{X,0,wh, '4',1, 52,K_4},
@@ -168,18 +168,19 @@ const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw
 { X, 0,20,kH, 's',5, 10,K_RSHIFT}, {-20,0,16,kH, '^',5, 75,K_F15}, //R Sh 14x
  {XR,0,wh, 's',7, 39,K_RSHIFT}, // 12 up  120 end
 
- //modif:  L Ctrl, L Gui, L Alt, space, R Alt, App,K_Ss, R Gui, R Ctrl
+// modif:  L Ctrl, L Gui, L Alt, space, R Alt, App,K_Ss, R Gui, R Ctrl
 { 0,Y6,22,kH, 'c',4, 62,K_LCTRL},{-22,0,14,kH,  9,4, 29,K_LGUI},{-14,0,14,kH,  '\\',4, 73,K_F22},
 {-14,0,22,kH, 'a',4, 81,K_LALT}, {-22,0,68,kH,' ',6, 89,K_SPACE}, //Space
 {-68,0,18,kH, 'a',5, 99,K_RALT}, // 23 menu 136 ins 135 del  30 ri 27 dn  28 le
 {-18,0,16,kH,  9 ,6,103,K_RGUI}, {-16,0,16,kH,254,5, 59,K_MENU},{-16,0,14,kH,'c',5, 71,K_RCTRL}, //R Ct 12x
 {-14,0,14,kH, '>',5, 93,K_F13},  {-14,0,14,kH,'v',5,107,K_F14},
  {XR,0,wh,'c',7, 95,K_RCTRL},
-//numpad: 17x
+
+// numpad: 17x
 {XN,Y2,wh,  3 ,6,125,K_NUML},{X, 0,wh, '/',3,113,KP_DIV},{X,0,wh, 'x',3,112,KP_MUL},{X,0,kW-2,kH,  '-',3, 94,KP_SUB},
-{XN,Y3,wh, '7',8,143,K_HOME},{X, 0,wh, 24 ,8,131,K_UP},  {X,0,wh, '9',8,130,K_PGUP},{X,0,kW-2,kH*2+2,'+',3,129,KP_ADD},
+{XN,Y3,wh, '7',8,143,K_HOME},{X, 0,wh, 24 ,8,131,K_UP},  {X,0,wh, '9',8,130,K_PGUP},{X,0,kW-2,kH*2,'+',3,129,KP_ADD},
 {XN,Y4,wh, 27 ,8, 35,K_LEFT},{X, 0,wh,  7 ,6, 23,K_DEL}, {X,0,wh, 26 ,8, 22,K_RIGHT},
-{XN,Y5,wh, '1',8, 17,K_END}, {X, 0,wh, 25 ,8,  5,K_DOWN},{X,0,wh, '3',8,  4,K_PGDN},{X,0,kW-2,kH*2+2, '|',3,  3,KP_ENT},
+{XN,Y5,wh, '1',8, 17,K_END}, {X, 0,wh, 25 ,8,  5,K_DOWN},{X,0,wh, '3',8,  4,K_PGDN},{X,0,kW-2,kH*2, '|',3,  3,KP_ENT},
 {XN,Y6,kW*2,kH,'_',6, 77,K_INS},{-kW*2,0,wh,'.',6, 76,K_DEL}, //Ins Del
 };
 const uint8_t gGui=9, gMslow=28, gLoad=31,gSave=44,gDiv=113, gEsc=72,gAdd=129,gEnt=115/*40*/,gEnt2=3,

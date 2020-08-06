@@ -13,8 +13,8 @@
 //  layer use count colors
 const uint8_t cluM = 11;
 const uint16_t clu[cluM] = {
-	RGB(19,19,31), RGB(16,24,31), RGB(5,30,30), RGB(30,30,4), RGB(31,17,4), RGB(31,5,5),
-	RGB(30,18,31), RGB(28,28,28), RGB(10,31,21), RGB(11,31,12), RGB(21,31,9) };
+	RGB(11,11,31), RGB(11,21,31), /*RGB(1,31,31),*/ RGB(1,31,15), RGB(15,31,1), //RGB(15,31,1),
+	RGB(31,31,11), RGB(31,15,1), RGB(31,1,1), RGB(31,15,31), RGB(28,28,28) };
 
 void Gui::DrawLayout(bool edit)
 {
@@ -53,7 +53,7 @@ void Gui::DrawLayout(bool edit)
 		// backgr  ----
 		uint16_t bck = 0;
 		if (f)
-		{	bck = clrRect[k.o];
+		{	bck = clrRect[k.o] - RGB(3,3,3);
 			d->fillRect(x+1, y-1, k.w-1, k.h-1, bck);
 		}
 		uint16_t  // clr frame []
@@ -67,7 +67,7 @@ void Gui::DrawLayout(bool edit)
 
 
 		if (lk)  // cur lay key backg
-		{	bck = RGB(22,12,16);
+		{	bck = RGB(20,10,14);
 			d->fillRect(x+1, y-1, k.w-1, k.h-1, bck);
 		}
 
@@ -88,6 +88,7 @@ void Gui::DrawLayout(bool edit)
 				kk == K_ESC || kk == K_MENU || kk == K_PRTSCR ||
 				kk == K_TILDE || (kk >= K_MINUS && kk <= K_NON_US_BS) ||  // symbols
 				(kk >= KP_DIV && kk <= KP_ADD);  // numpad
+			bool m1 = m && strlen(ch) == 1;
 
 			if (edit && layUse && !layKey)
 			{
@@ -97,7 +98,7 @@ void Gui::DrawLayout(bool edit)
 					if (kc.set.key[l][k.sc] != KEY_NONE)  ++u;
 
 				if (u > 0)
-				{	d->moveCursor(tiny ? 0 : 0, m ? 2 : 2);
+				{	d->moveCursor(m1 ? 2 : 0, m ? 2 : 3);
 					d->setFont();  // small 5x7
 
 					uint16_t c = clu[ (u-1) % cluM ];
@@ -114,6 +115,7 @@ void Gui::DrawLayout(bool edit)
 
 				const uint8_t* c = &cGrpRgb[cKeyGrp[kk]][0][0];
 				uint16_t cl = RGB(c[0],c[1],c[2]);
+
 				if (tiny)  // tiny rect for color, no text
 					d->drawRect(d->getCursorX(), d->getCursorY()+1, 2,2, cl);
 				else

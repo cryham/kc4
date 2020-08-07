@@ -1,8 +1,9 @@
 #ifndef FONT5X7_H
 #define FONT5X7_H
+#include "pgmspace.h"
 
 //  CryHam 5x7 font
-const unsigned char glcdfont[] = {
+const unsigned char glcdfont[] PROGMEM = {
 	0x00, 0x00, 0x00, 0x00, 0x00, //   0
 	0x06, 0x0F, 0x09, 0x0F, 0x06, // o deg
 	0x00, 0x00, 0x18, 0x18, 0x00, // , mid dot

@@ -44,7 +44,7 @@ enum EKeys  // byte key codes
 	KM_Left, KM_Right, KM_Up, KM_Down,  KM_LMB, KM_MMB, KM_RMB,
 	KM_WhlUp, KM_WhlDown,  KM_WhlLeft, KM_WhlRight,  KM_Back, KM_Forw,
 
-	//  layer switch  16 (8 used)  =169
+	//  layer switch  16  =169
 	K_Layer1, K_Layer2, K_Layer3, K_Layer4, K_Layer5, K_Layer6, K_Layer7, K_Layer8,
 	K_Layer9, K_Layer10, K_Layer11, K_Layer12, K_Layer13, K_Layer14, K_Layer15, K_Layer16,
 	//  sequences  70

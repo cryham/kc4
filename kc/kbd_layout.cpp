@@ -1,12 +1,13 @@
 #include "kbd_layout.h"
 #include "def.h"
 #include "keys_usb.h"
+#include "pgmspace.h"
 
 const uint16_t clrRect[Omax] = {  // _colors for key types_
 //  0 letters  1 digits       2 func F1      3 symbols ,.   4 modifiers L  5 modif R
 RGB(9,9,16), RGB(12,11,10),  RGB(6,11,16), RGB(16,16,18),	RGB(11,15,19), RGB(11,19,19),
 //  6 ent,tab  7 ent R        8 arrows      9 tiny
-RGB(16,14,19), RGB(16,14,19), RGB(5,8,12), RGB(14,15,17) };
+RGB(16,14,19), RGB(16,14,19), RGB(5,9,14), RGB(14,15,17) };
 
 
 #if defined(CK1)   //  CK1  ------------------------------------------------
@@ -14,9 +15,9 @@ RGB(16,14,19), RGB(16,14,19), RGB(5,8,12), RGB(14,15,17) };
 #define  wh  kW,kH
 const char* CKname = "CK1 8x8";  const int16_t XN = 254;  // pos
 const int8_t  kW = 16, kH = 18, fH = 12, /* size */  X = -kW;
-const uint8_t Y1=1,Y2=31,Y3=51,Y4=71,Y5=91,Y6=111;
+const uint8_t Y1=32,YY=18, Y2=Y1+YY, Y3=Y2+YY, Y4=Y3+YY, Y5=Y4+YY, Y6=Y5+YY;
 
-const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw
+const DrawKey drawKeys[nDrawKeys] = PROGMEM {  //  Layout draw  ::::
 { 0,Y1,wf, 'e',6,NO,K_ESC}, //Esc 13x
 {-26,0,wf, '1',2,NO,K_F1},{X, 0,wf, '2',2,16,K_F2}, {X,0,wf, '3',2, 0,K_F3}, {X,0,wf, '4',2,48,K_F4},
 {-24,0,wf, '5',2,NO,K_F5},{X, 0,wf, '6',2,NO,K_F6}, {X,0,wf, '7',2,NO,K_F7}, {X,0,wf, '8',2,NO,K_F8},
@@ -69,9 +70,9 @@ const uint8_t gGui=34, gMslow=NO, gLoad=0/*F3*/,gSave=48,gDiv=46, gEsc=NO,gAdd=1
 #define  wh  kW,kH
 const char* CKname = "CK8 20x8";  const int16_t XN = 254;  // pos
 const int8_t  kW = 16, kH = 18, fH = 12, /* size */  X = -kW;
-const uint8_t Y1=1,Y2=21,Y3=41,Y4=61,Y5=81,Y6=101;
+const uint8_t Y1=32,YY=18, Y2=Y1+YY, Y3=Y2+YY, Y4=Y3+YY, Y5=Y4+YY, Y6=Y5+YY;
 
-const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw
+const DrawKey drawKeys[nDrawKeys] = PROGMEM {  //  Layout draw  ::::
 { 0,Y1,wf, 'e',6,157,K_ESC}, //Esc 13x
 {-26,0,wf, '1',2, 50,K_F1},{X, 0,wf, '2',2, 49,K_F2}, {X,0,wf, '3',2,109,K_F3}, {X,0,wf, '4',2,149,K_F4},
 {-24,0,wf, '5',2, 73,K_F5},{X, 0,wf, '6',2,146,K_F6}, {X,0,wf, '7',2,105,K_F7}, {X,0,wf, '8',2, 45,K_F8},
@@ -122,23 +123,35 @@ const uint8_t gGui=93/*pause*/, gMslow=100, gLoad=73,gSave=149,gDiv=2, gEsc=157,
 #elif defined(CK9)   //  CK9/6/3  ------------------------------------------------
 #define  wf  fW,fH
 #define  wh  kW,kH
-#define  wm  7,7
 const char* CKname = "CK9 18x8";  const int16_t XR = 235, XN = 256;  // pos
-const int8_t  kW = 16, kH = 18, /* size */ fW = 14, fH = 12, F = -fW, X = -kW,  M = -6, M2 = -9;
-const uint8_t Y1=20,YY=18, Y2=Y1+YY, Y3=Y2+YY, Y4=Y3+YY, Y5=Y4+YY, Y6=Y5+YY,  Y0a=Y1-2,Y0b=Y0a+6;
+const int8_t  kW = 16, kH = 18, /* size */ fW = 14, fH = 12, F = -fW, X = -kW;
+const uint8_t Y1=32,YY=18, Y2=Y1+YY, Y3=Y2+YY, Y4=Y3+YY, Y5=Y4+YY, Y6=Y5+YY;
 
-const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw
+// extra: 4x4
+#if 0  // mini
+#define  wm  7,7
+const int8_t  M = -6, M2 = -9;
+const uint8_t Y0a=Y1-2,Y0b=Y0a+6;
+const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw  ::::
+{XN,Y0a,wm, '.',9, 47,K_F13},{M,0,wm, '.',9, 65,K_F14},{M2,0,wm, '.',9,137,K_F15}, {M,0,wm, '.',9,119,K_F16},
+  {M2,0,wm, '.',9,120,K_F17},{M,0,wm, '.',9, 84,K_F18},{M2,0,wm, '.',9, 83,K_F19}, {M,0,wm, '.',9,101,K_F20},
+{XN,Y0b,wm, '.',9, 64,K_F21},{M,0,wm, '.',9, 66,K_F22},{M2,0,wm, '.',9,138,K_F23}, {M,0,wm, '.',9,136,K_F24},
+  {M2,0,wm, '.',9,118,K_F13},{M,0,wm, '.',9, 82,K_F14},{M2,0,wm, '.',9,100,K_F15}, {M,0,wm, '.',9,102,K_F16},
+#else  // big
+const int16_t XE = 204;  // pos
+const uint8_t Y0a=4,Y0b=Y0a+11;  const int8_t M = -13, M2 = M-3;
+const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw  ::::
+{XE,Y0a,wf, '1',9, 47,K_F13},{M,0,wf, '2',9, 65,K_F14},{M2,0,wf, '3',9,137,K_F15}, {M,0,wf, '4',9,119,K_F16},
+  {M2,0,wf, '4',9,120,K_F17},{M,0,wf, '6',9, 84,K_F18},{M2,0,wf, '7',9, 83,K_F19}, {M,0,wf, '8',9,101,K_F20},
+{XE,Y0b,wf, '1',9, 64,K_F21},{M,0,wf, '2',9, 66,K_F22},{M2,0,wf, '3',9,138,K_F23}, {M,0,wf, '4',9,136,K_F24},
+  {M2,0,wf, '4',9,118,K_F13},{M,0,wf, '6',9, 82,K_F14},{M2,0,wf, '7',9,100,K_F15}, {M,0,wf, '8',9,102,K_F16},
+#endif
+
 { 0,Y1,wf, 'e',6, 72,K_ESC},  //Esc 15x
 {-32,0,wf, '1',2, 56,K_F1},{F, 0,wf, '2',2, 20,K_F2}, {F,0,wf, '3',2, 74,K_F3}, {F,0,wf, '4',2, 44,K_F4},
 {-30,0,wf, '5',2, 31,K_F5},{F, 0,wf, '6',2, 67,K_F6}, {F,0,wf, '7',2, 61,K_F7}, {F,0,wf, '8',2, 43,K_F8},
 {-28,0,wf, '9',2, 97,K_F9},{F, 0,wf, '0',2, 45,K_F10},{F,0,wf, '1',2,135,K_F11},{F,0,wf, '2',2,134,K_F12},
  {XR+1,0,wf, '.',6, 9,0},  //Displ
-
-// extra 4x4
-{XN,Y0a,wm, '.',9, 47,K_F13},{M,0,wm, '.',9, 65,K_F14},{M2,0,wm, '.',9,137,K_F15}, {M,0,wm, '.',9,119,K_F16},
-  {M2,0,wm, '.',9,120,K_F17},{M,0,wm, '.',9, 84,K_F18},{M2,0,wm, '.',9, 83,K_F19}, {M,0,wm, '.',9,101,K_F20},
-{XN,Y0b,wm, '.',9, 64,K_F21},{M,0,wm, '.',9, 66,K_F22},{M2,0,wm, '.',9,138,K_F23}, {M,0,wm, '.',9,136,K_F24},
-  {M2,0,wm, '.',9,118,K_F13},{M,0,wm, '.',9, 82,K_F14},{M2,0,wm, '.',9,100,K_F15}, {M,0,wm, '.',9,102,K_F16},
 
 { 0,Y2,16,kH, '`',3, 54,K_TILDE}, //~
 {-16,0,wh, '1',1, 36,K_1},{X, 0,wh, '2',1, 37,K_2},{X,0,wh, '3',1, 38,K_3},{X,0,wh, '4',1, 52,K_4},

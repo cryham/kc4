@@ -1,12 +1,11 @@
 #include <Arduino.h>
-#include "SPI.h"
 #include "ILI9341_t3n.h"
-#include "ili9341_t3n_font_OpenSans.h"
 #include "usb_keyboard.h"
+#include "IntervalTimer.h"
+#include "TimeLib.h"
 
 #include "gui.h"
 #include "matrix.h"
-#include "IntervalTimer.h"
 #include "kc_data.h"
 
 
@@ -59,7 +58,7 @@ void main_periodic()
 		|| gui.ym != M_Demos || scan_n % 2==0
 	){
 		Matrix_scan(0);  bsc = true;
-	}	// K
+	}
 
 
 	//  gui keys
@@ -76,10 +75,15 @@ void main_periodic()
 		kc.Send(ms);
 
 
-	//  scan time vs strobe delay
-	// 570 us: 10,  353 us: 4  18x8
-	// 147 us: 4,  90: 0  8x6
+	//  scan time vs strobe delay, 18 cols
+	//  289 us - 7,  145 us - 3,  44: 0
 	us_scan = micros() - us;
+}
+
+
+time_t getTeensyTime()
+{
+	return rtc_get();
 }
 
 
@@ -87,6 +91,10 @@ void main_periodic()
 //-------------------------------------------------------------------------
 int main()
 {
+	setSyncProvider(getTeensyTime);
+
+
+	//  Init extra pins  ----
 	//  PWM brightness to display LED
 	pinMode(LCD_LED, OUTPUT);
 	analogWriteResolution(12);
@@ -96,23 +104,13 @@ int main()
 	analogReadResolution(12);
 	#endif
 
-
-	ParInit();  // par defaults
-
-
-	//  kbd
-	Matrix_setup();
-
-	tim.begin(main_periodic, 1000000 / (par.scanFreq * 20));
-
-
 	#ifdef LED
 	pinMode(LED, OUTPUT);
 	digitalWrite(LED, gui.led ? LOW : HIGH);
 	#endif
 
 
-	//  Init display
+	//  Init display  ----
 	memset(data, 0, sizeof(data));
 	tft.useFrameBuffer(true);
 	#ifdef BUFx2
@@ -129,12 +127,18 @@ int main()
 	tft.updateScreen();
 
 	tft.setColor(ILI9341_WHITE);
-	tft.setFont(OpenSans12);
 
 	gui.Init(&tft);
 
 
-	//  load set from ee
+	//  Init keyboard  ----
+	ParInit();  // default params
+
+	Matrix_setup();  // kbd pins
+
+	tim.begin(main_periodic, 1000000 / (par.scanFreq * 20));
+
+	//  load set from eeprom
 	kc.Load();
 	gui.SetScreen(par.startScreen);
 	gui.kbdSend = 1;  // 1 release
@@ -156,7 +160,7 @@ int main()
 	kc.setBright = 1;
 
 
-	while (1)
+	while (1)  //  ---
 	{
 		#ifdef BUFx2
 		tft.setFrameBuffer(data[buf]);
@@ -181,7 +185,7 @@ int main()
 	#endif
 
 		//  temp get  --------
-		#ifdef TEMP1  // 18B20  Temp'C
+		#ifdef TEMP1  // Temp'C
 		gui.GetTemp();
 		#endif
 	}

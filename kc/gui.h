@@ -114,7 +114,7 @@ struct Gui
 
 	//  const
 	const uint8_t yTitle = 60, yTitleUp = 52;  // y after title
-	const uint8_t yPosLay = 112;
+	const uint8_t yPosLay = 100;
 	const static uint8_t
 		DispPages[Di_All], ScanPages[S_All]; //, InfoPages[I_All];
 

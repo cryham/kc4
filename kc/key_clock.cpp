@@ -1,6 +1,8 @@
 #include "gui.h"
 #include "kc_params.h"
 #include "kc_data.h"
+
+#include "TimeLib.h"
 extern KC_Main kc;
 
 
@@ -19,31 +21,39 @@ void Gui::KeysClock()
 	//  adjust time  ---
 	if (kRight && pgClock == Cl_Adjust)
 	{
-		unsigned long tm = rtc_get(), td = 0;
+		TimeElements t;
+		breakTime(rtc_get(), t);
+
 		int a = kRight * (kCtrl ? 10 : 1);
+		auto add = [&](uint8_t& u, uint8_t vmin, uint8_t vmax)
+		{
+			if (a > 0 && u+a <= vmax ||
+				a < 0 && u+a >= vmin)
+			u += a;
+		};
 		if (a)
+		{
 			switch (ym2Clock)
 			{
-			case 0:  td = a * 3600;  break;  // h
-			case 1:  td = a * 60;  break;  // m
-			case 2:  td = a * 1;  break;  // s
+			case 0:  add(t.Hour, 0, 23);  break;
+			case 1:  add(t.Minute, 0, 59);  break;
+			case 2:  add(t.Second, 0, 59);  break;
 
-			case 3:  td = a * 3600*24;  break;  // day
-			case 4:  td = a * 3600*24*30;  break;  // mth-
-			case 5:  td = a * 3600*24*365;  break;  // yr
+			case 3:  add(t.Day, 1, 31);  break;
+			case 4:  add(t.Month, 1, 12);  break;
+			case 5:  t.Year += a;  break;
 
 			case 6:  par.rtcCompensate += a;
 					 rtc_compensate(par.rtcCompensate);  break;
 			}
-			if (td)
-			if (tm + td >= 0)
-			{	tm += td;
-				rtc_set(tm);
+			time_t tm = makeTime(t);
+			setTime(tm);
+			rtc_set(tm);
 
-				if (kc.tm_on + td >= 0)
-					kc.tm_on += td;
-				kc.ResetStats(false);
-			}
+			// if (kc.tm_on + td >= 0)  uptime diff..
+			// 	kc.tm_on += td;
+			kc.ResetStats(false);
+		}
 	}
 	//  graphs  cursor move  ---
 	else if (pgClock == Cl_Graphs)

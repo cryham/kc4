@@ -4,47 +4,12 @@
 
 #include "matrix.h"
 #include "kc_data.h"
+#include "TimeLib.h"
 
 
 //  const
-uint8_t MDays[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-const int8_t t12[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
-
 const char* months[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 const char* wkdays[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-
-
-//  date from day number
-inline bool isLeap(int y)
-{
-	return y%400==0 || (y%4==0 && y%100!=0);
-}
-
-//  days in month 1..12
-int getMthDays(bool leap, int m)
-{
-	int md = MDays[m];
-	if (leap && m == 2)
-		md = 29;
-	return md;
-}
-
-//  day in year 0..365
-void getMD(bool leap, int day, int* mday, int* mth)
-{
-	int m = 1, md;
-	while (day >= (md = getMthDays(leap, m)))
-	{
-		day -= md;  ++m;
-	}
-	*mday = day+1;  *mth = m;
-}
-
-int DayOfWeek(int d, int m, int y)
-{
-    y -= m < 3;
-    return (y + y/4 - y/100 + y/400 + int(t12[m-1]) + d) % 7;
-}
 
 
 //  util
@@ -97,19 +62,17 @@ void Gui::DrawClock()
 {
 	char a[64], f[32];
 
-
 	//  time  ---
 	unsigned long t = rtc_get(), to, ti;
-	int h = t / 3600 % 24, m = t / 60 % 60, s = t % 60,
-		dt = t / 3600 / 24, yr = dt / 365 + 2000;
+	int h = hour(), m = minute(), s = second(),
+		wk = weekday(), dy = day(), mth = month(), yr = year();
 	to = t - kc.tm_on;
 
 	bool adjust = pgClock == Cl_Adjust;
 	bool simple = pgClock == Cl_Simple;
 	bool clock = simple || adjust;
 
-	bool date = yr >= 2019; // rtc set
-	bool leap = isLeap(yr);
+	bool date = yr >= 2020; // rtc set
 
 	bool ext = pgClock == Cl_StatsExt;
 	bool stats = pgClock == Cl_Stats || ext;
@@ -304,17 +267,16 @@ void Gui::DrawClock()
 	//  Date big  --------
 	if (clock && date)
 	{
-		int mth = 0, day = 0, x2 = x0 + 36;
-		getMD(leap, dt % 365, &day, &mth);
+		int x2 = x0 + 36;
 		//  day, week
 		x = x0 + 4;  y = yDate;
 		d->setFont(OpenSans14);
 		d->setCursor(x, y);
 		d->setClr(20, 23, 26);
-		sprintf(a, "%02d", day);  d->print(a);
+		sprintf(a, "%d", dy);  d->print(a);
 
 		d->setCursor(x2, y);
-		d->print(wkdays[DayOfWeek(day, mth, yr)]);
+		d->print(wkdays[wk - 1]);
 
 		y += 20;  // month
 		d->setCursor(x, y);
@@ -419,18 +381,15 @@ void Gui::DrawClock()
 			//  date small  ----
 			if (date)
 			{
-				int mth = 0, day = 0;
-				getMD(leap, dt % 365, &day, &mth);
-
 				//  day, week
 				x = x0 + 8*0;  y = yDate;
 				d->setFont(OpenSans14);
 				d->setClr(14, 18, 23);
 				d->setCursor(x, y);
-				d->print(wkdays[DayOfWeek(day, mth, yr)]);
+				d->print(wkdays[wk - 1]);
 				x += 50;
 				d->setCursor(x, y);
-				sprintf(a, "%d  %d", day, mth);  d->print(a);
+				sprintf(a, "%d  %d", dy, mth);  d->print(a);
 			}
 
 			//  press / 1min

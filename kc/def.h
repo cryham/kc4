@@ -6,7 +6,7 @@
 
 //===---  Keyboard  ---===
 //  Define just one type, for matrix.h
-//#define CK1  // 8x8
+//#define CK1  // 8x8  test
 #define CK9  // 18x8  new CK9/6/3
 //#define CK8  // 20x8  wip CK8/5
 

@@ -45,24 +45,24 @@ void Demos::Version()
 	//  logo, ver
 	d->setCursor(0,18);
 	d->setFont(OpenSans24);
-	d->setColor(RGB(1,28,28));
+	d->setClr(RGB(1,28,28));
 	d->println("CrystaL");
 
 	d->setCursor(86,60);
-	d->setColor(RGB(22,16,31));
+	d->setClr(RGB(22,16,31));
 	d->print("Keyboard");
 	d->setFont(OpenSans20);
 
 	d->setCursor(0,120);
-	d->setColor(RGB(12,21,31));
+	d->setClr(RGB(12,21,31));
 	d->print("K.C. \"Kacey\" Controller");
 
 	d->setCursor(0,170);
 	d->setColor(RGB(18,20,31));
-	d->print("ver 4.07");
+	d->print("ver 4.08");
 	//  version text  ^
 
-	d->setColor(RGB(21,26,31));
+	d->setClr(RGB(21,26,31));
 	d->setCursor(0, H-30);
 	const char* a={__DATE__}, *m={__TIME__};
 	const char dt[] = {  //  build date, time   format yyyy-mmm-dd hh:mm

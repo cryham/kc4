@@ -126,8 +126,6 @@ int main()
 	tft.fillScreen(ILI9341_BLACK);
 	tft.updateScreen();
 
-	tft.setColor(ILI9341_WHITE);
-
 	gui.Init(&tft);
 
 

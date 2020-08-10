@@ -16,31 +16,34 @@ to do ..
 
 ## Features
 
+#### Keyboard functions:
 * **Mapping** - menu, for remapping USB key codes to physical keys.
 * **Layers**
 * **Sequences** - editor for macros, passwords, and more.
-* In sequence **commands** - wait, set key delay, comment part, hide rest, repeat itself, run other sequence, and all mouse commands.
-* Visual keyboard - drawn on display with current mappings.
+* In sequence **commands** - wait, set key delay, comment, hide rest, repeat itself, run other sequence, and all mouse commands.
 * **Mouse** keys - with move acceleration, also for wheel.
-
-Also:
-* Setup in EEPROM - loading and saving full keyboard setup (parameters, mappings, sequences).
 * Anti-ghosting code - needed for foil keyboards without diodes.
-* Testing pages - showing pressed keys info, matrix, ghosting, layer use, etc.
-* Keys list - for picking, with custom group colors and filtering.
-* Parameters - for Scan Setup, Mouse and Display, adjustable in menu.
-* Sequence preview in Mapping and Testing views. Also Sequence view lists mapped keys (if any).
 
-Lastly:
-* Many **Demos** with presets. E.g.: Plasma, Wave, Fire, Polyhedrons 3D, waving 2D CK logo.
-* Falling blocks **Game** - with random generated blocks, many presets and custom options.
+#### Configuration related:
+* **Visual keyboard** layout - drawn on display, with picked layer's mapping.
+* Keys list - for picking, with custom group colors and filtering.
+* Sequence preview in Mapping and Testing views. Also Sequence view lists mapped keys (if any).
+* **Help** text pages with all GUI keys used and commands listed.
+* Colorful **GUI Menu** with 2 levels and icons.
+* Testing pages - showing pressed keys info, matrix, ghosting, layer use, etc.
+* Parameters - for Scan Setup (e.g. frequency), Mouse and Display (e.g. brightness), adjustable in menu.
+* Setup in EEPROM - loading and saving full keyboard setup (parameters, mappings, sequences).
+
+#### Utility stuff:
 * **Clock** with date (needs 3V battery).
 * **Temperature** reading from DS18B20 sensor (optional, 1pin).
 * LED light (optional, 1pin).
-* **Statistics**: uptime, key presses (per minute and average), keyboard inactive and active (last) times. Also for used keys, layers, sequences etc.
-* 2 **Graphs**: key presses per minute and temperature'C (auto ranged) adjustable history length.
-* **Help** text pages with all GUI keys used and commands listed.
-* Colorful **GUI Menu** with 2 levels.
+* **Statistics**: uptime, key presses per minute (and average), keyboard active time and inactive times. Info page for used keys, layers, sequences etc.
+* 2 **Graphs**: key presses per minute and temperature. Auto ranged with adjustable history length.
+
+#### For fun:
+* Many **Demos** with presets. E.g.: Plasma, Polyhedrons 3D, Wave, Fire, waving 2D CK logo.
+* Falling blocks **Game** - with random generated blocks, many presets and custom options.
 
 ---
 
@@ -69,7 +72,7 @@ The keyboard is made of:
 * TFT LCD display ILI9341, 320 x 240, 16bit color RGB565. At 60 MHz (more does jitter).  
 Red PCB with SD card slot, no touch. Terribly low horizontal viewing angle.  
 Display uses 5 SPI pins: 9 DC, 10 CS, no RST, rest default.
-* Brightness is done using PWM on pin 19 to LCD LED.
+* Brightness changing is done using PWM on pin 19 to LCD LED.
 * Optionally a DS18B20 1-wire temperature sensor with data pin through 4.7k resistor to 3.3V.
 
 
@@ -80,9 +83,9 @@ Information useful when starting to use K.C.4 with your keyboard matrix.
 Setup is done in files:
 * `def.h`
   * Define code features to use like: old demos, game. Also optional pins for LED and Temp'C.
-  * Choose keyboard type by define (CK1,CK6,CK8 or create your own).
+  * Choose keyboard type by define (CK1,CK8,CK9 or create your own).
 * `matrix.h` has defined Teensy pins for keyboard Matrix_cols and Matrix_rows.
-  * CK1 is easiest for testing (8 cols x 6 rows). CK8 uses 20 cols and 8 rows.
+  * CK1 is easiest for testing (8 cols x 6 rows). CK9 uses 18 cols and 8 rows.
   * Columns are as outputs (all High-Z with one set to low "0"), while rows are inputs (all high "1").
 * `kbd_layout.cpp` has physical keys layout (drawn on display).
 
@@ -109,8 +112,8 @@ On successful build the last lines are e.g.
 ```
   CC kc/matrix.c
  Linking 
-   SRAM: 75%  395616 / 524288 B
-  Flash: 12%  244576 / 2031616 B
+   SRAM: 69%  366560 / 524288 B
+  Flash: 12%  262544 / 2031616 B
 Upload
 ```
 showing used percentages of memories.

@@ -485,7 +485,7 @@ void Gui::DrawClock()
 		d->setFont(OpenSans12);
 		d->setClr(16, 16, 18);
 		d->setCursor(6, yTitleUp);
-		sprintf(a, "%d", avg);  d->print(a);
+		sprintf(a, "%d  %d", avg / 18, avg);  d->print(a);
 
 		static uint16_t gl[W]={0};
 		static uint16_t gi = 0;
@@ -495,7 +495,7 @@ void Gui::DrawClock()
 		for (int i=0; i < W; ++i)
 		{
 			y = gl[(gi - i + W)%W];
-			d->drawPixel(i, y, RGB(17,18,19));
+			d->drawPixel(i, y/18, RGB(17,18,19));
 		}
 	}
 	#endif

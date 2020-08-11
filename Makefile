@@ -62,7 +62,7 @@ MCU_LD = $(SRCDIR)/$(LOWER_MCU).ld
 #  FLAGS
 #************************************************************************
 
-WARN = -Wall -g -Wcomment 
+WARN = -Wall -g -Wcomment -Wparentheses
 OPT = -O3 -ffunction-sections -fdata-sections -fno-exceptions
 
 # Cortex M7 with single & double precision FPU

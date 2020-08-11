@@ -7,11 +7,10 @@ This is a port and continuation of my [KC repo](https://github.com/cryham/kc) fo
 
 It allows editing everything on keyboard display, in real time. No other tools needed.
 
-More description of project on [My Website](http://cryham.tuxfamily.org/portfolio/2018-k-c-controller).
+More description of project on [My Website](https://cryham.tuxfamily.org/portfolio/2020-k-c-4-controller/).
 
 ### Screenshots
 
-to do ..  
 ![](https://raw.githubusercontent.com/cryham/kc4/master/screens.jpg)
 
 ## Features

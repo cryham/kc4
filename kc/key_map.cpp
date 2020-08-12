@@ -86,7 +86,7 @@ void Gui::KeysMap()
 			int dx = x + k.w/2 - drawX,
 				dy = y + k.h/2 - drawY, ay = abs(dy), ax = abs(dx);
 
-			const int minXY = 12;
+			const int minXY = 10;
 			if (i != drawId)
 			{
 				if (kRight > 0 && dx > 0 && abs(dy) < minXY)  // >

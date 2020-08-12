@@ -13,6 +13,13 @@ extern Gui gui;
 
 //  update layers  (always)
 //------------------------------------------------------------------------
+void KC_Main::UpdL()
+{
+	nLayer = nLayerLock >= 0 ? nLayerLock :
+		nLayerHeld >= 0 ? nLayerHeld : par.defLayer;
+	if (nLayer >= KC_MaxLayers-1)
+		nLayer = KC_MaxLayers-1;
+}
 void KC_Main::UpdLay(uint32_t ms)
 {
 	//  brightness dac led  ~~~
@@ -74,20 +81,15 @@ void KC_Main::UpdLay(uint32_t ms)
 					(ms - msKeyLay > par.msLLHoldMin*100 && par.msLLHoldMin > 0)))
 				{
 					if (nLayerLock == lay)
-					{	nLayerLock = -1;  // unlock
-						nLayer = par.defLayer;
-					}else
+						nLayerLock = -1;  // unlock
+					else
 						nLayerLock = lay;  // lock, set sticky
 				}
 
 				//  set layer, hold  ------
-				if (on)   nLayer = lay;
-				else  // default layer
-				if (off)  nLayer =
-					nLayerLock >=0 ? nLayerLock : par.defLayer;
-
-				if (nLayer >= KC_MaxLayers-1)
-					nLayer = KC_MaxLayers-1;
+				if (on)  nLayerHeld = lay;
+				if (off) nLayerHeld = -1;
+				UpdL();
 			}
 			else
 			//  display, internal functions  ***
@@ -126,10 +128,12 @@ void KC_Main::UpdLay(uint32_t ms)
 				case KF_DefLayDn:  // dec,inc default layer
 					if (par.defLayer > 0)
 						--par.defLayer;
+					UpdL();
 					break;
 				case K_DefLayUp:
 					if (par.defLayer < KC_MaxLayers-1)
 						++par.defLayer;
+					UpdL();
 					break;
 
 				case KF_LayLock:  // un/lock layer

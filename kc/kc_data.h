@@ -67,7 +67,7 @@ extern const char* KCerrStr[E_max];
 struct KC_Main
 {
 	//  current layer, set by keys
-	int8_t nLayer = 0,  // final, held layer key (or set)
+	int8_t nLayer = 0, nLayerHeld = 0,  // final, held layer key (or set)
 		   nLayerLock = -1;  // tap layer key to lock/unlock
 
 	int8_t setBright = 1;  // update
@@ -85,13 +85,13 @@ struct KC_Main
 	void QuitSeq(int8_t chk=1);
 	uint16_t xm=0, ym=0;  // abs mouse pos
 
-
+	
 	//  main  ----
 	KC_Setup set;
 
 	KC_Main();
 
-	void UpdLay(uint32_t ms);  // update
+	void UpdLay(uint32_t ms), UpdL();  // update
 	void Send(uint32_t ms);  // send usb
 	bool SeqEnd(int lev, const KC_Sequence& sq);
 

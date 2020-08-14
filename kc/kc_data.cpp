@@ -31,11 +31,11 @@ void KC_Main::UpdLay(uint32_t ms)
 	}
 
 	//  1 minute time, stats
-	if (par.time1min)
-	if (ms - msMin1 > 1000 * t1min(par) || ms < msMin1)
+	if (par.time1min)  // 0 = off
+	if (ms - msMin1 > t1min(par) || ms < msMin1)
 	{
 		msMin1 = ms;
-		min1_Keys = cnt_press1min * 60 / t1min(par);
+		min1_Keys = cnt_press1min * 60000 / t1min(par);
 		cnt_press1min = 0;
 
 		//  graph inc pos

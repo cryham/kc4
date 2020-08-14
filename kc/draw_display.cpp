@@ -84,14 +84,17 @@ void Gui::DrawDisplay()
 		switch(i)
 		{
 		case 0:
-			sprintf(a,"Time for 1min:");
-			sprintf(b,"%dm %02ds", t1min(par)/60, t1min(par)%60);  break;
+			sprintf(a,"Time for 1min:");  break;
 		case 1:
 			sprintf(a,"Inactive after:");
 			sprintf(b,"%d min", par.minInactive);  break;
 		}
-		PrintR(a, x0, y);
-		d->setCursor(x1, y);  d->print(b);  yadd(h+8);
+		PrintR(a, x0, y);  d->setCursor(x1, y);
+		if (i==0)
+			PrintInterval(t1min(par));
+		else
+			d->print(b);
+		yadd(h+8);
 	}	break;
 
 	case Di_Graph:

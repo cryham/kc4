@@ -150,7 +150,7 @@ void Gui::KeysDisplay(int sp)
 	case Di_Stats:
 		switch (ym2Disp)
 		{
-		case 0:  par.time1min = RangeAdd(par.time1min, kRight * sp/2, 0,255);  break;
+		case 0:  par.time1min = RangeAdd(par.time1min, kRight * sp/2, 0, gIntvMask, 1);  break;
 		case 1:  par.minInactive = RangeAdd(par.minInactive, kRight *sp/2, 0, 60, 1);  break;
 		}	break;
 

@@ -11,9 +11,9 @@
 //  kbd draw   Layout
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 //  layer use count colors
-const uint8_t cluM = 11;
+const uint8_t cluM = 9;
 const uint16_t clu[cluM] = {
-	RGB(11,11,31), RGB(11,21,31), /*RGB(1,31,31),*/ RGB(1,31,15), RGB(15,31,1), //RGB(15,31,1),
+	RGB(11,11,31), RGB(11,21,31), RGB(1,31,15), RGB(15,31,1),
 	RGB(31,31,11), RGB(31,15,1), RGB(31,1,1), RGB(31,15,31), RGB(28,28,28) };
 
 void Gui::DrawLayout(bool edit)

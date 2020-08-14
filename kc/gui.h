@@ -27,7 +27,7 @@ struct Gui
 	//  draw menus
 	void DrawMapping(), DrawSequences(), DrawPickKey();  // edit
 	void DrawTesting(), DrawSetup(), DrawMatrix();  // setup
-	void DrawInfo(), DrawDisplay(), DrawClock(), DrawGraph(), DrawHelp();  // info
+	void DrawInfo(), DrawDisplay(), DrawClock(), DrawHelp();  // info
 
 	//  draw util
 	const static int PickR = 10;  // key pick rows
@@ -53,6 +53,7 @@ struct Gui
 	void ClrPress(int pressPerMin), ClrTemp(int temp);
 	void PrintInterval(uint32_t t);
 	int TempFtoB(float t);  float TempBtoF(uint8_t b);
+	void DrawGraph(bool legend, int8_t var, int16_t xMin, int16_t xMax, int16_t yMin, int16_t yMax);
 
 
 	//  keys

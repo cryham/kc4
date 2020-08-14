@@ -5,35 +5,6 @@
 #include "kc_data.h"
 
 
-//  Grid  | |
-const int hu = 11;  // top marg |
-inline void GridLineP(ILI9341_t3n* d, KC_Params& par, int m, uint16_t c, const char* s)
-{
-	int h = m * 60 / t1min(par);  // m min time
-	int x = W-1 - h;
-	if (x > 0)  d->drawFastVLine(x, hu, H/2 -hu, c);
-	else  return;
-	x -= 6;
-	if (x < 12 || x >= W-12)  return;
-	if (x < 0)  x = 0;
-	d->setCursor(x, 0);
-	d->setColor(c);
-	d->print(s);
-}
-inline void GridLineT(ILI9341_t3n* d, KC_Params& par, int m, uint16_t c, const char* s)
-{
-	int h = m * 60000 / tTgraph(par);  // m min time
-	int x = W-1 - h;
-	if (x > 0)  d->drawFastVLine(x, H/2 +hu, H/2-1 -hu, c);
-	else  return;
-	x -= 6;
-	if (x < 12 || x >= W-12)  return;
-	if (x < 0)  x = 0;
-	d->setCursor(x, H/2+1);
-	d->setColor(c);
-	d->print(s);
-}
-
 //  temp val
 int Gui::TempFtoB(float tm)
 {
@@ -49,194 +20,231 @@ float Gui::TempBtoF(uint8_t b)
 
 //  Graphs ~ ~
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-void Gui::DrawGraph()
+void Gui::DrawGraph(bool legend, int8_t var, int16_t xMin, int16_t xMax, int16_t yMin, int16_t yMax)
 {
-	#define getPv(i)  ii = kc.grPpos + i - (W-1) + W;  v = kc.grPMin[ii % W];
-	#define getTv(i)  ii =    grTpos + i - (W-1) + W;  v =    grTemp[ii % W];
-
 	char a[64];
 	int xc = par.xCur;
-	bool cursor = xc < W;
-	int i,ii, x,y0, v,y,h;  uint16_t c;
+	bool cursor = legend && xc < W;
+	const int16_t xLen = xMax - xMin, yLen = yMax - yMin, top = legend ? 11 : 5;  // marg
+	int i,n, x,y0, v,y,h;
 
+	auto getPv = [&](auto i){  int ii = kc.grPpos + i + W;  return kc.grPMin[ii % W];  };
+	auto getTv = [&](auto i){  int ii =    grTpos + i + W;  return    grTemp[ii % W];  };
 
-	// press/1min  ------------------------
+	auto xtP = [&](auto tm){  return xMax - tm * 60000 / t1min(par);  };   // x time, press
+	auto xtT = [&](auto tm){  return xMax - tm * 60000 / tTgraph(par);  }; // x time, temp
 
-	//  grid  ||
-	d->setFont(OpenSans10);
-	if (par.time1min)
+	auto GridLine = [&](int x, uint16_t c, const char* s)
 	{
-		GridLineP(d,par, 10, RGB(14, 14, 14),"10");  // m
-		GridLineP(d,par, 30, RGB(14, 14, 14),"30");
-		GridLineP(d,par, 60, RGB(18, 18, 18),"1h");  // h
-		GridLineP(d,par,120, RGB(16, 16, 16),"2h");
-		GridLineP(d,par,240, RGB(16, 16, 16),"4h");
-		GridLineP(d,par,480, RGB(16, 16, 16),"8h");
-	}
+		if (x <= xMin)  return;
+		d->drawFastVLine(x, yMin + top, yLen - top, c);
+		x -= 6;
+		if (x < xMin+12 || x >= xMax-10)  return;
+		d->setCursor(x, yMin);
+		d->setClr(c);
+		d->print(s);
+	};
 
-	//  graph  Press/1min
-	for (i=0; i <= W-1; ++i)
+	//  Press/1min
+	//------------------------------------------------------------------------
+	if (var == 0)
 	{
-		getPv(i);
-		if (v > 0)
+		//  grid  |||
+		d->setFont(OpenSans10);
+
+		if (par.time1min && legend)
 		{
-			ClrPress(v);  c = d->getClr();
+			GridLine(xtP( 10), RGB(14, 14, 14), "10");  // m
+			GridLine(xtP( 30), RGB(14, 14, 14), "30");
+			GridLine(xtP( 60), RGB(18, 18, 18), "1h");  // h
+			GridLine(xtP(120), RGB(16, 16, 16), "2h");
+			GridLine(xtP(240), RGB(16, 16, 16), "4h");
+			GridLine(xtP(480), RGB(16, 16, 16), "8h");
+		}
 
-			h = 3 * v / 4;  // max
-			if (h > H/2)  h = H/2;
-
-			y = H/2 - h;
-			if (y < 0)  y = 0;
-
-			if (y+h < H)
-				d->drawFastVLine(i, y, h, c);
-
-			if (i == xc)
-				d->drawPixel(i, y, RGB(31,31,31));  //.
-	}	}
-
-	//  legend
-	x = 0;  y0 = 9;
-	d->setClr(20, 20, 25);
-	d->setCursor(x, y0);
-	d->println("Press/min");
-	d->setFont(OpenSans12);
-	d->moveCursor(0,4);
-
-	if (cursor)
-	{
-		getPv(xc);
-		ClrPress(v);
-		sprintf(a,"%d", v);  d->println(a);
-
-		d->moveCursor(0,2);
-		PrintInterval(t1min(par)*1000*(W-1-xc));  d->println("");
-	}
-	//  max
-	v = H/2 * 4 / 3;
-	d->setClr(16, 16, 20);
-	d->moveCursor(0,4);
-	if (!cursor)
-	{	d->print("max ");
-		sprintf(a,"%d", v);  d->println(a);
-	}
-
-
-#ifdef TEMP1
-	// Temp'C  ------------------------------------
-
-	//  auto range  get min,max
-	if (grTempUpd)
-	{	grTempUpd = 0;
-
-		uint8_t tmin = 255, tmax = 0;
-		for (i=0; i <= W-1; ++i)
+		//  vertical  ===
+		for (i = 1; i <= 4; ++i)
 		{
-			uint8_t t = grTemp[i];
-			if (t > 0)  // measured
+			v = i * 50;
+			h = legend ? 2 * v / 4 : v / 3;  // sc
+			y = yMax - h;
+			if (y >= yMin && y <= yMax)
 			{
-				if (t > tmax)  tmax = t;
-				if (t < tmin)  tmin = t;
+				n = i%10==0 ? 12 : i%5==0 ? 10 : i%2==0 ? 8 : 6;
+				if (!legend)  n /= 2;
+
+				d->drawFastHLine(xMin,y, xLen,RGB(n,n,n));
+		}	}
+
+		//  graph  Press/1min  ~~~
+		for (i = xMin; i <= xMax; ++i)
+		{
+			v = getPv(i);
+			if (v > 0)
+			{
+				ClrPress(v);
+
+				h = legend ? 2 * v / 4 : v / 3;  // scale ..
+				if (h > yLen)  h = yLen;
+
+				y = yMax - h;
+				if (y < 0)  y = 0;
+
+				if (y+h < H)
+				if (legend)
+					d->drawFastVLine(i, y, h, d->getClr());
+				else
+					d->drawPixel(i, y, d->getClr());
+
+				if (i == xc)
+					d->drawPixel(i, y, RGB(31,31,31));  //.
+		}	}
+
+		//  legend
+		x = xMin;  y0 = yMin + top;
+		if (legend)
+		{
+			d->setClr(20, 20, 25);
+			d->setCursor(x, y0);
+			d->println("Press/min");
+			d->setFont(OpenSans12);
+			d->moveCursor(0,4);
+
+			if (cursor)
+			{
+				v = getPv(xc);
+				ClrPress(v);
+				sprintf(a,"%d", v);  d->println(a);
+
+				d->moveCursor(0,2);
+				PrintInterval(t1min(par)*(W-1-xc));  d->println("");
+			}
+			//  max
+			v = yLen * 4 / 2;  // sc
+			d->setClr(16, 16, 20);
+			d->moveCursor(0,4);
+			if (!cursor)
+			{	d->print("max ");
+				sprintf(a,"%d", v);  d->println(a);
 			}
 		}
-		if (tmin > tmax)  // none yet
-		{
-			grFmin = par.minTemp;  grBmin = TempFtoB(grFmin);
-			grFmax = par.maxTemp;  grBmax = TempFtoB(grFmax);
-		}else
-		{	grFmin = floor(TempBtoF(tmin)); // - 1;
-			grFmax =  ceil(TempBtoF(tmax)); // + 1;  // in 'C
-			//if (grFmin >= grFmax)
-			if (grFmin+3 >= grFmax)  // min range 3'C
-			{	--grFmin;  ++grFmax;  }
-			grBmin = TempFtoB(grFmin);
-			grBmax = TempFtoB(grFmax);
-			if (grBmin == grBmax)
-				++grBmax;
-			//if (grTmin >= grTmax)
-			//	grTmax = grTmin + TempFtoB(1.f + par.minTemp);
-		}
 	}
 
-	//  grid  ||
+	#ifdef TEMP1   //  Temp'C
+	//------------------------------------------------------------------------
+	if (var == 1)
 	{
-		d->setFont(OpenSans10);
-		GridLineT(d,par,  5, RGB(10, 10, 10),"5");
-		GridLineT(d,par, 10, RGB(15, 15, 15),"10");  // m
-		GridLineT(d,par, 30, RGB(13, 13, 13),"30");
-		GridLineT(d,par, 60, RGB(18, 18, 18),"1h");  // h
-		GridLineT(d,par,120, RGB(16, 16, 16),"2h");
-		GridLineT(d,par,240, RGB(16, 16, 16),"4h");
-		GridLineT(d,par,480, RGB(16, 16, 16),"8h");
+		//  auto range  get min,max
+		if (grTempUpd)
+		{	grTempUpd = 0;
 
-		//  vertical  ==
+			uint8_t tmin = 255, tmax = 0;
+			for (i=0; i <= W-1; ++i)
+			{
+				uint8_t t = grTemp[i];
+				if (t > 0)  // measured
+				{
+					if (t > tmax)  tmax = t;
+					if (t < tmin)  tmin = t;
+				}
+			}
+			if (tmin > tmax)  // none yet
+			{
+				grFmin = 20;  grBmin = TempFtoB(grFmin);
+				grFmax = 23;  grBmax = TempFtoB(grFmax);
+			}else
+			{	grFmin = floor(TempBtoF(tmin));
+				grFmax =  ceil(TempBtoF(tmax));  // in 'C
+				if (grFmin + 3 >= grFmax)  // min range 3'C
+				{	--grFmin;  ++grFmax;  }
+				
+				grBmin = TempFtoB(grFmin);
+				grBmax = TempFtoB(grFmax);
+				if (grBmin == grBmax)
+					++grBmax;
+			}
+		}
+
+		//  grid  |||
+		d->setFont(OpenSans10);
+		if (legend)
+		{
+			GridLine(xtT(  5), RGB(10, 10, 10), "5" );
+			GridLine(xtT( 10), RGB(15, 15, 15), "10");  // m
+			GridLine(xtT( 30), RGB(13, 13, 13), "30");
+			GridLine(xtT( 60), RGB(18, 18, 18), "1h");  // h
+			GridLine(xtT(120), RGB(16, 16, 16), "2h");
+			GridLine(xtT(240), RGB(16, 16, 16), "4h");
+			GridLine(xtT(480), RGB(16, 16, 16), "8h");
+		}
+
+		//  vertical  ===
 		if (grFmax > grFmin)
 		for (i = grFmin; i <= grFmax; ++i)  // 'C
 		{
-			//v = TempFtoB(i);
-			v = H/2 * (float(i) - grFmin) / (grFmax - grFmin);
-			if (v >= 0 && v <= H/2)
+			y = yMax - yLen * (float(i) - grFmin) / (grFmax - grFmin);
+			if (y >= yMin && y <= yMax)
 			{
-				h = i%10==0 ? 12 : i%5==0 ? 10 : i%2==0 ? 8 : 6;
-				c = RGB(h,h,h);
-
-				y = H-1 - v;
-				if (y > H-1)  y = H-1;
-				if (y < H/2)  y = H/2;
-				d->drawFastHLine(0,y, W,c);
+				n = i%10==0 ? 12 : i%5==0 ? 10 : i%2==0 ? 8 : 6;
+				if (!legend)  n /= 2;
+				d->drawFastHLine(xMin,y, xLen,RGB(n,n,n));
 		}	}
-	}
 
-	//  graph  Temp
-	if (grBmax > grBmin)
-	for (i=0; i <= W-1; ++i)
-	{
-		getTv(i);
-		if (v > 0)
+		//  graph  Temp  ~~~
+		if (grBmax > grBmin)
+		for (i = xMin; i <= xMax; ++i)
 		{
-			ClrTemp(v);  c = d->getClr();
-			if (i == xc)  c = RGB(31,31,31);  //.
+			v = getTv(i - xMax);
+			if (v > 0)
+			{	ClrTemp(v);
 
-			h = H/2 * (float(v) - grBmin) / (grBmax - grBmin);
+				y = yMax - yLen * (float(v) - grBmin) / (grBmax - grBmin);
+				if (y >= yMin && y <= yMax)
+					d->drawPixel(i,y, i == xc ? RGB(31,31,31) : d->getClr());
+		}	}
 
-			y = H-1 - h;
-			if (y > H-1)  y = H-1;
-			if (y < H/2)  y = H/2;
-			d->drawPixel(i,y, c);
-	}	}
+		//  legend
+		x = xMin;  y0 = yMin + top;
+		d->setCursor(x, y0);
+		if (!legend)
+		{
+			d->setClr(12, 13, 14);
+			d->setFont();
+			sprintf(a,"%d", grFmax);  d->println(a);
+			sprintf(a,"%d", grFmin);  d->println(a);
+		}
+		else  // big
+		{
+			d->setClr(18, 22, 25);
+			d->println("Temp \x01""C");
+			d->setFont(OpenSans12);
+			d->moveCursor(0,2);
 
-	//  legend
-	x = 0;  y0 += H/2;
-	d->setClr(18, 22, 25);
-	d->setCursor(x, y0);
-	d->println("Temp \x01""C");
-	d->setFont(OpenSans12);
-	d->moveCursor(0,2);
+			if (cursor)
+			{
+				d->drawPixel(xc, yMin, RGB(29,29,29));  //^
+				d->drawPixel(xc, yMax, RGB(29,29,29));  //v
 
-	if (cursor)
-	{
-		d->drawPixel(xc,  0, RGB(29,29,29));  //^
-		d->drawPixel(xc,H/2, RGB(29,29,29));  //.
-		d->drawPixel(xc,H-1, RGB(29,29,29));  //v
+				v = getTv(xc);
+				ClrTemp(v);
 
-		getTv(xc);
-		ClrTemp(v);
+				float f = xc == W-1 ? fTemp : // latest
+					TempBtoF(v);
+				dtostrf(f,4,2,a);  d->println(a);
 
-		float f = xc == W-1 ? fTemp : // latest
-			TempBtoF(v);
-		dtostrf(f,4,2,a);  d->println(a);
+				d->moveCursor(0,1);
+				PrintInterval(tTgraph(par)*(W-1-xc));  d->println("");
+			}
 
-		d->moveCursor(0,1);
-		PrintInterval(tTgraph(par)*(W-1-xc));  d->println("");
+			//  max min
+			d->setClr(17, 19, 22);
+			d->moveCursor(0,2);
+			if (!cursor)  d->print("max ");
+			sprintf(a,"%d", grFmax);  d->println(a);
+
+			if (!cursor)  d->print("min ");
+			sprintf(a,"%d", grFmin);  d->println(a);
+		}
 	}
-
-	//  max min
-	d->setClr(17, 19, 22);
-	d->moveCursor(0,2);
-	if (!cursor)  d->print("max ");
-	sprintf(a,"%d", grFmax);  d->println(a);
-
-	if (!cursor)  d->print("min ");
-	sprintf(a,"%d", grFmin);  d->println(a);
-#endif
+	#endif
 }

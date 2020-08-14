@@ -27,8 +27,8 @@ void Gui::KeysClock()
 		int a = kRight * (kCtrl ? 10 : 1);
 		auto add = [&](uint8_t& u, uint8_t vmin, uint8_t vmax)
 		{
-			if (a > 0 && u+a <= vmax ||
-				a < 0 && u+a >= vmin)
+			if ((a > 0 && u+a <= vmax) ||
+				(a < 0 && u+a >= vmin))
 			u += a;
 		};
 		if (a)

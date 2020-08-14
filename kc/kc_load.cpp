@@ -39,7 +39,7 @@ void ParInit()
 	par.minInactive = 5;
 	par.tempOfs = int8_t(-0.6/*'C*/ / 0.03);  //-20
 
-	par.time1min = 10;  //*6s 1m
+	par.time1min = 4;  // 1m
 	par.timeTemp = 10;   // 8s
 	par.timeTgraph = 15; // 1m  gIntervals
 	par.minTemp = 17;  par.maxTemp = 35;
@@ -142,13 +142,13 @@ void KC_Main::Load()
 	{
 		uint8_t len = Erd(a);
 
-		KC_Sequence s;
+		//KC_Sequence s;
+		set.seqs[i].clear();
 		for (n=0; n < len; ++n)
 		{
 			b = Erd(a);
-			s.add(b);
+			set.seqs[i].add(b);
 		}
-		set.seqs[i] = s;
 	}
 
 	if (set.seqSlots < KC_MaxSeqs)

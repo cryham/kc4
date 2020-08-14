@@ -10,9 +10,10 @@ struct KC_Sequence
 {
 	//  var length
 	std::vector<uint8_t> data;
-
 	const int len() const {  return int(data.size());  }
+
 	void add(uint8_t b) {  data.push_back(b);  }
+	void clear() {  data.clear();  }
 };
 
 //  seq commands

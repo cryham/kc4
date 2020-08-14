@@ -79,8 +79,8 @@ void Gui::DrawClock()
 
 	//  x,y pos ~~~
 	int16_t x, y;
-	const int16_t x0 = W / 2,
-		yTime = 92, yUptime = H - 25, yDate = yTime + 34, yTemp = yTime + 9,
+	const int16_t x0 = W / 2, yTime = 92, yGraph = yTime - 4,
+		yUptime = H - 25, yDate = yTime + 34, yTemp = yTime + 9,
 		yPressed = yTime + 38, yPressMin = yPressed + 20, yPressMin1 = yPressMin - 26,
 		yInact = yUptime - 30, yActive = yInact - 26;
 
@@ -113,23 +113,16 @@ void Gui::DrawClock()
 	//  Graphs  ~~~~~~~~~~~~~~~~
 	if (pgClock == Cl_Graphs)
 	{
-		DrawGraph();
+		DrawGraph(true, 0,  0, W-1,  0, H/2);
+		DrawGraph(true, 1,  0, W-1,  H/2, H-1);
 		return;
 	}
-
-	int v, y0, ii, i;
+	else  // small half graphs
 	if (ext)
-	for (i=W/2; i <= W-1; ++i)
 	{
-		ii = kc.grPpos + i - (W-1) + W;
-		v = kc.grPMin[ii % W];
-		if (v > 0)
-		{
-			ClrPress(v);  uint16_t c = d->getClr();
-			y0 = yTime - v / 3;  // 96 is max  //par scale-
-			if (y0 < 0)  y0 = 0;
-			d->drawPixel(i,y0, c);
-	}	}
+		DrawGraph(false, 0,  W/2, W-1,  0, yGraph);  // press right
+		DrawGraph(false, 1,  0, W/2-1,  0, yGraph);  // temp left top
+	}
 
 
 	//  Time  ----------------
@@ -250,16 +243,15 @@ void Gui::DrawClock()
 	//  Layer  --------
 	if (stats)
 	{
-		bool lock = kc.nLayerLock >= 0,
-			  def = kc.nLayer == par.defLayer;
+		bool lock = kc.nLayerLock >= 0, held = kc.nLayerHeld == 1;
 
 		if (lock) d->setClr(28, 23, 30);  else
-		if (def)  d->setClr(14, 14, 22);  else
-		/*hold*/  d->setClr(17, 17, 28);
+		if (held) d->setClr(17, 17, 28);  else
+		  /*def*/ d->setClr(14, 14, 22);
 
 		d->setFont(OpenSans20);
 		d->setCursor(6, yUptime);
-		sprintf(a, "L%d %c", kc.nLayer, lock ? '*' : def ? ' ' : '+');
+		sprintf(a, "L%d %c", kc.nLayer, lock ? '*' : held ? '+' : ' ');
 		d->print(a);
 	}
 
@@ -467,7 +459,7 @@ void Gui::DrawClock()
 	}
 
 	#ifdef LIGHT_SENS
-	#define AVG 40  //64
+	#define AVG 30  //64
 	if (stats && !ext)
 	{
 		static uint16_t lar[AVG]={0};
@@ -494,8 +486,8 @@ void Gui::DrawClock()
 
 		for (int i=0; i < W; ++i)
 		{
-			y = gl[(gi - i + W)%W];
-			d->drawPixel(i, y/18, RGB(17,18,19));
+			y = gl[(gi + i - W+1 +W)%W];
+			d->drawPixel(i, y/18, RGB(14,15,16));
 		}
 	}
 	#endif

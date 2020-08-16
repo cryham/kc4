@@ -5,9 +5,7 @@
 
 //  load, save in eeprom
 //.............................................
-#define EOfs 0      //  offset and
-#define ESize 5000  //  max size to use  60 kB total eeprom
-
+#define ESize 1080  //  max eeprom size to use
 #define Erd(a)    eeprom_read_byte((uint8_t*)a);      ++a;  memSize = a;  if (a >= ESize) {  err=E_size;  return;  }
 #define Ewr(a,b)  eeprom_write_byte((uint8_t*)a, b);  ++a;  memSize = a;  if (a >= ESize) {  err=E_size;  return;  }
 
@@ -93,7 +91,8 @@ void KC_Main::Load()
 	err = E_ok;
 	set.Clear();
 
-	int a = EOfs, i, n;  uint8_t b;
+	//  var adr,  // todo: ofs = slot * ESize 5000, ext spi eeprom ..
+	int a = 0, i, n;  uint8_t b;
 	//  header
 	set.h1 = Erd(a);  if (set.h1 != 'k') {  err=E_H1;  return;  }
 	set.h2 = Erd(a);  if (set.h2 != 'c') {  err=E_H2;  return;  }
@@ -171,7 +170,7 @@ void KC_Main::Save()
 	{	err=E_nkeys;  return;  }
 	#endif
 
-	int a = EOfs, i, n;
+	int a = 0 /*slot * ESize*/, i, n;
 
 	//  header
 	set.h1 = 'k';  set.h2 = 'c';  set.ver = 5;  // cur

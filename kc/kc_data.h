@@ -97,6 +97,7 @@ struct KC_Main
 	bool SeqEnd(int lev, const KC_Sequence& sq);
 
 	//  eeprom  ----
+	int8_t slot = 0;
 	void Load(), Save();
 	uint16_t GetSize();  // mem
 

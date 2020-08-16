@@ -323,3 +323,60 @@ void Gui::KeysLoadSave()
 	if (kSave)  Save();
 	if (kLoad)  Load(kCtrl);
 }
+
+//  Info Operation
+//....................................................................................
+void Gui::DrawOperInfo()
+{
+	char a[32];
+	const int16_t tInfoMax = 90;  // par
+	if (tInfo < 0)  // trigger
+		tInfo = tInfoMax;
+
+	if (tInfo > 0)
+	{	--tInfo;
+		bool h = infType == 1 || infType == 2;
+		int x = W-1 - 76, x1 = x+6, xe = 9*3,
+			y = 3, yy = h ? 73/*+17*/ : 19;
+
+		int b = 8 - 8 * tInfo / tInfoMax,
+			c = 12 - 12 * tInfo / tInfoMax;  // fade par
+		uint16_t bck = RGB(4-b/2, 6-b*2/3, 8-b);
+		
+		d->fillRect(x-3, 0, W-1-(x-3), yy, bck);
+		d->drawFastVLine(W-1, 0, yy * tInfo / tInfoMax, RGB(10,13,16));  // time|
+
+		d->setFont(OpenSans12);
+		d->setCursor(x, y);  y+=18;
+		d->setColor(RGB(27-c, 29-c, 31-c), bck);
+
+		const static char* strInf[6] = {
+			"Reset", "Loaded", "Saved:", "Copied", "Pasted", "Swapped" };
+		d->print(strInf[infType]);
+
+		if (h)
+		{	/*d->setColor(RGB(22-c, 16-c, 22-c), bck);  // slot
+			d->setCursor(x1, y);  y+=17;
+			sprintf(a,"slot %d", kc.slot);  d->print(a);*/
+
+			d->setColor(RGB(28-c, 25-c, 31-c), bck);  // mem`
+			d->setCursor(x1, y);  y+=17;
+			sprintf(a,"%d B", kc.memSize);  d->print(a);
+
+			d->setColor(RGB(24-c, 21-c, 28-c), bck);  // cnt
+			d->setCursor(x1, y);  y+=17;
+			sprintf(a,"cnt %d", par.verCounter);  d->print(a);
+
+			d->setColor(RGB(20-c, 16-c, 24-c), bck);  // ver-
+			d->setCursor(x1, y);  y+=17;
+			sprintf(a,"ver %d", kc.set.ver);  d->print(a);
+
+			if (kc.err != E_ok)  // error string
+			{
+				uint16_t bck = RGB(6-b, 4-b, 4-b);
+				d->fillRect(xe-3, y-2, x-3-(xe-3), 16, bck);
+				d->setColor(RGB(31-c, 22-c, 21-c), bck);
+				d->setCursor(xe, y);
+				d->print(KCerrStr[kc.err]);
+	}	}	}
+}

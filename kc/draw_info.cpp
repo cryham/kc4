@@ -21,9 +21,10 @@ void Gui::DrawInfo()
 		pressGui = 0;
 		return;
 	}
-	char a[64];
-	int16_t y = yTitle, x1 = W / 2, x2 = x1 + 14;
-	auto yadd = [&y](int16_t h){  y += h*15/8;  };
+	char a[64],b[64];
+	int16_t y = yTitle, h,
+		x0 = W / 2, x1 = x0 + 20, x2 = x1 + 14, xm = 60;
+	auto yadd = [&y](int16_t h){  y += h*15/8-1;  };
 
 
 	if (yy == I_Version)
@@ -35,20 +36,44 @@ void Gui::DrawInfo()
 	d->setClr(21,21,26);
 
 
-	//int ii = InfoPages[yy];
+	int ii = InfoPages[yy];
+	uint16_t bck = RGB(3,3,6);
+
+	auto DrawCursor = [&](auto clr)
+	{
+		d->setColor(clr, bck);
+		d->fillRect(0, y-3, W, 21, bck);
+		d->setCursor(4,y);
+		d->print(">");
+	};
+
 	switch (yy)
 	{
 	//-----------------------------------------------------
 	case I_Use:  // use
 	{
-		uint16_t bck = RGB(3,3,6);
-		d->setColor(RGB(15,23,30),bck);
-		d->fillRect(0, y-3, W, 21, bck);
-		d->setCursor(2, y);  d->print(">");
+		for (int i=0; i <= ii; ++i)
+		{
+			int c = abs(i - ym2Use);
+			if (!c)
+				DrawCursor(RGB(15,23,30));
+			d->setCursor(20,y);
 
-		d->setColor(RGB(16,20,24),bck);
-		sprintf(a,"Save counter:");  PrintR(a, x1, y);
-		sprintf(a,"%d", par.verCounter);  d->setCursor(x2, y);  d->print(a);  yadd(14);
+			FadeClr(C_Info, 4, c, 1, !c ? bck : 0);
+			h = 8+3;
+
+			switch(i)
+			{
+			case 1:
+				strcpy(a,"Slot ToDo:");
+				sprintf(b,"%d", kc.slot);  break;
+			case 0:
+				strcpy(a,"Save counter:");
+				sprintf(b,"%d", par.verCounter);  h+=2;  break;
+			}
+			PrintR(a, x0, y);
+			d->setCursor(x1, y);  d->print(b);  yadd(h);
+		}
 
 		int i,l,k, s = 0, t = 0, si = 0;
 
@@ -121,7 +146,7 @@ void Gui::DrawInfo()
 
 
 		//  usb const  --
-	#if 0  //  All 137 Ext 255 Md 119 Lay 169 Fun 138 Pw 134
+	#if 0  //All 137 Ext 255 Md 119 Lay 169 Fun 138 Pw 134
 		d->setClr(19,19,22);  y=0;
 		d->setCursor(W/4, y);  d->print(" USB const");  yadd(9);
 		d->setClr(15,15,18);

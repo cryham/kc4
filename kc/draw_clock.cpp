@@ -32,9 +32,10 @@ void Gui::DrawClockCur(int i, int16_t y)
 //  color from value
 void Gui::ClrPress(int pm)
 {
-	if (pm >210)  d->setClr(31, 31,31);  else
-	if (pm >180)  d->setClr(31, 25,31);  else
-	if (pm >150)  d->setClr(31, 20,25);  else
+	if (pm >240)  d->setClr(31, 31,31);  else
+	if (pm >210)  d->setClr(23, 24,24);  else
+	if (pm >180)  d->setClr(22, 22,31);  else
+	if (pm >150)  d->setClr(31, 18,22);  else
 	if (pm >120)  d->setClr(31, 10,10);  else
 
 	if (pm > 90)  d->setClr(31, 16, 2);  else
@@ -44,16 +45,16 @@ void Gui::ClrPress(int pm)
 	if (pm > 10)  d->setClr( 4, 22,22);  else
 				  d->setClr( 6, 16,24);
 }
-void Gui::ClrTemp(int tm)
+void Gui::ClrTemp(int tm, int q)
 {
-	if (tm >224)  d->setClr(31, 10,10);  else
-	if (tm >192)  d->setClr(31, 18, 4);  else
-	if (tm >160)  d->setClr(30, 30, 2);  else
-	if (tm >128)  d->setClr(16, 29, 2);  else
-	if (tm > 96)  d->setClr( 6, 27, 6);  else
-	if (tm > 64)  d->setClr( 6, 26,26);  else
-	if (tm > 32)  d->setClr(10, 20,30);  else
-				  d->setClr( 6, 16,29);
+	if (tm >224)  d->setClr(31/q, 10/q,10/q);  else
+	if (tm >192)  d->setClr(31/q, 18/q, 4/q);  else
+	if (tm >160)  d->setClr(30/q, 30/q, 2/q);  else
+	if (tm >128)  d->setClr(16/q, 29/q, 2/q);  else
+	if (tm > 96)  d->setClr( 6/q, 27/q, 6/q);  else
+	if (tm > 64)  d->setClr( 6/q, 26/q,26/q);  else
+	if (tm > 32)  d->setClr(10/q, 20/q,30/q);  else
+				  d->setClr( 6/q, 16/q,29/q);
 }
 
 //  Display
@@ -83,6 +84,60 @@ void Gui::DrawClock()
 		yUptime = H - 25, yDate = yTime + 34, yTemp = yTime + 9,
 		yPressed = yTime + 38, yPressMin = yPressed + 20, yPressMin1 = yPressMin - 26,
 		yInact = yUptime - 30, yActive = yInact - 26;
+
+
+#ifdef LIGHT_SENS  //  Light Graph  ----
+	uint16_t light = 0;
+	float fLight = 0.f;
+	#define AVG 20  // 30 64
+	static uint16_t lar[AVG]={0};
+	static int8_t li = 0;
+	static uint16_t gl[W]={0};  // graph
+	static uint16_t gi = 0;
+	{
+		//  measure
+		uint16_t val = analogRead(LIGHT_SENS);
+		lar[li] = val;
+		li = (li+1) % AVG;
+		
+		int avg = 0;  // average
+		for (int i=0; i < AVG; ++i)
+			avg += lar[i];
+		light = avg / AVG;
+		fLight = 100.f - 100.f * light / 4096.f;
+
+		gl[gi] = light;
+		gi = (gi+1) % W;
+	}
+	if (pgClock == Cl_GraphLight)
+	{
+		const int divs = 12;
+		for (int i=0; i < H; ++i)  // ruler =
+		if ((i+1) % divs == 0)
+		{
+			int n = (i+1) / divs;  // 20x, 5%
+			int c = n % 5 == 0 ? 13 : n % 2 == 0 ? 10 : 8;
+			// d->drawFastHLine(W-1 -c*2, i, c*2, RGB(c,c,c));
+			d->drawFastHLine(0, i, W, RGB(c,c,c));
+		}
+		for (int i=0; i < W; ++i)
+		{
+			y = gl[(gi + i +W)%W] * 239 / 4096;
+			int n = (W-i) / 32;  // 24  fade
+			d->drawPixel(i, y, RGB(24-n*2, 28-n, 31-n/2));
+		}
+
+		d->setFont(OpenSans12);
+		d->setClr(26, 26, 28);
+		d->setCursor(6, 10);
+		d->print("Light ");
+		dtostrf(fLight, 4, 1, f);  d->print(f);  d->print(" %");
+
+		d->setCursor(6, 30);
+		sprintf(a, " %d  %d", light / 18, light);  d->print(a);
+		return;
+	}
+#endif
 
 
 	//  late hours Background  --------
@@ -243,7 +298,7 @@ void Gui::DrawClock()
 	//  Layer  --------
 	if (stats)
 	{
-		bool lock = kc.nLayerLock >= 0, held = kc.nLayerHeld == 1;
+		bool lock = kc.nLayerLock >= 0, held = kc.nLayerHeld >= 0;
 
 		if (lock) d->setClr(28, 23, 30);  else
 		if (held) d->setClr(17, 17, 28);  else
@@ -415,6 +470,14 @@ void Gui::DrawClock()
 			d->setClr(18, 18, 24);
 			d->setCursor(x, yActive - 0);
 			sprintf(a, "%d:%02d", h, m);  d->print(a);
+
+		#ifdef LIGHT_SENS
+			d->setFont(OpenSans12);
+			d->setClr(16, 16, 18);
+			d->setCursor(76, yPressMin + 2);
+			//d->setCursor(W -50, yTime + 6);
+			dtostrf(fLight, 3, 1, f);  d->print(f);  //d->print(" %");
+		#endif
 		}
 
 
@@ -456,39 +519,6 @@ void Gui::DrawClock()
 			y += 2*(h + 8);
 		}
 		break;
+
 	}
-
-	#ifdef LIGHT_SENS
-	#define AVG 30  //64
-	if (stats && !ext)
-	{
-		static uint16_t lar[AVG]={0};
-		static int8_t li = 0;
-		
-		uint16_t light = analogRead(LIGHT_SENS);
-		lar[li] = light;
-		li = (li+1) % AVG;
-		
-		int avg = 0;
-		for (int i=0; i < AVG; ++i)
-			avg += lar[i];
-		avg /= AVG;
-
-		d->setFont(OpenSans12);
-		d->setClr(16, 16, 18);
-		d->setCursor(6, yTitleUp);
-		sprintf(a, "%d  %d", avg / 18, avg);  d->print(a);
-
-		static uint16_t gl[W]={0};
-		static uint16_t gi = 0;
-		gl[gi] = avg;
-		gi = (gi+1) % W;
-
-		for (int i=0; i < W; ++i)
-		{
-			y = gl[(gi + i - W+1 +W)%W];
-			d->drawPixel(i, y/18, RGB(14,15,16));
-		}
-	}
-	#endif
 }

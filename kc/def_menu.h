@@ -73,7 +73,7 @@ enum EClock
 {
 	Cl_Adjust, Cl_Simple,
 	Cl_StatsText, Cl_Stats, Cl_StatsExt,
-	Cl_Graphs, Cl_All
+	Cl_Graphs, Cl_GraphLight, Cl_All
 };
 
 

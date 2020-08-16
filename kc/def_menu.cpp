@@ -82,7 +82,8 @@ const char* strInfo[I_All] =
 //  Clock pages
 const char* strClock[Cl_All] =
 {
-	"Adjust", "Clock", "Stats", "Stats Extd", "Stats+Graph", "Graphs~"
+	"Adjust", "Clock", "Stats", "Stats Extd",
+	"Stats+Graph", "Graphs~", "Graph Light"
 };
 
 

@@ -50,7 +50,7 @@ struct Gui
 		int8_t nextCol=-1, int8_t numGap=-1, int8_t numGap2=-1);
 	
 	//  util
-	void ClrPress(int pressPerMin), ClrTemp(int temp);
+	void ClrPress(int pressPerMin), ClrTemp(int temp, int div=1);
 	void PrintInterval(uint32_t t);
 	int TempFtoB(float t);  float TempBtoF(uint8_t b);
 	void DrawGraph(bool legend, int8_t var, int16_t xMin, int16_t xMax, int16_t yMin, int16_t yMax);
@@ -108,7 +108,7 @@ struct Gui
 
 	//  level 2 y cursors  - - -
 	int8_t ym2Lay = 0, ym2Keyb = 0, ym2Mouse = 0,  // Setup
-		ym2Scan = 0, pressGui = 0;  // Matrix
+		ym2Scan = 0, ym2Use = 0, pressGui = 0;  // Matrix
 	int8_t ym2Disp = 0, pgDisp = 0;  // Display
 	int8_t ym2Clock = 0, pgClock = Cl_StatsExt;  // Clock
 
@@ -117,7 +117,7 @@ struct Gui
 	const uint8_t yTitle = 60, yTitleUp = 52;  // y after title
 	const uint8_t yPosLay = 100;
 	const static uint8_t
-		DispPages[Di_All], ScanPages[S_All]; //, InfoPages[I_All];
+		DispPages[Di_All], ScanPages[S_All], InfoPages[I_All];
 
 	inline static uint8_t ClockVars(int pg)
 	{	return pg == Cl_Adjust ? 6 : 0;  }

@@ -130,18 +130,22 @@ void KC_Main::UpdLay(uint32_t ms)
 						--par.defLayer;
 					UpdL();
 					break;
-				case K_DefLayUp:
+				case KF_DefLayUp:
 					if (par.defLayer < KC_MaxLayers-1)
 						++par.defLayer;
 					UpdL();
 					break;
 
 				case KF_LayLock:  // un/lock layer
-					if (nLayerLock >= 0)
+					if (nLayerHeld == -1)  // single key (no layer)
 						nLayerLock = -1;  // unlock
 					else
-					if (nLayer > 0)  // lock to current
-						nLayerLock = nLayer;
+					{	if (nLayerLock != nLayerHeld)  // other layer
+							nLayerLock = nLayerHeld;  // lock
+						else  // same, toggle
+							nLayerLock = -1;  // unlock
+					}
+					UpdL();
 					break;
 
 				//todo new funct..

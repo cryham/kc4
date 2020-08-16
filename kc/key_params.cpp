@@ -11,16 +11,26 @@ extern IntervalTimer tim;
 
 const uint8_t Gui::DispPages[Di_All] = {2,2,1,3,1};
 const uint8_t Gui::ScanPages[S_All] = {3,1,4};
+const uint8_t Gui::InfoPages[I_All] = {0/*1slot*/,0};
 
 
 //  Info
 //....................................................................................
 void Gui::KeysInfo(int sp)
 {
+	int16_t yip = InfoPages[yy];
 	switch (yy)
 	{
 	case I_Use:
-		par.verCounter = RangeAdd(par.verCounter, kRight * sp, 0, 255, 1);  break;
+		if (kUp)
+		{	ym2Use  = RangeAdd(ym2Use , kUp, 0, yip, 1);  }
+		else
+		if (kRight)
+		switch (ym2Use)
+		{
+		case 1:  kc.slot = RangeAdd(kc.slot, kRight * sp / 2, 0, 8 /*EETotal / ESize*/, 1);  break;
+		case 0:  par.verCounter = RangeAdd(par.verCounter, kRight * sp, 0, 255, 1);  break;
+		}	break;
 	}
 	KeysLoadSave();
 }

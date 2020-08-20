@@ -80,6 +80,7 @@ struct KC_Main
 	int16_t seqPos[2] = {0,0};	// cur index in seq data
 	uint16_t dtSeq = 20;		// var delay  param
 	uint32_t tiSeq = 0, tiFun = 0;  // ms time delay
+	int8_t visSeq = 0;          // vis start only
 
 	int8_t seqMod[K_ModLast+1];  // modifiers state
 	void SeqModClear();

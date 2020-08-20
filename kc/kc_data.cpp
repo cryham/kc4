@@ -268,6 +268,7 @@ void KC_Main::Send(uint32_t ms)
 					{
 						inSeq[1] = cp;
 						seqPos[1]=0;  seqRel[1]=0;
+						visSeq = -1;
 					}
 					break;
 
@@ -275,6 +276,7 @@ void KC_Main::Send(uint32_t ms)
 					Keyboard.releaseAll();
 					SeqModClear();
 					inSeq[lev] = isq;
+					visSeq = -1;
 					//sp = 0;  sr = 0;
 					seqPos[0]=0;  seqRel[0]=0;
 					seqPos[1]=0;  seqRel[1]=0;
@@ -428,6 +430,7 @@ void KC_Main::Send(uint32_t ms)
 						//  start seq  ***
 						Keyboard.releaseAll();
 						SeqModClear();
+						visSeq = -1;
 						inSeq[0] = sq;  inSeq[1] = -1;
 						seqPos[0]=0;  seqRel[0]=0;
 						seqPos[1]=0;  seqRel[1]=0;

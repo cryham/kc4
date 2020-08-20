@@ -482,6 +482,14 @@ void Gui::DrawClock()
 
 
 		//  Sequence, prv  --------
+		if (kc.visSeq < 0)
+			kc.visSeq = 31;  //par
+		if (kc.visSeq > 0)
+		{	--kc.visSeq;	// start blink vis
+			uint16_t c = kc.visSeq == 0 ? 0 :
+				RGB(kc.visSeq/2+5, kc.visSeq/2+5, kc.visSeq);
+			d->drawFastHLine(84, yUptime - 5, 30, c);
+		}
 		if (kc.inSeq[0] >= 0)
 		{
 			d->setFont(OpenSans18);

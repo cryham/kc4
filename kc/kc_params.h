@@ -72,7 +72,7 @@ struct KC_Params
 //  --- ADD new to END ----
 //  set defaults in ParInit()
 
-#define t1min(par)   (1000 * gIntervals[par.time1min  & gIntvMask])  // ms
+#define t1min(par)   (100 * gIntervals[par.time1min   & gIntvMask])  // ms
 #define tTemp(par)   (100 * gIntervals[par.timeTemp   & gIntvMask])  // ms
 #define tTgraph(par) (100 * gIntervals[par.timeTgraph & gIntvMask])
 

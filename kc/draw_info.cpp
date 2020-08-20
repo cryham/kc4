@@ -23,7 +23,7 @@ void Gui::DrawInfo()
 	}
 	char a[64],b[64];
 	int16_t y = yTitle, h,
-		x0 = W / 2, x1 = x0 + 20, x2 = x1 + 14, xm = 60;
+		x1 = W / 2, x2 = x1 + 20;
 	auto yadd = [&y](int16_t h){  y += h*15/8-1;  };
 
 
@@ -71,8 +71,8 @@ void Gui::DrawInfo()
 				strcpy(a,"Save counter:");
 				sprintf(b,"%d", par.verCounter);  h+=2;  break;
 			}
-			PrintR(a, x0, y);
-			d->setCursor(x1, y);  d->print(b);  yadd(h);
+			PrintR(a, x1, y);
+			d->setCursor(x2, y);  d->print(b);  yadd(h);
 		}
 
 		int i,l,k, s = 0, t = 0, si = 0;

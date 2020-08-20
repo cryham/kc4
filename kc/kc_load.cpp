@@ -37,7 +37,7 @@ void ParInit()
 	par.minInactive = 5;
 	par.tempOfs = int8_t(-0.6/*'C*/ / 0.03);  //-20
 
-	par.time1min = 4;  // 1m
+	par.time1min = 15;  // 1m
 	par.timeTemp = 10;   // 8s
 	par.timeTgraph = 15; // 1m  gIntervals
 	par.minTemp = 17;  par.maxTemp = 35;

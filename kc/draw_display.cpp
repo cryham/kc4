@@ -37,8 +37,7 @@ void Gui::DrawDisplay()
 	case Di_Bright:
 	for (int i=0; i <= pg; ++i)
 	{
-		DrawDispCur(i, y);
-		int8_t h = 4;
+		DrawDispCur(i, y);  int8_t h = 4;
 		switch(i)
 		{
 		case 0:
@@ -61,8 +60,7 @@ void Gui::DrawDisplay()
 	case Di_Keys:
 	for (int i=0; i <= pg; ++i)
 	{
-		DrawDispCur(i, y);
-		int8_t h = 4;
+		DrawDispCur(i, y);  int8_t h = 4;
 		switch(i)
 		{
 		case 0:
@@ -85,8 +83,7 @@ void Gui::DrawDisplay()
 	case Di_StatsGraph:
 	for (int i=0; i <= pg; ++i)
 	{
-		DrawDispCur(i, y);
-		int8_t h = 4;
+		DrawDispCur(i, y);  int8_t h = 4;
 		switch(i)
 		{
 		case 0:
@@ -113,8 +110,7 @@ void Gui::DrawDisplay()
 	case Di_AdjustTemp:
 	for (int i=0; i <= pg; ++i)
 	{
-		DrawDispCur(i, y);
-		int8_t h = 4;
+		DrawDispCur(i, y);  int8_t h = 4;
 		switch(i)
 		{
 		case 0:

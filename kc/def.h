@@ -28,7 +28,7 @@
 // PWM on: 14,15, 18,19, 22,23
 
 #ifdef CK9
-//  Free pins: 14,15,16,17, 18, 20,21
+//  Free pins: 14,15,16,17, 18, 20,21, 26
     //  led light, keyboard lamp
 	#define LED_LAMP  18
 	//  temperature 'C sensor DS18B20
@@ -36,8 +36,9 @@
 	//  photoresistor divider for adc
 	#define LIGHT_SENS  20
 #endif
+
 #ifdef CK8
-//  Free pins: 18, 20,21,22, 23
+//  Free pins: 18, 20,21,22, 23, 26-
 	#define TEMP1  23
 #endif
 

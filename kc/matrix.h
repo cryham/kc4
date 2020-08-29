@@ -38,6 +38,7 @@ typedef enum KeyPosition {
 #elif defined(CK9)   //  18 x 8  CK9/6/3
 	const static uint8_t
 	Matrix_cols[] = {
+		//,22,23,24,25, 27,28,29,30,31,32,33, 38,39,//
 		24, 25, 28, 32, 30, 33, 31, 29, 27, 38, 39,  // x11
 		22, 23, 8, 7, 6, 5, 4},  // x7
 	Matrix_rows[] = { 0, 1, 2, 3, 34, 35, 36, 37 };

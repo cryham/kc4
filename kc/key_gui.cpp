@@ -63,12 +63,10 @@ void Gui::KeyPress()
 
 		if (kF10)  SetScreen(ST_Help);
 		if (kF11)
-		{	bool clk = ym == M_Clock;
-			SetScreen(ST_Displ);
-			// set page for clock
-			if (clk)
-			{	if (pgClock == Cl_Graphs)  pgDisp = Di_Graph;  else
-				if (pgClock >= Cl_Stats)  pgDisp = Di_Stats;  }
+		{	SetScreen(ST_Displ);
+			// set page for clock graphs
+			if (ym == M_Clock && (pgClock == Cl_StatsExt || pgClock == Cl_Graphs))
+				pgDisp = Di_StatsGraph;
 		}
 		if (kF12)  SetScreen(ST_Clock +
 			(kCtrl ? Cl_Graphs : kSh ? Cl_StatsExt : pgClock));

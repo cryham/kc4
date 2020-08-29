@@ -100,13 +100,13 @@ int main()
 	analogWriteResolution(12);
 	analogWrite(LCD_LED, 100);  // 0-4095
 	
-	#ifdef LIGHT_SENS
-	analogReadResolution(12);
+	#ifdef LED_LAMP
+	pinMode(LED_LAMP, OUTPUT);
+	analogWrite(LED_LAMP, 0);  // off
 	#endif
 
-	#ifdef LED
-	pinMode(LED, OUTPUT);
-	digitalWrite(LED, gui.led ? LOW : HIGH);
+	#ifdef LIGHT_SENS
+	analogReadResolution(12);
 	#endif
 
 

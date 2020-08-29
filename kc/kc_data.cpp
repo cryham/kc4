@@ -110,12 +110,11 @@ void KC_Main::UpdLay(uint32_t ms)
 					/*#define SCB_AIRCR (*(volatile uint32_t *)0xE000ED0C)
 					SCB_AIRCR = 0x05FA0004; ? */  break;
 
-				case KF_Light:  // light, led toggle
-					#ifdef LED
-					gui.led = 1 - gui.led;
-					digitalWrite(LED, gui.led ? LOW : HIGH);
-					#endif
-					break;
+				#ifdef LED_LAMP
+				case KF_Light:  // light, led lamp toggle
+					ledOn = !ledOn;
+					kc.LedUpdate();  break;
+				#endif
 
 				case KF_QuitSeq:  // quit seq, stop repeat
 					QuitSeq(0);
@@ -128,13 +127,12 @@ void KC_Main::UpdLay(uint32_t ms)
 				case KF_DefLayDn:  // dec,inc default layer
 					if (par.defLayer > 0)
 						--par.defLayer;
-					UpdL();
-					break;
+					UpdL();  break;
+
 				case KF_DefLayUp:
 					if (par.defLayer < KC_MaxLayers-1)
 						++par.defLayer;
-					UpdL();
-					break;
+					UpdL();  break;
 
 				case KF_LayLock:  // un/lock layer
 					if (nLayerHeld == -1)  // single key (no layer)
@@ -145,8 +143,7 @@ void KC_Main::UpdLay(uint32_t ms)
 						else  // same, toggle
 							nLayerLock = -1;  // unlock
 					}
-					UpdL();
-					break;
+					UpdL();  break;
 
 				//todo new funct..
 				}
@@ -165,15 +162,27 @@ void KC_Main::UpdLay(uint32_t ms)
 			if (fun)
 			if (ms - tiFun > par.krRepeat*5 || ms < tiFun)
 			{	tiFun = ms;
+				
 				uint8_t& br = gui.kbdSend ? par.brightOff : par.brightness;
+				uint8_t& li = par.ledBright;
+				int16_t sp = KeyH(gCtrl) ? 8 : 2;
 				switch (codeL)
 				{
 				case KF_BriDn:  // brightness -+
-					br = gui.RangeAdd(br, (gui.kCtrl ?-10 :-2), 0, 100);
+					br = gui.RangeAdd(br, -sp, 0, 100);
 					setBright = 1;  break;
 				case KF_BriUp:
-					br = gui.RangeAdd(br, (gui.kCtrl ? 10 : 2), 0, 100);
+					br = gui.RangeAdd(br,  sp, 0, 100);
 					setBright = 1;  break;
+				
+				#ifdef LED_LAMP  // light -+
+				case KF_LightDn:
+					li = gui.RangeAdd(li, -sp, 0, 64);
+					kc.LedUpdate();  break;
+				case KF_LightUp:
+					li = gui.RangeAdd(li,  sp, 0, 64);
+					kc.LedUpdate();  break;
+				#endif
 				}
 			}
 		}

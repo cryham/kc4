@@ -1,7 +1,7 @@
 #include "WProgram.h"
 #include "kc_data.h"
 #include "kbd_layout.h"
-//extern KC_Params par;
+
 
 //  load, save in eeprom
 //.............................................
@@ -42,6 +42,8 @@ void ParInit()
 	par.timeTgraph = 15; // 1m  gIntervals
 	par.minTemp = 17;  par.maxTemp = 35;
 	par.xCur = W-1;
+	
+	par.ledBright = 64;  // max for 4095
 }
 
 //  errors

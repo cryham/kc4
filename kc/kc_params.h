@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include "def.h"
 
+
 /*  data mem sizes max
 //--------------------------------------
   18x8 = 144  * 9L = 1296 B
@@ -68,9 +69,13 @@ struct KC_Params
 	//  Temp graph scale
 	uint8_t minTemp, maxTemp;
 	uint16_t xCur;        // cursor
+	
+	//  led lamp bright
+	uint8_t ledBright;
 };
 //  --- ADD new to END ----
 //  set defaults in ParInit()
+
 
 #define t1min(par)   (100 * gIntervals[par.time1min   & gIntvMask])  // ms
 #define tTemp(par)   (100 * gIntervals[par.timeTemp   & gIntvMask])  // ms

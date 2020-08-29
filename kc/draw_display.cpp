@@ -5,7 +5,7 @@
 
 
 const char* sPgDisplay[Di_All] = {
-	"Bright", "Gui keys", "Intervals", "Graph""\x01""C", "Debug" };
+	"Brightness", "Gui keys", "Intervals", "Temp adjust" };
 
 //  Display
 //....................................................................................
@@ -42,41 +42,47 @@ void Gui::DrawDisplay()
 		switch(i)
 		{
 		case 0:
-			sprintf(a,"Brightness:");
+			sprintf(a,"In GUI:");
 			sprintf(b,"%d %%", par.brightness);  h = 2;  break;
 		case 1:
-			sprintf(a,"Off brightness:");
+			sprintf(a,"Off GUI:");
 			sprintf(b,"%d %%", par.brightOff);  break;
 		case 2:
+			sprintf(a,"Lamp:");
+			sprintf(b,"%s", kc.ledOn ? "on" : "off");  h = 2;  break;
+		case 3:
+			sprintf(a,"Lamp:");
+			sprintf(b,"%d %%", int(100.f * par.ledBright / 64.f));  break;
+		}
+		PrintR(a, x0, y);
+		d->setCursor(x1, y);  d->print(b);  yadd(h+8);
+	}	break;
+
+	case Di_Keys:
+	for (int i=0; i <= pg; ++i)
+	{
+		DrawDispCur(i, y);
+		int8_t h = 4;
+		switch(i)
+		{
+		case 0:
 			sprintf(a,"Start screen:");
 			sprintf(b,"%s", StrScreen(par.startScreen));  break;
-		}
-		PrintR(a, x0, y);
-		d->setCursor(x1, y);  d->print(b);  yadd(h+8);
-	}	break;
-
-	case Di_Key:
-	for (int i=0; i <= pg; ++i)
-	{
-		DrawDispCur(i, y);
-		int8_t h = 4;
-		switch(i)
-		{
-		case 0:
+		case 1:
 			sprintf(a,"Key delay:");
 			sprintf(b,"%d ms", par.krDelay*5);  h = 2;  break;
-		case 1:
+		case 2:
 			sprintf(a,"Key repeat:");
 			sprintf(b,"%d ms", par.krRepeat*5);  break;
-		case 2:
+		case 3:
 			sprintf(a,"Quick keys F1-12:");
-			sprintf(b,"%s", par.quickKeys?"on":"off");  break;
+			sprintf(b,"%s", par.quickKeys ? "on" : "off");  break;
 		}
 		PrintR(a, x0, y);
 		d->setCursor(x1, y);  d->print(b);  yadd(h+8);
 	}	break;
 
-	case Di_Stats:
+	case Di_StatsGraph:
 	for (int i=0; i <= pg; ++i)
 	{
 		DrawDispCur(i, y);
@@ -84,48 +90,27 @@ void Gui::DrawDisplay()
 		switch(i)
 		{
 		case 0:
-			sprintf(a,"Time for 1min:");  break;
+			sprintf(a,"Press/min:");  break;
 		case 1:
 			sprintf(a,"Inactive after:");
 			sprintf(b,"%d min", par.minInactive);  break;
-		}
-		PrintR(a, x0, y);  d->setCursor(x1, y);
-		if (i==0)
-			PrintInterval(t1min(par));
-		else
-			d->print(b);
-		yadd(h+8);
-	}	break;
-
-	case Di_Graph:
-	for (int i=0; i <= pg; ++i)
-	{
-		DrawDispCur(i, y);
-		int8_t h = 4;
-		switch(i)
-		{
-		case 0:
-			sprintf(a,"Temp read:");  h = 2;  break;
-		case 1:
-			sprintf(a,"Graph add:");  break;
 		case 2:
-			sprintf(a,"T min:");
-			sprintf(b,"%d ""\x01""C", par.minTemp);  h = 2;  break;
+			sprintf(a,"Temp read:");  h = 2;  break;
 		case 3:
-			sprintf(a,"T max:");
-			sprintf(b,"%d ""\x01""C", par.maxTemp);  break;
+			sprintf(a,"Graph add:");  break;
 		}
 		PrintR(a, x0, y);  d->setCursor(x1, y);
 		switch(i)
 		{
-		case 0:  PrintInterval(tTemp(par));  break;
-		case 1:  PrintInterval(tTgraph(par));  break;
-		default:  d->print(b);
+		case 0:  PrintInterval(t1min(par));  break;
+		case 2:  PrintInterval(tTemp(par));  break;
+		case 3:  PrintInterval(tTgraph(par));  break;
+		default:  d->print(b);  break;
 		}
 		yadd(h+8);
 	}	break;
 
-	case Di_Debug:
+	case Di_AdjustTemp:
 	for (int i=0; i <= pg; ++i)
 	{
 		DrawDispCur(i, y);
@@ -134,18 +119,25 @@ void Gui::DrawDisplay()
 		{
 		case 0:
 			sprintf(a,"Frames per sec:");
-			sprintf(b,"%d", demos.iFps);
-			PrintR(a, x0, y);
-			d->setCursor(x1, y);
-			d->print(b);  yadd(h+8);
-			break;
+			switch(demos.iFps)
+			{
+			case 0:  strcpy(b,"off");  break;
+			case 1:  strcpy(b,"in demos");  break;
+			case 2:  strcpy(b,"always");  break;
+			}	break;
 		case 1:
 			sprintf(a,"Temp offset:");
-			PrintR(a, x0, y);  d->setCursor(x1, y);  yadd(h+8);
-			dtostrf(0.03f * par.tempOfs, 4,2, a);
-			d->print(a);  d->print(" ""\x01""C");
-			break;
+			dtostrf(0.03f * par.tempOfs, 4,2, b);
+			strcat(b," ""\x01""C");  break;
+		case 2:
+			sprintf(a,"Temp min:");
+			sprintf(b,"%d ""\x01""C", par.minTemp);  h = 2;  break;
+		case 3:
+			sprintf(a,"Temp max:");
+			sprintf(b,"%d ""\x01""C", par.maxTemp);  break;
 		}
-	}
+		PrintR(a, x0, y);  d->setCursor(x1, y);
+		d->print(b);  yadd(h+8);
+	}	break;
 	}
 }

@@ -68,7 +68,7 @@ extern const char* KCerrStr[E_max];
 struct KC_Main
 {
 	//  current layer, set by keys
-	int8_t nLayer = 0, nLayerHeld = 0,  // final, held layer key (or set)
+	int8_t nLayer = 0, nLayerHeld = -1,  // final, held layer key (or set)
 		   nLayerLock = -1;  // tap layer key to lock/unlock
 
 	int8_t setBright = 1;  // update
@@ -126,6 +126,13 @@ struct KC_Main
 	uint16_t grPpos = 0;  // write pos
 
 	uint8_t matrixVis[KC_MaxRows * KC_MaxCols];
+
+
+	//  led lamp  ----
+	#ifdef LED_LAMP
+	bool ledOn = false;
+	void LedUpdate();
+	#endif
 };
 
 extern KC_Main kc;

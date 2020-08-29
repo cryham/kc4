@@ -89,9 +89,6 @@ struct Gui
 	//  help
 	int8_t hpage = 0;
 	const static int8_t HAll = 11;
-	#ifdef LED
-	int8_t led = 0;
-	#endif
 
 
 	//  keys pressed, some +-1  _k_

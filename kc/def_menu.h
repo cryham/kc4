@@ -67,7 +67,7 @@ enum EInfo  //  Info use,ver
 };
 enum EDisplay  //  Display options pages  --
 {
-	Di_Bright, Di_Key, Di_Stats, Di_Graph, Di_Debug, Di_All
+	Di_Bright, Di_Keys, Di_StatsGraph, Di_AdjustTemp, Di_All
 };
 enum EClock
 {

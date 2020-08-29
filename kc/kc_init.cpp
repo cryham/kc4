@@ -7,6 +7,12 @@
 #include "WProgram.h"  // rtc, Mouse
 
 
+void KC_Main::LedUpdate()
+{
+	analogWrite(LED_LAMP, ledOn ?
+		min(4095, par.ledBright * par.ledBright) : 0);
+}
+
 //------------------------------------------------
 void KC_Main::SeqModClear()
 {

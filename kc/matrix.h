@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include "def.h"
 
+
 //  ----- Enums -----
 typedef enum Type {  //  Type of pin
 	Type_StrobeOn, Type_StrobeOff, Type_StrobeSetup,
@@ -22,7 +23,7 @@ typedef enum KeyPosition {
 
 //  ----***  Matrix configs  ***----
 
-#if defined(CK8)   //  20 x 8  CK8
+#if defined(CK8)   //  20 x 8  CK8/5
 	const static uint8_t
 	Matrix_cols[] = {
 		24, 25, 28, 32, 30, 33, 31, 29, 27, 38, 39,  // x11

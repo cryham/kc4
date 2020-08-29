@@ -9,9 +9,9 @@
 extern IntervalTimer tim;
 
 
-const uint8_t Gui::DispPages[Di_All] = {2,2,1,3,1};
+const uint8_t Gui::DispPages[Di_All] = {3,3,3,3};
 const uint8_t Gui::ScanPages[S_All] = {3,1,4};
-const uint8_t Gui::InfoPages[I_All] = {0/*1slot*/,0};
+const uint8_t Gui::InfoPages[I_All] = {0/*1 slot*/,0};
 
 
 //  Info
@@ -146,38 +146,36 @@ void Gui::KeysDisplay(int sp)
 		case 0:  par.brightness = RangeAdd(par.brightness, kRight * sp, 0, 100);
 				 kc.setBright = 1;  break;
 		case 1:  par.brightOff = RangeAdd(par.brightOff, kRight * sp, 0, 100);  break;
-		case 2:  par.startScreen = RangeAdd(par.startScreen, kRight, 0, ST_ALL-1);  break;
+		case 2:  kc.ledOn = kRight > 0;  kc.LedUpdate();  break;
+		case 3:  par.ledBright = RangeAdd(par.ledBright, kRight * sp, 0, 64);
+				 kc.LedUpdate();  break;
 		}	break;
 
-	case Di_Key:
+	case Di_Keys:
 		switch (ym2Disp)
 		{
-		case 0:  par.krDelay = RangeAdd(par.krDelay, kRight, 0,255);  break;
-		case 1:  par.krRepeat = RangeAdd(par.krRepeat, kRight, 0,255);  break;
-		case 2:  par.quickKeys = RangeAdd(par.quickKeys, kRight, 0, 1);  break;
+		case 0:  par.startScreen = RangeAdd(par.startScreen, kRight, 0, ST_ALL-1);  break;
+		case 1:  par.krDelay = RangeAdd(par.krDelay, kRight, 0,255);  break;
+		case 2:  par.krRepeat = RangeAdd(par.krRepeat, kRight, 0,255);  break;
+		case 3:  par.quickKeys = RangeAdd(par.quickKeys, kRight, 0, 1);  break;
 		}	break;
 
-	case Di_Stats:
+	case Di_StatsGraph:
 		switch (ym2Disp)
 		{
 		case 0:  par.time1min = RangeAdd(par.time1min, kRight * sp/2, 0, gIntvMask, 1);  break;
 		case 1:  par.minInactive = RangeAdd(par.minInactive, kRight *sp/2, 0, 60, 1);  break;
+		case 2:  par.timeTemp = RangeAdd(par.timeTemp, kRight * sp/2, 0, gIntvMask, 1);  break;
+		case 3:  par.timeTgraph = RangeAdd(par.timeTgraph, kRight * sp/2, 0, gIntvMask, 1);  break;
 		}	break;
 
-	case Di_Graph:
-		switch (ym2Disp)
-		{
-		case 0:  par.timeTemp = RangeAdd(par.timeTemp, kRight * sp/2, 0, gIntvMask, 1);  break;
-		case 1:  par.timeTgraph = RangeAdd(par.timeTgraph, kRight * sp/2, 0, gIntvMask, 1);  break;
-		case 2:  par.minTemp = RangeAdd(par.minTemp, kRight * sp/2, 0, 40, 1);  break;
-		case 3:  par.maxTemp = RangeAdd(par.maxTemp, kRight * sp/2, 0, 40, 1);  break;
-		}	break;
-
-	case Di_Debug:
+	case Di_AdjustTemp:
 		switch (ym2Disp)
 		{
 		case 0:  demos.iFps = RangeAdd(demos.iFps, kRight, 0, 2);  break;
 		case 1:  par.tempOfs = RangeAdd(par.tempOfs, kRight * sp, -128, 127, 1);  break;
+		case 2:  par.minTemp = RangeAdd(par.minTemp, kRight * sp/2, 0, 40, 1);  break;
+		case 3:  par.maxTemp = RangeAdd(par.maxTemp, kRight * sp/2, 0, 40, 1);  break;
 		}	break;
 	}
 	if (kAdd || kBckSp)  --mlevel;

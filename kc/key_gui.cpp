@@ -148,7 +148,7 @@ void Gui::KeyPress()
 	//  Demos
 	if (ym == M_Demos && mlevel == 2)
 	{
-		demos.KeyPress((EDemo)ym1[ym], this);
+		demos.KeyPress((EDemo)ym1[ym]);
 		return;
 	}
 }
@@ -158,8 +158,14 @@ void Gui::NextDemo()
 {
 	auto& yy = ym1[M_Demos];
 	++yy;  // next
-	if (yy == D_Fonts)  // skip
+
+	if (yy == D_Fonts
+	#ifdef DEMOS_BITMAPS
+	|| yy ==  D_Bitmaps
+	#endif
+	)  // skip
 		++yy;
+
 	if (yy >= D_All)
 		yy = D_Plasma;  // first
 }

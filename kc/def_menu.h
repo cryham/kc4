@@ -20,7 +20,7 @@ enum EMainMenu  //  main menu entries, level0
 {
 	M_Mapping, M_Sequences, M_Testing,
 	M_Setup, M_Matrix, M_Info,
-	M_Display, M_Clock, M_Help,
+	M_Display, M_Clock, /*M_Graphs,*/ M_Help,
 	#ifdef GAME
 		M_Game,
 	#endif
@@ -37,6 +37,9 @@ enum EDemo  //  Demos, level1
 	D_Hedrons,
 	D_CK_Logo,
 	D_Fonts,
+#ifdef DEMOS_BITMAPS
+	D_Bitmaps,
+#endif
 #ifdef DEMOS_OLD
 	D_Ngons,
 	D_Space, D_Balls, D_Fountain,
@@ -73,7 +76,7 @@ enum EClock
 {
 	Cl_Adjust, Cl_Simple,
 	Cl_StatsText, Cl_Stats, Cl_StatsExt,
-	Cl_Graphs, Cl_GraphLight, Cl_All
+	Cl_Graphs, Cl_GraphsDaily, Cl_GraphLight, Cl_All
 };
 
 
@@ -87,6 +90,7 @@ extern const char
 // 20 x 20 x 4B  (B,G,R,A 32bit  could be 16bit but meh)
 typedef uint8_t Bmp20[1600];
 extern const Bmp20* bmpMain[M_All];
+typedef uint8_t Bmp320[320*240*4];
 
 //  sub page counts, inside each main menu entry
 extern const uint8_t YM1[M_All];

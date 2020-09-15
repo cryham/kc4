@@ -134,6 +134,10 @@ void Gui::DrawBmp(const Bmp20* bmp, int16_t x, int16_t y, uint16_t bck, uint al)
 {
 	DrawBmp((const uint8_t*)bmp, x, y, 20, 20, bck, al);
 }
+void Gui::DrawBmp(const Bmp320* bmp, uint16_t bck, uint al)
+{
+	DrawBmp((const uint8_t*)bmp, 0, 0, 320, 240, bck, al);
+}
 void Gui::DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h, uint16_t bck, uint al)
 {
 	const uint8_t* q = bmp;

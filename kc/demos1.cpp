@@ -1,4 +1,5 @@
 #include "demos.h"
+#include "gui.h"  // gui
 #include "ILI9341_t3n.h"
 #include "ili9341_t3n_font_OpenSans.h"
 
@@ -17,6 +18,9 @@ bool Demos::Draw(int yy)
 		case D_CK_Logo:  CK_logo();  len = 600;  break;
 		case D_Hedrons:  Hedrons();  len = 1000;  break;
 		case D_Fonts:	 Fonts();    len = 200;  break;  // skip
+	#ifdef DEMOS_BITMAPS
+		cae D_Bitmaps:  Bitmaps();  len = 200;  break;  // skip
+	#endif
 	#ifdef DEMOS_OLD
 		case D_Ngons:    Ngons();    len = 200;  break;
 
@@ -206,3 +210,15 @@ void Demos::Fonts()
 	d->setCursor(0, y);
 	d->println("abCdefGhijklMnopqRstuVwxyz-1234567890.");
 }
+
+#ifdef DEMOS_BITMAPS
+//  Bitmaps
+//....................................................................................
+void Demos::Bitmaps()
+{
+	if (bmCur == 0)
+		g->DrawBmp(&bmpAbs, 0, 256);
+	else
+		g->DrawBmp(&bmpCat, 0, 256);
+}
+#endif

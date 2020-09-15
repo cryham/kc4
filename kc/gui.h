@@ -41,6 +41,7 @@ struct Gui
 	int16_t GetWidth(const char* s);
 	void DrawBmp(const uint8_t* bmp, int16_t x, int16_t y, int16_t w, int16_t h, uint16_t bck=0, uint al=256);
 	void DrawBmp(const Bmp20* bmp, int16_t x, int16_t y, uint16_t bck=0, uint al=256);
+	void DrawBmp(const Bmp320* bmp, uint16_t bck=0, uint al=256);
 
 	//  draw menu
 	void DrawTitleMain(uint16_t clr, const Bmp20* bmp, uint al=256);

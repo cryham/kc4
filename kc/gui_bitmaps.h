@@ -16,3 +16,6 @@ extern const Bmp20
 	bmpDOTS3,
 	bmpZOOM,
 	bmpSCREEN;
+
+extern const Bmp320
+	bmpCat, bmpAbs;

@@ -36,18 +36,18 @@ const uint8_t gMenuClr[C_ALL][2][3] =
 };
 
 //  Main Menu
-const char* strMain[M_All] =
+const char* strMain[M_All] =  /* MAIN */
 {
 	"Mapping", "Sequences",	"Testing",
 	"Setup", "Matrix", "Info",
-	"Display", "Clock", "Help",
+	"Display", "Clock", /*"Graphs",*/ "Help",
 #ifdef GAME
 	"Game",
 #endif
 	"Demos",
 };
 
-const Bmp20* bmpMain[M_All] =
+const Bmp20* bmpMain[M_All] =  /* MAIN */
 {
 	&bmpKEY, &bmpDOTS3, &bmpZOOM,
 	&bmpSETUP, &bmpMATRIX, &bmpINFO,
@@ -83,7 +83,7 @@ const char* strInfo[I_All] =
 const char* strClock[Cl_All] =
 {
 	"Adjust", "Clock", "Stats", "Stats Extd",
-	"Stats+Graph", "Graphs~", "Graph Light"
+	"Stats+Graph", "Graphs~", "Graphs Daily", "Graph Light"
 };
 
 
@@ -96,6 +96,9 @@ const char* strDemo[D_All] =
 	"Hedrons",
 	"CK Logo",
 	"Fonts",
+#ifdef DEMOS_BITMAPS
+	"Bitmaps",
+#endif
 #ifdef DEMOS_OLD
 	"N-gons",
 	"Space", "Balls", "Fountain",
@@ -105,7 +108,7 @@ const char* strDemo[D_All] =
 
 
 //  sub pages  menu level1
-const uint8_t YM1[M_All] =
+const uint8_t YM1[M_All] =  /* MAIN */
 {
 	4,  // M_Mapping
 	1,  // M_Sequences

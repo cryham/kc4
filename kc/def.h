@@ -15,10 +15,12 @@
 //  Optional features, comment out to disable
 //----------------------------------------
 //#define DEMOS_OLD
+#define DEMOS_BITMAPS  // big, flash ! 614400 B  // todo: half it RGBA->R5G6B5
 #define GAME
 
 //  Uncomment to draw using double buffering
 //  uses 69% RAM but has almost always 45 Fps flat on all demos
+//  320x240x2 = 156300 B
 #define BUFx2
 
 

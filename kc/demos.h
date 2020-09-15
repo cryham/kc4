@@ -12,15 +12,17 @@
 
 extern const int16_t sint[SX];
 
+struct Gui;
 
 struct Demos
 {
 	//  main  ----
 	Demos();
-	void Init(ILI9341_t3n* tft);
+	void Init(ILI9341_t3n* tft, Gui* gui);
 
 	ILI9341_t3n* d = nullptr;
 	uint16_t* data = nullptr;  // scren buffer
+	Gui* g = nullptr;
 
 	int8_t iFps = 0;  // show frames per second, 1 on, 0 off
 	uint32_t ti = 0, oti = 0;  // fps: time ms, old
@@ -29,13 +31,18 @@ struct Demos
 	//  Fonts
 	void Fonts();  // chars
 	void Version();  // ver, date
+#ifdef DEMOS_BITMAPS
+	void Bitmaps();
+	const static int8_t bmMax = 2;
+	int8_t bmCur = 0;
+#endif
 
 
 	int8_t bAuto = 0;  // auto next demo
 	int8_t iInfo = 0;  // show demo params
 
 	bool Draw(int num);
-	void KeyPress(EDemo demo, struct Gui* gui);
+	void KeyPress(EDemo demo);
 
 	uint t = 0, cnt = 0, next = 0;  // frame counter
 

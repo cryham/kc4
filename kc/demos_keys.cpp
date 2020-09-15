@@ -6,11 +6,12 @@
 //  Main
 Demos::Demos()
 {
-	Init(nullptr);
+	Init(nullptr,nullptr);
 }
 //....................................................................................
-void Demos::Init(ILI9341_t3n* tft)
+void Demos::Init(ILI9341_t3n* tft, Gui* gui)
 {
+	g = gui;
 	d = tft;  if (d)  data = d->getFrameBuffer();
 	ti = 0;  oti = 0;
 	
@@ -44,16 +45,16 @@ void Demos::Init(ILI9341_t3n* tft)
 
 //  Key Press  demo params
 //....................................................................................
-void Demos::KeyPress(EDemo demo, Gui* gui)
+void Demos::KeyPress(EDemo demo)
 {
 	//  global  //  fps, info txt
-	if (gui->kMul){  iInfo = 1 - iInfo;  return;  }
-	if (gui->kSub){  iFps = (iFps + 1) % 3;   return;  }
+	if (g->kMul){  iInfo = 1 - iInfo;  return;  }
+	if (g->kSub){  iFps = (iFps + 1) % 3;   return;  }
 
-	int8_t k = gui->kRight, u = -gui->kUp,
-		pgup = gui->kPgUp, end = gui->kEnd, ct = gui->kCtrl;
+	int8_t k = g->kRight, u = -g->kUp,
+		pgup = g->kPgUp, end = g->kEnd, ct = g->kCtrl;
 	#ifdef DEMOS_OLD
-	int sp = gui->kSh ? 2 : 10;
+	int sp = g->kSh ? 2 : 10;
 	#endif
 
 	if (k || u || pgup || end)
@@ -137,6 +138,12 @@ void Demos::KeyPress(EDemo demo, Gui* gui)
 			}	}
 			if (ct && k)  rCur = 1-rCur;
 			break;
+
+	#ifdef DEMOS_BITMAPS
+		case D_Bitmaps:
+			if (k)  bmCur = (bmCur + k + bmMax) % bmMax;
+			break;
+	#endif
 
 		default:
 			break;

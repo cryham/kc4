@@ -75,7 +75,7 @@ Display uses 5 SPI pins: 9 DC, 10 CS, no RST, rest default.
 * Optionally a DS18B20 1-wire temperature sensor with data pin through 4.7k resistor to 3.3V.
 * LED lamp, brightness with PWM (optional 1 pin).
 
-For more info refer to the [shematic.png](https://raw.githubusercontent.com/cryham/kc4/master/shematic.png) or subdir with Kicad files.
+For more info refer to the [schematic.png](https://raw.githubusercontent.com/cryham/kc4/master/schematic.png) or subdir with Kicad files.
 
 ### Configuring
 

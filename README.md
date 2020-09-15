@@ -71,9 +71,11 @@ The keyboard is made of:
 * TFT LCD display ILI9341, 320 x 240, 16bit color RGB565. At 60 MHz (more does jitter).  
 Red PCB with SD card slot, no touch. Terribly low horizontal viewing angle.  
 Display uses 5 SPI pins: 9 DC, 10 CS, no RST, rest default.
-* Brightness changing is done using PWM on pin 19 to LCD LED.
+* Brightness is changed using PWM on pin 19 to LCD LED.
 * Optionally a DS18B20 1-wire temperature sensor with data pin through 4.7k resistor to 3.3V.
+* LED lamp, brightness with PWM (optional 1 pin).
 
+For more info refer to the [shematic.png](https://raw.githubusercontent.com/cryham/kc4/master/shematic.png) or subdir with Kicad files.
 
 ### Configuring
 
@@ -112,7 +114,7 @@ On successful build the last lines are e.g.
   CC kc/matrix.c
  Linking 
    SRAM: 69%  366560 / 524288 B
-  Flash: 12%  262544 / 2031616 B
+  Flash: 14%  295376 / 2031616 B
 Upload
 ```
 showing used percentages of memories.

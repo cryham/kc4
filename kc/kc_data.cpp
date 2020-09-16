@@ -93,7 +93,7 @@ void KC_Main::UpdLay(uint32_t ms)
 				UpdL();
 			}
 			else
-			//  display, internal functions  ***
+			//  internal functions  ***
 			//..........................................................
 			if (on && fun)
 			{

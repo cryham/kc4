@@ -160,7 +160,7 @@ void Gui::DrawClock()
 
 
 	//  late hours Background  --------
-	if (date && kckbdSend)  // not in menu
+	if (date && kc.kbdSend)  // not in menu
 	{
 		int8_t r = 0, g = 0, b = 0, hf = m >= 30 ? 5 : 0;
 		if (h == 22){  r = hf + 10;  g = 4;  }  else

@@ -21,6 +21,7 @@ extern const ILI9341_t3_font_t OpenSans16;
 extern const ILI9341_t3_font_t OpenSans18;
 extern const ILI9341_t3_font_t OpenSans20;
 extern const ILI9341_t3_font_t OpenSans24;
+extern const ILI9341_t3_font_t OpenSans72;
 
 #ifdef __cplusplus
 } // extern "C"

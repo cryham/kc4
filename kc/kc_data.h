@@ -67,11 +67,17 @@ extern const char* KCerrStr[E_max];
 //--------------------------------------
 struct KC_Main
 {
+	//  toggles
+	int8_t kbdSend = 0;  // 1 send keys to usb  0 in menu
+	bool forceClock = false;  // force big clock show
+
+	int8_t setBright = 1;  // update brightness
+	bool offBright = false;  // off display for night
+
+
 	//  current layer, set by keys
 	int8_t nLayer = 0, nLayerHeld = -1,  // final, held layer key (or set)
 		   nLayerLock = -1;  // tap layer key to lock/unlock
-
-	int8_t setBright = 1;  // update
 
 	//  sequence running vars  0 norm, 1 from seq
 	int8_t inSeq[2] = {-1,-1},	// id run, -1 none

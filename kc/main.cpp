@@ -53,7 +53,7 @@ void main_periodic()
 
 	//  kbd scan
 	bool bsc = false;
-	if (gui.kbdSend
+	if (kc.kbdSend
 		// slower for demos
 		|| gui.ym != M_Demos || scan_n % 2==0
 	){
@@ -71,7 +71,7 @@ void main_periodic()
 	//------------------------
 	kc.UpdLay(ms);
 
-	if (gui.kbdSend)
+	if (kc.kbdSend)
 		kc.Send(ms);
 
 
@@ -139,7 +139,7 @@ int main()
 	//  load set from eeprom
 	kc.Load();
 	gui.SetScreen(par.startScreen);
-	gui.kbdSend = 1;  // 1 release
+	kc.kbdSend = 1;  // 1 release
 
 
 #if 0  // 1 for new keyboard / test

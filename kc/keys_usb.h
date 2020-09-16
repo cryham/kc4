@@ -38,7 +38,8 @@ enum EKeys  // byte key codes
 	//  internal functions  18  =138
 	KF_GUI, KF_BriDn, KF_BriUp, KF_Reset, KF_Light,	KF_QuitSeq,
 	KF_StatsRst, KF_DefLayDn, KF_DefLayUp, KF_LayLock,  // 10
-	KF_LightDn, KF_LightUp, KF_13, KF_14, KF_15, KF_16, KF_17, KF_18,  // 18
+	KF_LightDn, KF_LightUp, KF_ClockBig, KF_DisplayOff,
+	KF_15, KF_16, KF_17, KF_18,  // 18
 
 	//  mouse  13
 	KM_Left, KM_Right, KM_Up, KM_Down,  KM_LMB, KM_MMB, KM_RMB,

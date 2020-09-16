@@ -15,7 +15,6 @@ Gui::Gui() : d(0)
 void Gui::Init(ILI9341_t3n* tft)
 {
 	d = tft;
-	kbdSend = 0;  //-
 
 	mlevel = 0;
 	ym = 0;  yy = 0;

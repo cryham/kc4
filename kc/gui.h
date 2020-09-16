@@ -73,9 +73,7 @@ struct Gui
 	
 
 	//  vars  ---------
-	int8_t kbdSend = 0; // 1 send to usb  0 in menu
 	int8_t mlevel = 0;  // 0 main, 1 level1, 2 level2
-
 	int8_t ym = 0;      // 0 main y cursor
 	int8_t ym1[M_All];  // 1 y cursor for all main menu entries
 	int8_t yy = 0;      // = ym1[ym]  level1 y cursor
@@ -90,7 +88,7 @@ struct Gui
 	//  help
 	int8_t hpage = 0;
 	const static int8_t HAll = 11;
-
+	
 
 	//  keys pressed, some +-1  _k_
 	int8_t kRight=0, kUp=0,  kPgUp=0, kEnd=0,  kDnH=0,

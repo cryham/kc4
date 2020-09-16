@@ -25,7 +25,8 @@ void KC_Main::UpdLay(uint32_t ms)
 	//  brightness dac led  ~~~
 	if (setBright)
 	{	setBright = 0;
-		int bri = gui.kbdSend ? par.brightOff : par.brightness;
+		int bri = offBright ? 0 :
+			kbdSend ? par.brightOff : par.brightness;
 		int val = 4095.f * powf(float(bri) / 255.f, 2.f);
 		analogWrite(LCD_LED, val);
 	}
@@ -99,14 +100,19 @@ void KC_Main::UpdLay(uint32_t ms)
 				switch (codeL)
 				{
 				case KF_GUI:  // send, Gui toggle
-					gui.kbdSend = 1 - gui.kbdSend;  QuitSeq();
+					kbdSend = 1 - kbdSend;  QuitSeq();
 					setBright = 1;  break;
 
-				case KF_BriDn:
-				case KF_BriUp:  // brightness -+
+
+				//  brightness -+
+				case KF_BriDn:  case KF_BriUp:
 					tiFun = ms;  break;  // delay no par
 
-				case KF_Reset:  // soft reset  //NVIC_SystemReset();
+				case KF_DisplayOff:  // off display toggle for night
+					offBright = !offBright;
+					setBright = 1;  break;
+					
+				case KF_Reset:  // todo: soft reset  //NVIC_SystemReset();
 					/*#define SCB_AIRCR (*(volatile uint32_t *)0xE000ED0C)
 					SCB_AIRCR = 0x05FA0004; ? */  break;
 
@@ -116,13 +122,16 @@ void KC_Main::UpdLay(uint32_t ms)
 					kc.LedUpdate();  break;
 				#endif
 
-				case KF_QuitSeq:  // quit seq, stop repeat
-					QuitSeq(0);
-					break;
-
 				case KF_StatsRst:  // reset stats
-					ResetStats(true);
-					break;
+					ResetStats(true);  break;
+
+				case KF_ClockBig:  // force clock toggle
+					forceClock = !forceClock;  break;
+
+
+				//  keyboard
+				case KF_QuitSeq:  // quit seq, stop repeat
+					QuitSeq(0);  break;
 
 				case KF_DefLayDn:  // dec,inc default layer
 					if (par.defLayer > 0)
@@ -163,7 +172,7 @@ void KC_Main::UpdLay(uint32_t ms)
 			if (ms - tiFun > par.krRepeat*5 || ms < tiFun)
 			{	tiFun = ms;
 				
-				uint8_t& br = gui.kbdSend ? par.brightOff : par.brightness;
+				uint8_t& br = kbdSend ? par.brightOff : par.brightness;
 				uint8_t& li = par.ledBright;
 				int16_t sp = KeyH(gCtrl) ? 8 : 2;
 				switch (codeL)
@@ -205,7 +214,7 @@ bool KC_Main::SeqEnd(int lev, const KC_Sequence& sq)
 //  Quit running Sequence on enter Gui
 void KC_Main::QuitSeq(int8_t chk)
 {
-	if (chk && gui.kbdSend)  return;
+	if (chk && kbdSend)  return;
 	if (inSeq[0] < 0 && inSeq[1] < 0)  return;
 	inSeq[0] = -1;  inSeq[1] = -1;
 	Keyboard.releaseAll();

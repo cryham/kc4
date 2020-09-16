@@ -86,6 +86,19 @@ void Gui::DrawClock()
 		yInact = yUptime - 30, yActive = yInact - 26;
 
 
+	//  big new  --------
+	if (simple || kc.forceClock)
+	{
+		d->setFont(OpenSans72);
+		d->setClr(12, 16, 20);
+		d->setCursor(h < 10 ? 72 : 36, 10);
+
+		sprintf(a, "%d:%02d", h, m);  d->print(a);
+
+
+		return;
+	}
+
 #ifdef LIGHT_SENS  //  Light Graph  ----
 	uint16_t light = 0;
 	float fLight = 0.f;
@@ -139,9 +152,15 @@ void Gui::DrawClock()
 	}
 #endif
 
+	if (pgClock == Cl_GraphsDaily)
+	{
+		// todo: temp daily~
+		return;
+	}
+
 
 	//  late hours Background  --------
-	if (date && kbdSend)  // not in menu
+	if (date && kckbdSend)  // not in menu
 	{
 		int8_t r = 0, g = 0, b = 0, hf = m >= 30 ? 5 : 0;
 		if (h == 22){  r = hf + 10;  g = 4;  }  else
@@ -378,7 +397,7 @@ void Gui::DrawClock()
 		#ifdef TEMP1  // Temp'C
 		if (temp)
 		{	d->setClr(12,20,25);
-			d->setCursor(6, yTemp +21);  d->print("Temp \x01""C");
+			d->setCursor(6, H/2);  d->print("Temp \x01""C");
 		}
 		#endif
 	}	break;

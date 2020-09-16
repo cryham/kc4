@@ -58,7 +58,7 @@ const char* cKeyStr[KEYS_ALL_EXT]={  "None",  // max [255]
 	"All",  // _extras_
 
 	"GUI", "Bri-", "Bri+", "RESET", "Light", "X Seq", "X Stat", "D.Lay-", "D.Lay+", "LayLck",
-	"Light-", "Light+", "Fun13", "Fun14", "Fun15", "Fun16", "Fun17", "Fun18",  // internal funct
+	"Light-", "Light+", "Clock", "BriOff", "Fun15", "Fun16", "Fun17", "Fun18",  // internal funct
 
 	"M<<", "M>>", "M^^", "Mvv", "LMB","MMB","RMB",  // mouse
 	"Wh^^","Whvv", "Wh<<","Wh>>", "Mbck","Mfwd",
@@ -101,7 +101,7 @@ const char* cKeySh[KEYS_ALL_EXT]={  "no",
 	"Aa",  // _extras_
 
 	"GI", "B-", "B+", "R!", "Li", "Sx", "Rs", "L-", "L+", "Lx",
-	"i-", "i+", "13", "14", "15", "16", "17", "18",  // internal funct
+	"i-", "i+", "Cl", "B!", "15", "16", "17", "18",  // internal funct
 
 	"<<", ">>", "^^", "vv", "L","M","R",  // mouse
 	"W^","Wv", "W<","W>", "Mb","Mf",
@@ -206,5 +206,6 @@ const char* cFunStr[K_FunLast-K_Fun0+1]=
 	"X Quit Sequence", "~ Reset stats",
 	"- Default Layer", "+ Default Layer", "* Un/lock layer",
 	"Light -", "Light +",
-	"Fun13", "Fun14", "Fun15", "Fun16", "Fun17", "Fun18",
+	"Big Clock", "Display Off",
+	"Fun15", "Fun16", "Fun17", "Fun18",
 };

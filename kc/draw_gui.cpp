@@ -1,4 +1,5 @@
 #include "gui.h"
+#include "kc_data.h"
 #include "ILI9341_t3n.h"
 #include "ili9341_t3n_font_OpenSans.h"
 
@@ -39,6 +40,10 @@ bool Gui::Force1Buf()
 //....................................................................................
 void Gui::Draw()
 {
+	if (kc.forceClock)
+	{	DrawClock();  return;  }
+	
+
 	d->setFont(OpenSans20);  // for title
 
 	//  Main menu

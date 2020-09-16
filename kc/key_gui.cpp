@@ -12,12 +12,12 @@ void Gui::KeyPress()
 {
 	if (Key(par.keyGui))  // toggle Gui **
 	{
-		kbdSend = 1 - kbdSend;
+		kc.kbdSend = 1 - kc.kbdSend;
 		kc.QuitSeq();
 		kc.setBright = 1;
 	}
 
-	if (kbdSend)
+	if (kc.kbdSend)
 		return;
 
 	uint32_t ti = millis();

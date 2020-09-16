@@ -19,7 +19,7 @@ bool Demos::Draw(int yy)
 		case D_Hedrons:  Hedrons();  len = 1000;  break;
 		case D_Fonts:	 Fonts();    len = 200;  break;  // skip
 	#ifdef DEMOS_BITMAPS
-		cae D_Bitmaps:  Bitmaps();  len = 200;  break;  // skip
+		case D_Bitmaps:  Bitmaps();  len = 200;  break;  // skip
 	#endif
 	#ifdef DEMOS_OLD
 		case D_Ngons:    Ngons();    len = 200;  break;

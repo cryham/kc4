@@ -74,8 +74,8 @@ enum EDisplay  //  Display options pages  --
 };
 enum EClock
 {
-	Cl_Adjust, Cl_Simple,
-	Cl_StatsText, Cl_Stats, Cl_StatsExt,
+	Cl_Adjust, Cl_Simple,//big
+	Cl_Stats, Cl_StatsExt,
 	Cl_Graphs, Cl_GraphsDaily, Cl_GraphLight, Cl_All
 };
 

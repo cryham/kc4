@@ -86,20 +86,40 @@ void Gui::DrawClock()
 		yInact = yUptime - 30, yActive = yInact - 26;
 
 
-	//  big new  --------
+	//  Clock Big new
+	//--------------------------------------------
 	if (simple || kc.forceClock)
 	{
 		d->setFont(OpenSans72);
 		d->setClr(12, 16, 20);
 		d->setCursor(h < 10 ? 72 : 36, 10);
-
+		//  time big
 		sprintf(a, "%d:%02d", h, m);  d->print(a);
 
+		d->setFont(OpenSans24);
+		d->setClr(12, 14, 18);
+		//  date
+		x = 50;  y = H/2;  d->setCursor(x, y);
+		d->setClr(11, 14, 17);
+		sprintf(a, "%s  %d   %d  %s", wkdays[wk - 1], dy, mth, months[mth - 1]);
+		d->print(a);
 
+		#ifdef TEMP1
+		if (fTemp > -90.f)
+		{
+			x = H/2 -10;  y = H-40;  d->setCursor(x, y);
+			d->setClr(14, 17, 20);
+			dtostrf(fTemp, 4,1, f);
+			sprintf(a, "%s  'C", f);
+			d->print(a);
+		}
+		#endif
 		return;
 	}
 
-#ifdef LIGHT_SENS  //  Light Graph  ----
+//  Light Graph
+//--------------------------------------------
+#ifdef LIGHT_SENS
 	uint16_t light = 0;
 	float fLight = 0.f;
 	#define AVG 20  // 30 64
@@ -152,14 +172,17 @@ void Gui::DrawClock()
 	}
 #endif
 
+	
+	// todo: temp daily~
+	//--------------------------------------------
 	if (pgClock == Cl_GraphsDaily)
 	{
-		// todo: temp daily~
 		return;
 	}
 
 
-	//  late hours Background  --------
+	//  late hours Background
+	//--------------------------------------------
 	if (date && kc.kbdSend)  // not in menu
 	{
 		int8_t r = 0, g = 0, b = 0, hf = m >= 30 ? 5 : 0;
@@ -277,7 +300,7 @@ void Gui::DrawClock()
 
 		//  Press/min  --------
 		x = stats ? 6 : x0;
-		y = yPressMin;  // + (pgClock == Cl_StatsText ? 26 : 28 -8);
+		y = yPressMin;
 		d->setFont(OpenSans18);
 		d->setCursor(x, y);
 
@@ -388,46 +411,6 @@ void Gui::DrawClock()
 	switch (pgClock)
 	{
 
-	case Cl_Simple:
-	{
-		d->setClr(12, 18, 22);
-		x = 6;  y = yUptime;
-		d->setCursor(x, y + 4);  d->print("Uptime");
-
-		#ifdef TEMP1  // Temp'C
-		if (temp)
-		{	d->setClr(12,20,25);
-			d->setCursor(6, H/2);  d->print("Temp \x01""C");
-		}
-		#endif
-	}	break;
-
-	case Cl_StatsText:  //  old, labels
-	{
-		d->setClr(12, 22, 30);
-		x = x0 + 4;  y = yPressed;
-		d->setCursor(x, y);
-		sprintf(a, "%d", cnt_press);  d->print(a);
-		//sprintf(a, "%lu", t);  d->print(a);
-
-		d->setClr(10, 14, 18);
-		x = 6;  y = yPressed;
-		d->setCursor(x, y);  d->print("Pressed");
-		y = yPressMin;
-		d->setCursor(x, y);  d->print("Press/min");
-
-		x = 6;  y = yInact;
-		d->setCursor(x, y + 2);  d->print("Inactive");
-		x = 6;  y = yUptime;
-		d->setCursor(x, y + 4);  d->print("Uptime");
-
-		#ifdef TEMP1
-		if (temp)  // 'C
-		{	d->setCursor(78, yTemp);  d->print("\x01""C");  }
-		#endif
-	}	break;
-
-
 	case Cl_Stats:  //  new  no labels
 	case Cl_StatsExt:  //------------
 	{
@@ -525,6 +508,7 @@ void Gui::DrawClock()
 
 
 	case Cl_Adjust:  //  Adjust  ----
+		y = yTime - 20;
 		for (int i = 0; i <= pg; ++i)
 		{
 			d->setFont(OpenSans12);
@@ -540,7 +524,7 @@ void Gui::DrawClock()
 			case 4:  sprintf(a, "Month");  break;
 			case 5:  sprintf(a, "Year");  h = 6;  break;
 
-			case 6:  sprintf(a, "RTC Compensate: %d", par.rtcCompensate);  h = 2;  break;
+			case 6:  sprintf(a, "RTC Compensate:  %d", par.rtcCompensate);  h = 2;  break;
 			}
 			d->print(a);
 			y += 2*(h + 8);

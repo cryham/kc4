@@ -95,6 +95,9 @@ void Gui::DrawDisplay()
 			sprintf(a,"Temp read:");  h = 2;  break;
 		case 3:
 			sprintf(a,"Graph add:");  break;
+		case 4:
+			sprintf(a,"Daily graph:");
+			sprintf(b,"%d hours", par.dailyHours);  break;
 		}
 		PrintR(a, x0, y);  d->setCursor(x1, y);
 		switch(i)

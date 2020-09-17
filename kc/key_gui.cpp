@@ -140,7 +140,8 @@ void Gui::KeyPress()
 			demos.bAuto = ym == M_Demos && yy == D_AutoAll;
 		}
 
-		if (kUp){  ym1[ym] += kUp;  Check_ym1();  }
+		if (kUp || kPgUp)
+		{	ym1[ym] += kUp + kPgUp*3;  Check_ym1();  }
 		return;
 	}
 

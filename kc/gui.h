@@ -54,7 +54,8 @@ struct Gui
 	void ClrPress(int pressPerMin), ClrTemp(int temp, int div=1);
 	void PrintInterval(uint32_t t);
 	int TempFtoB(float t);  float TempBtoF(uint8_t b);
-	void DrawGraph(bool legend, int8_t var, int16_t xMin, int16_t xMax, int16_t yMin, int16_t yMax);
+	void DrawGraph(int16_t xMin, int16_t xMax, int16_t yMin, int16_t yMax,
+		int8_t type=0, bool legend=true, int daily=0);
 
 
 	//  keys
@@ -147,15 +148,16 @@ struct Gui
 	float fTemp = -90.f;  // cur value
 	int8_t temp1 = 1;     // fist, init
 	//  last time read'C, add to graph
-	uint32_t msTemp = 0, msTempGr = 0;
+	uint32_t msTemp = 0, msTempGr[2] = {0,0};
 	void GetTemp();
 
-	uint8_t grTemp[W];    // graph array
-	uint16_t grTpos = 0;  // write pos
+	uint8_t grTemp[2][W];   // graph array  [1] is daily
+	uint16_t grTpos[2] = {0,0};  // write pos
 	// auto range
-	uint8_t grTempUpd = 1;  // update
-	uint8_t grFmin = 17, grFmax = 35;  // temp 'C
-	uint8_t grBmin = 0, grBmax = 255;  // val Byte
+	uint8_t grTempUpd[2] = {1,1};  // update
+	uint8_t grFmin[2] = {17,17}, grFmax[2] = {35,35};  // temp 'C
+	uint8_t grBmin[2] = {0,0}, grBmax[2] = {255,255};  // val Byte
+	void AutoRange(int d);
 #endif
 
 };

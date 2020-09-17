@@ -56,7 +56,7 @@ void Gui::KeysClock()
 		}
 	}
 	//  graphs  cursor move  ---
-	else if (pgClock == Cl_Graphs)
+	else if (pgClock == Cl_Graphs || pgClock == Cl_GraphsDaily)
 	{
 		if (kEnd)
 			par.xCur = W-1;  // to end

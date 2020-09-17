@@ -52,12 +52,13 @@ void Gui::GetTemp()
 			}
 		}
 
-		if (ms - msTempGr > tTgraph(par) || ms < msTempGr)
+		for (int d=0; d<2; ++d)
+		if (ms - msTempGr[d] > (d ? tDaily(par) : tTgraph(par)) || ms < msTempGr[d])
 		{
-			msTempGr = ms;
+			msTempGr[d] = ms;
 			//  graph inc pos
-			++grTpos;
-			if (grTpos >= W)  grTpos = 0;
+			++grTpos[d];
+			if (grTpos[d] >= W)  grTpos[d] = 0;
 			//  add to graph
 			int t = TempFtoB(fTemp);
 		#if 0  // test
@@ -65,8 +66,8 @@ void Gui::GetTemp()
 			static uint8_t ti = 128;  if (ii%3==0)  ++ti;  t = ti;
 		#endif
 			t = t > 255 ? 255 : (t < 0 ? 0 : t);  // 0 not measured
-			grTemp[grTpos] = t;
-			grTempUpd = 1;
+			grTemp[d][grTpos[d]] = t;
+			grTempUpd[d] = 1;
 		}
 	}
 }

@@ -90,16 +90,17 @@ void Gui::DrawClock()
 	//--------------------------------------------
 	if (simple || kc.forceClock)
 	{
-		d->setFont(OpenSans72);
+		//DrawBmp(&bmpAbs, 0, 192);
 		d->setClr(12, 16, 20);
+		d->setFont(OpenSans72);
 		d->setCursor(h < 10 ? 72 : 36, 10);
 		//  time big
 		sprintf(a, "%d:%02d", h, m);  d->print(a);
 
-		d->setFont(OpenSans24);
 		d->setClr(12, 14, 18);
+		d->setFont(OpenSans24);
 		//  date
-		x = 50;  y = H/2;  d->setCursor(x, y);
+		x = 50;  y = H/2 +10;  d->setCursor(x, y);
 		d->setClr(11, 14, 17);
 		sprintf(a, "%s  %d   %d  %s", wkdays[wk - 1], dy, mth, months[mth - 1]);
 		d->print(a);
@@ -173,14 +174,6 @@ void Gui::DrawClock()
 #endif
 
 	
-	// todo: temp daily~
-	//--------------------------------------------
-	if (pgClock == Cl_GraphsDaily)
-	{
-		return;
-	}
-
-
 	//  late hours Background
 	//--------------------------------------------
 	if (date && kc.kbdSend)  // not in menu
@@ -210,15 +203,20 @@ void Gui::DrawClock()
 	//  Graphs  ~~~~~~~~~~~~~~~~
 	if (pgClock == Cl_Graphs)
 	{
-		DrawGraph(true, 0,  0, W-1,  0, H/2);
-		DrawGraph(true, 1,  0, W-1,  H/2, H-1);
+		DrawGraph(0, W-1,  0,   H/2,  0, true, 0);
+		DrawGraph(0, W-1,  H/2, H-1,  1, true, 0);
 		return;
 	}
-	else  // small half graphs
-	if (ext)
+	else if (pgClock == Cl_GraphsDaily)
 	{
-		DrawGraph(false, 0,  W/2, W-1,  0, yGraph);  // press right
-		DrawGraph(false, 1,  0, W/2-1,  0, yGraph);  // temp left top
+		DrawGraph(0, W-1,  0,   H/2,  0, true, 1);
+		DrawGraph(0, W-1,  H/2, H-1,  1, true, 1);
+		return;
+	}
+	else if (ext)  // small half graphs
+	{
+		DrawGraph(W/2, W-1,  0, yGraph,  0, false, 0);  // press right
+		DrawGraph(0, W/2-1,  0, yGraph,  1, false, 0);  // temp left  top
 	}
 
 

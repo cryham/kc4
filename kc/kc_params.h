@@ -72,6 +72,7 @@ struct KC_Params
 	
 	//  led lamp bright
 	uint8_t ledBright;
+	uint8_t dailyHours;
 };
 //  --- ADD new to END ----
 //  set defaults in ParInit()
@@ -80,6 +81,7 @@ struct KC_Params
 #define t1min(par)   (100 * gIntervals[par.time1min   & gIntvMask])  // ms
 #define tTemp(par)   (100 * gIntervals[par.timeTemp   & gIntvMask])  // ms
 #define tTgraph(par) (100 * gIntervals[par.timeTgraph & gIntvMask])
+#define tDaily(par)  (3600*1000 * par.dailyHours / W)
 
 
 #ifdef __cplusplus

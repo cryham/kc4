@@ -9,7 +9,7 @@
 extern IntervalTimer tim;
 
 
-const uint8_t Gui::DispPages[Di_All] = {3,3,3,3};
+const uint8_t Gui::DispPages[Di_All] = {3,3,4,3};
 const uint8_t Gui::ScanPages[S_All] = {3,1,4};
 const uint8_t Gui::InfoPages[I_All] = {0/*1 slot*/,0};
 
@@ -167,6 +167,7 @@ void Gui::KeysDisplay(int sp)
 		case 1:  par.minInactive = RangeAdd(par.minInactive, kRight *sp/2, 0, 60, 1);  break;
 		case 2:  par.timeTemp = RangeAdd(par.timeTemp, kRight * sp/2, 0, gIntvMask, 1);  break;
 		case 3:  par.timeTgraph = RangeAdd(par.timeTgraph, kRight * sp/2, 0, gIntvMask, 1);  break;
+		case 4:  par.dailyHours = RangeAdd(par.dailyHours, kRight * sp/2, 0, gIntvMask, 1);  break;
 		}	break;
 
 	case Di_AdjustTemp:

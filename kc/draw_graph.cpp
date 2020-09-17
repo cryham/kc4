@@ -17,10 +17,41 @@ float Gui::TempBtoF(uint8_t b)
 	return b / 255.f * (par.maxTemp - par.minTemp) + par.minTemp;
 }
 
+//  auto range  get min,max
+void Gui::AutoRange(int d)
+{
+	uint8_t tmin = 255, tmax = 0;
+	for (int i=0; i <= W-1; ++i)
+	{
+		uint8_t t = grTemp[d][i];
+		if (t > 0)  // measured
+		{
+			if (t > tmax)  tmax = t;
+			if (t < tmin)  tmin = t;
+		}
+	}
+	if (tmin > tmax)  // none yet
+	{
+		grFmin[d] = 20;  grBmin[d] = TempFtoB(grFmin[d]);
+		grFmax[d] = 23;  grBmax[d] = TempFtoB(grFmax[d]);
+	}else
+	{	grFmin[d] = floor(TempBtoF(tmin));
+		grFmax[d] =  ceil(TempBtoF(tmax));  // in 'C
+		if (grFmin[d] + 3 >= grFmax[d])  // min range 3'C
+		{	--grFmin[d];  ++grFmax[d];  }
+		
+		grBmin[d] = TempFtoB(grFmin[d]);
+		grBmax[d] = TempFtoB(grFmax[d]);
+		if (grBmin[d] == grBmax[d])
+			++grBmax[d];
+	}
+}
+
 
 //  Graphs ~ ~
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-void Gui::DrawGraph(bool legend, int8_t var, int16_t xMin, int16_t xMax, int16_t yMin, int16_t yMax)
+void Gui::DrawGraph(int16_t xMin, int16_t xMax, int16_t yMin, int16_t yMax,
+	int8_t type, bool legend, int day/*daily*/)
 {
 	const int16_t xLen = xMax - xMin, yLen = yMax - yMin,
 		yF = 13, left = 22, top = legend ? 10 : 6,  // marg
@@ -33,11 +64,13 @@ void Gui::DrawGraph(bool legend, int8_t var, int16_t xMin, int16_t xMax, int16_t
 	int i,x,y, v,h;  // var
 	char a[64];
 
-	auto getPv = [&](auto i){  int ii = kc.grPpos + i + W+1;  return kc.grPMin[ii % W];  };
-	auto getTv = [&](auto i){  int ii =    grTpos + i + W+1;  return    grTemp[ii % W];  };
+	auto getPv = [&](auto i){  int ii = kc.grPpos[day] + i + W+1;  return kc.grPMin[day][ii % W];  };
+	auto getTv = [&](auto i){  int ii =    grTpos[day] + i + W+1;  return    grTemp[day][ii % W];  };
 
-	auto xtP = [&](auto tm){  return xMax - tm * 60000 / t1min(par);  };   // x time, press
-	auto xtT = [&](auto tm){  return xMax - tm * 60000 / tTgraph(par);  }; // x time, temp
+	//  x time, press and temp
+	auto xtD = [&](auto hr){  return W * hr / par.dailyHours;  };
+	auto xtP = [&](auto tm){  return xMax - (day ? xtD(tm) : tm * 60000 / t1min(par));  };
+	auto xtT = [&](auto tm){  return xMax - (day ? xtD(tm) : tm * 60000 / tTgraph(par));  };
 
 
 	//  draw grid line with text value
@@ -84,7 +117,7 @@ void Gui::DrawGraph(bool legend, int8_t var, int16_t xMin, int16_t xMax, int16_t
 
 	//  Press/1min
 	//------------------------------------------------------------------------
-	if (var == 0)
+	if (type == 0)
 	{
 		//  grid  ===
 		for (i = 1; i <= 4; ++i)
@@ -95,9 +128,12 @@ void Gui::DrawGraph(bool legend, int8_t var, int16_t xMin, int16_t xMax, int16_t
 		}
 
 		//  grid  |||
-		if (par.time1min)// && legend)
-		{
-			GridLineV(xtP( 10), 14, "10");  // m
+		if (day)
+		for (i = 2; i < par.dailyHours; i+=2)
+		{	sprintf(a,"%d",i);
+			GridLineV(xtP(i), i%4==0 ? 15:11, a);
+		}else
+		{	GridLineV(xtP( 10), 14, "10");  // m
 			GridLineV(xtP( 30), 14, "30");
 			GridLineV(xtP( 60), 18, "1h");  // h
 			GridLineV(xtP(120), 16, "2h");
@@ -140,7 +176,8 @@ void Gui::DrawGraph(bool legend, int8_t var, int16_t xMin, int16_t xMax, int16_t
 				v = getPv(xc);
 				ClrPress(v);
 				d->setCursor(x,y);  sprintf(a,"%d", v);  d->print(a);  y += yF;
-				d->setCursor(x,y);  PrintInterval(t1min(par)*(W-1-xc));  y += yF;
+				d->setCursor(x,y);  PrintInterval(
+					(day ? tDaily(par) : t1min(par)) * (W-1-xc));  y += yF;
 			}
 			//  max
 			v = yLen * 12 / hscP;
@@ -160,53 +197,33 @@ void Gui::DrawGraph(bool legend, int8_t var, int16_t xMin, int16_t xMax, int16_t
 
 	#ifdef TEMP1   //  Temp'C
 	//------------------------------------------------------------------------
-	if (var == 1)
+	if (type == 1)
 	{
-		//  auto range  get min,max
-		if (grTempUpd)
-		{	grTempUpd = 0;
-
-			uint8_t tmin = 255, tmax = 0;
-			for (i=0; i <= W-1; ++i)
-			{
-				uint8_t t = grTemp[i];
-				if (t > 0)  // measured
-				{
-					if (t > tmax)  tmax = t;
-					if (t < tmin)  tmin = t;
-				}
-			}
-			if (tmin > tmax)  // none yet
-			{
-				grFmin = 20;  grBmin = TempFtoB(grFmin);
-				grFmax = 23;  grBmax = TempFtoB(grFmax);
-			}else
-			{	grFmin = floor(TempBtoF(tmin));
-				grFmax =  ceil(TempBtoF(tmax));  // in 'C
-				if (grFmin + 3 >= grFmax)  // min range 3'C
-				{	--grFmin;  ++grFmax;  }
-				
-				grBmin = TempFtoB(grFmin);
-				grBmax = TempFtoB(grFmax);
-				if (grBmin == grBmax)
-					++grBmax;
-			}
+		if (grTempUpd[day])
+		{	grTempUpd[day] = 0;
+			AutoRange(day);
 		}
 
 		//  grid  |||
-		GridLineV(xtT(  5), 10, "5" );
-		GridLineV(xtT( 10), 15, "10");  // m
-		GridLineV(xtT( 30), 13, "30");
-		GridLineV(xtT( 60), 18, "1h");  // h
-		GridLineV(xtT(120), 16, "2h");
-		GridLineV(xtT(240), 16, "4h");
-		GridLineV(xtT(480), 16, "8h");
+		if (day)
+		for (i = 2; i < par.dailyHours; i+=2)
+		{	sprintf(a,"%d",i);
+			GridLineV(xtT(i), i%4==0 ? 15:11, a);
+		}else
+		{	GridLineV(xtT(  5), 10, "5" );
+			GridLineV(xtT( 10), 15, "10");  // m
+			GridLineV(xtT( 30), 13, "30");
+			GridLineV(xtT( 60), 18, "1h");  // h
+			GridLineV(xtT(120), 16, "2h");
+			GridLineV(xtT(240), 16, "4h");
+			GridLineV(xtT(480), 16, "8h");
+		}
 
 		//  vertical  ===
-		if (grFmax > grFmin)
-		for (i = grFmin; i <= grFmax; ++i)  // 'C
+		if (grFmax[day] > grFmin[day])
+		for (i = grFmin[day]; i <= grFmax[day]; ++i)  // 'C
 		{
-			y = yMax - yLen * (float(i) - grFmin) / (grFmax - grFmin);
+			y = yMax - yLen * (float(i) - grFmin[day]) / (grFmax[day] - grFmin[day]);
 			GridLineH(y, i%5==0 ? 10 : i%2==0 ? 8 : 7, i);
 		}
 
@@ -219,7 +236,7 @@ void Gui::DrawGraph(bool legend, int8_t var, int16_t xMin, int16_t xMax, int16_t
 			if (v > 0)
 			{	ClrTemp(v, dim);
 
-				y = yMax - yLen * (float(v) - grBmin) / (grBmax - grBmin);
+				y = yMax - yLen * (float(v) - grBmin[day]) / (grBmax[day] - grBmin[day]);
 				if (y >= yMin && y <= yMax)
 					d->drawPixel(i,y, cur(i) ? RGB(31,31,31) : d->getClr());
 		}	}
@@ -245,7 +262,8 @@ void Gui::DrawGraph(bool legend, int8_t var, int16_t xMin, int16_t xMax, int16_t
 				TempBtoF(v);
 				d->setCursor(x,y);  dtostrf(f,4,2,a);  d->print(a);  y += yF;
 
-				d->setCursor(x,y);  PrintInterval(tTgraph(par)*(W-1-xc));  y += yF;
+				d->setCursor(x,y);  PrintInterval(
+					(day ? tDaily(par) : tTgraph(par)) * (W-1-xc));  y += yF;
 			}
 		}
 	}

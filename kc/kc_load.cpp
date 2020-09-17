@@ -44,6 +44,7 @@ void ParInit()
 	par.xCur = W-1;
 	
 	par.ledBright = 64;  // max for 4095
+	par.dailyHours = 12;
 }
 
 //  errors

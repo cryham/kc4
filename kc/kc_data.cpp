@@ -32,18 +32,23 @@ void KC_Main::UpdLay(uint32_t ms)
 	}
 
 	//  1 minute time, stats
-	if (par.time1min)  // 0 = off
 	if (ms - msMin1 > t1min(par) || ms < msMin1)
-	{
-		msMin1 = ms;
+	{	msMin1 = ms;
+
 		min1_Keys = cnt_press1min * 60000 / t1min(par);
 		cnt_press1min = 0;
 
-		//  graph inc pos
-		++grPpos;
-		if (grPpos >= W)  grPpos = 0;
-		//  add to graph
-		grPMin[grPpos] = min1_Keys > 255 ? 255 : min1_Keys;
+		++grPpos[0];  //  graph inc pos
+		if (grPpos[0] >= W)  grPpos[0] = 0;  //  add to graph
+		grPMin[0][grPpos[0]] = min1_Keys > 255 ? 255 : min1_Keys;
+	}
+	//  daily
+	if (ms - msDaily1 > tDaily(par) || ms < msDaily1)
+	{	msDaily1 = ms;
+
+		++grPpos[1];  //  graph inc pos
+		if (grPpos[1] >= W)  grPpos[1] = 0;  //  add to graph
+		grPMin[1][grPpos[1]] = min1_Keys > 255 ? 255 : min1_Keys;
 	}
 
 

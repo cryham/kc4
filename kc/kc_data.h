@@ -118,7 +118,8 @@ struct KC_Main
 		tm_key = 0, tm_keyOld = 0,  // last key press time, previous
 		tm_keyAct = 0,
 		msKeyLay = 0,  // layer key press, for lock times
-		msMin1 = 0;    // 1 minute time
+		msMin1 = 0,    // 1 minute, last time
+		msDaily1 = 0;  // daily press/min, last time
 	uint16_t  // counts
 		tInact1 = 0, tInact2 = 0,  // previous 2 inact mins in minutes
 		tInactSum = 0,  // sum inactive times
@@ -128,8 +129,8 @@ struct KC_Main
 	//--inact-----|-active--|----------|---|----------------------
 	//   0   1   2* *3 * 4  *5   6   7 * 8 * 9  10 now    * key press
 
-	uint8_t grPMin[W];  // press/1min graph array
-	uint16_t grPpos = 0;  // write pos
+	uint8_t grPMin[2][W];  // press/1min graph array  [1] is daily
+	uint16_t grPpos[2] = {0,0};  // write pos
 
 	uint8_t matrixVis[KC_MaxRows * KC_MaxCols];
 

@@ -7,11 +7,13 @@
 #include "WProgram.h"  // rtc, Mouse
 
 
+#ifdef LED_LAMP
 void KC_Main::LedUpdate()
 {
 	analogWrite(LED_LAMP, ledOn ?
 		min(4095, par.ledBright * par.ledBright) : 0);
 }
+#endif
 
 //------------------------------------------------
 void KC_Main::SeqModClear()
@@ -155,10 +157,10 @@ void KC_Setup::InitCK()
 			if (dk.code == K_CAPS)	add(K_Layer2, 0);  else */
 		#ifdef CK8
 			//  funct
-			if (dk.code == K_MINUS)	add(K_Fun1, 2);  else
-			if (dk.code == K_EQUAL)	add(K_Fun2, 2);  else
-			if (dk.code == K_RSHIFT)add(K_Fun0, 2);  else
-			if (dk.code == K_F12)	add(K_Fun3, 2);  else
+			if (dk.code == K_MINUS)	add(KF_BriDn, 2);  else
+			if (dk.code == K_EQUAL)	add(KF_BriUp, 2);  else
+			if (dk.code == K_RSHIFT)  add(KF_GUI, 2);  else
+			if (dk.code == K_F12)	add(KF_Reset, 2);  else
 			//  mouse
 			if (dk.code == K_UP)    add(KM_Up, 2);  else
 			if (dk.code == K_DOWN)  add(KM_Down, 2);  else

@@ -146,9 +146,11 @@ void Gui::KeysDisplay(int sp)
 		case 0:  par.brightness = RangeAdd(par.brightness, kRight * sp, 0, 100);
 				 kc.setBright = 1;  break;
 		case 1:  par.brightOff = RangeAdd(par.brightOff, kRight * sp, 0, 100);  break;
+		#ifdef LED_LAMP
 		case 2:  kc.ledOn = kRight > 0;  kc.LedUpdate();  break;
 		case 3:  par.ledBright = RangeAdd(par.ledBright, kRight * sp, 0, 64);
 				 kc.LedUpdate();  break;
+		#endif
 		}	break;
 
 	case Di_Keys:

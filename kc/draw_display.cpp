@@ -48,7 +48,11 @@ void Gui::DrawDisplay()
 			sprintf(b,"%d %%", par.brightOff);  break;
 		case 2:
 			sprintf(a,"Lamp:");
-			sprintf(b,"%s", kc.ledOn ? "on" : "off");  h = 2;  break;
+			sprintf(b,"%s",
+			#ifdef LED_LAMP
+				kc.ledOn ? "on" :
+			#endif
+				"off");  h = 2;  break;
 		case 3:
 			sprintf(a,"Lamp:");
 			sprintf(b,"%d %%", int(100.f * par.ledBright / 64.f));  break;

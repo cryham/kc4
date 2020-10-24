@@ -17,7 +17,7 @@ const char* CKname = "CK1 8x8";  const int16_t XN = 254;  // pos
 const int8_t  kW = 16, kH = 18, fH = 12, /* size */  X = -kW;
 const uint8_t Y1=32,YY=18, Y2=Y1+YY, Y3=Y2+YY, Y4=Y3+YY, Y5=Y4+YY, Y6=Y5+YY;
 
-const DrawKey drawKeys[nDrawKeys] = PROGMEM {  //  Layout draw  ::::
+const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw  ::::
 { 0,Y1,wf, 'e',6,NO,K_ESC}, //Esc 13x
 {-26,0,wf, '1',2,NO,K_F1},{X, 0,wf, '2',2,16,K_F2}, {X,0,wf, '3',2, 0,K_F3}, {X,0,wf, '4',2,48,K_F4},
 {-24,0,wf, '5',2,NO,K_F5},{X, 0,wf, '6',2,NO,K_F6}, {X,0,wf, '7',2,NO,K_F7}, {X,0,wf, '8',2,NO,K_F8},
@@ -72,7 +72,7 @@ const char* CKname = "CK8 20x8";  const int16_t XN = 254;  // pos
 const int8_t  kW = 16, kH = 18, fH = 12, /* size */  X = -kW;
 const uint8_t Y1=32,YY=18, Y2=Y1+YY, Y3=Y2+YY, Y4=Y3+YY, Y5=Y4+YY, Y6=Y5+YY;
 
-const DrawKey drawKeys[nDrawKeys] = PROGMEM {  //  Layout draw  ::::
+const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw  ::::
 { 0,Y1,wf, 'e',6,157,K_ESC}, //Esc 13x
 {-26,0,wf, '1',2, 50,K_F1},{X, 0,wf, '2',2, 49,K_F2}, {X,0,wf, '3',2,109,K_F3}, {X,0,wf, '4',2,149,K_F4},
 {-24,0,wf, '5',2, 73,K_F5},{X, 0,wf, '6',2,146,K_F6}, {X,0,wf, '7',2,105,K_F7}, {X,0,wf, '8',2, 45,K_F8},

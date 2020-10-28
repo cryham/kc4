@@ -26,7 +26,9 @@ extern const uint16_t clrRect[Omax], clrText[Omax];  // colors types
 //  CK  layout
 extern const char* CKname;
 
-#if defined(CK1) || defined(CK8)   //  CK1, CK8
+#if defined(CKtest)   //  CKtest
+	const static int nDrawKeys = 8;
+#elif defined(CK1) || defined(CK8)   //  CK1, CK8
 	const static int nDrawKeys = 91;
 #elif defined(CK9)   //  CK9/6/3
 	const static int nDrawKeys = 117;

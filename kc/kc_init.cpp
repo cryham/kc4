@@ -131,7 +131,7 @@ KC_Setup::KC_Setup()
 //------------------------------------------------
 void KC_Setup::InitCK()
 {
-	#if 1
+#if 1
 	Clear();
 
 	//  from draw layout
@@ -155,6 +155,17 @@ void KC_Setup::InitCK()
 		#elif defined(CK7)  //4 old
 			if (dk.code == K_MENU)	add(K_Layer1, 0);
 			if (dk.code == K_CAPS)	add(K_Layer2, 0);  else */
+		#ifdef CKtest
+			if (dk.code == K_UP)    add(K_UP, 0);  else
+			if (dk.code == K_DOWN)  add(K_DOWN, 0);  else
+			if (dk.code == K_LEFT)  add(K_LEFT, 0);  else
+			if (dk.code == K_RIGHT) add(K_RIGHT, 0);  else
+
+			if (dk.code == K_ENT)   add(K_ENT, 0);  else
+			if (dk.code == K_BACK)  add(K_BACK, 0);  else
+			if (dk.code == K_ESC)  add(K_ESC, 0);  else
+			if (dk.code == K_RIGHT) add(K_RIGHT, 0);
+		#endif
 		#ifdef CK8
 			//  funct
 			if (dk.code == K_MINUS)	add(KF_BriDn, 2);  else

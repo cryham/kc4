@@ -450,26 +450,26 @@ void Gui::DrawClock()
 
 			//  inactive times  ====
 			//  Previous 2
-			x = W - 44;
+			x = W - 1;  int w;
 			ti = kc.tInact1;	h = ti / 60 % 24;  m = ti % 60;
 
 			d->setFont(OpenSans14);
 			d->setClr(15, 19, 24);
-			d->setCursor(x, yInact + 22);
-			sprintf(a, "%d:%02d", h, m);  d->print(a);
+			sprintf(a, "%d:%02d", h, m);  w = GetWidth(a);
+			d->setCursor(x-w, yInact + 22);  d->print(a);
 
 			ti = kc.tInact2;	h = ti / 60 % 24;  m = ti % 60;
 
 			d->setClr(12, 16, 22);
-			d->setCursor(x, yInact - 0);
-			sprintf(a, "%d:%02d", h, m);  d->print(a);
+			sprintf(a, "%d:%02d", h, m);  w = GetWidth(a);
+			d->setCursor(x-w, yInact);  d->print(a);
 
 			//  Sum
 			ti = kc.tInactSum;	h = ti / 60 % 24;  m = ti % 60;
 
 			d->setClr(18, 18, 24);
-			d->setCursor(x, yActive - 0);
-			sprintf(a, "%d:%02d", h, m);  d->print(a);
+			sprintf(a, "%d:%02d", h, m);  w = GetWidth(a);
+			d->setCursor(x-w, yActive);  d->print(a);
 
 		#ifdef LIGHT_SENS
 			d->setFont(OpenSans12);

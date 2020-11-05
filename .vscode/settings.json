@@ -40,7 +40,13 @@
 		"string.h": "c",
 		"usb_mouse.h": "c",
 		"complex": "cpp",
-		"new": "cpp"
+		"new": "cpp",
+		"eeprom.h": "c",
+		"mutex": "cpp",
+		"tuple": "cpp",
+		"variant": "cpp",
+		"initializer_list": "cpp"
 	},
-	"C_Cpp.errorSquiggles": "Disabled"
+	"C_Cpp.errorSquiggles": "Disabled",
+	"C_Cpp.dimInactiveRegions": false
 }

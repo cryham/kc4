@@ -11,11 +11,16 @@
      + 99 seq * 20 = 1980 B  E = 4540 B
 */
 const static int8_t
+#ifdef CKtest
+	KC_MaxRows = 4,
+	KC_MaxCols = 2,
+#else
 	KC_MaxRows = 8,
 #ifdef CK8
 	KC_MaxCols = 20,
 #else
 	KC_MaxCols = 18,
+#endif
 #endif
 	KC_MaxLayers = 16,
 	KC_MaxSeqs = 70;

@@ -20,8 +20,6 @@ IntervalTimer tim;
 extern void ParInit();
 
 
-#define TFT_DC 9
-#define TFT_CS 10
 ILI9341_t3n tft = ILI9341_t3n(TFT_CS, TFT_DC);
 
 #ifdef BUFx2
@@ -137,15 +135,22 @@ int main()
 	tim.begin(main_periodic, 1000000 / (par.scanFreq * 20));
 
 	//  load set from eeprom
+#ifndef CKtest
 	kc.Load();
+#endif
 	gui.SetScreen(par.startScreen);
 	kc.kbdSend = 1;  // 1 release
 
+#ifdef CKtest
+	kc.kbdSend = 0;
+	gui.SetScreen(ST_Info2 + I_Use);
+	par.brightness = 30;
+#endif
 
 #if 0  // 1 for new keyboard / test
-	gui.kbdSend = 0;
-	gui.SetScreen(ST_Matrix2);  // test matrix cols,rows
-	//gui.SetScreen(ST_Test2+T_Pressed);  // test scan codes to fill kbd_layout.cpp
+	kc.kbdSend = 0;
+	// gui.SetScreen(ST_Maztrix2);  // test matrix cols,rows
+	gui.SetScreen(ST_Test2+T_Pressed);  // test scan codes to fill kbd_layout.cpp
 	par.brightness = 60;
 	par.brightOff = 60;
 #endif

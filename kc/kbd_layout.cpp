@@ -18,13 +18,13 @@ const uint8_t Y1=32,YY=21, Y2=Y1+YY, Y3=Y2+YY, Y4=Y3+YY, Y5=Y4+YY, Y6=Y5+YY;
 
 const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw  ::
  {90,Y1,wh, '<',3, 1,K_BACK}, {110,Y1,wh, 28 ,3, 7,K_ENT},
-{140,Y1,wh, 'e',3, 3,K_ESC},  {140,Y2,wh, '-',3, 5,K_SPACE},
+{140,Y1,wh, '4',3, 3,K_ESC},  {140,Y2,wh, '5',3, 5,K_SPACE},
  {20,Y1,wh, 24 ,8, 6,K_UP},
   {0,Y2,wh, 27 ,8, 4,K_LEFT},  {40,Y2,wh, 26 ,8, 2,K_RIGHT},
  {20,Y3,wh, 25 ,8, 0,K_DOWN},
 };
 //symbols:  2. 3,  7 cir  9 dot` 28 ent
-const uint8_t gGui=NO, gMslow=NO, gLoad=5,gSave=NO,gDiv=NO, gEsc=3,gAdd=NO,gEnt=7,gEnt2=NO,
+const uint8_t gGui=NO, gMslow=NO, gLoad=5,gSave=3,gDiv=NO, gEsc=NO,gAdd=NO,gEnt=7,gEnt2=NO,
 	gRight=2,gLeft=4,gDown=0,gUp=6, gPgDn=NO,gPgUp=NO,gEnd=NO,gHome=NO,
 	gCtrl=NO,gSh=NO,gMul=NO,gSub=NO, gIns=NO,gDel=NO, gBckSp=1,gSpc=NO, gC=NO,gV=NO,gX=NO,
 	gF1=NO,gF2=NO,gF3=NO,gF6=NO,gF7=NO,gF8=NO,gF9=NO,gF10=NO,gF11=NO,gF12=NO;

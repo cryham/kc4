@@ -319,7 +319,8 @@ void Gui::Load(int8_t reset)
 	if (reset)
 	{	kc.set.InitCK();  infType = 0;  }
 	else
-	{	kc.Load();  infType = 1;  }  tInfo = -1;
+	{	kc.Load();  infType = 1;  }
+	tInfo = -1;
 }
 
 void Gui::KeysLoadSave()
@@ -343,9 +344,9 @@ void Gui::DrawOperInfo()
 		int x = W-1 - 76, x1 = x+6, xe = 9*3,
 			y = 3, yy = h ? 73/*+17*/ : 19;
 
-		int b = 8 - 8 * tInfo / tInfoMax,
-			c = 12 - 12 * tInfo / tInfoMax;  // fade par
-		uint16_t bck = RGB(4-b/2, 6-b*2/3, 8-b);
+		#define bk(a)  (a * tInfo / tInfoMax)
+		int c = bk(12);  // fade par
+		uint16_t bck = RGB(bk(4), bk(6), bk(8));
 		
 		d->fillRect(x-3, 0, W-1-(x-3), yy, bck);
 		d->drawFastVLine(W-1, 0, yy * tInfo / tInfoMax, RGB(10,13,16));  // time|
@@ -377,7 +378,7 @@ void Gui::DrawOperInfo()
 
 			if (kc.err != E_ok)  // error string
 			{
-				uint16_t bck = RGB(6-b, 4-b, 4-b);
+				uint16_t bck = RGB(bk(8), bk(4), bk(4));
 				d->fillRect(xe-3, y-2, x-3-(xe-3), 16, bck);
 				d->setColor(RGB(31-c, 22-c, 21-c), bck);
 				d->setCursor(xe, y);

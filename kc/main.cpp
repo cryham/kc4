@@ -149,8 +149,8 @@ int main()
 
 #if 0  // 1 for new keyboard / test
 	kc.kbdSend = 0;
-	// gui.SetScreen(ST_Maztrix2);  // test matrix cols,rows
-	gui.SetScreen(ST_Test2+T_Pressed);  // test scan codes to fill kbd_layout.cpp
+	// gui.SetScreen(ST_Matrix2);  // test matrix cols,rows
+	gui.SetScreen(ST_Test2+Ts_Pressed);  // test scan codes to fill kbd_layout.cpp
 	par.brightness = 60;
 	par.brightOff = 60;
 #endif
@@ -181,6 +181,9 @@ int main()
 	#if 1
 		elapsedMillis em = 0;
 		while (tft.asyncUpdateActive() && em < 100) ;
+
+		gui.ExecLoadSave();
+
 		tft.updateScreenAsync();
 	#else
 		tft.waitUpdateAsyncComplete();

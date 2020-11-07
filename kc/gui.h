@@ -27,7 +27,7 @@ struct Gui
 	//  draw menus
 	void DrawMapping(), DrawSequences(), DrawPickKey();  // edit
 	void DrawTesting(), DrawSetup(), DrawMatrix();  // setup
-	void DrawInfo(), DrawDisplay(), DrawClock(), DrawHelp();  // info
+	void DrawConfig(), DrawDisplay(), DrawClock(), DrawHelp();  // info
 
 	//  draw util
 	const static int PickR = 10;  // key pick rows
@@ -105,7 +105,7 @@ struct Gui
 
 	//  level 2 y cursors  - - -
 	int8_t ym2Lay = 0, ym2Keyb = 0, ym2Mouse = 0,  // Setup
-		ym2Scan = 0, ym2Use = 0, pressGui = 0;  // Matrix
+		ym2Scan = 0, ym2Storage = 0, pressGui = 0;
 	int8_t ym2Disp = 0, pgDisp = 0;  // Display
 	int8_t ym2Clock = 0, pgClock = Cl_StatsExt;  // Clock
 
@@ -114,7 +114,7 @@ struct Gui
 	const uint8_t yTitle = 60, yTitleUp = 52;  // y after title
 	const uint8_t yPosLay = 100;
 	const static uint8_t
-		DispPages[Di_All], ScanPages[S_All], InfoPages[I_All];
+		DispPages[Di_All], ScanPages[St_All], InfoPages[Cf_All];
 
 	inline static uint8_t ClockVars(int pg)
 	{	return pg == Cl_Adjust ? 6 : 0;  }
@@ -122,7 +122,8 @@ struct Gui
 	//  util
 	int16_t RangeAdd(int16_t val, int16_t add, int16_t vmin, int16_t vmax, int8_t cycle=0);
 	void Save(), Load(int8_t reset);
-	void KeysLoadSave();
+	void KeysLoadSave(), ExecLoadSave();
+	enum { ee_None, ee_Load, ee_Save } eLoadSave = ee_None;
 
 
 	//  Sequences  - - - -

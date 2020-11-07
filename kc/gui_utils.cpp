@@ -24,7 +24,7 @@ void Gui::DrawEnd()
 		fps_cnt = 0;
 	}
 
-	bool sc = ym == M_Matrix && yy == X_Scan;
+	bool sc = ym == M_Matrix && yy == Mx_Scan;
 	if (demos.iFps == 2 ||
 		(mlevel == 2 && (sc || (demos.iFps && ym == M_Demos))))
 	{
@@ -111,7 +111,7 @@ void Gui::DrawDispCur(int i, int16_t y)
 	}
 	d->setCursor(20, y);
 
-	FadeClr(C_Disp, 4, c, 1, !c ? bck : 0);
+	FadeClr(c_Disp, 4, c, 1, !c ? bck : 0);
 }
 
 
@@ -308,7 +308,7 @@ int16_t Gui::RangeAdd(int16_t val, int16_t add, int16_t vmin, int16_t vmax, int8
 }
 
 
-//  save KC
+//  load save KC
 void Gui::Save()
 {
 	kc.Save();  infType = 2;  tInfo = -1;
@@ -325,9 +325,16 @@ void Gui::Load(int8_t reset)
 
 void Gui::KeysLoadSave()
 {
-	if (kSave)  Save();
-	if (kLoad)  Load(kCtrl);
+	if (kSave)  eLoadSave = ee_Save;
+	if (kLoad)  eLoadSave = ee_Load;
 }
+void Gui::ExecLoadSave()
+{
+	if (eLoadSave == ee_Save)  Save();
+	if (eLoadSave == ee_Load)  Load(kCtrl);
+	eLoadSave = ee_None;
+}
+
 
 //  Info Operation
 //....................................................................................
@@ -346,7 +353,7 @@ void Gui::DrawOperInfo()
 
 		#define bk(a)  (a * tInfo / tInfoMax)
 		int c = bk(12);  // fade par
-		uint16_t bck = RGB(bk(4), bk(6), bk(8));
+		uint16_t bck = RGB(bk(3), bk(5), 1+bk(6));
 		
 		d->fillRect(x-3, 0, W-1-(x-3), yy, bck);
 		d->drawFastVLine(W-1, 0, yy * tInfo / tInfoMax, RGB(10,13,16));  // time|

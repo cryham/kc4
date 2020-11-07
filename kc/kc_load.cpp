@@ -8,26 +8,17 @@
 //.............................................
 #define Ser(a)  if (a >= ESlotSize) {  err=E_size;  return;  }
 
+
 uint8_t KC_Main::ERead(int& a)
 {
-#ifdef EEPROM_CS
-	uint8_t b = EE_SPI_Read(a);
-#else
-	uint8_t b = eeprom_read_byte((uint8_t*)a);
-#endif
+	uint8_t b =
+#ifdef EEPROM_CS	
+		loadExt ? EE_SPI_Read(a) :
+#endif  // no ext, or force load int
+		eeprom_read_byte((uint8_t*)a);
+	
 	++a;  memSize = a;
 	return b;
-}
-void KC_Main::EWrite(int& a, uint8_t b)
-{
-#ifdef EEPROM_CS
-	uint8_t ar[1] = {b};
-	EE_SPI_Write(a, ar, 1);
-	//EE_SPI_Write(a, &ar, 1);
-#else
-	eeprom_write_byte((uint8_t*)a, b);
-#endif
-	++a;  memSize = a;
 }
 
 
@@ -117,10 +108,17 @@ void KC_Main::Load()
 
 	//  var adr
 	int a, i, n;  uint8_t b;
-	a = slot * ESlotSize;  Ser(a)
+	bool ext = 
 	#ifdef EEPROM_CS
-	EE_SPI_Start();
+		loadExt > 0 ? true :
+	#else
+		false;
 	#endif
+	a = ext ? slot * ESlotSize : 0;  Ser(a)
+
+	if (ext)
+		EE_SPI_Start();
+	//  reading 1 byte each time, since serial eeprom can't otherwise
 
 	//  header
 	set.h1 = ERead(a);  if (set.h1 != 'k') {  err=E_H1;  return;  }  Ser(a)
@@ -184,10 +182,10 @@ void KC_Main::Load()
 		set.seqSlots = KC_MaxSeqs;  // now more than in ee
 
 	memSize = a;
-	#ifdef EEPROM_CS
-	EE_SPI_End();
-	#endif
+	if (ext)
+		EE_SPI_End();
 }
+
 
 //  Save
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -204,32 +202,33 @@ void KC_Main::Save()
 	#endif
 
 	int a, i, n;
-	a = slot * ESlotSize;  Ser(a)
-	#ifdef EEPROM_CS
-	EE_SPI_Start();
-	#endif
+    //  buffered
+	uint8_t buf[ESlotSize]={0};
+	auto Write = [&](uint8_t b) {  if (a < ESlotSize)  buf[a++] = b;  };
 
 	//  header
+	a = 0;
 	set.h1 = 'k';  set.h2 = 'c';  set.ver = 5;  // cur
-	EWrite(a, set.h1);  Ser(a)
-	EWrite(a, set.h2);  Ser(a)
-	EWrite(a, set.ver);  Ser(a)
+	Write(set.h1);
+	Write(set.h2);
+	Write(set.ver);
 
 	//  matrix
-	EWrite(a, set.rows);  Ser(a)
-	EWrite(a, set.cols);  Ser(a)
-	EWrite(a, set.seqSlots);  Ser(a)
+	Write(set.rows);
+	Write(set.cols);
+	Write(set.seqSlots);
 
 
 	//  params  ----
 	++par.verCounter;  // inc ver
 
 	n = sizeof(par);
-	EWrite(a, n);  // size
-	eeprom_write_block((void*)&par, (void*)a, n);  a+=n;
-	Ser(a)
+	Write(n);  // size
+	uint8_t* up = (uint8_t*)&par;
+	for (i=0; i < n; ++i, ++up)
+		Write(*up);
 
-
+	
 	//  Keys  ---
 	for (i=0; i < set.scanKeys; ++i)
 	{
@@ -238,10 +237,10 @@ void KC_Main::Save()
 		for (int l = KC_MaxLayers-1; l >= 0; --l)
 			if (set.key[l][i] == KEY_NONE)  len = l+1;
 			else  break;
-		EWrite(a, len);  Ser(a)
 
+		Write(len);
 		for (n=0; n < len; ++n)
-		{	EWrite(a, set.key[n][i]);  Ser(a)  }
+		{	Write(set.key[n][i]);  }
 	}
 
 	//  Seqs  ---
@@ -249,14 +248,34 @@ void KC_Main::Save()
 	{
 		const KC_Sequence& s = set.seqs[i];
 		uint8_t len = s.len();
-		EWrite(a, len);  Ser(a)
+		Write(len);
 
 		for (n=0; n < len; ++n)
-		{	EWrite(a, s.data[n]);  Ser(a)  }
+		{	Write(s.data[n]);  }
 	}
-
 	memSize = a;
-	#ifdef EEPROM_CS
-	EE_SPI_End();
-	#endif
+
+#ifdef EEPROM_CS
+	if (saveExt)
+	{
+		a = slot * ESlotSize;  Ser(a)
+		EE_SPI_Start();
+
+		//  wite in EEPage size pages
+		int numPages = memSize / EEPage;
+		int restBytes = memSize % EEPage;
+
+		for (i=0; i < numPages; ++i, a+=EEPage)
+			EE_SPI_Write(a, &buf[a], EEPage);
+		if (restBytes > 0)
+			EE_SPI_Write(a, &buf[a], restBytes);
+
+		EE_SPI_End();
+	}else
+#endif
+	{	n = min(memSize, EESize);
+		a = 0;
+		for (i=0; i < n; ++i, ++a)
+			eeprom_write_byte((uint8_t*)a, buf[i]);
+	}
 }

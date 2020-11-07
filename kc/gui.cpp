@@ -24,7 +24,7 @@ void Gui::Init(ILI9341_t3n* tft)
 
 //	mlevel = 2;  //0
 //	ym = M_Testing;
-//	ym1[M_Testing] = T_Pressed;
+//	ym1[M_Testing] = Ts_Pressed;
 //	SetScreen(ST_Main0);
 
 	
@@ -84,13 +84,13 @@ void Gui::SetScreen(int8_t s)
 
 	case ST_Demos: ym = M_Demos;  break;
 	}
-	if (s >= ST_Demos2){  mlevel = 2;  ym = M_Demos;  ym1[ym] = s - ST_Demos2;  }  else
+	if (s >= ST_Demos2){  mlevel = 2;  ym = M_Demos;  ym1[ym] = s - ST_Demos2;  }else
 	
 	// level2
-	if (s >= ST_Setup2 && s < ST_Setup2Max){  mlevel = 2;  ym = M_Setup;    ym1[ym] = s - ST_Setup2;  }  else
-	if (s >= ST_Test2 && s < ST_Test2Max){    mlevel = 2;  ym = M_Testing;  ym1[ym] = s - ST_Test2;  }  else
-	if (s >= ST_Info2 && s < ST_Info2Max){    mlevel = 2;  ym = M_Info;     ym1[ym] = s - ST_Info2;  }  else
-	if (s >= ST_Clock && s < ST_ClockMax){    ym = M_Clock;  pgClock = s - ST_Clock;  }
+	if (s >= ST_Setup2  && s < ST_Setup2Max){   mlevel = 2;  ym = M_Setup;    ym1[ym] = s - ST_Setup2;  }else
+	if (s >= ST_Test2   && s < ST_Test2Max){    mlevel = 2;  ym = M_Testing;  ym1[ym] = s - ST_Test2;  }else
+	if (s >= ST_Config2 && s < ST_Config2Max){  mlevel = 2;  ym = M_Config;   ym1[ym] = s - ST_Config2;  }else
+	if (s >= ST_Clock   && s < ST_ClockMax){    ym = M_Clock;  pgClock = s - ST_Clock;  }
 }
 
 const char* Gui::StrScreen(int8_t s)
@@ -112,10 +112,10 @@ const char* Gui::StrScreen(int8_t s)
 	if (s >= ST_Demos2)  return strDemo[s - ST_Demos2];
 	
 	// level2
-	if (s >= ST_Setup2 && s < ST_Setup2Max)	return strSetup[s - ST_Setup2];  else
-	if (s >= ST_Test2 && s < ST_Test2Max)	return strTest[s - ST_Test2];  else
-	if (s >= ST_Info2 && s < ST_Info2Max)	return strInfo[s - ST_Info2];  else
-	if (s >= ST_Clock && s < ST_ClockMax)	return strClock[s - ST_Clock];
+	if (s >= ST_Setup2  && s < ST_Setup2Max)  return strSetup[ s - ST_Setup2];  else
+	if (s >= ST_Test2   && s < ST_Test2Max)   return strTest[  s - ST_Test2];  else
+	if (s >= ST_Config2 && s < ST_Config2Max) return strConfig[s - ST_Config2];  else
+	if (s >= ST_Clock   && s < ST_ClockMax)   return strClock[ s - ST_Clock];
 	return "";
 }
 

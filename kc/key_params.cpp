@@ -10,8 +10,8 @@ extern IntervalTimer tim;
 
 
 const uint8_t Gui::DispPages[Di_All] = {3,3,4,3};
-const uint8_t Gui::ScanPages[S_All] = {3,1,4};
-const uint8_t Gui::InfoPages[I_All] = {0/*1 slot*/,0};
+const uint8_t Gui::ScanPages[St_All] = {3,1,4};
+const uint8_t Gui::InfoPages[Cf_All] = {3,0,0};
 
 
 //  Info
@@ -21,15 +21,17 @@ void Gui::KeysInfo(int sp)
 	int16_t yip = InfoPages[yy];
 	switch (yy)
 	{
-	case I_Use:
+	case Cf_Storage:
 		if (kUp)
-		{	ym2Use  = RangeAdd(ym2Use , kUp, 0, yip, 1);  }
+		{	ym2Storage  = RangeAdd(ym2Storage , kUp, 0, yip, 1);  }
 		else
 		if (kRight)
-		switch (ym2Use)
+		switch (ym2Storage)
 		{
-		case 1:  kc.slot = RangeAdd(kc.slot, kRight * sp / 2, 0, 8 /*EETotal / ESize*/, 1);  break;
 		case 0:  par.verCounter = RangeAdd(par.verCounter, kRight * sp, 0, 255, 1);  break;
+		case 1:  kc.slot = RangeAdd(kc.slot, kRight * sp / 2, 0, ESlots-1, 1);  break;
+		case 2:  kc.loadExt = RangeAdd(kc.loadExt, kRight, 0, 1, 1);  break;
+		case 3:  kc.saveExt = RangeAdd(kc.saveExt, kRight, 0, 1, 1);  break;
 		}	break;
 	}
 	KeysLoadSave();
@@ -42,7 +44,7 @@ void Gui::KeysSetup(int sp)
 	int16_t ysp = ScanPages[yy];
 	switch (yy)
 	{
-	case S_Layer:
+	case St_Layer:
 		if (kUp)
 		{	ym2Lay  = RangeAdd(ym2Lay , kUp, 0, ysp, 1);  }
 		else
@@ -55,7 +57,7 @@ void Gui::KeysSetup(int sp)
 		case 3:  par.msLLHoldMin = RangeAdd(par.msLLHoldMin, kRight, 0, 90);  break;
 		}	break;
 
-	case S_Keyboard:
+	case St_Keyboard:
 		if (pressGui)
 		{
 			int ii = PressKey(pressGui);
@@ -75,7 +77,7 @@ void Gui::KeysSetup(int sp)
 		case 1:  pressGui = 1;  break;
 		}	break;
 
-	case S_Mouse:
+	case St_Mouse:
 		if (pressGui)
 		{
 			int ii = PressKey(pressGui);
@@ -109,7 +111,7 @@ void Gui::KeysMatrix(int sp)
 	int16_t ysp = 2;  //ScanPages[yy];
 	switch (yy)
 	{
-	case X_Scan:
+	case Mx_Scan:
 		if (kUp)
 		{	ym2Scan = RangeAdd(ym2Scan, kUp, 0, ysp, 1);  }
 		else

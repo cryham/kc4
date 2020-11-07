@@ -6,9 +6,11 @@
 #include "ili9341_t3n_font_OpenSans.h"
 #include <SPI.h>
 
+
 #define DATAOUT 11  // MOSI spi pins
 #define DATAIN  12  // MISO 
 #define SPICLOCK  13  // SCK
+
 //  serial eeprom opcodes, in 25LC256.pdf
 #define WREN  6
 #define WRDI  4
@@ -22,7 +24,7 @@ void EE_SPI_Start()
 {
 	pinMode(TFT_CS, OUTPUT);
 	digitalWrite(TFT_CS, HIGH);
-	delay(10);
+	delay(5);
 	pinMode(DATAOUT, OUTPUT);
 	pinMode(DATAIN, INPUT);
 	pinMode(SPICLOCK,OUTPUT);
@@ -32,7 +34,7 @@ void EE_SPI_Start()
 	SPISettings set(4*1000*1000, MSBFIRST, SPI_MODE2);
 	
 	SPI.begin();
-	SPI.setClockDivider(SPI_CLOCK_DIV8);
+	SPI.setClockDivider(SPI_CLOCK_DIV2);
 	
 	SPCR = (1<<SPE)|(1<<MSTR);
 	byte c=SPSR;  c=SPDR;
@@ -67,7 +69,7 @@ void EE_SPI_Wren()
 }
 
 //  write
-void EE_SPI_Write(uint16_t adr, uint8_t* bytes, int length)
+void EE_SPI_Write(uint16_t adr, uint8_t* bytes, int length)  // 64 max
 {
 	EE_SPI_Wren();
 	digitalWrite(EEPROM_CS, LOW);
@@ -75,13 +77,13 @@ void EE_SPI_Write(uint16_t adr, uint8_t* bytes, int length)
 	SPI.transfer(WRITE);
 	SPI.transfer(adr >> 16);
 	SPI.transfer(adr & 0xFF);
-	for (int i=0; i < length; ++i, ++bytes)
+	for (int i=0; i < length; ++i)
 	{
-		SPI.transfer(*bytes);
+		SPI.transfer(bytes[i]);
 	}
 
 	digitalWrite(EEPROM_CS, HIGH);
-	delay(length * 5);  // 5ms par?
+	delay(5);  // 5ms max
 }
 
 //  read byte
@@ -95,7 +97,7 @@ uint8_t EE_SPI_Read(uint16_t adr)
 	uint8_t read = SPI.transfer(adr & 0xFF);
 
 	digitalWrite(EEPROM_CS, HIGH);
-	delay(5);
+	delay(5); 
 	
 	return read;
 }

@@ -51,11 +51,11 @@ void Gui::KeyPress()
 		if (kEsc)  SetScreen(ST_Main0);
 		if (kF1)  SetScreen(ST_Map);
 		if (kF2)  SetScreen(ST_Seqs);
-		if (kF3)  SetScreen(ST_Test2 + (kSh ? T_Pressed : T_Layout));
+		if (kF3)  SetScreen(ST_Test2 + (kSh ? Ts_Pressed : Ts_Layout));
 		//  F4 save  F5 load
-		if (kF6)  SetScreen(ST_Info2 + I_Use);
-		if (kF7)  SetScreen(ST_Setup2 + S_Mouse);
-		if (kF8)  SetScreen(ST_Setup2 + (kSh ? S_Keyboard : S_Layer));
+		if (kF6)  SetScreen(ST_Config2 + (kSh ? Cf_Use : Cf_Storage));
+		if (kF7)  SetScreen(ST_Setup2 + St_Mouse);
+		if (kF8)  SetScreen(ST_Setup2 + (kSh ? St_Keyboard : St_Layer));
 
 		if (kF9)   SetScreen(ST_Demos2 +
 			(kCtrl ? (kSh ? D_Rain : D_CK_Logo) :
@@ -81,7 +81,7 @@ void Gui::KeyPress()
 		{
 		case M_Setup:  KeysSetup(sp);  break;
 		case M_Matrix: KeysMatrix(sp);  break;
-		case M_Info:   KeysInfo(sp);  break;
+		case M_Config: KeysInfo(sp);  break;
 		}
 	else if (mlevel == 1)
 		switch (ym)

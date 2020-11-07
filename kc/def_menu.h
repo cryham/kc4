@@ -19,7 +19,7 @@ class ILI9341_t3n;
 enum EMainMenu  //  main menu entries, level0
 {
 	M_Mapping, M_Sequences, M_Testing,
-	M_Setup, M_Matrix, M_Info,
+	M_Setup, M_Matrix, M_Config,
 	M_Display, M_Clock, /*M_Graphs,*/ M_Help,
 	#ifdef GAME
 		M_Game,
@@ -53,20 +53,20 @@ extern const char *strDemo[D_All];
 //  menus  --
 enum ETesting  //  Testing kbd, level1
 {
-	T_Layout, T_Pressed, T_All
+	Ts_Layout, Ts_Pressed, Ts_All
 };
 enum ESetup  //  Setup kbd, level1
 {
-	S_Layer, S_Keyboard, S_Mouse, S_All
+	St_Layer, St_Keyboard, St_Mouse, St_All
 };
 enum EMatrix  //  Matrix #, level1
 {
-	X_Test, X_Scan, X_All
+	Mx_Test, Mx_Scan, Mx_All
 };
 
-enum EInfo  //  Info use,ver
+enum EConfig  //  Config use,ver
 {
-	I_Use, I_Version, I_All
+	Cf_Storage, Cf_Use, Cf_Version, Cf_All
 };
 enum EDisplay  //  Display options pages  --
 {
@@ -82,9 +82,9 @@ enum EClock
 
 //  string names for all above ^
 extern const char
-	*strMain[M_All], *strTest[T_All],
-	*strSetup[S_All], *strMatrix[X_All],
-	*strInfo[I_All], *strClock[Cl_All];
+	*strMain[M_All], *strTest[Ts_All],
+	*strSetup[St_All], *strMatrix[Mx_All],
+	*strConfig[Cf_All], *strClock[Cl_All];
 
 //  bitmaps
 // 20 x 20 x 4B  (B,G,R,A 32bit  could be 16bit but meh)
@@ -103,7 +103,7 @@ const static uint8_t gIntvMask = 0x1F;
 
 enum EStartScr  //  start screen
 {	ST_Main0 = 0,
-	ST_Test2, ST_Test2Max = ST_Test2 +T_All,
+	ST_Test2, ST_Test2Max = ST_Test2 +Ts_All,
 	ST_Map = ST_Test2Max,
 	ST_Seqs,
 	ST_Displ,
@@ -111,16 +111,16 @@ enum EStartScr  //  start screen
 	ST_Help = ST_ClockMax,
 	ST_Setup,
 	ST_Matrix2,
-	ST_Info2, ST_Info2Max = ST_Info2 +I_All,
-	ST_Setup2 = ST_Info2Max, ST_Setup2Max = ST_Setup2 +S_All,
+	ST_Config2, ST_Config2Max = ST_Config2 + Cf_All,
+	ST_Setup2 = ST_Config2Max, ST_Setup2Max = ST_Setup2 + St_All,
 	ST_Demos = ST_Setup2Max,
-	ST_Demos2,  ST_ALL = ST_Demos2 +D_All
+	ST_Demos2,  ST_ALL = ST_Demos2 + D_All
 };
 
 //  fade color menu  ---
 enum EFadeClr
-{	C_Main=0, C_Demos, C_Test, C_Map, C_Seq,
-	C_Setup, C_Disp, C_Clock, C_Setup2,
-	C_Game, C_GameOpt, C_Info, C_Matrix, C_ALL  };
+{	c_Main=0, c_Demos, c_Test, c_Map, c_Seq,
+	c_Setup, c_Disp, c_Clock, c_Setup2,
+	c_Game, c_GameOpt, c_Config, c_Matrix, c_ALL  };
 extern const uint8_t
-	gMenuClr[C_ALL][2][3];
+	gMenuClr[c_ALL][2][3];

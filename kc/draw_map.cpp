@@ -203,7 +203,7 @@ void Gui::DrawMapping()
 			}	}
 			break;
 		}
-		FadeClr(C_Map, 4, i+1, 1, bck);
+		FadeClr(c_Map, 4, i+1, 1, bck);
 		d->setCursor(x,y);
 		d->print(a);
 

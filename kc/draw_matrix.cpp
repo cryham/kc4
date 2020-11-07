@@ -19,7 +19,7 @@ void Gui::DrawMatrix()
 	if (mlevel == 1)
 	{
 		DrawTitleMain(RGB(20,20,26), &bmpMATRIX);
-		DrawMenu(X_All,strMatrix,0, C_Matrix,RGB(22,22,31),RGB(5,5,9));
+		DrawMenu(Mx_All,strMatrix,0, c_Matrix,RGB(22,22,31),RGB(5,5,9));
 		return;
 	}
 
@@ -46,7 +46,7 @@ void Gui::DrawMatrix()
 	switch (yy)
 	{
 	//-----------------------------------------------------
-	case X_Test:
+	case Mx_Test:
 	{
 		const uint x1 = 13, y1 = 122, w = 14, h = 14;
 		uint c,r, hc=99,hr=99;  // held col,row
@@ -134,7 +134,7 @@ void Gui::DrawMatrix()
 
 
 	//-----------------------------------------------------
-	case X_Scan:
+	case Mx_Scan:
 	{
 		for (int i=0; i <= 2; ++i)
 		{
@@ -143,7 +143,7 @@ void Gui::DrawMatrix()
 				DrawCursor(RGB(24,22,28));
 			d->setCursor(20,y);
 
-			FadeClr(C_Matrix, 4, c, 1, !c ? bck : 0);
+			FadeClr(c_Matrix, 4, c, 1, !c ? bck : 0);
 			switch(i)
 			{
 			case 0:

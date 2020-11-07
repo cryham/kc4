@@ -18,7 +18,7 @@ const uint16_t gIntervals[gIntvMask+1] =
 };
 
 //  menu colors
-const uint8_t gMenuClr[C_ALL][2][3] =
+const uint8_t gMenuClr[c_ALL][2][3] =
 {
 	{{20,26,31},{1,3,2}},  // 0 main 1,3,2
 	{{26,25,31},{2,3,1}},  // 1 demos
@@ -31,7 +31,7 @@ const uint8_t gMenuClr[C_ALL][2][3] =
 	{{26,28,28},{4,3,3}},  // 8 setup2
 	{{31,24,10},{2,5,5}},  //  9 game
 	{{31,26,22},{1,6,8}},  //  10 game opt
-	{{26,26,28},{9,9,8}},  // 11 info
+	{{26,26,28},{5,5,4}},  // 11 config
 	{{24,24,31},{5,4,4}},  // 12 matrix
 };
 
@@ -39,7 +39,7 @@ const uint8_t gMenuClr[C_ALL][2][3] =
 const char* strMain[M_All] =  /* MAIN */
 {
 	"Mapping", "Sequences",	"Testing",
-	"Setup", "Matrix", "Info",
+	"Setup", "Matrix", "Config",
 	"Display", "Clock", /*"Graphs",*/ "Help",
 #ifdef GAME
 	"Game",
@@ -59,25 +59,25 @@ const Bmp20* bmpMain[M_All] =  /* MAIN */
 };
 
 //  Testing kbd
-const char* strTest[T_All] =
+const char* strTest[Ts_All] =
 {
 	"Layout", "Pressed",
 };
 //  Setup kbd
-const char* strSetup[S_All] =
+const char* strSetup[St_All] =
 {
 	"Layer", "Keyboard", "Mouse",
 };
 //  Matrix
-const char* strMatrix[X_All] =
+const char* strMatrix[Mx_All] =
 {
 	"Test matrix", "Scan setup",
 };
 
 //  Info use, ver
-const char* strInfo[I_All] =
+const char* strConfig[Cf_All] =
 {
-	"Use", "Version",
+	"Storage", "Use", "Version",
 };
 //  Clock pages
 const char* strClock[Cl_All] =
@@ -112,11 +112,11 @@ const uint8_t YM1[M_All] =  /* MAIN */
 {
 	4,  // M_Mapping
 	1,  // M_Sequences
-	T_All,  // M_Testing
+	Ts_All,  // M_Testing
 	
-	S_All,  // M_Setup
-	X_All,  // M_Matrix
-	I_All,  // M_Info
+	St_All,  // M_Setup
+	Mx_All,  // M_Matrix
+	Cf_All,  // M_Config
 	
 	1,  // M_Display
 	1,  // M_Clock  Cl_All

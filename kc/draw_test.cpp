@@ -14,7 +14,7 @@ void Gui::DrawTesting()
 	if (mlevel == 1)
 	{
 		DrawTitleMain(RGB(16,26,16), &bmpZOOM);
-		DrawMenu(T_All,strTest,0, C_Test,RGB(22,31,14),RGB(5,9,6));
+		DrawMenu(Ts_All,strTest,0, c_Test,RGB(22,31,14),RGB(5,9,6));
 		return;
 	}
 	char a[64];
@@ -27,7 +27,7 @@ void Gui::DrawTesting()
 	switch (yy)
 	{
 	//-----------------------------------------------------
-	case T_Pressed:
+	case Ts_Pressed:
 	{
 		d->setCursor(0,yTitle);
 		d->setFont(OpenSans14);
@@ -104,7 +104,7 @@ void Gui::DrawTesting()
 
 
 	//-----------------------------------------------------
-	case T_Layout:
+	case Ts_Layout:
 	{
 		d->setFont(OpenSans12);
 		d->setCursor(0, yTitleUp);

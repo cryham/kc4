@@ -26,7 +26,7 @@ void Gui::DrawClockCur(int i, int16_t y)
 	}
 	d->setCursor(20, y);
 
-	FadeClr(C_Clock, 4, c, 1, bck);
+	FadeClr(c_Clock, 4, c, 1, bck);
 }
 
 //  color from value

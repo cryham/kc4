@@ -11,13 +11,13 @@
 
 //  Info use,ver
 //....................................................................................
-void Gui::DrawInfo()
+void Gui::DrawConfig()
 {
 	//  menu
 	if (mlevel == 1)
 	{
 		DrawTitleMain(RGB(22,20,26), &bmpINFO);
-		DrawMenu(I_All,strInfo,0, C_Info,RGB(22,20,28),RGB(4,4,8));
+		DrawMenu(Cf_All,strConfig,0, c_Config,RGB(22,20,28),RGB(4,4,8));
 		pressGui = 0;
 		return;
 	}
@@ -27,11 +27,11 @@ void Gui::DrawInfo()
 	auto yadd = [&y](int16_t h){  y += h*15/8-1;  };
 
 
-	if (yy == I_Version)
+	if (yy == Cf_Version)
 	{	demos.Version();  return;  }
 
 	//  title
-	DrawTitle(strInfo[yy], RGB(17,17,22), yy == I_Version ? &bmpHELP : &bmpINFO);
+	DrawTitle(strConfig[yy], RGB(17,17,22), yy == Cf_Version ? &bmpHELP : &bmpINFO);
 	d->setFont(OpenSans12);
 	d->setClr(21,21,26);
 
@@ -50,31 +50,41 @@ void Gui::DrawInfo()
 	switch (yy)
 	{
 	//-----------------------------------------------------
-	case I_Use:  // use
+	case Cf_Storage:
 	{
 		for (int i=0; i <= ii; ++i)
 		{
-			int c = abs(i - ym2Use);
+			int c = abs(i - ym2Storage);
 			if (!c)
 				DrawCursor(RGB(15,23,30));
 			d->setCursor(20,y);
 
-			FadeClr(C_Info, 4, c, 1, !c ? bck : 0);
+			FadeClr(c_Config, 4, c, 1, !c ? bck : 0);
 			h = 8+3;
 
 			switch(i)
 			{
-			case 1:
-				strcpy(a,"Slot ToDo:");
-				sprintf(b,"%d", kc.slot);  break;
 			case 0:
 				strcpy(a,"Save counter:");
 				sprintf(b,"%d", par.verCounter);  h+=2;  break;
+			case 1:
+				strcpy(a,"Slot:");
+				sprintf(b,"%d", kc.slot);  break;
+			case 2:
+				strcpy(a,"Load from:");
+				strcpy(b, kc.loadExt ? "External" : "Internal");  break;
+			case 3:
+				strcpy(a,"Slot to:");
+				strcpy(b, kc.saveExt ? "External" : "Internal");  break;
 			}
 			PrintR(a, x1, y);
 			d->setCursor(x2, y);  d->print(b);  yadd(h);
 		}
+	}	break;
 
+	//-----------------------------------------------------
+	case Cf_Use:
+	{
 		int i,l,k, s = 0, t = 0, si = 0;
 
 		//  count nonempty seqs

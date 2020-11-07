@@ -183,7 +183,7 @@ void Gui::DrawSequences()
 			
 			//  bck
 			if (!q)  d->fillRect(0, y-2, W-1, 19, bck);
-			FadeClr(C_Seq, 4, q, 2, bck);
+			FadeClr(c_Seq, 4, q, 2, bck);
 			//  id
 			sprintf(a,"%2d", s);  d->print(a);
 			//  cur

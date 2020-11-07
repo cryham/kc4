@@ -103,13 +103,17 @@ struct KC_Main
 	void Send(uint32_t ms);  // send usb
 	bool SeqEnd(int lev, const KC_Sequence& sq);
 
+
 	//  eeprom  ----
 	int8_t slot = 0;
+	KC_Err err = E_ok;
 	void Load(), Save();
-	uint16_t GetSize();  // mem
 
 	uint16_t memSize = 0;  // result B
-	KC_Err err = E_ok;
+	uint16_t GetSize();  // mem
+
+	int8_t loadExt=1, saveExt=1;  // 0 forces internal eeprom use
+	uint8_t ERead(int& a);
 
 
 	//  inactive time(s) for stats

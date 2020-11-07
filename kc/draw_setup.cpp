@@ -22,7 +22,7 @@ void Gui::DrawSetup()
 	if (mlevel == 1)
 	{
 		DrawTitle(strMain[ym], RGB(21,23,23), &bmpSETUP);
-		DrawMenu(S_All,strSetup,0, C_Setup,RGB(18,24,22),RGB(4,6,6));
+		DrawMenu(St_All,strSetup,0, c_Setup,RGB(18,24,22),RGB(4,6,6));
 		pressGui = 0;
 		return;
 	}
@@ -43,7 +43,7 @@ void Gui::DrawSetup()
 	auto DrawCursor = [&](auto clr)
 	{
 		d->setColor(clr, bck);
-		d->fillRect(0, y-3, yy == S_Mouse ? W*2/3 : W, 21, bck);
+		d->fillRect(0, y-3, yy == St_Mouse ? W*2/3 : W, 21, bck);
 		d->setCursor(4,y);
 		d->print(">");
 	};
@@ -51,7 +51,7 @@ void Gui::DrawSetup()
 	switch (yy)
 	{
 	//-----------------------------------------------------
-	case S_Layer:
+	case St_Layer:
 	{
 		for (int i=0; i <= ii; ++i)
 		{
@@ -60,7 +60,7 @@ void Gui::DrawSetup()
 				DrawCursor(RGB(30,25,20));
 			d->setCursor(20,y);
 
-			FadeClr(C_Setup2, 4, c, 1, !c ? bck : 0);
+			FadeClr(c_Setup2, 4, c, 1, !c ? bck : 0);
 			h = 8+3;
 
 			switch(i)
@@ -85,7 +85,7 @@ void Gui::DrawSetup()
 	}	break;
 
 	//-----------------------------------------------------
-	case S_Keyboard:
+	case St_Keyboard:
 	{
 		for (int i=0; i <= ii; ++i)
 		{
@@ -94,7 +94,7 @@ void Gui::DrawSetup()
 				DrawCursor(RGB(30,25,20));
 			d->setCursor(20,y);
 
-			FadeClr(C_Setup2, 4, c, 1, !c ? bck : 0);
+			FadeClr(c_Setup2, 4, c, 1, !c ? bck : 0);
 			switch(i)
 			{
 			case 0:
@@ -114,7 +114,7 @@ void Gui::DrawSetup()
 	}	break;
 
 	//-----------------------------------------------------
-	case S_Mouse:
+	case St_Mouse:
 	{
 		bck = RGB(3,5,6);
 		for (int i=0; i <= ii; ++i)
@@ -124,7 +124,7 @@ void Gui::DrawSetup()
 				DrawCursor(RGB(15,23,30));
 			d->setCursor(20,y);
 
-			FadeClr(C_Setup2, 4, c, 1, !c ? bck : 0);
+			FadeClr(c_Setup2, 4, c, 1, !c ? bck : 0);
 			h = 8+1;
 			
 			switch(i)

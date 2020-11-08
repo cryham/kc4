@@ -108,6 +108,7 @@ struct KC_Main
 	int8_t slot = 0;
 	KC_Err err = E_ok;
 	void Load(), Save();
+	int FillConfig(uint8_t* buffer);  // for save or vis
 
 	uint16_t memSize = 0;  // result B
 	uint16_t GetSize();  // mem

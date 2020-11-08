@@ -136,6 +136,7 @@ int main()
 
 	//  load set from eeprom
 #ifndef CKtest
+	kc.loadExt = 0;
 	kc.Load();
 #endif
 	gui.SetScreen(par.startScreen);
@@ -143,7 +144,7 @@ int main()
 
 #ifdef CKtest
 	kc.kbdSend = 0;
-	gui.SetScreen(ST_Info2 + I_Use);
+	gui.SetScreen(ST_Config2 + Cf_Storage);
 	par.brightness = 30;
 #endif
 

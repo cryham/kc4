@@ -11,14 +11,14 @@ extern IntervalTimer tim;
 
 const uint8_t Gui::DispPages[Di_All] = {3,3,4,3};
 const uint8_t Gui::ScanPages[St_All] = {3,1,4};
-const uint8_t Gui::InfoPages[Cf_All] = {3,0,0};
+const uint8_t Gui::ConfigPages[Cf_All] = {3,0,0};
 
 
 //  Info
 //....................................................................................
 void Gui::KeysInfo(int sp)
 {
-	int16_t yip = InfoPages[yy];
+	int16_t yip = ConfigPages[yy];
 	switch (yy)
 	{
 	case Cf_Storage:

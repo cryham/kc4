@@ -7,8 +7,6 @@
 #include "kc_data.h"
 
 
-//const uint8_t Gui::InfoPages[I_All] = {0,1};
-
 //  Info use,ver
 //....................................................................................
 void Gui::DrawConfig()
@@ -36,7 +34,7 @@ void Gui::DrawConfig()
 	d->setClr(21,21,26);
 
 
-	int ii = InfoPages[yy];
+	int ii = ConfigPages[yy];
 	uint16_t bck = RGB(3,3,6);
 
 	auto DrawCursor = [&](auto clr)
@@ -68,18 +66,35 @@ void Gui::DrawConfig()
 				strcpy(a,"Save counter:");
 				sprintf(b,"%d", par.verCounter);  h+=2;  break;
 			case 1:
-				strcpy(a,"Slot:");
+				strcpy(a,"External Slot:");
 				sprintf(b,"%d", kc.slot);  break;
 			case 2:
 				strcpy(a,"Load from:");
 				strcpy(b, kc.loadExt ? "External" : "Internal");  break;
 			case 3:
-				strcpy(a,"Slot to:");
+				strcpy(a,"Save to:");
 				strcpy(b, kc.saveExt ? "External" : "Internal");  break;
 			}
 			PrintR(a, x1, y);
 			d->setCursor(x2, y);  d->print(b);  yadd(h);
 		}
+
+		#if 1    //  vis show memory
+		uint8_t buf[ESlotSize]={0};
+		int s = kc.FillConfig(buf);
+		
+		s = 0;
+		d->setFont();
+		for (int y=0; y<10; ++y)
+		for (int x=0; x<16; ++x)
+		{
+			int g = (x%4 ? 2 : 0) + (x%2 ? 2 : 0) + (y%2 ? 2 : 0) + (y%4 ? 2 : 0);
+			d->setClr(23-g*2, 25-g, 27-g/2);
+			d->setCursor(x*20, 6*H/10 + y*8);
+
+			sprintf(a,"%02X", buf[s++]);  d->print(a);
+		}
+		#endif
 	}	break;
 
 	//-----------------------------------------------------

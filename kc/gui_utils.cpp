@@ -352,7 +352,7 @@ void Gui::DrawOperInfo()
 			y = 3, yy = h ? 73/*+17*/ : 19;
 
 		#define bk(a)  (a * tInfo / tInfoMax)
-		int c = bk(12);  // fade par
+		int c = 10-bk(10);  // fade par
 		uint16_t bck = RGB(bk(3), bk(5), 1+bk(6));
 		
 		d->fillRect(x-3, 0, W-1-(x-3), yy, bck);

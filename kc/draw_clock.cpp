@@ -248,7 +248,10 @@ void Gui::DrawClock()
 		h = to / 3600 % 24;  m = to / 60 % 60;  s = to % 60;
 		y = yUptime;
 		d->setCursor(x, y);
-		d->setClr(18, 22, 28);
+		if (h > 16)  d->setClr(30, 15,  8);  else
+		if (h > 14)  d->setClr(26, 26, 12);  else
+		if (h > 12)  d->setClr(12, 26, 26);  else
+		             d->setClr(18, 22, 28);
 		sprintf(a, "%d:%02d", h, m);  d->print(a);
 		
 		if (!ext)
@@ -267,6 +270,7 @@ void Gui::DrawClock()
 		h = ti / 3600 % 24;  m = ti / 60 % 60;
 
 		s = h*60 + m;
+		if (s > 600)  d->setClr(9, 20, 31);  else
 		if (s > 90)  d->setClr(30, 24, 30);  else
 		if (s > 60)  d->setClr(24, 22, 28);  else
 		if (s > 30)  d->setClr(20, 20, 26);  else
@@ -284,7 +288,7 @@ void Gui::DrawClock()
 			h = ti / 3600 % 24;  m = ti / 60 % 60;
 
 			s = h*60 + m;
-			if (s > 180)  d->setClr(28, 10,  5);  else
+			if (s > 180)  d->setClr(30, 11,  6);  else
 			if (s > 110)  d->setClr(26, 13, 16);  else
 			if (s > 50)   d->setClr(24, 18, 10);  else
 			if (s > 25)   d->setClr(10, 22, 24);  else

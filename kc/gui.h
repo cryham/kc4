@@ -62,7 +62,7 @@ struct Gui
 	int8_t KeysSeq();  void KeysMap();
 	int PressKey(int8_t& var);
 	void KeysSetup(int sp), KeysMatrix(int sp), KeysDisplay(int sp);
-	void KeysInfo(int sp), KeysClock();
+	void KeysConfig(int sp), KeysClock();
 
 	//  start
 	void SetScreen(int8_t start);
@@ -89,6 +89,7 @@ struct Gui
 	//  help
 	int8_t hpage = 0;
 	const static int8_t HAll = 11;
+	int8_t memVisAdr = -1;  // -1 off
 	
 
 	//  keys pressed, some +-1  _k_
@@ -114,7 +115,7 @@ struct Gui
 	const uint8_t yTitle = 60, yTitleUp = 52;  // y after title
 	const uint8_t yPosLay = 100;
 	const static uint8_t
-		DispPages[Di_All], ScanPages[St_All], InfoPages[Cf_All];
+		DispPages[Di_All], ScanPages[St_All], ConfigPages[Cf_All];
 
 	inline static uint8_t ClockVars(int pg)
 	{	return pg == Cl_Adjust ? 6 : 0;  }

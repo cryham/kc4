@@ -20,11 +20,15 @@
 #define WREN  6
 
 
+// SPISettings spiSet(4*1000*1000, MSBFIRST, SPI_MODE2);
+
 void EE_SPI_Start()
 {
+	delay(1);  // off LCD CS
+
 	pinMode(TFT_CS, OUTPUT);
 	digitalWrite(TFT_CS, HIGH);
-	delay(5);  // off LCD CS
+	delay(1);  // off LCD CS
 
 	pinMode(DATAOUT, OUTPUT);
 	pinMode(DATAIN, INPUT);
@@ -32,19 +36,20 @@ void EE_SPI_Start()
 
 	pinMode(EEPROM_CS, OUTPUT);
 	digitalWrite(EEPROM_CS, HIGH);
-	//SPISettings set(4*1000*1000, MSBFIRST, SPI_MODE2);
 
 	SPI.begin();
 	SPI.setClockDivider(SPI_CLOCK_DIV4);  //DIV2 12MHz  DIV4 4MHz
 	
-	SPCR = (1<<SPE)|(1<<MSTR);
-	byte c=SPSR;  c=SPDR;
+	// SPCR = (1<<SPE)|(1<<MSTR);
+	// byte c=SPSR;  c=SPDR;
+	delay(1);
 }
 
 void EE_SPI_End()
 {
-	delay(10);
+	delay(1);
 }
+
 
 //  read status
 uint8_t EE_SPI_Status()
@@ -55,8 +60,7 @@ uint8_t EE_SPI_Status()
 	uint8_t st = SPI.transfer(RDSR);
 
 	digitalWrite(EEPROM_CS, HIGH);
-	// delay(2);
-
+	delayMicroseconds(10);
 	return st;
 }
 
@@ -66,6 +70,7 @@ void EE_SPI_Wren()
 	digitalWrite(EEPROM_CS, LOW);
 	SPI.transfer(WREN);
 	digitalWrite(EEPROM_CS, HIGH);
+	delayMicroseconds(10);
 	//delay(5);
 }
 
@@ -82,7 +87,7 @@ void EE_SPI_Write(uint16_t adr, uint8_t* bytes, int length)
 		SPI.transfer(bytes[i]);
 
 	digitalWrite(EEPROM_CS, HIGH);
-	delay(/*length * */ 5);  // 5ms max
+	delay(5);  // 5ms max
 }
 
 //  write 1B
@@ -108,10 +113,11 @@ uint8_t EE_SPI_Read(uint16_t adr)
 	SPI.transfer(READ);
 	SPI.transfer(adr >> 8);
 	SPI.transfer(adr & 0xFF);
-	uint8_t read = SPI.transfer(adr & 0xFF);
+	uint8_t read = SPI.transfer(0xFF);
 
 	digitalWrite(EEPROM_CS, HIGH);
-	delay(1);
+	delayMicroseconds(10);
+	//delay(1);
 	return read;
 }
 

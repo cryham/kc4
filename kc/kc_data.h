@@ -105,7 +105,7 @@ struct KC_Main
 
 
 	//  eeprom  ----
-	int8_t slot = 0;
+	uint16_t eSlot = 0;
 	KC_Err err = E_ok;
 	void Load(), Save();
 	int FillConfig(uint8_t* buffer);  // for save or vis
@@ -113,7 +113,7 @@ struct KC_Main
 	uint16_t memSize = 0;  // result B
 	uint16_t GetSize();  // mem
 
-	int8_t loadExt=1, saveExt=1;  // 0 forces internal eeprom use
+	int8_t loadExt = 1, saveExt = 1;  // 0 forces internal eeprom use
 	uint8_t ERead(int& a);
 
 

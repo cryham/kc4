@@ -369,7 +369,7 @@ void Gui::DrawOperInfo()
 		if (h)
 		{	/*d->setColor(RGB(22-c, 16-c, 22-c), bck);  // slot
 			d->setCursor(x1, y);  y+=17;
-			sprintf(a,"slot %d", kc.slot);  d->print(a);*/
+			sprintf(a,"slot %d", kc.eSlot);  d->print(a);*/
 
 			d->setColor(RGB(28-c, 25-c, 31-c), bck);  // mem`
 			d->setCursor(x1, y);  y+=17;

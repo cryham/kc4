@@ -81,7 +81,7 @@ void Gui::KeyPress()
 		{
 		case M_Setup:  KeysSetup(sp);  break;
 		case M_Matrix: KeysMatrix(sp);  break;
-		case M_Config: KeysInfo(sp);  break;
+		case M_Config: KeysConfig(sp);  break;
 		}
 	else if (mlevel == 1)
 		switch (ym)

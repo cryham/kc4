@@ -23,10 +23,10 @@ extern void ParInit();
 ILI9341_t3n tft = ILI9341_t3n(TFT_CS, TFT_DC);
 
 #ifdef BUFx2
-DMAMEM uint16_t data[2][W * H];
-int buf = 0;
+	int buf = 0;
+	DMAMEM uint16_t data[2][W * H];
 #else
-DMAMEM uint16_t data[W * H];  // screen buffer
+	DMAMEM uint16_t data[W * H];  // screen buffer
 #endif
 
 
@@ -92,30 +92,30 @@ int main()
 	setSyncProvider(getTeensyTime);
 
 
-	//  Init extra pins  ----
+	//  Init extra pins  --------
 	//  PWM brightness to display LED
 	pinMode(LCD_LED, OUTPUT);
 	analogWriteResolution(12);
 	analogWrite(LCD_LED, 100);  // 0-4095
 	
-	#ifdef LED_LAMP
+#ifdef LED_LAMP
 	pinMode(LED_LAMP, OUTPUT);
 	analogWrite(LED_LAMP, 0);  // off
-	#endif
+#endif
 
-	#ifdef LIGHT_SENS
+#ifdef LIGHT_SENS
 	analogReadResolution(12);
-	#endif
+#endif
 
 
-	//  Init display  ----
+	//  Init display  --------
 	memset(data, 0, sizeof(data));
 	tft.useFrameBuffer(true);
-	#ifdef BUFx2
+#ifdef BUFx2
 	tft.setFrameBuffer(data[0]);
-	#else
+#else
 	tft.setFrameBuffer(data);
-	#endif
+#endif
 
 	tft.begin(60000000);  // 45 Fps  60 MHz  stable
 	//tft.begin(80000000);  // 60 Fps  some jitter
@@ -127,31 +127,39 @@ int main()
 	gui.Init(&tft);
 
 
-	//  Init keyboard  ----
+	//  Init keyboard  --------
 	ParInit();  // default params
 
 	Matrix_setup();  // kbd pins
 
 	tim.begin(main_periodic, 1000000 / (par.scanFreq * 20));
 
-	//  load set from eeprom
+
 #ifndef CKtest
-	kc.loadExt = 0;
+	//  load set from eeprom
+	int wait = 3;
+  #ifdef EEPROM_CS
+	gui.eLoadSave = Gui::ee_Load;  // delayed..
+	par.brightOff = 10;  // set after load
+	par.brightness = 15;
+  #else
 	kc.Load();
-#endif
+  #endif
+
 	gui.SetScreen(par.startScreen);
 	kc.kbdSend = 1;  // 1 release
 
-#ifdef CKtest
+#else  // CKtest
 	kc.kbdSend = 0;
 	gui.SetScreen(ST_Config2 + Cf_Storage);
+	gui.SetScreen(ST_Map);
 	par.brightness = 30;
 #endif
 
 #if 0  // 1 for new keyboard / test
 	kc.kbdSend = 0;
 	// gui.SetScreen(ST_Matrix2);  // test matrix cols,rows
-	gui.SetScreen(ST_Test2+Ts_Pressed);  // test scan codes to fill kbd_layout.cpp
+	// gui.SetScreen(ST_Test2+Ts_Pressed);  // test scan codes to fill kbd_layout.cpp
 	par.brightness = 60;
 	par.brightOff = 60;
 #endif
@@ -164,36 +172,42 @@ int main()
 	kc.setBright = 1;
 
 
-	while (1)  //  ---
+	while (1)  //------------------------
 	{
-		#ifdef BUFx2
+	#ifdef BUFx2
 		tft.setFrameBuffer(data[buf]);
 		gui.Clear(data[buf]);
 		
 		if (!gui.Force1Buf())
 			buf = 1-buf;
-		#else
+	#else
 		gui.Clear(data);
-		#endif
+	#endif
 
 		gui.Draw();
 		gui.DrawEnd();
 
-	#if 1
-		elapsedMillis em = 0;
-		while (tft.asyncUpdateActive() && em < 100) ;
-
-		gui.ExecLoadSave();
-
+		if (gui.eLoadSave != Gui::ee_None)
+		{
+			tft.waitUpdateAsyncComplete();  // full wait
+			bool start = false;
+			if (wait > 0)
+			{	--wait;  if (!wait)  start = true;  }
+			
+			if (!wait)
+				gui.ExecLoadSave();
+			if (start)
+				gui.SetScreen(par.startScreen);
+		}
+		else
+		{	elapsedMillis em = 0;
+			while (tft.asyncUpdateActive() && em < 100) ;
+		}
 		tft.updateScreenAsync();
-	#else
-		tft.waitUpdateAsyncComplete();
-		tft.updateScreenAsync();
-	#endif
 
 		//  temp get  --------
-		#ifdef TEMP1  // Temp'C
+	#ifdef TEMP1  // Temp'C
 		gui.GetTemp();
-		#endif
+	#endif
 	}
 }

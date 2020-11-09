@@ -4191,13 +4191,24 @@ bool ILI9341_t3n::gfxFontLastCharPosFG(int16_t x, int16_t y) {
 
 void ILI9341_t3n::setClr(uint8_t r, uint8_t g, uint8_t b)
 {
-	setColor( ((r)<<11)+ ((g)<<6) +(b), 0 );
+	setColor( (r<<11)+ (g<<6) +b, 0 );
+}
+void ILI9341_t3n::setClrA(uint8_t r, uint8_t g, uint8_t b)
+{
+	uint16_t c = (r<<11)+ (g<<6) +b;
+	setColor(c,c);
 }
 
 void ILI9341_t3n::setClr(uint16_t c)
 {
 	setColor(c, 0);
 }
+
+void ILI9341_t3n::setClrAlpha()
+{
+	textbgcolor = textcolor;
+}
+
 
 void ILI9341_t3n::moveCursor(int16_t x, int16_t y)
 {

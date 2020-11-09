@@ -269,7 +269,9 @@ class ILI9341_t3n : public Print
 		return textcolor;
 	}
 	void setClr(uint8_t r, uint8_t g, uint8_t b);
+	void setClrA(uint8_t r, uint8_t g, uint8_t b);
 	void setClr(uint16_t c);
+	void setClrAlpha();
 	void moveCursor(int16_t x, int16_t y);
 
 	// Pass 8-bit (each) R,G,B, get back 16-bit packed color

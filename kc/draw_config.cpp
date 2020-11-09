@@ -50,6 +50,7 @@ void Gui::DrawConfig()
 	//-----------------------------------------------------
 	case Cf_Storage:
 	{
+		const int memVisPage = 16*10;
 		for (int i=0; i <= ii; ++i)
 		{
 			int c = abs(i - ym2Storage);
@@ -64,37 +65,44 @@ void Gui::DrawConfig()
 			{
 			case 0:
 				strcpy(a,"Save counter:");
-				sprintf(b,"%d", par.verCounter);  h+=2;  break;
+				sprintf(b,"%d", par.verCounter);  break;
 			case 1:
 				strcpy(a,"External Slot:");
-				sprintf(b,"%d", kc.slot);  break;
+				sprintf(b,"%d", kc.eSlot);  h+=2;  break;
 			case 2:
 				strcpy(a,"Load from:");
 				strcpy(b, kc.loadExt ? "External" : "Internal");  break;
 			case 3:
 				strcpy(a,"Save to:");
-				strcpy(b, kc.saveExt ? "External" : "Internal");  break;
+				strcpy(b, kc.saveExt ? "External" : "Internal");  h+=2;  break;
+			case 4:
+				strcpy(a,"View Memory:");
+				if (memVisAdr < 0)
+					sprintf(b,"off");
+				else
+					sprintf(b,"%d..%d", memVisAdr*memVisPage, (memVisAdr+1)*memVisPage-1);  break;
 			}
 			PrintR(a, x1, y);
 			d->setCursor(x2, y);  d->print(b);  yadd(h);
 		}
 
-		#if 1    //  vis show memory
-		uint8_t buf[ESlotSize]={0};
-		int s = kc.FillConfig(buf);
-		
-		s = 0;
-		d->setFont();
-		for (int y=0; y<10; ++y)
-		for (int x=0; x<16; ++x)
+		if (memVisAdr >= 0)   //  vis show memory
 		{
-			int g = (x%4 ? 2 : 0) + (x%2 ? 2 : 0) + (y%2 ? 2 : 0) + (y%4 ? 2 : 0);
-			d->setClr(23-g*2, 25-g, 27-g/2);
-			d->setCursor(x*20, 6*H/10 + y*8);
+			uint8_t buf[ESlotSize]={0};
+			int s = kc.FillConfig(buf);
+			
+			s = memVisAdr * memVisPage;
+			d->setFont();
+			for (int y=0; y<10; ++y)
+			for (int x=0; x<16; ++x)
+			if (s < ESlotSize)
+			{
+				int g = (x%4 ? 2 : 0) + (x%2 ? 2 : 0) + (y%2 ? 2 : 0) + (y%4 ? 2 : 0);
+				d->setClr(26-g*2, 26-g, 28-g/2);
+				d->setCursor(x*20, H-1 + (y-10)*8);
 
-			sprintf(a,"%02X", buf[s++]);  d->print(a);
-		}
-		#endif
+				sprintf(a,"%02X", buf[s++]);  d->print(a);
+		}	}
 	}	break;
 
 	//-----------------------------------------------------

@@ -4,10 +4,10 @@
 
 //======------  Keyboard  ------======
 //  Define just one type, changes need clean rebuild
-#define CKtest  // 2x4  test
+//#define CKtest  // 2x4  test
 //#define CK1  // 8x8  test
 //#define CK8  // 20x8  wip CK8/5
-//#define CK9  // 18x8  CK9/6/3
+#define CK9  // 18x8  CK9/6/3
 //  rows, colums pins defined in matrix.h
 
 
@@ -53,7 +53,7 @@
 	#define ESlotSize  8*1024  // par  max config size B
 	#define EESize  64*1024  //  for 25LC256 = 256kbit = 64kB
 	#define EEPage  64  // 64 bytes max for 1 page write
-	#define ESlots  8  // (EESize / ESlotSize)
+	#define ESlots  7  // (EESize / ESlotSize)  last is keyb data
 #endif 
 
 

@@ -38,7 +38,9 @@ More description of project on [My Website](https://cryham.tuxfamily.org/portfol
 * **Temperature** reading from DS18B20 sensor (optional, 1pin).
 * LED light (optional, 1pin).
 * **Statistics**: uptime, key presses per minute (and average), keyboard active time and inactive times. Info page for used keys, layers, sequences etc.
-* 2 **Graphs**: key presses per minute and temperature. Auto ranged with adjustable history length.
+* **Graphs**: key presses per minute and temperature.
+  * Auto ranged with adjustable history length.
+  * 3 Sizes: short, normal 2h, and daily 12h, configurable.
 
 #### For fun:
 * Many **Demos** with presets. E.g.: Plasma, Polyhedrons 3D, Wave, Fire, waving 2D CK logo.
@@ -72,10 +74,18 @@ The keyboard is made of:
 Red PCB with SD card slot, no touch. Terribly low horizontal viewing angle.  
 Display uses 5 SPI pins: 9 DC, 10 CS, no RST, rest default.
 * Brightness is changed using PWM on pin 19 to LCD LED.
-* Optionally a DS18B20 1-wire temperature sensor with data pin through 4.7k resistor to 3.3V.
+
+Optionally:
+* External Serial EEPROM 25LC256 (64kB).
+  * If not present internal will be used (1080 bytes, enough for basic use).
+* DS18B20 1-wire temperature sensor with data pin through 4.7k resistor to 3.3V.
 * LED lamp, brightness with PWM (optional 1 pin).
+* Photoresistor just to show light intensity value
+* External power supply +5V.
+  * Allows daily graphs or changing PC witout loosing statistics etc.
 
 For more info refer to the [schematic.png](https://raw.githubusercontent.com/cryham/kc4/master/schematic.png) or subdir with Kicad files.
+
 
 ### Configuring
 
@@ -84,15 +94,16 @@ Information useful when starting to use K.C.4 with your keyboard matrix.
 Setup is done in files:
 * `def.h`
   * Define code features to use like: old demos, game. Also optional pins for LED and Temp'C.
-  * Choose keyboard type by define (CK1,CK8,CK9 or create your own).
+  * Choose keyboard type by define (CKtest,CK1,CK8,CK9 or create your own).
 * `matrix.h` has defined Teensy pins for keyboard Matrix_cols and Matrix_rows.
-  * CK1 is easiest for testing (8 cols x 6 rows). CK9 uses 18 cols and 8 rows.
+  * CKtest is easiest for testing (2 cols x 4 rows). CK9 is official and uses 18 cols and 8 rows.
   * Columns are as outputs (all High-Z with one set to low "0"), while rows are inputs (all high "1").
 * `kbd_layout.cpp` has physical keys layout (drawn on display).
 
 Other key constants are in `kc_params.h` like (max) counts of rows, cols, layers, sequences (also updated in `keys_usb.h`).
 
-When defining a new keyboard, it is useful to force starting in main.cpp on GUI Pressed tab, it shows scan codes.
+When defining a new keyboard see `#if 0` in `main.cpp`, can force starting on test pages to e.g. show matrix or scan codes.
+
 
 ### Building
 
@@ -114,7 +125,7 @@ On successful build the last lines are e.g.
   CC kc/matrix.c
  Linking 
    SRAM: 69%  366560 / 524288 B
-  Flash: 14%  295376 / 2031616 B
+  Flash: 15%  311032 / 2031616 B
 Upload
 ```
 showing used percentages of memories.

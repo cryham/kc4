@@ -454,7 +454,7 @@ void Gui::DrawClock()
 
 			//  inactive times  ====
 			//  Previous 2
-			x = W - 1;  int w;
+			x = W - 1 - 4;  int w;
 			ti = kc.tInact1;	h = ti / 60 % 24;  m = ti % 60;
 
 			d->setFont(OpenSans14);

@@ -72,8 +72,9 @@ void Gui::DrawLayout(bool edit)
 		}
 
 		//  text  ----
+		bool right = k.o==5 || k.o==7;  // right align
 		d->setCursor(
-			k.o==5 || k.o==7 ? x + k.w - 13 :  // right align
+			right ? x + k.w - 13 :
 			(k.o==3 ? x+1 : x+2),  // symb 3
 			k.h == fH ? y-2 : y-1);  // short
 
@@ -108,10 +109,13 @@ void Gui::DrawLayout(bool edit)
 			}
 			else if (kk != KEY_NONE)
 			{
+				const char* s = tiny && layKey ? &ch[1] : ch;
 				//  normal
 				if (m)	d->setFont();  // small
 				else	d->setFont(OpenSans12);
-				if (m)  d->moveCursor(0, m ? 2 : 6);
+				d->moveCursor(right ? 0 :
+					m ? (m1 ? 2 : 0) : (k.w - GetWidth(s))/2 -2,  // center big
+					m ? 2 : 1);
 
 				const uint8_t* c = &cGrpRgb[cKeyGrp[kk]][0][0];
 				uint16_t cl = RGB(c[0],c[1],c[2]);
@@ -120,9 +124,12 @@ void Gui::DrawLayout(bool edit)
 					d->drawRect(d->getCursorX(), d->getCursorY()+1, 2,2, cl);
 				else
 				{	d->setColor(cl, m ? cl : bck);
-					d->print(tiny && layKey ? &ch[1] : ch);
+					d->print(s);
 				}
 		}	}
+
+		if (f==2)  // frame [] cursor on top
+			d->drawRect(x, y-2, k.w, k.h, cR);
 	}
 	d->setFont(0);
 }

@@ -44,9 +44,10 @@ void Gui::KeysMap()
 				keyCode += kRight * PickR;
 		}else
 		if (kUp)	keyCode += kUp;  else
-		if (kPgUp)	keyCode += kPgUp * 4;  else
+		if (kPgUp)	keyCode += kPgUp * 10;  else
+		if (kEnd)	keyCode += kEnd * 4;  else
 
-		if (kDiv || kEnd < 0)  // filter
+		if (kDiv)  // filter
 			grpFilt = 1-grpFilt;
 
 		//  grp range

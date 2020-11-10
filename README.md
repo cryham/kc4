@@ -82,7 +82,7 @@ Optionally:
 * LED lamp, brightness with PWM (optional 1 pin).
 * Photoresistor just to show light intensity value
 * External power supply +5V.
-  * Allows daily graphs or changing PC witout loosing statistics etc.
+  * Allows daily graphs or changing PC without loosing statistics etc.
 
 For more info refer to the [schematic.png](https://raw.githubusercontent.com/cryham/kc4/master/schematic.png) or subdir with Kicad files.
 

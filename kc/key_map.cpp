@@ -45,7 +45,7 @@ void Gui::KeysMap()
 		}else
 		if (kUp)	keyCode += kUp;  else
 		if (kPgUp)	keyCode += kPgUp * 10;  else
-		if (kEnd)	keyCode += kEnd * 4;  else
+		if (kEnd)	keyCode += kEnd * 3;  else
 
 		if (kDiv)  // filter
 			grpFilt = 1-grpFilt;

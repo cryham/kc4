@@ -9,6 +9,14 @@
 #include "kc_data.h"
 
 
+#ifdef REMOTE
+#include <RH_ASK.h>
+#include <SPI.h>
+RH_ASK remote(4000, REMOTE_RECV, REMOTE_SEND);
+#endif
+bool remote_init = true;
+
+
 //  scan counter, freq
 uint scan_cnt = 0, scan_freq = 0;
 uint32_t us_scan = 0, ms_scan = 0;
@@ -107,6 +115,27 @@ int main()
 	analogReadResolution(12);
 #endif
 
+#ifdef REMOTE
+    if (!remote.init())
+		remote_init = false;
+
+	uint8_t remoteId = 'a';
+
+	#ifdef REMOTE_SEND  // send
+	while(1)
+	{	const uint8_t s = 64;
+		uint8_t a[s] = {remoteId, remoteId, 0xAA, 0x11, 0x33};
+		// for (int i=0; i < s; ++i)
+		// 	a[i] = remoteId;
+		remote.send(a, 2);
+		remote.waitPacketSent();
+		delay(1000);
+		++remoteId;
+	}
+	#endif
+
+#endif
+
 
 	//  Init display  --------
 	memset(data, 0, sizeof(data));
@@ -135,9 +164,9 @@ int main()
 	tim.begin(main_periodic, 1000000 / (par.scanFreq * 20));
 
 
+	int wait = 3;
 #ifndef CKtest
 	//  load set from eeprom
-	int wait = 3;
   #ifdef EEPROM_CS
 	gui.eLoadSave = Gui::ee_Load;  // delayed..
 	par.brightOff = 10;  // set after load
@@ -151,8 +180,9 @@ int main()
 
 #else  // CKtest
 	kc.kbdSend = 0;
-	gui.SetScreen(ST_Config2 + Cf_Storage);
-	gui.SetScreen(ST_Map);
+	//gui.SetScreen(ST_Config2 + Cf_Storage);
+	gui.SetScreen(ST_Setup2 + St_Remote);
+	//gui.SetScreen(ST_Map);
 	par.brightness = 30;
 #endif
 
@@ -171,7 +201,7 @@ int main()
 #endif
 	kc.setBright = 1;
 
-
+	
 	while (1)  //------------------------
 	{
 	#ifdef BUFx2
@@ -209,5 +239,18 @@ int main()
 	#ifdef TEMP1  // Temp'C
 		gui.GetTemp();
 	#endif
+
+		#ifdef REMOTE_RECV  // receive
+		{	uint8_t buf[16];
+			uint8_t buflen = sizeof(buf);
+
+			if (remote.recv(buf, &buflen))  // Non-blocking
+			{
+				for (int i=0; i < buflen; ++i)
+					gui.remoteData[i] = buf[i];
+				++gui.remoteId;
+			}
+		}
+		#endif
 	}
 }

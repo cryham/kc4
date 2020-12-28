@@ -105,10 +105,11 @@ struct Gui
 		keyGroup=grpMax-1, grpFilt=1;  // pick group filter
 
 	//  level 2 y cursors  - - -
-	int8_t ym2Lay = 0, ym2Keyb = 0, ym2Mouse = 0,  // Setup
+	int8_t ym2Lay = 0, ym2Keyb = 0, ym2Mouse = 0, ym2Remote = 0,  // Setup
 		ym2Scan = 0, ym2Storage = 0, pressGui = 0;
 	int8_t ym2Disp = 0, pgDisp = 0;  // Display
 	int8_t ym2Clock = 0, pgClock = Cl_StatsExt;  // Clock
+	uint8_t remoteData[128]={0}, remoteId=0;
 
 
 	//  const

@@ -9,6 +9,13 @@
 #include "keys_usb.h"
 #include "usb_mouse.h"
 
+#ifdef REMOTE
+// #include <RH_ASK.h>
+// #include <SPI.h> 
+// extern RH_ASK remote;
+#endif
+extern bool remote_init;
+
 //  extern
 extern uint scan_freq;  // scan counter, freq
 extern uint32_t us_scan;
@@ -215,6 +222,55 @@ void Gui::DrawSetup()
 			u & MOUSE_LEFT ? 'L':' ',	u & MOUSE_MIDDLE ? 'M':' ',
 			u & MOUSE_RIGHT ? 'R':' ',	u & MOUSE_BACK ? '<':' ',	u & MOUSE_FORWARD ? '>':' ');
 		write();
+
+	}	break;
+
+	//-----------------------------------------------------
+	case St_Remote:
+	{
+	#ifdef REMOTE
+		for (int i=0; i <= ii; ++i)
+		{
+			int c = abs(i - ym2Remote);
+			if (!c)
+				DrawCursor(RGB(30,25,20));
+			d->setCursor(20,y);
+
+			FadeClr(c_Setup2, 4, c, 1, !c ? bck : 0);
+			switch(i)
+			{
+			case 0:
+				strcpy(a,"Send:");
+				sprintf(b,"%d", remoteId);  break;
+
+			case 1:
+				strcpy(a,"Receive:");
+				sprintf(b,"%d", remoteId);  break;
+			}
+			PrintR(a, x0, y);
+			d->setCursor(x1, y);  d->print(b);  yadd(8+4);
+		}
+
+		//  info  ----
+		d->setCursor(10, 110);
+		d->print(remote_init ? "init Yes" : "int No");
+		//  vis show memory
+		{
+			int s = 0;
+			for (int y=0; y<6; ++y)
+			for (int x=0; x<10; ++x)
+			if (s < 128)
+			{
+				int g = (x%4 ? 2 : 0) + (x%2 ? 2 : 0) + (y%2 ? 2 : 0) + (y%4 ? 2 : 0);
+				d->setClr(29-g*2, 29-g, 29-g/2);
+				d->setCursor(x*30, H-1 -40 + (y-4)*16);
+
+				sprintf(a,"%02X", remoteData[s++]);  d->print(a);
+		}	}
+	#else
+		d->setCursor(10, 110);
+		d->print("Not present");
+	#endif
 
 	}	break;
 

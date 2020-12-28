@@ -57,7 +57,7 @@ enum ETesting  //  Testing kbd, level1
 };
 enum ESetup  //  Setup kbd, level1
 {
-	St_Layer, St_Keyboard, St_Mouse, St_All
+	St_Layer, St_Keyboard, St_Mouse, St_Remote, St_All
 };
 enum EMatrix  //  Matrix #, level1
 {

@@ -8,9 +8,15 @@
 #include "IntervalTimer.h"
 extern IntervalTimer tim;
 
+#ifdef REMOTE
+#include <RH_ASK.h>
+#include <SPI.h>
+extern RH_ASK remote;
+#endif
+
 
 const uint8_t Gui::DispPages[Di_All] = {3,3,4,3};
-const uint8_t Gui::ScanPages[St_All] = {3,1,4};
+const uint8_t Gui::ScanPages[St_All] = {3,1,4,1};
 const uint8_t Gui::ConfigPages[Cf_All] = {4,0,0};
 
 
@@ -99,6 +105,41 @@ void Gui::KeysSetup(int sp)
 		case 2:  pressGui = 1;  break;
 		case 3:  par.mkWhSpeed = RangeAdd(par.mkWhSpeed, kRight * sp, 0, 250);  break;
 		case 4:  par.mkWhAccel = RangeAdd(par.mkWhAccel, kRight * sp, 0, 250);  break;
+		}	break;
+
+	case St_Remote:
+		if (kUp)
+		{	ym2Remote  = RangeAdd(ym2Remote , kUp, 0, ysp, 1);  }
+		else
+		if (kRight)
+		switch (ym2Remote)
+		{
+		#ifdef REMOTE_SEND
+		case 0:  // send
+		{	const uint8_t s = 64;
+			uint8_t a[s] = {remoteId, remoteId, 0xAA, 0x11, 0x33};
+			// for (int i=0; i < s; ++i)
+			// 	a[i] = remoteId;
+			remote.send(a, 4);
+			//remote.waitPacketSent();
+			delay(100);
+			++remoteId;
+		}	break;
+		#endif
+
+		#ifdef REMOTE_RECV
+		/*case 1:  // receive  in main
+		{	uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
+			uint8_t buflen = sizeof(buf);
+
+			if (remote.recv(buf, &buflen)) // Non-blocking
+			{
+				for (int i=0; i < buflen; ++i)
+					remoteData[i] = buf[i];
+				++remoteId;
+			}
+		}	break;*/
+		#endif
 		}	break;
 	}
 	KeysLoadSave();

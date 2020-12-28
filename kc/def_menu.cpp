@@ -66,7 +66,7 @@ const char* strTest[Ts_All] =
 //  Setup kbd
 const char* strSetup[St_All] =
 {
-	"Layer", "Keyboard", "Mouse",
+	"Layer", "Keyboard", "Mouse", "Remote",
 };
 //  Matrix
 const char* strMatrix[Mx_All] =
@@ -83,7 +83,7 @@ const char* strConfig[Cf_All] =
 const char* strClock[Cl_All] =
 {
 	"Adjust", "Clock", "Stats Extd",
-	"Stats+Graph", "Graphs~", "Graphs Daily", "Graph Light"
+	"Stats+Graph", "Graphs~", "Graphs Daily", "Graph Light",
 };
 
 

@@ -31,7 +31,7 @@ extern const char* CKname;
 #elif defined(CK1) || defined(CK8)   //  CK1, CK8
 	const static int nDrawKeys = 91;
 #elif defined(CK9)   //  CK9/6/3
-	const static int nDrawKeys = 117;
+	const static int nDrawKeys = 120;
 #endif
 extern const DrawKey drawKeys[nDrawKeys];
 

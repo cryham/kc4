@@ -199,6 +199,6 @@ r:
 	@make c --no-print-directory
 	@echo $(E) "$(ST_CLR)Rebuild$(NO_CLR)"
 	@make m --no-print-directory
-#make -j
+#make  8 threads
 m:
-	@make -j6 --no-print-directory
+	@make -j8 --no-print-directory

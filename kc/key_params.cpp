@@ -9,9 +9,9 @@
 extern IntervalTimer tim;
 
 #ifdef REMOTE
-#include <RH_ASK.h>
-#include <SPI.h>
-extern RH_ASK remote;
+	#include <RH_ASK.h>
+	#include <SPI.h>
+	extern RH_ASK remote;
 #endif
 
 
@@ -114,7 +114,7 @@ void Gui::KeysSetup(int sp)
 		if (kRight)
 		switch (ym2Remote)
 		{
-		#ifdef REMOTE_SEND
+	#ifdef REMOTE_SEND
 		case 0:  // send
 		{	const uint8_t s = 64;
 			uint8_t a[s] = {remoteId, remoteId, 0xAA, 0x11, 0x33};
@@ -125,9 +125,9 @@ void Gui::KeysSetup(int sp)
 			delay(100);
 			++remoteId;
 		}	break;
-		#endif
+	#endif
 
-		#ifdef REMOTE_RECV
+	#ifdef REMOTE_RECV
 		/*case 1:  // receive  in main
 		{	uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
 			uint8_t buflen = sizeof(buf);
@@ -139,7 +139,7 @@ void Gui::KeysSetup(int sp)
 				++remoteId;
 			}
 		}	break;*/
-		#endif
+	#endif
 		}	break;
 	}
 	KeysLoadSave();

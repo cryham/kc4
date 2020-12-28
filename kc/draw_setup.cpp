@@ -10,9 +10,9 @@
 #include "usb_mouse.h"
 
 #ifdef REMOTE
-// #include <RH_ASK.h>
-// #include <SPI.h> 
-// extern RH_ASK remote;
+	//#include <RH_ASK.h>
+	//#include <SPI.h> 
+	//extern RH_ASK remote;
 #endif
 extern bool remote_init;
 

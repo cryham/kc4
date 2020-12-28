@@ -10,9 +10,9 @@
 
 
 #ifdef REMOTE
-#include <RH_ASK.h>
-#include <SPI.h>
-RH_ASK remote(4000, REMOTE_RECV, REMOTE_SEND);
+	#include <RH_ASK.h>
+	#include <SPI.h>
+	RH_ASK remote(4000, REMOTE_RECV, REMOTE_SEND);
 #endif
 bool remote_init = true;
 
@@ -82,7 +82,7 @@ void main_periodic()
 
 
 	//  scan time vs strobe delay, 18 cols
-	//  289 us - 7,  145 us - 3,  44: 0
+	//  289 us - 7,  146 us - 3,  43 us - 0
 	us_scan = micros() - us;
 }
 
@@ -133,7 +133,6 @@ int main()
 		++remoteId;
 	}
 	#endif
-
 #endif
 
 
@@ -240,7 +239,7 @@ int main()
 		gui.GetTemp();
 	#endif
 
-		#ifdef REMOTE_RECV  // receive
+	#ifdef REMOTE_RECV  // receive
 		{	uint8_t buf[16];
 			uint8_t buflen = sizeof(buf);
 
@@ -251,6 +250,6 @@ int main()
 				++gui.remoteId;
 			}
 		}
-		#endif
+	#endif
 	}
 }

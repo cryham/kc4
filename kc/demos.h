@@ -72,7 +72,7 @@ struct Demos
 
 
 	//  CK logo, 2D lines
-	const static int8_t ckMax = 5;
+	const static int8_t ckMax = 4;
 	int8_t ckCur = 0, ckSpeed = 8;
 	void CK_logo();
 

@@ -202,11 +202,13 @@ void KC_Setup::InitCK()
 	KC_Sequence sq;
 	sq.add(K_A);  sq.add(K_LSHIFT);
 	sq.add(K_B);  sq.add(K_LSHIFT);  sq.add(K_C);
-	seqs[0] = sq;  sq.data.clear();
+	for (int i=0; i<10; ++i)
+	seqs[i] = sq;  sq.data.clear();
 
 	sq.add(K_RCTRL);  sq.add(K_RSHIFT);
 	sq.add(K_LEFT);  sq.add(K_LEFT);  sq.add(K_LEFT);
-	seqs[2] = sq;  sq.data.clear();
+	for (int i=22; i<35; ++i)
+	seqs[i] = sq;  sq.data.clear();
 	#endif
 
 #else  // import fix from old kc data

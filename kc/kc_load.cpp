@@ -60,7 +60,7 @@ void ParInit()
 //  errors
 const char* KCerrStr[E_max] = {
 	"ok", "> Max size",  "Hdr1 !k", "Hdr2 !c", "Hdr3 ver <",
-	"Scan rows >8", "Scan cols >18",  "Seq slots >60", "Key lay >8",
+	"Scan rows >", "Scan cols >",  "Seq slots >", "Key lay >",
 	"r * c != sc", "nkeys != sc",
 };
 
@@ -112,8 +112,8 @@ void KC_Main::Load()
 	#else
 		false;
 	#endif
-	a = ext ? eSlot * ESlotSize : 0;  a0 = a;
-	#define Ser(a)  //if (a >= a0 + ESlotSize) {  err=E_size;  return;  }  // check out of slot
+	a = ext ? int(eSlot) * int(ESlotSize) : 0;  a0 = a;  // todo: not working..
+	#define Ser(a)  //if (a >= a0 + ESlotSize) {  err=E_size;  return;  }  // todo: check out of slot
 	if (ext)
 		EE_SPI_Start();
 	//  reading 1 byte each time, since serial eeprom can't otherwise
@@ -220,7 +220,7 @@ void KC_Main::Save()
 #ifdef EEPROM_CS
 	if (saveExt)
 	{
-		a0 = eSlot * ESlotSize;  a = 0;
+		a0 = int(eSlot) * int(ESlotSize);  a = 0;
 		EE_SPI_Start();
 
 		//  wite in EEPage size pages

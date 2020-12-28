@@ -48,6 +48,7 @@ endif
 # source subdirs 3
 SRCDIR = t4
 SRCLIB = lib
+SRCLIB2 = lib2
 SRCKC = kc
 
 # output dirs
@@ -55,7 +56,7 @@ OBJDIR = obj
 BINDIR = bin
 PROJECT = main
 
-INC = -I$(SRCDIR) -I$(SRCLIB) -I$(SRCKC)
+INC = -I$(SRCDIR) -I$(SRCLIB) -I$(SRCLIB2) -I$(SRCKC)
 MCU_LD = $(SRCDIR)/$(LOWER_MCU).ld
 
 
@@ -69,7 +70,7 @@ OPT = -O3 -ffunction-sections -fdata-sections -fno-exceptions
 ARCH = -mcpu=$(CPUARCH) -mfloat-abi=hard -mfpu=fpv5-d16 -mthumb
 
 # compiler options for C only
-CFLAGS = $(WARN) $(OPT) $(ARCH) $(OPTIONS)
+CFLAGS = $(WARN) $(OPT) $(ARCH) $(OPTIONS) -std=gnu11
 
 # compiler options for C++ only  -Wno-error=narrowing
 CXXFLAGS = $(WARN) $(OPT) $(ARCH) -MMD -std=gnu++14 -felide-constructors -fno-rtti $(OPTIONS)
@@ -88,8 +89,8 @@ OBJCOPY = @$(COMPILERPATH)/arm-none-eabi-objcopy
 SIZE = $(COMPILERPATH)/arm-none-eabi-size
 
 #  auto create lists of sources and objects
-C_FILES := $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCLIB)/*.c) $(wildcard $(SRCKC)/*.c)
-CPP_FILES := $(wildcard $(SRCDIR)/*.cpp) $(wildcard $(SRCLIB)/*.cpp) $(wildcard $(SRCKC)/*.cpp)
+C_FILES := $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCLIB)/*.c) $(wildcard $(SRCLIB2)/*.c) $(wildcard $(SRCKC)/*.c)
+CPP_FILES := $(wildcard $(SRCDIR)/*.cpp) $(wildcard $(SRCLIB)/*.cpp) $(wildcard $(SRCLIB2)/*.cpp) $(wildcard $(SRCKC)/*.cpp)
 OBJ_FILES := $(addprefix $(OBJDIR)/,$(notdir $(CPP_FILES:.cpp=.o))) $(addprefix $(OBJDIR)/,$(notdir $(C_FILES:.c=.o)))
 
 
@@ -138,6 +139,9 @@ kc: $(BINDIR)/$(PROJECT).hex
 $(OBJDIR)/%.o : $(SRCKC)/%.c
 	@echo $(E) "$(CC_CLR)  CC\e[m" $<
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@ $(COLOR_OUTPUT)
+$(OBJDIR)/%.o : $(SRCLIB2)/%.c
+	@echo $(E) "$(CC_CLR)  CC\e[m" $<
+	$(CC) $(CFLAGS) $(INC) -c $< -o $@ $(COLOR_OUTPUT)
 $(OBJDIR)/%.o : $(SRCLIB)/%.c
 	@echo $(E) "$(CC_CLR)  CC\e[m" $<
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@ $(COLOR_OUTPUT)
@@ -147,6 +151,9 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c
 
 #  C++ compilation
 $(OBJDIR)/%.o : $(SRCKC)/%.cpp
+	@echo $(E) "$(CXX_CLR) CXX\e[m" $<
+	$(CXX) $(CXXFLAGS) $(INC) -c $< -o $@ $(COLOR_OUTPUT)
+$(OBJDIR)/%.o : $(SRCLIB2)/%.cpp
 	@echo $(E) "$(CXX_CLR) CXX\e[m" $<
 	$(CXX) $(CXXFLAGS) $(INC) -c $< -o $@ $(COLOR_OUTPUT)
 $(OBJDIR)/%.o : $(SRCLIB)/%.cpp
@@ -170,7 +177,8 @@ $(BINDIR)/$(PROJECT).hex : $(BINDIR)/$(PROJECT).elf
 	@./sizeCalc $(SIZE) flash $< 2031616 Flash
 	$(OBJCOPY) -O ihex -R .eeprom $< $@
 
-#  Upload
+#  Upload after build, good for one tennsy
+#  Comment out to use teensy loader and program button
 	@echo $(E) "$(ST_CLR)Upload$(NO_CLR)"
 ifneq (,$(wildcard $(TOOLSPATH)))
 	@$(TOOLSPATH)/teensy_post_compile -file=$(basename $@) -path=$(shell pwd) -tools=$(TOOLSPATH)

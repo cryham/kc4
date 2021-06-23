@@ -142,6 +142,9 @@ void Gui::DrawMapping()
 	if (drawKeys[drawId].sc == NO)  id = -1;
 	else  id = drawKeys[drawId].sc;
 
+	bool layUse = nLay == KC_MaxLayers;  // vis mode, key used in layers counts
+	bool layPress = nLay == KC_MaxLayers+1;  // vis mode, key pressed counts
+
 	//x=2;  y = yTitle -12;
 	x = W/2 -20;  y = 16;
 	
@@ -164,8 +167,10 @@ void Gui::DrawMapping()
 			break;
 
 		case 1:
-			if (nLay == KC_MaxLayers)
-				sprintf(a,"p  Layer:  use");
+			if (layUse)
+				sprintf(a,"p  Layer:  Use");
+			else if (layPress)
+				sprintf(a,"p  Layer:  Heat map");
 			else
 				sprintf(a,"p  Layer:  %d", nLay);
 			break;
@@ -177,7 +182,7 @@ void Gui::DrawMapping()
 				sprintf(a,"-  Key:  NONE");
 			else
 			{
-				uint8_t u = kc.set.key[nLay == KC_MaxLayers ? 0 : nLay][id];
+				uint8_t u = kc.set.key[layUse || layPress ? 0 : nLay][id];
 					 if (u == KEY_NONE)      sprintf(a,"-  Key:  None");
 				else if (u >= KEYS_ALL_EXT)  sprintf(a,"-  Key:  OUT");
 				else
@@ -187,8 +192,14 @@ void Gui::DrawMapping()
 					d->print(a);
 					y += 22;  d->setCursor(x, y);
 
+					if (layPress)
+					{
+						sprintf(a,"Pressed count:  %d", cnt_press_key[id]);
+						d->setClr(10,22,31);
+						d->print(a);
+					}
 					//  seq preview  ---
-					if (u >= K_Seq0 && u <= K_SeqLast)
+					else if (u >= K_Seq0 && u <= K_SeqLast)
 					{
 						int8_t seq = u - K_Seq0;
 						if (seq < KC_MaxSeqs)
@@ -225,6 +236,7 @@ void Gui::DrawMapping()
 	//sprintf(a,"all %d", si);  d->print(a);  y+=10;
 
 	d->setCursor(x,y);
+	if (!layPress)
 	if (id >= 0 && id < si)
 	{
 		//sprintf(a,"L  key");  // hdr

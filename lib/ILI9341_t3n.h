@@ -1000,7 +1000,7 @@ class ILI9341_t3n : public Print
 		writedata16_cont(color);
 	}
 	void drawFontBits(bool opaque, uint32_t bits, uint32_t numbits, int32_t x, int32_t y, uint32_t repeat);
-	void drawFontPixel( uint8_t alpha, uint32_t x, uint32_t y );
+	void drawFontPixel(uint8_t alpha, uint32_t x, uint32_t y );
 	uint32_t fetchpixel(const uint8_t *p, uint32_t index, uint32_t x);
 
 };

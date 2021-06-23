@@ -130,7 +130,7 @@ void Gui::KeysMap()
 	//............................................
 
 	if (kPgUp || (yy == 2 && kRight))  // change layer
-		nLay = RangeAdd(nLay, kPgUp+kRight, 0,KC_MaxLayers, 1);
+		nLay = RangeAdd(nLay, kPgUp+kRight, 0,KC_MaxLayers+1 /*2 extra*/, 1);
 		// nLay == KC_MaxLayers shows layer use vis
 
 

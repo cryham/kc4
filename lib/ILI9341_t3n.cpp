@@ -3776,7 +3776,7 @@ void ILI9341_t3n::getTextBounds(const String &str, int16_t x, int16_t y,
 }
 
 
-void ILI9341_t3n::drawFontPixel( uint8_t alpha, uint32_t x, uint32_t y ){
+void ILI9341_t3n::drawFontPixel(uint8_t alpha, uint32_t x, uint32_t y ){
 	// Adjust alpha based on the number of alpha levels supported by the font (based on bpp)
 	// Note: Implemented look-up table for alpha, but made absolutely no difference in speed (T3.6)
 	alpha = (uint8_t)(alpha * fontalphamx);

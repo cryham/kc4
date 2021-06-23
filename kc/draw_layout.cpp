@@ -36,9 +36,14 @@ void Gui::DrawLayout(bool edit)
 		//  vars  layer keys visible on all layers ``
 		uint8_t kL0 = kc.set.key[0][k.sc];
 		bool layKey = kL0 >= K_Layer1 && kL0 < K_Layer1+KC_MaxLayers;
-		bool layUse = nLay == KC_MaxLayers;  // vis mode
+		
+		bool layUse = edit && nLay == KC_MaxLayers;  // vis mode
+		bool layPress = edit && nLay == KC_MaxLayers+1;  // vis mode
+		uint16_t press = cnt_press_key[k.sc];
+		
 		bool tiny = false; //k.w < 12;
-		bool lk = layKey && nLay == kL0 -K_Layer1 +1;  // cur layer key
+		bool lk = edit || layKey || layPress ? false :
+			layKey && nLay == kL0 -K_Layer1 +1;  // cur layer key
 
 
 		//  set coords or advance
@@ -66,10 +71,23 @@ void Gui::DrawLayout(bool edit)
 		d->drawRect(x, y-2, k.w, k.h, cR);  // frame []
 
 
-		if (lk)  // cur lay key backg
-		{	bck = RGB(20,10,14);
+		if (layPress)
+		{
+			float f = 31.f * float(press) / cnt_press_max;
+			bck = RGB2(  // heat color
+				min(31, int(f*1.5f)),
+				min(63, int(f*8.f*2.f)),
+				min(31, int(f*42.f)));
+			d->fillRect(x+1, y-1, k.w-2, k.h-2, bck);
+			if (!press)
+			d->fillRect(x+1, y-1, k.w-2, k.h-2, RGB(10,2,0));
+		}
+		else if (lk)  // cur lay key backg
+		{
+			bck = RGB(20,10,14);
 			d->fillRect(x+1, y-1, k.w-1, k.h-1, bck);
 		}
+
 
 		//  text  ----
 		bool right = k.o==5 || k.o==7;  // right align
@@ -78,7 +96,7 @@ void Gui::DrawLayout(bool edit)
 			(k.o==3 ? x+1 : x+2),  // symb 3
 			k.h == fH ? y-2 : y-1);  // short
 
-		if (!no && k.sc < kc.set.nkeys())
+		if (!layPress && !no && k.sc < kc.set.nkeys())
 		{
 			uint8_t kk = layKey ? kL0 :
 				kc.set.key[edit ? nLay : kc.nLayer][k.sc];
@@ -91,7 +109,7 @@ void Gui::DrawLayout(bool edit)
 				(kk >= KP_DIV && kk <= KP_ADD);  // numpad
 			bool m1 = m && strlen(ch) == 1;
 
-			if (edit && layUse && !layKey)
+			if (layUse && !layKey)
 			{
 				//  layer use vis
 				uint8_t u = 0;  // count

@@ -47,7 +47,8 @@
 		"variant": "cpp",
 		"initializer_list": "cpp",
 		"fstream": "cpp",
-		"random": "cpp"
+		"random": "cpp",
+		"memory": "cpp"
 	},
 	"C_Cpp.errorSquiggles": "Disabled",
 	"C_Cpp.dimInactiveRegions": false

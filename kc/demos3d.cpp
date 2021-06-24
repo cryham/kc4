@@ -287,7 +287,7 @@ void Demos::Hedrons()
 	{	case 0:  rx = t*0.0055f;  ry = t*0.0065f;  rz = t*0.0075f;  break;
 		case 1:  rx = t*0.0061f;  ry = t*0.0084f;  rz = t*0.0077f;  break;
 		case 2:  rx = t*0.0067f;  ry = t*0.0098f;  rz = t*0.0083f;
-			ss = 1.0f - 0.4f * (abs(cos(t*0.0125f)));  break;
+			ss = 1.0f - 0.4f * (absf(cosf(t*0.0125f)));  break;
 		case 3:  ry = t*0.0060f;  rz = t*0.0020f;  break;
 	}
 
@@ -298,8 +298,8 @@ void Demos::Hedrons()
 	const float  ///par  z pos  screen scale
 		fovy = 30.f, zz = 3.f, se = 2.f,
 		fv = 1.f/tan(fovy*0.5f),  // const
-		cx = cos(rx), sx = sin(rx), cy = cos(ry), sy = sin(ry),
-		cz = cos(rz), sz = sin(rz),
+		cx = cosf(rx), sx = sinf(rx), cy = cosf(ry), sy = sinf(ry),
+		cz = cosf(rz), sz = sinf(rz),
 		mx[3][3] = {{1.f,0.f,0.f},{0.f,cx,-sx},{0.f,sx,cx}},  // rot x
 		my[3][3] = {{cy,0.f,sy},{0.f,1.f,0.f},{-sy,0.f,cy}},  // y
 		mz[3][3] = {{cz,-sz,0.f},{sz,cz,0.f},{0.f,0.f,1.f}};  // z

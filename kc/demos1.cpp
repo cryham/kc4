@@ -99,10 +99,10 @@ void Demos::Ngons()
 	uint8_t cc=0;
 	for (b=0; b < 2*PI; b+=e)
 	{
-		float xb = xx + sy*cos(b+c), yb = yy - sy*sin(b+c);
+		float xb = xx + sy*cosf(b+c), yb = yy - sy*sinf(b+c);
 		for (a=0; a < b && a < 2*PI; a+=e)
 		{
-			float xa = xx + sy*cos(a+c), ya = yy - sy*sin(a+c);
+			float xa = xx + sy*cosf(a+c), ya = yy - sy*sinf(a+c);
 			if (a != b)
 				d->drawLine(xb, yb, xa, ya, RGB(31-cc/32,(cc/4)%32,(cc*2)%32));
 			++cc;

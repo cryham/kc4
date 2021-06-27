@@ -64,6 +64,8 @@ void Gui::KeysMap()
 	}
 
 	//  Add+  <back global
+	bool heatMap = nLay == KC_MaxLayers+1;
+	if (!heatMap)
 	if ((kAdd || kBckSp) && mlevel > 0)  --mlevel;
 
 
@@ -130,12 +132,12 @@ void Gui::KeysMap()
 	//............................................
 
 	if (kPgUp || (yy == 2 && kRight))  // change layer
-		nLay = RangeAdd(nLay, kPgUp+kRight, 0,KC_MaxLayers+1 /*2 extra*/, 1);
-		// nLay == KC_MaxLayers shows layer use vis
+		nLay = RangeAdd(nLay, kPgUp+kRight, 0,KC_MaxLayers+1 /*2 extra vis*/, 1);
 
 
 	//  quick access keys / * -
 	if (kDiv)  pressKey = 1;
+	if (!heatMap)
 	if (kSub || kEnt || kEnt2)
 	{
 		if (!kCtrl)
@@ -180,5 +182,18 @@ void Gui::KeysMap()
 			kc.set.key[nLay][scId] = kc.set.key[nLayCpy][scIdCpy];
 			kc.set.key[nLayCpy][scIdCpy] = c;
 		}
+	}else
+	if (heatMap && kCtrl)  // heat map
+	{
+		if (kCopy)  // clear  Ctrl-C
+		{
+			memset(cnt_press_key, 0, sizeof(cnt_press_key));
+			cnt_press_max = 0;
+		}
+		if (kEnt || kEnt2)
+			heatTest = !heatTest;
+
+		if (kSub)
+			heatTheme = (heatTheme + 1) % 3;
 	}
 }

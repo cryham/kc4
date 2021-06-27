@@ -8,14 +8,34 @@
 #include "keys_usb.h"
 
 
-//  kbd draw   Layout
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 //  layer use count colors
 const uint8_t cluM = 9;
 const uint16_t clu[cluM] = {
 	RGB(11,11,31), RGB(11,21,31), RGB(1,31,15), RGB(15,31,1),
 	RGB(31,31,11), RGB(31,15,1), RGB(31,1,1), RGB(31,15,31), RGB(28,28,28) };
 
+uint16_t Gui::HeatClr(float f)
+{
+	switch (heatTheme)
+	{	// hue: 0 red 1 yellow 2 green 3 cyan 4 blue 5 magenta 6 red
+	case 0:  return HSV(
+		max(1, int(4*43 - 6*43 * f)),  // rainbow
+		255 - max(0, min(254, int(255 * 3.f*(f-0.7f)))),  // red to white
+		125 + 130*min(1.f, f*4.f));  // fade in blue  to green to red
+	case 1:  return HSV(
+		max(3*43, int(4.9f*43 - 2.6f*43 * f)),  // viol-blue-cyan-white
+		255 - max(0, min(254, int(255 * 2.5f*(f-0.6f)))),  // to white
+		90 + 165*min(1.f, f*1.5f));  // fade in
+	case 2:  return HSV(
+		int(4*43 + 3.2f*43 * f) % 255,  // viol-magenta-red-orange-yellow-white
+		255 - max(0, min(254, int(255 * 5.f*(f-0.8f)))),  // red to white
+		75 + 180*min(1.f, f*1.f));  // fade in
+	}
+}
+
+
+//  kbd draw   Layout
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 void Gui::DrawLayout(bool edit)
 {
 	int16_t x=2, y=0;
@@ -37,12 +57,12 @@ void Gui::DrawLayout(bool edit)
 		uint8_t kL0 = kc.set.key[0][k.sc];
 		bool layKey = kL0 >= K_Layer1 && kL0 < K_Layer1+KC_MaxLayers;
 		
-		bool layUse = edit && nLay == KC_MaxLayers;  // vis mode
-		bool layPress = edit && nLay == KC_MaxLayers+1;  // vis mode
+		bool visLayUse = edit && nLay == KC_MaxLayers;  // vis modes
+		bool heatMap = edit && nLay == KC_MaxLayers+1;
 		uint16_t press = cnt_press_key[k.sc];
 		
 		bool tiny = false; //k.w < 12;
-		bool lk = edit || layKey || layPress ? false :
+		bool layKeyCur = edit || layKey || heatMap ? false :
 			layKey && nLay == kL0 -K_Layer1 +1;  // cur layer key
 
 
@@ -63,7 +83,7 @@ void Gui::DrawLayout(bool edit)
 		}
 		uint16_t  // clr frame []
 			cR = f==2 ? RGB(31,30,29) : f==1 ? RGB(28,28,29) :
-				 lk ? RGB(31,26,28) : clrRect[k.o];
+				layKeyCur ? RGB(31,26,28) : clrRect[k.o];
 
 		//  darken  if draw has NO scId
 		if (edit && no)  cR = RGB(9,9,9);
@@ -71,18 +91,39 @@ void Gui::DrawLayout(bool edit)
 		d->drawRect(x, y-2, k.w, k.h, cR);  // frame []
 
 
-		if (layPress)
+		if (heatMap)  // heat map color  . .. ... .
 		{
-			float f = 31.f * float(press) / cnt_press_max;
-			bck = RGB2(  // heat color
-				min(31, int(f*1.5f)),
-				min(63, int(f*8.f*2.f)),
-				min(31, int(f*42.f)));
+			#if 0  //  test h,s,v-
+			for (int j=0; j<25; ++j)
+			for (int i=0; i<W; ++i)
+			{
+				bck = HSV(255.f*i/(W-1), 10*j, 255);
+				demos.data[i+ (60+j)*W] = bck;
+				bck = HSV(255.f*i/(W-1), 255, 255-10*j);
+				demos.data[i+ (85+j)*W] = bck;
+			}
+			#endif
+			if (heatTest)  //  test theme
+			for (int i=0; i<W; ++i)
+			{
+				bck = HeatClr(float(i) / (W-1));
+				d->fillRect(i, 89, 1,6, bck);
+			}
+
+			//  hue color
+			const float f =
+				heatTest ? min(1.f, float(x) / (W-20))
+				: float(press) / cnt_press_max;
+			if (!press && !heatTest)
+				bck = 0;
+			else if (f > 0.99f)
+				bck = 0xFFFF;
+			else
+				bck = HeatClr(f);
+
 			d->fillRect(x+1, y-1, k.w-2, k.h-2, bck);
-			if (!press)
-			d->fillRect(x+1, y-1, k.w-2, k.h-2, RGB(10,2,0));
 		}
-		else if (lk)  // cur lay key backg
+		else if (layKeyCur)  // cur lay key backg
 		{
 			bck = RGB(20,10,14);
 			d->fillRect(x+1, y-1, k.w-1, k.h-1, bck);
@@ -96,7 +137,7 @@ void Gui::DrawLayout(bool edit)
 			(k.o==3 ? x+1 : x+2),  // symb 3
 			k.h == fH ? y-2 : y-1);  // short
 
-		if (!layPress && !no && k.sc < kc.set.nkeys())
+		if (!heatMap && !no && k.sc < kc.set.nkeys())
 		{
 			uint8_t kk = layKey ? kL0 :
 				kc.set.key[edit ? nLay : kc.nLayer][k.sc];
@@ -109,15 +150,15 @@ void Gui::DrawLayout(bool edit)
 				(kk >= KP_DIV && kk <= KP_ADD);  // numpad
 			bool m1 = m && strlen(ch) == 1;
 
-			if (layUse && !layKey)
+			if (visLayUse && !layKey)
 			{
-				//  layer use vis
+				//  layer use vis  ----
 				uint8_t u = 0;  // count
 				for (int l=0; l < KC_MaxLayers; ++l)
 					if (kc.set.key[l][k.sc] != KEY_NONE)  ++u;
 
 				if (u > 0)
-				{	d->moveCursor(m1 ? 2 : 0, m ? 2 : 3);
+				{	d->moveCursor(1, 3);
 					d->setFont();  // small 5x7
 
 					uint16_t c = clu[ (u-1) % cluM ];
@@ -128,7 +169,7 @@ void Gui::DrawLayout(bool edit)
 			else if (kk != KEY_NONE)
 			{
 				const char* s = tiny && layKey ? &ch[1] : ch;
-				//  normal
+				//  normal  ----
 				if (m)	d->setFont();  // small
 				else	d->setFont(OpenSans12);
 				d->moveCursor(right ? 0 :

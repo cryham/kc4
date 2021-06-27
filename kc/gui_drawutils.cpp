@@ -19,6 +19,7 @@ void Gui::PrintR(const char* s, int16_t x, int16_t y)
 	d->print(s);
 }
 
+
 //  bitmap
 //....................................................................................
 void Gui::DrawBmp(const Bmp20* bmp, int16_t x, int16_t y, uint16_t bck, uint al)

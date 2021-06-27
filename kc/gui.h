@@ -113,6 +113,10 @@ struct Gui
 	int8_t ym2Clock = 0, pgClock = Cl_StatsExt;  // Clock
 	uint8_t remoteData[128]={0}, remoteId=0;
 
+	//  heatmap
+	bool heatTest = false;  int heatTheme = 0;
+	uint16_t HeatClr(float f);
+
 
 	//  const
 	const uint8_t yTitle = 60, yTitleUp = 52;  // y after title

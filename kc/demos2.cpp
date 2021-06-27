@@ -3,7 +3,7 @@
 #include "ILI9341_t3n.h"
 
 //  sin table
-const int16_t sint[SX] =
+const int16_t sint[SX] /*PROGMEM*/ =
 {
 	#include "sint8k.h"
 };

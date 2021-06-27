@@ -91,6 +91,7 @@ const char* strClock[Cl_All] =
 const char* strDemo[D_All] =
 {
 	"All",
+	"Fractal",
 	"Plasma",
 	"Wave", "Fire",
 	"Hedrons",

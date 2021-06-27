@@ -32,8 +32,9 @@ enum EMainMenu  //  main menu entries, level0
 enum EDemo  //  Demos, level1
 {
 	D_AutoAll,
-	D_Plasma,
+	D_Fractal, D_Plasma,
 	D_Wave, D_Fire,
+
 	D_Hedrons,
 	D_CK_Logo,
 	D_Fonts,
@@ -45,7 +46,8 @@ enum EDemo  //  Demos, level1
 	D_Space, D_Balls, D_Fountain,
 #endif
 	D_Rain,
-	D_All,  D_Next = D_CK_Logo
+	D_All,  D_Next = D_Hedrons,
+	D_First = D_Fractal,
 };
 extern const char *strDemo[D_All];
 

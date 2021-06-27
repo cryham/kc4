@@ -79,6 +79,7 @@ struct Gui
 	int8_t ym1[M_All];  // 1 y cursor for all main menu entries
 	int8_t yy = 0;      // = ym1[ym]  level1 y cursor
 	void Check_ym1();
+	bool FullScrDemo();
 
 	//  time, key repeat
 	uint32_t oldti=0, oldti_kr=0;

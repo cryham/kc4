@@ -58,8 +58,8 @@ void Gui::KeyPress()
 		if (kF8)  SetScreen(ST_Setup2 + (kSh ? St_Keyboard : St_Layer));
 
 		if (kF9)   SetScreen(ST_Demos2 +
-			(kCtrl ? (kSh ? D_Rain : D_CK_Logo) :
-					 (kSh ? D_Hedrons : D_Plasma)));
+			(kCtrl ? (kSh ? D_CK_Logo : D_Hedrons) :
+					 (kSh ? D_Plasma : D_Fractal)));
 
 		if (kF10)  SetScreen(ST_Help);
 		if (kF11)
@@ -168,5 +168,5 @@ void Gui::NextDemo()
 		++yy;
 
 	if (yy >= D_All)
-		yy = D_Plasma;  // first
+		yy = D_First;
 }

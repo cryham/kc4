@@ -1,5 +1,5 @@
 #pragma once
-#include "WProgram.h"
+#include <WProgram.h>
 #include "def.h"
 
 
@@ -68,7 +68,6 @@ struct Demos
 	const static int8_t num_fire = 2;
 	int8_t fire = 0, fireSpd[num_fire];
 	void Fire(), Fire1(),Fire2();
-	//Spiral, Water..
 
 
 	//  CK logo, 2D lines
@@ -130,4 +129,26 @@ struct Demos
 
 	int16_t hdt;  int8_t hdCur,  hdtOn, hdRot,  hdSpd, hdDiag;
 	void Hedrons();
+
+
+	//  Fractal  ::::
+	int8_t yFrPar = -1;  // cur
+	float  tFrX=0.f, tFrY=0.f, tFrZ=0.f, frSpd = 0.80f;
+	struct Fractal
+	{
+		int iter = 4;
+		float x0 = 0.f, y0 = 0.f, z0 = 0.18f;  // start
+		float xD = 1.f, yD = 0.1f, zD = 0.5f;  // diff each iter
+		float zAmp = 0.43f, zSpd = 0.10f;  // time ampl and speed
+		float yAmp = 0.f, ySpd = 0.12f;
+		float xAmp = 0.f, xSpd = 0.23f;
+		float xM = 1.f, yM = 1.f, zM = 1.f;
+	} fpar;
+	void FractalDraw();
+
+	const static int8_t FR_ALL = 8;  //  presets
+	const static Fractal FrSets[FR_ALL];
+	
+	int8_t fractal = 0;  // cur
+	bool bFrPause = false;
 };

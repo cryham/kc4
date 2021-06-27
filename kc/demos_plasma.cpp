@@ -3,7 +3,7 @@
 #include "ili9341_t3n_font_OpenSans.h"
 
 
-const char* sPlsName[Demos::Plasma_All] = {
+const char* sPlasmaName[Demos::Plasma_All] = {
 	//  info names
 	"0 Rings RGB",
 	"1 Rainbow Lines",
@@ -50,7 +50,7 @@ void Demos::PlasmaDraw()
 
 		d->setFont(OpenSans12);
 		d->setCursor(0, H-1 - 16);
-		d->print(sPlsName[plasma]);
+		d->print(sPlasmaName[plasma]);
 
 		d->setFont(0);
 		d->setCursor(0, 0);

@@ -1,5 +1,5 @@
 #include "games.h"
-#include "WProgram.h"
+#include <WProgram.h>
 using namespace std;
 
 

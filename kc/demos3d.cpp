@@ -287,7 +287,7 @@ void Demos::Hedrons()
 	{	case 0:  rx = t*0.0055f;  ry = t*0.0065f;  rz = t*0.0075f;  break;
 		case 1:  rx = t*0.0061f;  ry = t*0.0084f;  rz = t*0.0077f;  break;
 		case 2:  rx = t*0.0067f;  ry = t*0.0098f;  rz = t*0.0083f;
-			ss = 1.0f - 0.4f * (absf(cosf(t*0.0125f)));  break;
+			ss = 1.0f - 0.4f * (fabs(cosf(t*0.0125f)));  break;
 		case 3:  ry = t*0.0060f;  rz = t*0.0020f;  break;
 	}
 

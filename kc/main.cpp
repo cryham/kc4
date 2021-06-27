@@ -203,6 +203,7 @@ int main()
 	
 	while (1)  //------------------------
 	{
+		//  Draw
 	#ifdef BUFx2
 		tft.setFrameBuffer(data[buf]);
 		gui.Clear(data[buf]);
@@ -234,7 +235,8 @@ int main()
 		}
 		tft.updateScreenAsync();
 
-		//  temp get  --------
+
+		//  Temp get  --------
 	#ifdef TEMP1  // Temp'C
 		gui.GetTemp();
 	#endif

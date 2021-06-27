@@ -1,4 +1,4 @@
-#include "WProgram.h"
+#include <WProgram.h>
 #include "kc_data.h"
 #include "kbd_layout.h"
 #include "eeprom_spi.h"

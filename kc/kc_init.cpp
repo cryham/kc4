@@ -4,7 +4,7 @@
 #include "matrix.h"
 #include "keys_usb.h"
 #include "kc_params.h"
-#include "WProgram.h"  // rtc, Mouse
+#include <WProgram.h>  // rtc, Mouse
 
 
 #ifdef LED_LAMP

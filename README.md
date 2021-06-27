@@ -17,7 +17,7 @@ More description of project on [My Website](https://cryham.tuxfamily.org/portfol
 
 #### Keyboard functions:
 * **Mapping** - menu, for remapping USB key codes to physical keys.
-* **Layers**
+* **Layers** - hold key, tap or hold for stick, inc/decrease default layer keys.
 * **Sequences** - editor for macros, passwords, and more.
 * In sequence **commands** - wait, set key delay, comment, hide rest, repeat itself, run other sequence, and all mouse commands.
 * **Mouse** keys - with move acceleration, also for wheel.
@@ -26,7 +26,7 @@ More description of project on [My Website](https://cryham.tuxfamily.org/portfol
 #### Configuration related:
 * **Visual keyboard** layout - drawn on display, with picked layer's mapping.
 * Keys list - for picking, with custom group colors and filtering.
-* Sequence preview in Mapping and Testing views. Also Sequence view lists mapped keys (if any).
+* Sequence preview in Mapping and Testing views. Sequence view also lists mapped keys (if any).
 * **Help** text pages with all GUI keys used and commands listed.
 * Colorful **GUI Menu** with 2 levels and icons.
 * Testing pages - showing pressed keys info, matrix, ghosting, layer use, etc.
@@ -37,13 +37,20 @@ More description of project on [My Website](https://cryham.tuxfamily.org/portfol
 * **Clock** with date (needs 3V battery).
 * **Temperature** reading from DS18B20 sensor (optional, 1pin).
 * LED light (optional, 1pin).
-* **Statistics**: uptime, key presses per minute (and average), keyboard active time and inactive times. Info page for used keys, layers, sequences etc.
-* **Graphs**: key presses per minute and temperature.
+* **Statistics**:
+  * uptime, since on or stats reset.
+  * *key presses per minute* (and average)
+  * keyboard **Active** time and **Inactive** times (previous 2 and total sum).
+  * Info page, with % of used: keys, layers, sequences etc.
+* Key mapping visualizations, colored all keys with:
+  * **Layer use** counts
+  * **Heatmap** pressed counts.
+* **Graphs**: show *key presses per minute* and temperature over time.
   * Auto ranged with adjustable history length.
   * 3 Sizes: short, normal 2h, and daily 12h, configurable.
 
 #### For fun:
-* Many **Demos** with presets. E.g.: Plasma, Polyhedrons 3D, Wave, Fire, waving 2D CK logo.
+* Many **Demos** with presets. E.g.: Fractal, Plasma, Polyhedrons 3D, Wave, Fire, waving 2D CK logo.
 * Falling blocks **Game** - with random generated blocks, many presets and custom options.
 
 ---
@@ -76,7 +83,7 @@ Display uses 5 SPI pins: 9 DC, 10 CS, no RST, rest default.
 * Brightness is changed using PWM on pin 19 to LCD LED.
 
 Optionally:
-* External Serial EEPROM 25LC256 (64kB).
+* External Serial EEPROM e.g. 25LC256 (64kB).
   * If not present internal will be used (1080 bytes, enough for basic use).
 * DS18B20 1-wire temperature sensor with data pin through 4.7k resistor to 3.3V.
 * LED lamp, brightness with PWM (optional 1 pin).
@@ -108,7 +115,8 @@ When defining a new keyboard see `#if 0` in `main.cpp`, can force starting on te
 ### Building
 
 On **Windows** it is done using [Cygwin](https://www.cygwin.com/) - not tested yet.  
-Needs to have arm-gnu-none-eabi installed, just like for Linux.
+Needs to have arm-gnu-none-eabi installed, just like for Linux or using Arduino compiler.  
+See under COMPILER PATHS in Makefile for details.
 
 On **Linux** required package are (at least): binutils-arm-gnu-none-eabi, gcc-arm-gnu-none-eabi, git.  
 On Debian based, you can `sudo apt-get install` them or use package manager.

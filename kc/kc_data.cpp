@@ -5,7 +5,7 @@
 #include "matrix.h"
 #include "keys_usb.h"
 #include "gui.h"
-#include "WProgram.h"
+#include <WProgram.h>
 
 KC_Params par;
 extern Gui gui;

@@ -13,7 +13,7 @@ void Gui::Clear(void* buf)
 
 	//  Clear  if not full screen demo
 	bool demo = ym == M_Demos && mlevel == 2;
-	bool no = demo && (yy == D_Rain || yy == D_Plasma || yy == D_Wave || yy == D_Fire);
+	bool no = demo && FullScrDemo();
 	if (!no)
 	{
 		#ifndef BUFx2
@@ -33,6 +33,11 @@ bool Gui::Force1Buf()
 {
 	bool demo = ym == M_Demos && mlevel == 2;
 	return demo && yy == D_Rain;
+}
+
+bool Gui::FullScrDemo()
+{
+	return yy == D_Plasma || yy == D_Fractal || yy == D_Wave || yy == D_Fire || yy == D_Rain;
 }
 
 

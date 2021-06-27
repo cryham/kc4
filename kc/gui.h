@@ -71,7 +71,8 @@ struct Gui
 	void FadeClr(EFadeClr ec, const uint8_t minRGB, const uint8_t mul, const uint8_t div, uint16_t bckClr);
 	void FadeGrp(uint8_t g, const uint8_t minRGB, const uint8_t mul, const uint8_t div, uint16_t bckClr);
 	uint16_t FadeClr(uint8_t r, uint8_t g, uint8_t b, uint8_t mul, uint8_t div, uint8_t mi, uint16_t bckClr);
-	
+	uint16_t HSV(int h, int s, int v);
+
 
 	//  vars  ---------
 	int8_t mlevel = 0;  // 0 main, 1 level1, 2 level2

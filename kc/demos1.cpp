@@ -12,7 +12,7 @@ bool Demos::Draw(int yy)
 	switch (yy)
 	{
 		case D_AutoAll:
-		case D_Fractal:  FractalDraw();  len = 1000;  break;
+		case D_Fractal:  FractalDraw();  len = 600;  break;
 		case D_Plasma:   PlasmaDraw();   len = 1000;  break;
 		case D_Wave:     Wave();     len = 400;  break;
 		case D_Fire:     Fire();     len = 200;  break;

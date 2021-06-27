@@ -161,9 +161,9 @@ void Gui::NextDemo()
 	++yy;  // next
 
 	if (yy == D_Fonts
-	#ifdef DEMOS_BITMAPS
-	|| yy ==  D_Bitmaps
-	#endif
+		#ifdef DEMOS_BITMAPS
+		|| yy ==  D_Bitmaps
+		#endif
 	)  // skip
 		++yy;
 

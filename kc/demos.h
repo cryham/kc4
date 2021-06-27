@@ -41,7 +41,7 @@ struct Demos
 	int8_t bAuto = 0;  // auto next demo
 	int8_t iInfo = 0;  // show demo params
 
-	bool Draw(int num);
+	bool Draw(int num);  // returns next for auto all
 	void KeyPress(EDemo demo);
 
 	uint t = 0, cnt = 0, next = 0;  // frame counter
@@ -136,19 +136,19 @@ struct Demos
 	float  tFrX=0.f, tFrY=0.f, tFrZ=0.f, frSpd = 0.80f;
 	struct Fractal
 	{
-		int iter = 4;
-		float x0 = 0.f, y0 = 0.f, z0 = 0.18f;  // start
-		float xD = 1.f, yD = 0.1f, zD = 0.5f;  // diff each iter
-		float zAmp = 0.43f, zSpd = 0.10f;  // time ampl and speed
-		float yAmp = 0.f, ySpd = 0.12f;
-		float xAmp = 0.f, xSpd = 0.23f;
-		float xM = 1.f, yM = 1.f, zM = 1.f;
-	} fpar;
-	void FractalDraw();
-
+		int iter;
+		float x0, y0, z0;  // start
+		float xD, yD, zD;  // diff each iter
+		float zAmp, zSpd;  // time ampl and speed
+		float yAmp, ySpd;
+		float xAmp, xSpd;
+		float xM, yM, zM;  // mult
+	};
 	const static int8_t FR_ALL = 8;  //  presets
-	const static Fractal FrSets[FR_ALL];
-	
-	int8_t fractal = 0;  // cur
+	static Fractal FrSets[FR_ALL];
+	void FractalDraw();
+	void KeyFractal(int k, const float fa);
+
+	int8_t fractal = 3;  // cur
 	bool bFrPause = false;
 };

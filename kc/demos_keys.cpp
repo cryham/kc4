@@ -66,38 +66,10 @@ void Demos::KeyPress(EDemo demo)
 		//  full  ----------------
 		case D_Fractal:
 			if (u)  yFrPar -= u;
-			else if (k)  //  adj par
-			{
-				const float fa = k * (ct ? 0.1f : sh ? 0.001f : 0.01f);
-				switch (yFrPar)
-				{
-				case -1:  frSpd += fa*10.f;  break;
-				case 0:  fpar.iter += k;  break;
-				case 1:  fpar.xD += fa;  break;
-				case 2:  fpar.yD += fa;  break;
-				case 3:  fpar.zD += fa;  break;
-
-				case 4:  fpar.z0 += fa;  break;
-				case 5:  fpar.x0 += fa;  break;
-				case 6:  fpar.y0 += fa;  break;
-
-				case 7:  fpar.zAmp += fa;  break;
-				case 8:  fpar.zSpd += fa;  break;
-				case 9:  fpar.yAmp += fa;  break;
-				case 10: fpar.ySpd += fa;  break;
-				case 11: fpar.xAmp += fa;  break;
-				case 12: fpar.xSpd += fa;  break;
-
-				case 13:  fpar.xM += fa;  break;
-				case 14:  fpar.yM += fa;  break;
-				case 15:  fpar.zM += fa;  break;
-			}	}
+			else if (k)  KeyFractal(k, k * (ct ? 0.1f : sh ? 0.001f : 0.01f));
 			else if (end)  bFrPause = !bFrPause;
-			else if (pgup /*&& ct/**/)
-			{
+			else if (pgup)
 				fractal = g->RangeAdd(fractal, pgup, 0, FR_ALL-1, 1);
-				fpar = FrSets[fractal];  //  load
-			}
 			break;
 
 		case D_Plasma:

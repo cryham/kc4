@@ -137,18 +137,19 @@ struct Demos
 	struct Fractal
 	{
 		int iter;
-		float x0, y0, z0;  // start
-		float xD, yD, zD;  // diff each iter
-		float zAmp, zSpd;  // time ampl and speed
+		float x0, y0, z0;  // Start
+		float xD, yD, zD;  // Diff iter
+		float zAmp, zSpd;  // time Ampl and Speed
 		float yAmp, ySpd;
 		float xAmp, xSpd;
-		float xM, yM, zM;  // mult
+		float xM, yM, zM;  // Multiply iter
 	};
 	const static int8_t FR_ALL = 8;  //  presets
-	static Fractal FrSets[FR_ALL];
+	static Fractal sFractalSets[FR_ALL];
+	
 	void FractalDraw();
 	void KeyFractal(int k, const float fa);
 
-	int8_t fractal = 3;  // cur
+	int8_t fractal = 1;  // cur
 	bool bFrPause = false;
 };

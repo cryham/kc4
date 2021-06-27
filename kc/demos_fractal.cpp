@@ -2,12 +2,12 @@
 #include "ILI9341_t3n.h"
 #include "ili9341_t3n_font_OpenSans.h"
 
-// FractalColors, created by tholzer 11.02.2016  https://www.shadertoy.com/view/MsK3zG
-// original by Robert Schütze trirop 07.12.2015  http://glslsandbox.com/e#29611.0
-// modified by CryHam
+//  FractalColors created by tholzer  11.02.2016  https://www.shadertoy.com/view/MsK3zG
+//  Original by Robert Schütze trirop 07.12.2015  http://glslsandbox.com/e#29611.0
+//  Modified and adapted by CryHam
 
 
-const char* sFractalName[Demos::FR_ALL] =
+const char* sFractalNames[Demos::FR_ALL] =  //  presets
 {	//  info names     Fps @600  @960 OC
 	"1 Basic 2 fastest",  // 27  43
 	"2 Simple 3 fast",    // 19  31
@@ -19,7 +19,7 @@ const char* sFractalName[Demos::FR_ALL] =
 	"7 Varying 8 slow",   // 7   12
 };
 
-Demos::Fractal Demos::FrSets[Demos::FR_ALL] = {
+Demos::Fractal Demos::sFractalSets[Demos::FR_ALL] = {
 // iter   x0,y0,z0     xD,yD,zD          Amp,Spd z,y,x                           xM,yM,zM
 {2,  0.0f,0.0f,0.24f, 1.00f,0.88f,0.50f, 0.70f,0.051f, 0.0f,0.072f, 0.0f,0.042f, 1.f, 1.f, 1.f},
 {3,  0.0f,0.0f,0.30f, 1.00f,0.88f,0.50f, 0.70f,0.041f, 0.0f,0.063f, 0.0f,0.052f, 1.1f,1.1f,0.8f},
@@ -38,7 +38,7 @@ void Demos::FractalDraw()
 	if (bAuto)
 		fractal = (cnt / 150) % FR_ALL;
 
-	const Fractal* fpar = &FrSets[fractal];
+	const Fractal* fpar = &sFractalSets[fractal];
 
 	if (!bFrPause)
 	{
@@ -51,15 +51,16 @@ void Demos::FractalDraw()
 	const float xT = fpar->xAmp * sinf(tFrX);
 
 	register uint a = 0;
-	register float px,py,pz;
 	for (uint y=0; y<H; ++y)
 	{
+		const float py0 = float(H-1-y) / (H-1) + fpar->y0;
 		for (register uint x=0; x<W; ++x, ++a)
 		{
-			py = float(H-1-y) / (H-1) + fpar->y0;  pz = fpar->z0;
+			register float px,py,pz;
+			py = py0;  pz = fpar->z0;
 			px = float(x) / (W-1) + fpar->x0;
 
-  			for (register int i=0; i < fpar->iter; ++i)
+			for (register int i=0; i < fpar->iter; ++i)
 			{
 				const float l = px*px + py*py + pz*pz;  // dot(p,p)
 				const float dx = (px / l);
@@ -75,9 +76,9 @@ void Demos::FractalDraw()
 			const int r = int(px*31.f);
 			const int g = int(py*63.f);
 			const int b = int(pz*31.f);
-			data[a] = RGB2(r,g,b);
-		}
-	}
+			uint16_t c = RGB2(r,g,b);
+			data[a] = c;
+	}	}
 
 
 	if (!iInfo || bFrPause)  return;  // txt name
@@ -86,9 +87,9 @@ void Demos::FractalDraw()
 	d->setFont(OpenSans12);
 	d->setColor(c,0);
 	d->setCursor(0, H-1 - 15);
-	d->print(sFractalName[fractal]);
+	d->print(sFractalNames[fractal]);
 
-	if (!bAuto)  return;  // txt par e
+	if (bAuto)  return;  // txt par e
 
 	d->setCursor(0, 1);
 	d->print(yFrPar);  d->print("  ");
@@ -110,7 +111,7 @@ void Demos::FractalDraw()
 
 void Demos::KeyFractal(int k, const float fa)
 {
-	Fractal* fpar = &FrSets[fractal];
+	Fractal* fpar = &sFractalSets[fractal];
 	switch (yFrPar)
 	{
 	case -1:  frSpd += fa*10.f;  break;

@@ -4,7 +4,7 @@
 #include "demos.h"
 #include "keys_usb.h"
 #ifdef GAME
-#include "games.h"
+#include "game.h"
 #endif
 #include "gui_bitmaps.h"
 
@@ -14,7 +14,7 @@ struct Gui
 	Demos demos;
 	ILI9341_t3n* d = nullptr;
 #ifdef GAME
-	Games game;
+	Game game;
 #endif
 
 	//  main  ----

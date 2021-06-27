@@ -1,9 +1,9 @@
-#include "games.h"
+#include "game.h"
 #include "gui.h"
 
 
 //  options check  . . .
-void Games::Checks()
+void Game::Checks()
 {
 	if (o.blen_max < o.blen_min)  o.blen_max = o.blen_min;  // min <= max
 	if (o.blen_min > o.blen_max)  o.blen_min = o.blen_max;
@@ -19,7 +19,7 @@ void Games::Checks()
 
 //  Keys
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-int Games::KeyPress(int8_t& mlevel)
+int Game::KeyPress(int8_t& mlevel)
 {
 	//  global
 	if (g->kAdd || g->kBckSp)

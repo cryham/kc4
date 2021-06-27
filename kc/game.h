@@ -4,10 +4,10 @@
 struct Gui;
 
 
-struct Games
+struct Game
 {
 	//  main
-	Games();
+	Game();
 	void Init(Gui* pGui);
 	Gui* g = nullptr;
 	

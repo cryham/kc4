@@ -1,10 +1,10 @@
-#include "games.h"
+#include "game.h"
 #include <WProgram.h>
 using namespace std;
 
 
 //  main
-Games::Games()
+Game::Game()
 {
 	old_ti = 0;  dt_sum = 0;
 	paused = 0;  ended = 1;
@@ -12,7 +12,7 @@ Games::Games()
 	Init(0);
 }
 
-void Games::Init(Gui* pGui)
+void Game::Init(Gui* pGui)
 {
 	g = pGui;
 
@@ -31,7 +31,7 @@ void Games::Init(Gui* pGui)
 
 //  Init
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-void Games::NewSet()
+void Game::NewSet()
 {
 	o.nx_cur = 3;  o.dots = 0;  o.frame = 2;  o.bbias = 0;
 	switch (preset)
@@ -95,7 +95,7 @@ void Games::NewSet()
 	NewGrid();
 }
 
-void Games::NewGrid()
+void Game::NewGrid()
 {
 	//  box dim
 	dim_y = (H-1-18) / o.size_y;  dim_x = dim_y;
@@ -107,7 +107,7 @@ void Games::NewGrid()
 	NewGame();
 }
 
-void Games::NewGame()
+void Game::NewGame()
 {
 	paused = 0;  ended = 0;
 	score = 0;  errors = 0;
@@ -140,7 +140,7 @@ void Games::NewGame()
 }
 
 
-void Games::NewBlock()
+void Game::NewBlock()
 {
 	//  pos center
 	pos_x = o.size_x / 2 - o.bsize / 2;
@@ -163,7 +163,7 @@ void Games::NewBlock()
 
 
 //  utility
-int Games::Overlaps(const Block& b, int pos_x, int pos_y)
+int Game::Overlaps(const Block& b, int pos_x, int pos_y)
 {
 	for (int y=0; y < o.bsize; ++y)
 	for (int x=0; x < o.bsize; ++x)
@@ -178,13 +178,13 @@ int Games::Overlaps(const Block& b, int pos_x, int pos_y)
 	return 0;  // empty
 }
 
-void Games::Copy(Block& to, const Block& from)
+void Game::Copy(Block& to, const Block& from)
 {
 	for (int y=0; y < bmax; ++y)
 	for (int x=0; x < bmax; ++x)
 		to.b[y][x] = from.b[y][x];
 }
-void Games::Clear(Block& b)
+void Game::Clear(Block& b)
 {
 	for (int y=0; y < bmax; ++y)
 	for (int x=0; x < bmax; ++x)
@@ -194,7 +194,7 @@ void Games::Clear(Block& b)
 
 //  Find block range  min [a, max b], from not empty rows x-, cols y|
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-void Games::GetRange(const Block& b)
+void Game::GetRange(const Block& b)
 {
 	xa = -1;  xb = -1;  ya = -1;  yb = -1;
 	int ss = o.bsize, s = ss-1;
@@ -210,7 +210,7 @@ void Games::GetRange(const Block& b)
 }
 
 //  Rotate block  dest, src
-void Games::Rotate(Block& to, const Block& from, int cw)
+void Game::Rotate(Block& to, const Block& from, int cw)
 {
 	Clear(to);
 	GetRange(from);
@@ -253,7 +253,7 @@ void Games::Rotate(Block& to, const Block& from, int cw)
 
 //  Update
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-void Games::Update()
+void Game::Update()
 {
 	uint32_t ti = micros(), dt = ti - old_ti;  old_ti = ti;
 	if (dt < 100000)  // min 10 fps
@@ -328,7 +328,7 @@ void Games::Update()
 
 //  Generate new block
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-void Games::GenBlock(Block& b)
+void Game::GenBlock(Block& b)
 {
 	int x,y;
 	int ss = o.bsize, s = ss-1,

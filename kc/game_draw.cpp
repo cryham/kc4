@@ -1,4 +1,4 @@
-#include "games.h"
+#include "game.h"
 #include "gui.h"
 #include "ILI9341_t3n.h"
 #include "ili9341_t3n_font_OpenSans.h"
@@ -11,7 +11,7 @@ const static int8_t rgb[12][3] = {
 	{31,15,0},{31,31,0},{15,31,0},{0,31,0},{0,31,15},{0,31,31},
 	{0,15,31},{15,10,31},{20,20,31},{31,10,31},{31,0,15},{31,20,20},
 };
-uint16_t Games::BlkClr(int8_t b, int8_t d, int8_t dim)
+uint16_t Game::BlkClr(int8_t b, int8_t d, int8_t dim)
 {
 	int c = b / 10, e = b % 10, ed = e + d*4;
 	return RGB(
@@ -22,7 +22,7 @@ uint16_t Games::BlkClr(int8_t b, int8_t d, int8_t dim)
 
 //  Draw block
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-void Games::Draw(const Block& b,
+void Game::Draw(const Block& b,
 	int pos_x, int pos_y, int o_y, int dim)
 {
 	ILI9341_t3n& d = *g->d;
@@ -40,7 +40,7 @@ void Games::Draw(const Block& b,
 		}
 	}
 }
-void Games::DrawNext(const Block& b,
+void Game::DrawNext(const Block& b,
 	int pos_x, int pos_y)
 {
 	const int8_t dim = 3;  //~
@@ -69,15 +69,15 @@ void Games::DrawNext(const Block& b,
 
 //  Draw
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-const static char* sPresets[Games::Presets] = {
+const static char* sPresets[Game::Presets] = {
 	"  Tiny 3+", " Basic 4/2", " Small 4+/4", "Medium 5+/4", "Tetris 4-",
 	"Pentis 5/1", "Sixtis 6", "Septis 7+/4", "Septis 7+/1",
 	" Octis 8+/1", "  Huge 12"};
 	
-const static char* sOptPages[Games::O_All] = {
+const static char* sOptPages[Game::O_All] = {
 	"Field", "Speed", "Block", "Draw", "Input"};
 
-void Games::Draw()
+void Game::Draw()
 {
 	char a[64];
 	int x = 0, y = 4;
@@ -290,7 +290,7 @@ void Games::Draw()
 
 
 //  draw game option line
-void Games::OptLine(int& x, int& y, int& l, const char* str, int par, int8_t yy)
+void Game::OptLine(int& x, int& y, int& l, const char* str, int par, int8_t yy)
 {
 	char a[32];
 	ILI9341_t3n& d = *g->d;

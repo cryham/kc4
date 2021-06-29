@@ -144,7 +144,7 @@ struct Demos
 		float xAmp, xSpd;
 		float xM, yM, zM;  // Multiply iter
 	};
-	const static int8_t FR_ALL = 8;  //  presets
+	const static int8_t FR_ALL = 13;  //  presets
 	static Fractal sFractalSets[FR_ALL];
 	
 	void FractalDraw();

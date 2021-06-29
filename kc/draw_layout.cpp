@@ -119,7 +119,7 @@ void Gui::DrawLayout(bool edit)
 			else if (f > 0.99f)
 				bck = 0xFFFF;
 			else
-				bck = HeatClr(f);
+				bck = HeatClr(powf(f,0.6f)); // par, avg/max?
 
 			d->fillRect(x+1, y-1, k.w-2, k.h-2, bck);
 		}

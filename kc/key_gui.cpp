@@ -81,6 +81,7 @@ void Gui::KeyPress()
 		{
 		case M_Setup:  KeysSetup(sp);  break;
 		case M_Matrix: KeysMatrix(sp);  break;
+
 		case M_Config: KeysConfig(sp);  break;
 		}
 	else if (mlevel == 1)
@@ -96,8 +97,12 @@ void Gui::KeyPress()
 		#endif
 		case M_Display:   KeysDisplay(sp);  return;
 		case M_Clock:     KeysClock();  return;
+
 		case M_Mapping:   KeysMap();  return;
 		case M_Sequences: KeysSeq();  return;
+		#ifdef GSM
+		case M_GSM:       KeysGSM(sp);  return;
+		#endif
 		}
 
 

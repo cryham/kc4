@@ -59,7 +59,7 @@ void Gui::Draw()
 		d->print("Main Menu");
 
 		DrawMenu(M_All,strMain,&bmpMain[0], c_Main,RGB(20,25,29),RGB(5,7,9),
-			M_Next, M_Testing,M_Help);
+			M_Next, M_Testing,M_Clock);
 		return;
 	}
 	d->setClr(12,22,31);
@@ -87,18 +87,19 @@ void Gui::Draw()
 	case M_Game:  game.Draw();  return;
 	#endif
 
-	//  Mappings,Seq  kbd
 	case M_Mapping:   DrawMapping();  return;
 	case M_Sequences: DrawSequences();  return;
-	//  Testing,Setup  kbd
 	case M_Testing:   DrawTesting();  return;
+
 	case M_Setup:     DrawSetup();  return;
 	case M_Matrix:    DrawMatrix();  return;
+	#ifdef GSM
+	case M_GSM:       DrawGSM();  return;
+	#endif
 	case M_Config:    DrawConfig();  return;
+	case M_Display:   DrawDisplay();  return;
+	case M_Clock:     DrawClock();  return;
 
-	//  Display, Help
-	case M_Display: DrawDisplay();  return;
-	case M_Clock:   DrawClock();  return;
-	case M_Help:    DrawHelp();  return;
+	case M_Help:      DrawHelp();  return;
 	}
 }

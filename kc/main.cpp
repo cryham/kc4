@@ -8,6 +8,10 @@
 #include "matrix.h"
 #include "kc_data.h"
 
+#ifdef GSM
+	#include "SoftwareSerial.h"
+	SoftwareSerial serGSM(GSM_RX, GSM_TX);
+#endif
 
 #ifdef REMOTE
 	#include <RH_ASK.h>
@@ -135,6 +139,10 @@ int main()
 	#endif
 #endif
 
+#ifdef GSM
+	serGSM.begin(115200);
+#endif
+
 
 	//  Init display  --------
 	memset(data, 0, sizeof(data));
@@ -181,8 +189,8 @@ int main()
 	kc.kbdSend = 0;
 	//gui.SetScreen(ST_Config2 + Cf_Storage);
 	gui.SetScreen(ST_Setup2 + St_Remote);
-	//gui.SetScreen(ST_Map);
-	par.brightness = 30;
+	gui.SetScreen(ST_GSM);
+	par.brightness = 44;
 #endif
 
 #if 0  // 1 for new keyboard / test
@@ -252,6 +260,26 @@ int main()
 				++gui.remoteId;
 			}
 		}
+	#endif
+
+	#ifdef GSM
+		for (int i=0; i < 2; ++i)  // par
+		if (serGSM.available())
+		{
+			char c = serGSM.read();
+			std::string& s = gui.gsmStr;
+			bool last10 = !s.empty() && (s.back() == 10 || s.back() == 13);
+			if (!( (/*c == 10 ||*/ c == 13) && last10))  // skip empty lines
+			if (c != 0)
+				s += c;
+		}
+		if (gui.kSave)  // fix?
+		{
+			tft.useFrameBuffer(true);
+
+			tft.begin(60000000);  // 45 Fps  60 MHz  stable
+			tft.setRotation(1);
+		}/**/
 	#endif
 	}
 }

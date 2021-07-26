@@ -29,7 +29,7 @@ void Gui::KeysConfig(int sp)
 	{
 	case Cf_Storage:
 		if (kUp)
-		{	ym2Storage  = RangeAdd(ym2Storage , kUp, 0, yip, 1);  }
+		{	ym2Storage  = RangeAdd(ym2Storage, kUp, 0, yip, 1);  }
 		else
 		if (kRight)
 		switch (ym2Storage)
@@ -44,6 +44,7 @@ void Gui::KeysConfig(int sp)
 	KeysLoadSave();
 }
 
+
 //  Setup
 //....................................................................................
 void Gui::KeysSetup(int sp)
@@ -53,7 +54,7 @@ void Gui::KeysSetup(int sp)
 	{
 	case St_Layer:
 		if (kUp)
-		{	ym2Lay  = RangeAdd(ym2Lay , kUp, 0, ysp, 1);  }
+		{	ym2Lay  = RangeAdd(ym2Lay, kUp, 0, ysp, 1);  }
 		else
 		if (kRight)
 		switch (ym2Lay)
@@ -75,7 +76,7 @@ void Gui::KeysSetup(int sp)
 			}
 		}
 		else if (kUp)
-		{	ym2Keyb  = RangeAdd(ym2Keyb , kUp, 0, ysp, 1);  }
+		{	ym2Keyb  = RangeAdd(ym2Keyb, kUp, 0, ysp, 1);  }
 		else
 		if (kRight)
 		switch (ym2Keyb)
@@ -109,7 +110,7 @@ void Gui::KeysSetup(int sp)
 
 	case St_Remote:
 		if (kUp)
-		{	ym2Remote  = RangeAdd(ym2Remote , kUp, 0, ysp, 1);  }
+		{	ym2Remote  = RangeAdd(ym2Remote, kUp, 0, ysp, 1);  }
 		else
 		if (kRight)
 		switch (ym2Remote)

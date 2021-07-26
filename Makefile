@@ -179,6 +179,7 @@ $(BINDIR)/$(PROJECT).hex : $(BINDIR)/$(PROJECT).elf
 	@echo $(E) "$(ST_CLR)Upload$(NO_CLR)"
 ifneq (,$(wildcard $(TOOLSPATH)))
 	@$(TOOLSPATH)/teensy_post_compile -file=$(basename $@) -path=$(shell pwd) -tools=$(TOOLSPATH)
+#	Comment out if using only one Teensy, else have to press reset button to program
 #	@$(TOOLSPATH)/teensy_reboot
 endif
 	@echo $(E) "$(ST_CLR) $(NO_CLR)"

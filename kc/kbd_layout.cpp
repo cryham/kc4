@@ -24,8 +24,8 @@ const DrawKey drawKeys[nDrawKeys] = {  //  Layout draw  ::
  {20,Y3,wh, 25 ,8, 0,K_DOWN},
 };
 //symbols:  2. 3,  7 cir  9 dot` 28 ent
-const uint8_t gGui=NO, gMslow=NO, gLoad=5,gSave=3,gDiv=NO, gEsc=NO,gAdd=NO,gEnt=7,gEnt2=NO,
-	gRight=2,gLeft=4,gDown=0,gUp=6, gPgDn=NO,gPgUp=NO,gEnd=NO,gHome=NO,
+const uint8_t gGui=NO, gMslow=NO, gLoad=5,gSave=3,gDiv=NO, gEsc=NO,gAdd=NO,gEnt=NO,gEnt2=NO,
+	gRight=2,gLeft=4,gDown=0,gUp=6, gPgDn=7,gPgUp=NO,gEnd=NO,gHome=NO,
 	gCtrl=NO,gSh=NO,gMul=NO,gSub=NO, gIns=NO,gDel=NO, gBckSp=1,gSpc=NO, gC=NO,gV=NO,gX=NO,
 	gF1=NO,gF2=NO,gF3=NO,gF6=NO,gF7=NO,gF8=NO,gF9=NO,gF10=NO,gF11=NO,gF12=NO;
 

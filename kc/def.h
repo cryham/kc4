@@ -1,20 +1,21 @@
 #pragma once
-
-//------  Setup K.C.4  -----//
+//-----------------------------------------------
+//  Setup K.C.4
 
 //======------  Keyboard  ------======
-//  Define just one type, changes need clean rebuild
+//  Define just one type here,  changes need clean rebuild
+//  row & colum pins for it are defined in matrix.h
+
 //#define CKtest  // 2x4  test
 //#define CK1  // 8x8  test
 //#define CK8  // 20x8  wip CK8/5
 #define CK9  // 18x8  CK9/6/3
-//  rows, colums pins defined in matrix.h
 
 
 //  Optional features, comment out to disable
-//----------------------------------------
+//-----------------------------------------------
 //#define DEMOS_OLD
-//#define DEMOS_BITMAPS  // big, flash ! 614400 B  // todo: half it RGBA->R5G6B5
+//#define DEMOS_BITMAPS  // big, flash ! 614400 B  // todo: half it RGBA->R5G6B5, use uSD card
 #define GAME
 
 //  Uncomment to draw using double buffering
@@ -26,7 +27,7 @@
 
 
 //  Extra keyboard features, pins
-//----------------------------------------
+//-----------------------------------------------
 #define LCD_LED  19  // PWM brightness  // PWM on: 14,15, 18,19, 22,23
 
 #ifdef CK9  //  Free pins: 14-, 15,16,17, 18-, 20-,21-, 26
@@ -45,12 +46,17 @@
 #ifdef CKtest
 	#define TEMP1  23        //  DS18B20
 	#define EEPROM_CS  18    //  EEPROM 25LC256
-	#define REMOTE_RECV  21  //- receiver RF 433MHz module
-	#define REMOTE_SEND  22  //+ sender RF 433MHz module
+	//#define REMOTE_RECV  21  //- receiver RF 433MHz module
+	//#define REMOTE_SEND  22  //+ sender RF 433MHz module
+	#define GSM     //  GSM,GPRS module
+	#ifdef GSM      //  serial
+		#define GSM_RX 21  //  RX pin 7 15 16 21 25
+		#define GSM_TX 20  //  TX pin 8 14 17 20 24
+	#endif
 #endif
 
-//----------------------------------------
-#ifdef EEPROM_CS  // external EEPROM params  -----
+//-----------------------------------------------
+#ifdef EEPROM_CS  // external EEPROM params
 	#define ESlotSize  (8*1024)  // par  max config size B
 	#define EESize  (64*1024)    // for 25LC256 = 256kbit = 64kB
 	#define EEPage  64           // 64 bytes max for 1 page write
@@ -60,6 +66,7 @@
 	#define EESize  1080
 	#define ESlots  1
 #endif
+
 #if defined(REMOTE_RECV) || defined(REMOTE_SEND)
 #define REMOTE
 #endif

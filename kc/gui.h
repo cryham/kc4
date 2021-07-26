@@ -7,6 +7,9 @@
 #include "game.h"
 #endif
 #include "gui_bitmaps.h"
+#ifdef GSM
+#include <string>
+#endif
 
 
 struct Gui
@@ -26,7 +29,7 @@ struct Gui
 
 	//  draw menus
 	void DrawMapping(), DrawSequences(), DrawPickKey();  // edit
-	void DrawTesting(), DrawSetup(), DrawMatrix();  // setup
+	void DrawTesting(), DrawSetup(), DrawMatrix(), DrawGSM();  // setup
 	void DrawConfig(), DrawDisplay(), DrawClock(), DrawHelp();  // info
 
 	//  draw util
@@ -61,8 +64,8 @@ struct Gui
 	//  keys
 	int8_t KeysSeq();  void KeysMap();
 	int PressKey(int8_t& var);
-	void KeysSetup(int sp), KeysMatrix(int sp), KeysDisplay(int sp);
-	void KeysConfig(int sp), KeysClock();
+	void KeysSetup(int sp), KeysMatrix(int sp), KeysGSM(int sp);
+	void KeysConfig(int sp), KeysDisplay(int sp), KeysClock();
 
 	//  start
 	void SetScreen(int8_t start);
@@ -75,9 +78,9 @@ struct Gui
 
 
 	//  vars  ---------
-	int8_t mlevel = 0;  // 0 main, 1 level1, 2 level2
-	int8_t ym = 0;      // 0 main y cursor
-	int8_t ym1[M_All];  // 1 y cursor for all main menu entries
+	int8_t mlevel = 0;  // menu level: 0 main, 1 level1, 2 level2
+	int8_t ym = 0;      // y cursor on level 0 main
+	int8_t ym1[M_All];  // y cursors on level 1, for all main menu entries
 	int8_t yy = 0;      // = ym1[ym]  level1 y cursor
 	void Check_ym1();
 	bool FullScrDemo();
@@ -106,12 +109,20 @@ struct Gui
 		pressKey=0, pickCode=K_Seq0, // edit operations
 		keyGroup=grpMax-1, grpFilt=1;  // pick group filter
 
-	//  level 2 y cursors  - - -
+	//  level 2  y cursors  - - -
 	int8_t ym2Lay = 0, ym2Keyb = 0, ym2Mouse = 0, ym2Remote = 0,  // Setup
-		ym2Scan = 0, ym2Storage = 0, pressGui = 0;
+		ym2GSM = 0, ym2Scan = 0, ym2Storage = 0, pressGui = 0;
 	int8_t ym2Disp = 0, pgDisp = 0;  // Display
 	int8_t ym2Clock = 0, pgClock = Cl_StatsExt;  // Clock
+	
+	//  remote -
 	uint8_t remoteData[128]={0}, remoteId=0;
+	//  gsm
+#ifdef GSM
+	uint8_t gsmId=0;
+	const static int gsmCmd = 21;
+	std::string gsmStr;
+#endif
 
 	//  heatmap
 	bool heatTest = false;  int heatTheme = 0;

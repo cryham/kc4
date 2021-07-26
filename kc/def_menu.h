@@ -3,6 +3,8 @@
 typedef unsigned long ulong;
 typedef uint8_t Clr[3];
 
+extern const char* strVersion;
+
 
 //  display  dim
 const static int W = 320, H = 240;
@@ -16,19 +18,68 @@ class ILI9341_t3n;
 #endif
 
 
-enum EMainMenu  //  main menu entries, level0
+//  main menu entries, level0
+//-----------------------------------------------
+enum EMainMenu
 {
 	M_Mapping, M_Sequences, M_Testing,
-	M_Setup, M_Matrix, M_Config,
-	M_Display, M_Clock, /*M_Graphs,*/ M_Help,
-	#ifdef GAME
-		M_Game,
-	#endif
+	M_Setup, M_Matrix,
+#ifdef GSM
+	M_GSM,
+#endif
+	M_Config,
+	M_Display, M_Clock,
+	M_Help,  //new?, Graphs, Calendar, Alarms
+#ifdef GAME
+	M_Game,
+#endif
 	M_Demos,
-	M_All,  M_Next = M_Display  // 2nd column, -1 off
-	// any change here needs updating 3 below arrays [M_All]
+	
+	M_All,	// NOTE: any change here needs updating
+			// all 3 arrays [M_All] below,  search for: /* MAIN
+	M_Next = M_Config  // 2nd column, -1 off
 };
 
+
+//  sub menus  level1
+//-----------------------------------------------
+enum ETesting  //  Testing kbd
+{
+	Ts_Layout, Ts_Pressed, Ts_All
+};
+enum ESetup  //  Setup kbd
+{
+	St_Layer, St_Keyboard, St_Mouse, St_Remote, St_All
+};
+enum EMatrix  //  Matrix #
+{
+	Mx_Test, Mx_Scan, Mx_All
+};
+
+enum EConfig  //  Config use,ver
+{
+	Cf_Storage, Cf_Use, Cf_Version, Cf_All
+};
+enum EDisplay  //  Display options pages  --
+{
+	Di_Bright, Di_Keys, Di_StatsGraph, Di_AdjustTemp, Di_All
+};
+enum EClock
+{
+	Cl_Adjust, Cl_Simple,//big
+	Cl_Stats, Cl_StatsExt,
+	Cl_Graphs, Cl_GraphsDaily, Cl_GraphLight, Cl_All
+};
+
+//-----------------------------------------------
+//  string names for all above ^
+extern const char
+	*strMain[M_All], *strTest[Ts_All],
+	*strSetup[St_All], *strMatrix[Mx_All],
+	*strConfig[Cf_All], *strClock[Cl_All];
+
+
+//-----------------------------------------------
 enum EDemo  //  Demos, level1
 {
 	D_AutoAll,
@@ -52,43 +103,8 @@ enum EDemo  //  Demos, level1
 extern const char *strDemo[D_All];
 
 
-//  menus  --
-enum ETesting  //  Testing kbd, level1
-{
-	Ts_Layout, Ts_Pressed, Ts_All
-};
-enum ESetup  //  Setup kbd, level1
-{
-	St_Layer, St_Keyboard, St_Mouse, St_Remote, St_All
-};
-enum EMatrix  //  Matrix #, level1
-{
-	Mx_Test, Mx_Scan, Mx_All
-};
-
-enum EConfig  //  Config use,ver
-{
-	Cf_Storage, Cf_Use, Cf_Version, Cf_All
-};
-enum EDisplay  //  Display options pages  --
-{
-	Di_Bright, Di_Keys, Di_StatsGraph, Di_AdjustTemp, Di_All
-};
-enum EClock
-{
-	Cl_Adjust, Cl_Simple,//big
-	Cl_Stats, Cl_StatsExt,
-	Cl_Graphs, Cl_GraphsDaily, Cl_GraphLight, Cl_All
-};
-
-
-//  string names for all above ^
-extern const char
-	*strMain[M_All], *strTest[Ts_All],
-	*strSetup[St_All], *strMatrix[Mx_All],
-	*strConfig[Cf_All], *strClock[Cl_All];
-
-//  bitmaps
+//-----------------------------------------------
+//  menu icons, bitmaps
 // 20 x 20 x 4B  (B,G,R,A 32bit  could be 16bit but meh)
 typedef uint8_t Bmp20[1600];
 extern const Bmp20* bmpMain[M_All];
@@ -113,6 +129,7 @@ enum EStartScr  //  start screen
 	ST_Help = ST_ClockMax,
 	ST_Setup,
 	ST_Matrix2,
+	ST_GSM,
 	ST_Config2, ST_Config2Max = ST_Config2 + Cf_All,
 	ST_Setup2 = ST_Config2Max, ST_Setup2Max = ST_Setup2 + St_All,
 	ST_Demos = ST_Setup2Max,

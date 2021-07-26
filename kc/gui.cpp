@@ -78,7 +78,9 @@ void Gui::SetScreen(int8_t s)
 
 	case ST_Setup: ym = M_Setup;  break;
 	case ST_Matrix2:ym = M_Matrix;  mlevel = 2;  ym1[ym] = s - ST_Matrix2;  break;
-
+	#ifdef GSM
+	case ST_GSM:   ym = M_GSM;  break;
+	#endif
 	case ST_Displ: ym = M_Display;  break;
 	case ST_Help:  ym = M_Help;  break;
 
@@ -102,12 +104,14 @@ const char* Gui::StrScreen(int8_t s)
 	case ST_Seqs:   return strMain[M_Sequences];
 
 	case ST_Setup:  return strMain[M_Setup];
-
+	case ST_Matrix2:  return strMain[M_Matrix];
+	#ifdef GSM
+	case ST_GSM:    return strMain[M_GSM];
+	#endif
 	case ST_Displ:  return strMain[M_Display];
 	case ST_Help:   return strMain[M_Help];
 
 	case ST_Demos:  return strMain[M_Demos];
-	case ST_Matrix2:  return strMain[M_Matrix];
 	}
 	if (s >= ST_Demos2)  return strDemo[s - ST_Demos2];
 	

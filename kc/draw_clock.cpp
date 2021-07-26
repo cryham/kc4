@@ -346,7 +346,7 @@ void Gui::DrawClock()
 
 		if (lock) d->setClr(28, 23, 30);  else
 		if (held) d->setClr(17, 17, 28);  else
-		  /*def*/ d->setClr(14, 14, 22);
+		  /*def*/ d->setClr(15, 15, 23);
 
 		d->setFont(OpenSans20);
 		d->setCursor(6, yUptime);
@@ -363,7 +363,7 @@ void Gui::DrawClock()
 		x = x0 + 4;  y = yDate;
 		d->setFont(OpenSans14);
 		d->setCursor(x, y);
-		d->setClr(20, 23, 26);
+		d->setClr(21, 24, 27);
 		sprintf(a, "%d", dy);  d->print(a);
 
 		d->setCursor(x2, y);

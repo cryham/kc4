@@ -113,13 +113,13 @@ void Gui::DrawLayout(bool edit)
 			//  hue color
 			const float f =
 				heatTest ? min(1.f, float(x) / (W-20))
-				: float(press) / cnt_press_max;
+				: 1.2f * float(press) / cnt_press_max;  /// par
 			if (!press && !heatTest)
 				bck = 0;
 			else if (f > 0.99f)
 				bck = 0xFFFF;
 			else
-				bck = HeatClr(powf(f,0.6f)); // par, avg/max?
+				bck = HeatClr(powf(f,0.5f));  /// par, avg/max?
 
 			d->fillRect(x+1, y-1, k.w-2, k.h-2, bck);
 		}

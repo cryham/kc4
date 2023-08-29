@@ -26,7 +26,7 @@ uint16_t matrixPrevScans = 0;
 int ghost_cols = 0, ghost_rows = 0;
 int cnt_press = 0, cnt_rel = 0, cnt_hold = 0;
 int16_t cnt_press1min = 0;
-uint16_t cnt_press_key[ScanKeys] = {0}, cnt_press_max = 0;
+uint32_t cnt_press_key[ScanKeys] = {0}, cnt_press_max = 0;
 
 //  System Timer used for delaying debounce decisions
 extern volatile uint32_t systick_millis_count;

@@ -115,7 +115,7 @@ void Gui::DrawMatrix()
 		y = yTitleUp;
 		d->setCursor(0, y);
 		d->setClr(24,24,31);
-		sprintf(a,"Held:  %d   press:  %d ", cnt_press-cnt_rel, cnt_press);
+		sprintf(a,"Held:  %d   press:  %d ", cnt_press - cnt_rel, cnt_press);
 		d->print(a);
 		if  (hc<99 && hr<99)
 		{

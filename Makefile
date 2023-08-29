@@ -22,7 +22,7 @@ OPTIONS += -D__$(MCU)__ -DARDUINO=10810 -DTEENSYDUINO=149 -DARDUINO_TEENSY40
 UNAME := $(shell uname)
 
 #  SET your own path or comment out
-ARDUINOPATH ?= /home/ch/_el/arduino-1.8.12
+ARDUINOPATH ?= /home/ch/_el/arduino-1.8.19
 
 ifdef ARDUINOPATH
 

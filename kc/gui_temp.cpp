@@ -59,6 +59,7 @@ void Gui::GetTemp()
 			//  graph inc pos
 			++grTpos[d];
 			if (grTpos[d] >= W)  grTpos[d] = 0;
+			
 			//  add to graph
 			int t = TempFtoB(fTemp);
 		#if 0  // test

@@ -75,6 +75,7 @@ void KC_Main::UpdLay(uint32_t ms)
 			uint8_t code0 = set.key[0][id];
 			uint8_t codeL = set.key[nLayer][id];
 
+			//  layer keys
 			if (code0 >= K_Layer1 && code0 < K_Layer1+KC_MaxLayers)
 			{
 				int8_t lay = code0 - K_Layer1 + 1;
@@ -155,7 +156,9 @@ void KC_Main::UpdLay(uint32_t ms)
 					{	if (nLayerLock != nLayerHeld)  // other layer
 							nLayerLock = nLayerHeld;  // lock
 						else  // same, toggle
-							nLayerLock = -1;  // unlock
+						{	nLayerLock = -1;  // unlock
+							bLxOffSkip = true;
+						}
 					}
 					UpdL();  break;
 
@@ -202,7 +205,26 @@ void KC_Main::UpdLay(uint32_t ms)
 		}
 	}
 }
+//------------------------------------------------------------------------------------------------
 
+
+void KC_Main::StartSeq(int sq, uint32_t ms)
+{
+	if (set.nseqs() > sq && sq < KC_MaxSeqs
+		&& set.seqs[sq].len() > 0)
+	{
+		//  start seq  ***
+		Keyboard.releaseAll();
+		SeqModClear();
+		visSeq = -1;
+		inSeq[0] = sq;  inSeq[1] = -1;
+		seqPos[0]=0;  seqRel[0]=0;
+		seqPos[1]=0;  seqRel[1]=0;
+		tiSeq = ms;  dtSeq = par.dtSeqDef;  seqWait = 0;
+	}
+	else  inSeq[0] = -1;
+}
+					
 //  seq end check
 bool KC_Main::SeqEnd(int lev, const KC_Sequence& sq)
 {
@@ -369,7 +391,7 @@ void KC_Main::Send(uint32_t ms)
 	//	return;
 
 
-	//  all matrix scan codes  ----
+	//  all matrix scan codes  --------------------------------
 	uint c,r;  int id;
 	for (c=0; c < NumCols; ++c)
 	for (r=0; r < NumRows; ++r)
@@ -379,14 +401,26 @@ void KC_Main::Send(uint32_t ms)
 		//  state
 		bool on = k.state == KeyState_Press;
 		bool off = k.state == KeyState_Release;
+		bool held = k.state == KeyState_Hold;
+
 		if (on || off)
 		if (id < set.nkeys())
 		{
+			if (held)
+			{
+				uint8_t code = set.key[nLayer][id];
+				if (code >= K_Seq0 && code <= K_SeqLast
+					&& inSeq[0] < 0)
+				{
+					int8_t sq = code - K_Seq0;
+					StartSeq(sq, ms);
+				}
+			}
 			if (on)
 			{
 				//  get code for current layer
 				uint8_t code = set.key[nLayer][id];
-				if (code > KEY_NONE && code < KEYS_ALL)
+				if (code > KEY_NONE && code < KEYS_ALL)  // normal key
 				{
 					//  if 1 key, send press
 					uint usb = cKeyUsb[code];
@@ -400,8 +434,8 @@ void KC_Main::Send(uint32_t ms)
 					tm_keyOld = tm_key;
 					tm_key = rtc_get();
 
-					if (tm_key - tm_keyOld > 3600 * 20)
-						ResetStats(true);  // over 20 hours inactive
+					if (tm_key - tm_keyOld > 3600 * 6)
+						ResetStats(true);  // reset after 6 hours inactive
 					else
 					if (tm_key - tm_keyOld > 60 * par.minInactive)
 					{
@@ -447,26 +481,19 @@ void KC_Main::Send(uint32_t ms)
 					&& inSeq[0] < 0)
 				{
 					int8_t sq = code - K_Seq0;
-					if (set.nseqs() > sq && sq < KC_MaxSeqs
-						&& set.seqs[sq].len() > 0)
-					{
-						//  start seq  ***
-						Keyboard.releaseAll();
-						SeqModClear();
-						visSeq = -1;
-						inSeq[0] = sq;  inSeq[1] = -1;
-						seqPos[0]=0;  seqRel[0]=0;
-						seqPos[1]=0;  seqRel[1]=0;
-						tiSeq = ms;  dtSeq = par.dtSeqDef;  seqWait = 0;
-					}
-					else  inSeq[0] = -1;
+					StartSeq(sq, ms);
 				}
 			}
 			else if (off)
 			{
 				//  send for layer it was pressed on
 				uint8_t code = set.key[k.layerOn][id];
-				if (code > KEY_NONE && code < KEYS_ALL)
+
+				if (bLxOffSkip /*&& code == KF_LayLock*/)
+				{
+					bLxOffSkip = false;
+				}
+				else if (code > KEY_NONE && code < KEYS_ALL)  // normal key
 				{
 					//  release 1 key
 					uint usb = cKeyUsb[code];

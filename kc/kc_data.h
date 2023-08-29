@@ -78,6 +78,7 @@ struct KC_Main
 	//  current layer, set by keys
 	int8_t nLayer = 0, nLayerHeld = -1,  // final, held layer key (or set)
 		   nLayerLock = -1;  // tap layer key to lock/unlock
+	bool bLxOffSkip = false;
 
 	//  sequence running vars  0 norm, 1 from seq
 	int8_t inSeq[2] = {-1,-1},	// id run, -1 none
@@ -101,6 +102,8 @@ struct KC_Main
 
 	void UpdLay(uint32_t ms), UpdL();  // update
 	void Send(uint32_t ms);  // send usb
+
+	void StartSeq(int sq, uint32_t ms);
 	bool SeqEnd(int lev, const KC_Sequence& sq);
 
 

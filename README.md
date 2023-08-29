@@ -118,7 +118,7 @@ On **Windows** it is done using [Cygwin](https://www.cygwin.com/) - not tested y
 Needs to have arm-gnu-none-eabi installed, just like for Linux or using Arduino compiler.  
 See under COMPILER PATHS in Makefile for details.
 
-On **Linux** required package are (at least): binutils-arm-gnu-none-eabi, gcc-arm-gnu-none-eabi, git.  
+On **Linux** required package are (at least): binutils-arm-none-eabi, gcc-arm-none-eabi, git.  
 On Debian based, you can `sudo apt-get install` them or use package manager.
 
 
@@ -126,13 +126,15 @@ To get sources in console use:
 ```
 git clone https://github.com/cryham/kc4.git
 ```
+Edit `Makefile` and set your path in line with `ARDUINOPATH ?=`
+
 Then `cd kc` and `make` (or `make -j8` for 8 threads/CPUs) to start building.
 
 On successful build the last lines are e.g.
 ```
   CC kc/matrix.c
  Linking 
-   SRAM: 69%  366560 / 524288 B
+   SRAM: 70%  370656 / 524288 B
   Flash: 15%  311032 / 2031616 B
 Upload
 ```
